@@ -4,7 +4,7 @@
             header
         </header>
         <main>
-            main
+            <router-view/>
         </main>
         <footer>
             footer
