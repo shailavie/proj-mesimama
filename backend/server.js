@@ -3,10 +3,6 @@ var app = express();
 var server = require('http').Server(app)
 
 
-const port = 3003;
-
-
-
 var io = require('socket.io')(server);
 server.listen(port)
 
