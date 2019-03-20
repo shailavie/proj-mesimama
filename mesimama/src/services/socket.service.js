@@ -13,7 +13,6 @@ const msgs = []
 export default {
 	// user, 
 	msgs,
-	init,
 	send,
 	on,
 	emit,
@@ -31,16 +30,31 @@ function createEmptyMsg(txt = '',nickName) {
 }
 
 
-function init(){
+connectSocket()
+
+function connectSocket(){
 
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
 	})
-
+	//NEW MSG RECIVED
 	socket.on('msg-recived', msg => {
 		console.log('Got new msg', msg);
 		msgs.push(msg);
 	})
+	// TASK WAS OWNED
+	socket.on('taskOwnedBy',data =>{
+		console.log('the task was owned! task:  owner: ')
+	})
+	//NEW TASK ADDED
+	socket.on('newTaskPublish',data=>{
+		console.log('new task was published! ')
+	})
+	//TASK WAS ACOMPLISHED
+	socket.on('taskAcomplished',data =>{
+		console.log('task was acomplished!!!')
+	})
+
 }
 
 function send(msg){
