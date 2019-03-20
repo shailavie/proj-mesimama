@@ -19,24 +19,4 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .task-card {
-    margin: 0;
-    width: 100%;
-    height: 100px;
-    background-color: lightgray;
-    margin-bottom: 5px;
-    padding: 5px;
-  }
-  h2 {
-    font-size: 16px;
-  }
-  h3 {
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-</style>
-
  
