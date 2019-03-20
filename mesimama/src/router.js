@@ -22,6 +22,11 @@ export default new Router({
           path: '/chat',
           name: 'chat',
           component: chat
+        },
+        {
+          path: '/chat/:roomId',
+          name: 'chatRoom',
+          component: chat
         }
       ]
     }
