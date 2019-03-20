@@ -9,13 +9,20 @@
         <h4>{{task.dueAt | moment("dddd, MMMM Do YYYY")}}</h4>
         <h4>{{task.status}}</h4>
       </div>
+      <button @click="ownTask(task._id)">Own this Task</button>
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  props: ['task'], 
+  props: ['task'],
+  methods: {
+    ownThis(taskId){
+      console.log('task is owened',taskid)
+      this.$emit('task-owned',taskId)
+    }
+  },
 }
 </script>
 
