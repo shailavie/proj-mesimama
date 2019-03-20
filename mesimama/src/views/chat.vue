@@ -47,7 +47,6 @@ export default {
   computed: {},
   created() {
     //   socketService.emit('userConnected',this.newUser)//NEW USER WILL BE FROM THE STORE AS CURR USER
-    socketService.init();
     this.newUser = userService.lorem();
     this.newMsg = socketService.createEmptyMsg("", this.newUser);
     this.msgs = socketService.getMsgs();
@@ -58,14 +57,14 @@ export default {
 <style scoped>
 .received{
 	background-color: lightblue;
-	float: left;
+	/* float: left; */
 	margin-bottom: 5px;
 		display: flex;
 	flex-direction: column;
 }
 .sent{
 	background-color: lightcoral;
-	float: right;
+	/* float: right; */
 	margin-bottom: 5px;
 	display: flex;
 	flex-direction: column;
