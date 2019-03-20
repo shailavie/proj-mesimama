@@ -1,22 +1,36 @@
 var express = require('express');
 var app = express();
 var server = require('http').Server(app)
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
+const addTaskRoutes = require('./routes/task-route')
+const creatorId = 'mom1' // To do: Get mom from session
+addTaskRoutes(app, creatorId)
 
-const port = 3003;
-
-
+const PORT = process.env.PORT || 3000;
 
 var io = require('socket.io')(server);
-server.listen(port)
 
 app.use(express.static('front'));
+app.use(cors({
+    origin: ['http://localhost:8080'],
+    credentials: true // enable set cookie
+}));
+app.use(bodyParser.json())
+app.use(cookieParser());
+app.use(session({
+    secret: 'puki muki',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}))
 
 app.get('/', (req, res) => {
     res.send('hello world')
 })
-
-
 
 //TODO: as soon as user connects, send him into a room with his ID.
 //  you always know the Admin id, so when you need, send him the msg.
@@ -71,5 +85,7 @@ io.on('connection', socket => {
 
     });
 });
+
+app.listen(PORT, () => console.log(`app listening on port ${PORT}`))
 
 
