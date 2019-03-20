@@ -36,7 +36,8 @@ app.get('/', (req, res) => {
 //  you always know the Admin id, so when you need, send him the msg.
 io.on('connection', socket => {
     console.log('socket connected! ')
-    //USER CONNECTING
+    
+  //USER CONNECTING
     socket.on('userConnected', data => {
         io.emit('userIsConnected', data);
 
