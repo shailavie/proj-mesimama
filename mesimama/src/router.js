@@ -5,6 +5,7 @@ import tasks from './views/tasks.vue'
 import chat from './views/chat.vue'
 import notifications from './views/notifications.vue'
 import myAccount from './views/my-account.vue'
+import socketHouse from './components/socket-house.vue'
 
 Vue.use(Router)
 
@@ -22,9 +23,14 @@ export default new Router({
         },
         {
           path: 'chat',
-          name: 'chat',
+          name: 'chatRoom',
           component: chat
         },
+        // {
+        //   path: '/chat/:roomId',
+        //   name: 'chatRoom',
+        //   component: chat
+        // },
         {
           path: 'notifications',
           name: 'notifications',
@@ -34,7 +40,13 @@ export default new Router({
           path: 'my-account',
           name: 'my-account',
           component: myAccount
-        }
+        },
+        {
+          path: 'socketHouse',
+          name: 'socketHouse',
+          component: socketHouse
+        },
+
       ]
     }
   ]

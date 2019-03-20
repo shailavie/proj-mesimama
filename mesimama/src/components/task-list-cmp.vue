@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import taskPreview from './taskPreview.vue'
+import taskPreview from "./taskPreview.vue";
 
 export default {
-  props: ['tasks'],
+  props: ["tasks"],
   components: {
     taskPreview
   },
@@ -34,10 +34,6 @@ export default {
 
 <style scoped lang="scss">
 ul {
-    list-style-type: none;
+  display: grid;
 }
-li {
-    margin: 0;
-}
-
 </style>
