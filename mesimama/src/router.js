@@ -21,8 +21,8 @@ export default new Router({
           component: tasks
         },
         {
-          path: 'chat',
-          name: 'chat',
+          path: '/chat/:roomId',
+          name: 'chatRoom',
           component: chat
         },
         {
