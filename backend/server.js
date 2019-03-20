@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
 const addTaskRoutes = require('./routes/task-route')
-addTaskRoutes(app)
+const creatorId = 'mom1' // To do: Get mom from session
+addTaskRoutes(app, creatorId)
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,15 +18,15 @@ app.use(express.static('front'));
 app.use(cors({
     origin: ['http://localhost:8080'],
     credentials: true // enable set cookie
-  }));
-  app.use(bodyParser.json())
-  app.use(cookieParser());
-  app.use(session({
+}));
+app.use(bodyParser.json())
+app.use(cookieParser());
+app.use(session({
     secret: 'puki muki',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
-  }))
+}))
 
 app.get('/', (req, res) => {
     res.send('hello world')

@@ -2,15 +2,12 @@ const taskService = require('../services/task-service.js')
 
 const API_URL = '/api/tasks'
 
-function addTaskRoutes(app) {
+function addTaskRoutes(app, creatorId) {
 
-  app.get(`${API_URL}/creator/:creatorId`, (req, res) => {
-    const creatorId = req.params.creatorId
-    console.log(creatorId)
-    taskService.queryByCreator(creatorId)
+  app.get(`${API_URL}`, (req, res) => {
+    taskService.query(creatorId)
       .then(tasks => {
         res.json(tasks)
-        // console.log(tasks)
       })
   })
 }
