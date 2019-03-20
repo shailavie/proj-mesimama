@@ -5,35 +5,16 @@
   box-sizing: border-box;
 }
 
-// Basic Elements Reset
-
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  list-style-type: none;
-}
-
 // Layout
-header {
-  position: fixed;
-  background: #fff;
-  width: 100vw;
-  top: 0;
-  left: 0;
-}
 
 main {
-  height: calc(100vh - 140px);
+  height: calc(100vh - 120px);
   padding-top: 20px;
-  margin-top: 60px;
 }
 
 footer {
@@ -41,23 +22,17 @@ footer {
 }
 
 .wrapper {
-  padding: 0px 15px;
+  padding: 0px 10px;
 }
 
 @media (min-width: 768px) {
   .wrapper {
     max-width: 980px;
     margin: 0 auto;
-    padding: 0px 10px;
   }
 }
 
 // Header
-
-.header-logo {
-  color: red;
-  font-weight: 700;
-}
 
 header {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
@@ -77,25 +52,20 @@ header {
   align-items: center;
 }
 
-// Nav
-
 .header-container nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 100vw;
   background-color: #fff;
+  border-top: 1px solid #ececec;
   display: flex;
   justify-content: space-evenly;
   align-items: stretch;
 }
 
-@media (max-width: 768px) {
-  .header-container nav {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 80px;
-    width: 100vw;
-    border-top: 1px solid #ececec;
-  }
-}
+// Nav
 
 .nav-item {
   display: flex;
@@ -112,7 +82,7 @@ header {
 }
 .nav-item-icon {
   width: 32px;
-  height: auto;
+  height: 32px;
 }
 
 // .nav-item.user .nav-item-icon {
@@ -133,13 +103,4 @@ header {
   top: 15px;
   background: red;
   color: #fff;
-}
-
-// Tasks
-
-.task-card {
-  border: 1px solid #ececec;
-  padding: 15px;
-  border-color: rgb(244, 244, 244);
-  border-radius: 3px;
 }

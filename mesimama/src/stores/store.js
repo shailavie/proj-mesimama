@@ -6,37 +6,33 @@ import taskService from '../services/task-service.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
+  modules:{
     // storeTasks
   },
   state: {
     taskItems: [],
     filterBy: {},
     currTask: null,
-    notificationsCount: 1
   },
   mutations: {
-    setTaskItems(state, { tasks }) {
+    setTaskItems(state,  {tasks} ) {
       console.log('mutating', tasks)
       state.taskItems = tasks
       console.log(state.taskItems)
-    },
+      },
   },
   actions: {
     loadTaskItems(context) {
-      taskService.query()
-        .then(tasks => {
-          console.log('store got from util', tasks)
-          context.commit({ type: 'setTaskItems', tasks })
-        })
-    },
+         taskService.query()
+         .then(tasks => {
+           console.log('store got from util',tasks)
+           context.commit({ type: 'setTaskItems', tasks })
+         })
+      },
   },
   getters: {
-    filteredTasks(state) {
-      return state.taskItems
-    },
-    notificationsCount(state) {
-      return state.notificationsCount
+    filteredTasks(state){
+        return state.taskItems
     }
   }
 })
