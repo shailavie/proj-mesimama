@@ -9,7 +9,7 @@
 import taskListCmp from '../components/task-list-cmp.vue'
 
 export default {
-  name: "taskList",
+  name: "taskList", 
   components: {
     taskListCmp
   },
