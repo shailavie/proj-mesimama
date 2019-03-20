@@ -5,9 +5,20 @@
   box-sizing: border-box;
 }
 
+// Basic Elements Reset
+
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
 }
 
 // Layout
@@ -33,6 +44,11 @@ footer {
 }
 
 // Header
+
+.header-logo {
+  color: red;
+  font-weight: 700;
+}
 
 header {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
@@ -103,4 +119,13 @@ header {
   top: 15px;
   background: red;
   color: #fff;
+}
+
+// Tasks
+
+.task-card {
+  border: 1px solid #ececec;
+  padding: 15px;
+  border-color: rgb(244, 244, 244);
+  border-radius: 3px;
 }
