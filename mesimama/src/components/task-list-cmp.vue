@@ -3,7 +3,11 @@
     <div class="toy-list-container">
       <ul class="toys-items">
         <li v-for="currTask in tasks" :key="currTask._id">
-          <task-preview :task="currTask"></task-preview>
+          <task-preview 
+            :task="currTask"
+            @task-owned="ownTask($event)"
+            >
+            </task-preview>
         </li>
       </ul>
     </div>
@@ -18,7 +22,13 @@ export default {
   props: ['tasks'],
   components: {
     taskPreview
-  }
+  },
+  methods: {
+      ownThis(taskId){
+      console.log('task list: task is owened',taskid)
+      this.$emit('task-owned',taskId)
+    }
+  },
 };
 </script>
 
