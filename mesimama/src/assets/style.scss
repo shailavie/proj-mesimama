@@ -1,0 +1,145 @@
+// Imports
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+* {
+  box-sizing: border-box;
+}
+
+// Basic Elements Reset
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+// Layout
+header {
+  position: fixed;
+  background: #fff;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
+main {
+  height: calc(100vh - 140px);
+  padding-top: 20px;
+  margin-top: 60px;
+}
+
+footer {
+  height: 60px;
+}
+
+.wrapper {
+  padding: 0px 15px;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0px 10px;
+  }
+}
+
+// Header
+
+.header-logo {
+  color: red;
+  font-weight: 700;
+}
+
+header {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 10px 0;
+  height: 60px;
+}
+
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Nav
+
+.header-container nav {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .header-container nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 80px;
+    width: 100vw;
+    border-top: 1px solid #ececec;
+  }
+}
+
+.nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-item a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-item-icon {
+  width: 32px;
+  height: auto;
+}
+
+// .nav-item.user .nav-item-icon {
+//   width: 30px;
+//   height: 30px;
+// }
+
+.notifications-badge {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  left: -4px;
+  top: 15px;
+  background: red;
+  color: #fff;
+}
+
+// Tasks
+
+.task-card {
+  border: 1px solid #ececec;
+  padding: 15px;
+  border-color: rgb(244, 244, 244);
+  border-radius: 3px;
+}
