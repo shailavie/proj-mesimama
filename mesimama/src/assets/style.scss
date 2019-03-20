@@ -1,0 +1,106 @@
+// Imports
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+// Layout
+
+main {
+  height: calc(100vh - 120px);
+  padding-top: 20px;
+}
+
+footer {
+  height: 60px;
+}
+
+.wrapper {
+  padding: 0px 10px;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+}
+
+// Header
+
+header {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 10px 0;
+  height: 60px;
+}
+
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-container nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 100vw;
+  background-color: #fff;
+  border-top: 1px solid #ececec;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+// Nav
+
+.nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-item a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-item-icon {
+  width: 32px;
+  height: 32px;
+}
+
+// .nav-item.user .nav-item-icon {
+//   width: 30px;
+//   height: 30px;
+// }
+
+.notifications-badge {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  left: -4px;
+  top: 15px;
+  background: red;
+  color: #fff;
+}
