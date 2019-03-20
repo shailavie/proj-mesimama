@@ -2,11 +2,6 @@
   <div class="wrapper">
     <div class="header-container">
       <div class="header-logo">Mesimama</div>
-      <span class="nav-item user">
-        <router-link to="/app/my-account">
-          <img src="@/assets/icons/user.svg" class="nav-item-icon">
-        </router-link>
-      </span>
       <nav>
         <span class="nav-item notifications">
           <router-link to="/app/notifications">
@@ -25,6 +20,11 @@
           </router-link>
         </span>
       </nav>
+      <span class="nav-item user">
+        <router-link to="/app/my-account">
+          <img src="@/assets/icons/user.svg" class="nav-item-icon">
+        </router-link>
+      </span>
     </div>
   </div>
 </template>
