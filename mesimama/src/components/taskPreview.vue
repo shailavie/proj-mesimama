@@ -9,7 +9,7 @@
         <h4>{{task.dueAt | moment("dddd, MMMM Do YYYY")}}</h4>
         <h4>{{task.status}}</h4>
       </div>
-      <button @click="ownTask(task._id)">Own this Task</button>
+      <el-button :type="buttonClass" @click="ownTask(task._id)">{{buttonText}}</el-button>
     </div>
   </section>
 </template>
@@ -18,32 +18,23 @@
 export default {
   props: ['task'],
   methods: {
-    ownThis(taskId){
-      console.log('task is owened',taskid)
+    ownTask(taskId){
+      console.log('task is owened',taskId)
       this.$emit('task-owned',taskId)
     }
   },
+  computed: {
+    buttonClass(){
+      return (this.task.ownerId)? "secondary" : "primary"
+    },
+    buttonText(){
+      return (this.task.ownerId)? "Pass Task" : "Own this Task"
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
-  .task-card {
-    margin: 0;
-    width: 100%;
-    height: 100px;
-    background-color: lightgray;
-    margin-bottom: 5px;
-    padding: 5px;
-  }
-  h2 {
-    font-size: 16px;
-  }
-  h3 {
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 </style>
 
  

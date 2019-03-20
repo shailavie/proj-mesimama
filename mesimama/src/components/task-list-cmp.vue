@@ -24,8 +24,8 @@ export default {
     taskPreview
   },
   methods: {
-      ownThis(taskId){
-      console.log('task list: task is owened',taskid)
+      ownTask(taskId){
+      console.log('task list: task is owened',taskId)
       this.$emit('task-owned',taskId)
     }
   },

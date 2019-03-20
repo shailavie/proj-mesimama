@@ -2,11 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './stores/store'
+import Element from 'element-ui'
 import './registerServiceWorker'
 import '@/assets/style.scss';
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
 
+Vue.use(Element)
 Vue.use(require('vue-moment'));
 
 new Vue({
