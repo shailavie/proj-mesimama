@@ -7,9 +7,15 @@ function addTaskRoutes(app) {
   app.get(`${API_URL}`, (req, res) => {
     taskService.query('mom1')
       .then(tasks => {
-        res.json(tasks)
+        if (!tasks || tasks.length === 0) {
+          res.send('Nothing found!')
+        }
+        else {
+          res.json(tasks)
+        }
       })
   })
+
 }
 
 module.exports = addTaskRoutes;
