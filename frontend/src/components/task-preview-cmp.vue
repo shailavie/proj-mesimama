@@ -19,6 +19,7 @@
       </div>
       <el-button v-if="task.helperId" type="primary" @click="markDone(task._id)">Done!</el-button>
       <el-button :type="buttonClass" @click="clickOnTask(task._id)">{{buttonText}}</el-button>
+      <el-button type="primary" icon="el-icon-edit" circle @click="editTask(task._id)"></el-button>
     </div>
   </section>
 </template>
@@ -35,6 +36,9 @@ export default {
         console.log("task is PASSED", taskId);
         this.$emit("task-passed", taskId);
       }
+    },
+    editTask(taskId){
+      this.$emit("task-edit", taskId);
     }
   },
   computed: {

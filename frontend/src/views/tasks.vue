@@ -19,6 +19,7 @@
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
+        @task-edit="editTask($event)"
       ></task-list-cmp>
       <task-list-cmp
         v-if="window.width>680"
@@ -27,9 +28,12 @@
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
+        @task-edit="editTask($event)"
       ></task-list-cmp>
-      <podium-board-cmp></podium-board-cmp>
-      <dash-board></dash-board>
+      <div class="stats-panel">
+        <podium-board-cmp></podium-board-cmp>
+        <dash-board></dash-board>
+      </div>
     </div>
   </section>
 </template>
@@ -49,7 +53,7 @@ export default {
   },
   data() {
     return {
-      value: false,
+      value: false, //TO DO - Check if we still need this value (used for toggle)
       showMyTasks: false,
       window: {
         width: 0
@@ -66,7 +70,6 @@ export default {
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
-
   computed: {
     tasksToShow() {
       return !this.showMyTasks
@@ -100,20 +103,19 @@ export default {
   },
   methods: {
     ownTask(taskId) {
-      console.log("tasks PAGE: task is OWNED", taskId);
       this.$store.dispatch("setTaskHelper", taskId);
     },
     passTask(taskId) {
-      console.log("tasks PAGE: task is PASSED", taskId);
       this.$store.dispatch("clearTaskHelper", taskId);
     },
     toggleTasks() {
-      console.log("switch");
       this.showMyTasks = !this.showMyTasks;
     },
     handleResize() {
       this.window.width = window.innerWidth;
-      // this.window.height = window.innerHeight;
+    },
+    editTask(taskId) {
+      this.$router.push("edit/" + taskId);
     }
   }
 };
@@ -137,6 +139,11 @@ export default {
   }
 }
 .task-list-title {
+  text-align: center;
+}
+.stats-panel {
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 </style>
