@@ -11,8 +11,6 @@ const PORT = process.env.PORT || 3003;
 // Routes
 const addTaskRoutes = require('./routes/task-route')
 const addUserRoutes = require('./routes/user-route')
-addTaskRoutes(app)
-addUserRoutes(app)
 
 // Define static resources src
 app.use(express.static('front'));
@@ -61,7 +59,7 @@ io.on('connection', socket => {
     socket.on('addedTask', data => {
         socket.broadcast('newTaskPublish')
     })
-    
+
     //TASK WAS ACOMPLISHED
     socket.on('finishedTask', data => {
         //TODO- SEND ONLY TO MOTHER. send prev helper and task details.
@@ -92,6 +90,9 @@ io.on('connection', socket => {
         // }, 1500)
     });
 });
+
+addTaskRoutes(app)
+addUserRoutes(app)
 
 server.listen(PORT, () => console.log(`app listening on port ${PORT}`))
 

@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "chart.js": "^2.8.0",
     "element-ui": "^2.6.1",
     "moment": "^2.24.0",
