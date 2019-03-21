@@ -7,7 +7,6 @@
     <button @click="own">own task</button>
     <button @click="add">add task</button>
     <button @click="done">done with task</button>
-    
   </section>
 </template>
 
@@ -15,10 +14,7 @@
 import socketService from "@/services/socket.service.js";
 export default {
   data() {
-    return {
-
-
-    };
+    return {};
   },
   methods: {
     own() {
@@ -28,11 +24,11 @@ export default {
     },
     add() {
       console.log("got to add");
-      socketService.emit('addedTask','new-task-ID')
+      socketService.emit("addedTask", "new-task-ID");
     },
     done() {
-        console.log("got to done");
-      socketService.emit('finishedTask','this-task-ID')
+      console.log("got to done");
+      socketService.emit("finishedTask", "this-task-ID");
     }
   }
 };

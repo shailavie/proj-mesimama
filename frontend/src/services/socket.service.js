@@ -8,6 +8,11 @@ import storgeService from './storage.service.js';
 
 const msgs = []
 
+import Vue from 'vue'
+
+
+
+
 export default {
 	// user, 
 	msgs,
@@ -18,20 +23,26 @@ export default {
 	getMsgs
 }
 
-function getMsgs(){
-    return msgs
+function getMsgs() {
+	return msgs
 }
 
-function createEmptyMsg(txt = '',nickName) {
-    return { txt, processed: false, from: nickName };
+function createEmptyMsg(txt = '', nickName) {
+	return { txt, processed: false, from: nickName };
 }
 
 connectSocket()
 
-function connectSocket(){
+function connectSocket() {
 
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
+		Vue.notify({
+			group: 'foo',
+			classes:'vue-notification',
+			title: 'say hello',
+			text: `new user connected: ${user}`
+		})
 	})
 	//NEW MSG RECIVED
 	socket.on('msg-recived', msg => {
@@ -39,25 +50,46 @@ function connectSocket(){
 		msgs.push(msg);
 	})
 	// TASK WAS OWNED
-	socket.on('taskOwnedBy',data =>{
+	socket.on('taskOwnedBy', data => {
+		Vue.notify({
+			group: 'foo',
+			title: 'Important message',
+			type: 'success',
+			classes:'vue-notification',
+			text: `new task was owned! `
+		})
 		console.log('the task was owned! task:  helper: ')
 	})
 	//NEW TASK ADDED
-	socket.on('newTaskPublish',data=>{
+	socket.on('newTaskPublish', data => {
 		console.log('new task was published! ')
+		Vue.notify({
+			group: 'foo',
+			title: 'Important message',
+			type: 'success',
+			classes:'vue-notification',
+			text: `new task was published! `
+		})
 	})
 	//TASK WAS ACOMPLISHED
-	socket.on('taskAcomplished',data =>{
+	socket.on('taskAcomplished', data => {
 		console.log('task was acomplished!!!')
+		Vue.notify({
+			group: 'foo',
+			title: 'Important message',
+			type: 'success',
+			classes:'vue-notification',
+			text: `new task was acomplished! `
+		})
 	})
 
 }
 
-function send(msg){
+function send(msg) {
 	socket.emit('post-msg', msg)
 }
-function emit(eventName, data){
-	console.log('eventName: ',eventName, ' data: ', data)
+function emit(eventName, data) {
+	console.log('eventName: ', eventName, ' data: ', data)
 	socket.emit(eventName, data)
 }
 
@@ -66,7 +98,7 @@ function on(eventName, cb) {
 }
 
 function _getUser() {
-    var user = storgeService.load('user');
+	var user = storgeService.load('user');
 	if (!user) {
 		user = {
 			nickName: prompt('first time. what is your name?'),
@@ -79,11 +111,11 @@ function _getUser() {
 
 //REMOVE AFTER MERGE
 function makeid(length) {
-    var text = '';
-    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  
-    for (var i = 0; i < length; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
-    return text;
-  }
+	var text = '';
+	var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+	for (var i = 0; i < length; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	return text;
+}

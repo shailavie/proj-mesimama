@@ -6,7 +6,10 @@ import Element from 'element-ui'
 import './registerServiceWorker'
 import '@/assets/style.scss';
 import 'element-ui/lib/theme-chalk/index.css';
+import Notifications from 'vue-notification'
 
+
+Vue.use(Notifications)
 Vue.config.productionTip = false
 
 Vue.use(Element)
