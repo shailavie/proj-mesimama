@@ -20,11 +20,16 @@
           </router-link>
         </span>
       </nav>
-      <span class="nav-item user">
-        <router-link to="/app/my-account">
-          <img src="@/assets/icons/user.svg" class="nav-item-icon">
-        </router-link>
-      </span>
+      <div class="user-msg">
+        <span>
+         {{userMsg}}
+        </span>
+        <span class="nav-item user">
+          <router-link to="/app/my-account">
+            <img class="user-avatar" :src="avatarSrc">
+          </router-link>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -32,14 +37,38 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      user: null
+    };
+  },
+  created() {
+    this.user = this.$store.getters.currUser;
   },
   computed: {
     notificationsCount() {
       return this.$store.getters.notificationsCount;
+    },
+    avatarSrc() {
+      return this.user.imgSrc;
+    },
+    userMsg() {
+      return `Hello ${this.user.name}`;
     }
   }
 };
 </script>
 
+<style scoped lang="scss">
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  margin-left: 10px;
+}
+.user-msg {
+  display: flex;
+  align-items: center;
+}
+ 
+</style>
 
