@@ -2,11 +2,12 @@ const mongoService = require('./mongo-service')
 
 const ObjectId = require('mongodb').ObjectId;
 
-function query(directorId) {
+function getById(userId) {
+    const _id = new ObjectId(userId)
     return mongoService.connect()
-        .then(db => db.collection('tasks').find({ directorId }).toArray())
+        .then(db => db.collection('users').findOne({ _id }))
 }
 
 module.exports = {
-    query
+    getById
 }
