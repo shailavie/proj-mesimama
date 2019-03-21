@@ -64,7 +64,7 @@ io.on('connection', socket => {
     
     //TASK WAS ACOMPLISHED
     socket.on('finishedTask', data => {
-        //TODO- SEND ONLY TO MOTHER. send prev owner and task details.
+        //TODO- SEND ONLY TO MOTHER. send prev helper and task details.
         console.log(socket.id, '    socket ID')
         // socket.to('mom').emit('taskAcomplished',data)
     })

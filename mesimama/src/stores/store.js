@@ -15,17 +15,19 @@ export default new Vuex.Store({
   },
   mutations: {
     setTaskItems(state, { tasks }) {
-      console.log('mutating', tasks)
+      // console.log('mutating', tasks)
       state.taskItems = tasks
       console.log(state.taskItems)
     },
-    setTaskOwner(state, { taskId }) {
-      console.log('inside mutation', state.taskItems)
-      console.log('got task id', taskId)
+    setTaskHelper(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      console.log('taskIdx', taskIdx)
-      state.taskItems[taskIdx].ownerId = state.user._id
-      console.log(state.user.name, ' took ownership over task ', taskId)
+      state.taskItems[taskIdx].helperId = state.user._id
+      console.log(state.user.name, ' took Helpership over task ', taskId)
+    },
+    clearTaskHelper(state, { taskId }) {
+      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
+      state.taskItems[taskIdx].helperId = null
+      console.log('TASK ABANDONED!')
     }
   },
   actions: {
@@ -36,11 +38,16 @@ export default new Vuex.Store({
           context.commit({ type: 'setTaskItems', tasks })
         })
     },
-    async setTaskOwner(context, taskId) {
-      await taskService.ownTask(taskId, context.state.user._id)
-      context.commit({ type: 'setTaskOwner', taskId })
+    async setTaskHelper(context, taskId) {
+      await taskService.setTaskHelper(taskId, context.state.user._id)
+      context.commit({ type: 'setTaskHelper', taskId, helperId: context.state.user._id })
       console.log('task is owned')
-    }
+    },
+    async clearTaskHelper(context, taskId) {
+      await taskService.clearTaskHelper(taskId)
+      context.commit({ type: 'clearTaskHelper', taskId })
+      console.log('store action : task is passed')
+    },
   },
   getters: {
     filteredTasks(state) {

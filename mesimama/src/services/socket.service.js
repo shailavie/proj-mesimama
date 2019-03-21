@@ -1,12 +1,10 @@
 
 import ioClient from 'socket.io-client'
 var socket = ioClient('//localhost:3003');
-// var socket = {}
 
 // AFTER MERGE, IMPORT UTIL AND USER THE ID MAKER THERE!
 // import utils from './util.service.js';
 import storgeService from './storage.service.js';
-
 
 const msgs = []
 
@@ -20,7 +18,6 @@ export default {
 	getMsgs
 }
 
-
 function getMsgs(){
     return msgs
 }
@@ -28,7 +25,6 @@ function getMsgs(){
 function createEmptyMsg(txt = '',nickName) {
     return { txt, processed: false, from: nickName };
 }
-
 
 connectSocket()
 
@@ -44,7 +40,7 @@ function connectSocket(){
 	})
 	// TASK WAS OWNED
 	socket.on('taskOwnedBy',data =>{
-		console.log('the task was owned! task:  owner: ')
+		console.log('the task was owned! task:  helper: ')
 	})
 	//NEW TASK ADDED
 	socket.on('newTaskPublish',data=>{
@@ -68,9 +64,6 @@ function emit(eventName, data){
 function on(eventName, cb) {
 	socket.on(eventName, cb)
 }
-
-
-
 
 function _getUser() {
     var user = storgeService.load('user');

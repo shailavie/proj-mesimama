@@ -1,24 +1,29 @@
 <template>
   <section class="task-list-page">
-    <el-tooltip :content="value5" placement="top">
-      <el-switch
-        v-model="value5"
-        active-color="#13ce66"
-        inactive-color="#ff4949"
-        active-value="My Tasks"
-        inactive-value="Open Tasks"
-       
-      ></el-switch>
-    </el-tooltip>
-    <button @click="toggleTasks">show my tasks</button>
-    <task-list-cmp :tasks="tasksToShow" @task-owned="ownTask($event)"></task-list-cmp>
+    <div class="toggle-tasks-container">
+        <el-switch
+          class="toggleTasks"
+          v-model="value"
+          active-color="#434e60"
+          inactive-color="#434e60"
+          active-text="My Tasks"
+          inactive-text="All Tasks"
+          @change="toggleTasks"
+        ></el-switch>
+    </div>
+    <task-list-cmp
+      :tasks="tasksToShow"
+      @task-owned="ownTask($event)"
+      @task-passed="passTask($event)"
+      @toggle-tasks="toggleTasks"
+    ></task-list-cmp>
   </section>
 </template>
 
 
 <script>
 import taskListCmp from "../components/task-list-cmp.vue";
-import {Button} from 'element-ui'
+import { Button } from "element-ui";
 export default {
   name: "tasksPage",
   components: {
@@ -26,34 +31,47 @@ export default {
   },
   data() {
     return {
-      value5: '100',
-      showMyTasks: false,
+      value: false,
+      showMyTasks: false
     };
   },
   created() {
-    this.$store.dispatch({ type: "loadUnownedTasks" })
-
+    this.$store.dispatch({ type: "loadUnownedTasks" });
   },
   computed: {
     tasksToShow() {
-          return (!this.showMyTasks)? 
-          this.$store.getters.filteredTasks.filter(task => task.ownerId === null) 
-          :  this.$store.getters.filteredTasks.filter(task => task.ownerId !== null) 
+      return !this.showMyTasks
+        ? this.$store.getters.filteredTasks.filter(
+            task => task.helperId === null
+          )
+        : this.$store.getters.filteredTasks.filter(
+            task => task.helperId !== null
+          );
     }
   },
   methods: {
     ownTask(taskId) {
-      console.log("taskS PAGE: task is owened", taskId);
-      this.$store.dispatch("setTaskOwner", taskId);
-      // TO DO : update the store about task status and move it to the user's tasks
+      console.log("tasks PAGE: task is OWNED", taskId);
+      this.$store.dispatch("setTaskHelper", taskId);
     },
-    toggleTasks(){
-      console.log('switch')
-      this.showMyTasks = !this.showMyTasks
+    passTask(taskId) {
+      console.log("tasks PAGE: task is PASSED", taskId);
+      this.$store.dispatch("clearTaskHelper", taskId);
+    },
+    toggleTasks() {
+      console.log("switch");
+      this.showMyTasks = !this.showMyTasks;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.toggleTasks {
+  margin: 10px auto;
+}
+.toggle-tasks-container {
+  display: flex;
+  justify-content: center;
+}
 </style>
