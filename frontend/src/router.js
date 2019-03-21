@@ -8,6 +8,7 @@ import myAccount from './views/my-account.vue'
 import socketHouse from './components/socket-house.vue'
 import dashboard from './components/dashboard.vue'
 import login from './views/login.vue'
+import taskEdit from './views/task-edit.vue'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
           name: 'dashboard',
           component: dashboard
         },
+        {
+          path: 'edit/:taskId?',
+          name: 'edit',
+          component: taskEdit
+        }
 
       ]
     }

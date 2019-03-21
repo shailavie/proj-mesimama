@@ -14,6 +14,7 @@
             :task="currTask"
             @task-owned="ownTask($event)"
             @task-passed="passTask($event)"
+            @task-edit="editTask($event)"
           ></task-preview>
         </li>
       </ul>
@@ -22,15 +23,13 @@
 </template>
 
 <script>
-
 import taskPreview from "./task-preview-cmp.vue";
 // import dashBoard from "./dashboard.vue"
-
 
 export default {
   props: ["tasks", "title"],
   components: {
-    taskPreview,
+    taskPreview
     // dashBoard
   },
   methods: {
@@ -41,6 +40,9 @@ export default {
     passTask(taskId) {
       console.log("task list: task is PASSED", taskId);
       this.$emit("task-passed", taskId);
+    },
+    editTask(taskId) {
+      this.$emit("task-edit", taskId);
     }
   }
 };

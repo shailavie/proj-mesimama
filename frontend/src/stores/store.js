@@ -5,14 +5,16 @@ import taskService from '../services/task-service.js'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
-    // storeTasks
+    // storeTasks 
   },
   state: {
     taskItems: [],
     filterBy: {},
     currTask: null,
-    user: {
+    directorId: 'mom1', //TO DO - GET ALL THIS FROM SESSION
+    user: { //TO DO - GET ALL THIS FROM SESSION
         name: "Saba Zion",
+        directorId: 'mom1',
         _id: 'j3F4fd',
         score: 138,
         imgSrc: "/img/users/grampa.jpeg"
@@ -20,14 +22,12 @@ export default new Vuex.Store({
   },
   mutations: {
     setTaskItems(state, { tasks }) {
-      // console.log('mutating', tasks)
       state.taskItems = tasks
-      console.log(state.taskItems)
     },
     setTaskHelper(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
       state.taskItems[taskIdx].helperId = state.user._id
-      console.log(state.user.name, ' took Helpership over task ', taskId)
+      // console.log(state.user.name, ' took Helpership over task ', taskId)
     },
     clearTaskHelper(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
@@ -36,6 +36,20 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async loadTask(context, {taskId}){
+      console.log('inside store',taskId)
+      let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
+      if (taskIdx !== -1) {
+        var task = context.state.taskItems[taskIdx]
+        console.log('task was found', task)
+        return task
+      } else {
+        console.log('couldnt find task in store (idx:,',taskIdx,') fetching from service')
+        var task = await taskService.getTaskById(taskId)
+        console.log('task was found', task)
+        return task
+      }
+    },
     loadUnownedTasks(context) {
       taskService.query()
         .then(tasks => {
@@ -63,6 +77,9 @@ export default new Vuex.Store({
     },
     currUser(state) {
       return state.user
+    },
+    currDirectorId(state) {
+      return state.directorId
     }
   }
 })
