@@ -5,14 +5,14 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const io = require('socket.io')(server);
+const PORT = process.env.PORT || 3003;
 
 const addTaskRoutes = require('./routes/task-route')
 const creatorId = 'mom1' // To do: Get mom from session
 addTaskRoutes(app, creatorId)
 
-const PORT = process.env.PORT || 3000;
 
-var io = require('socket.io')(server);
 
 app.use(express.static('front'));
 app.use(cors({
@@ -34,14 +34,16 @@ app.get('/', (req, res) => {
 
 //TODO: as soon as user connects, send him into a room with his ID.
 //  you always know the Admin id, so when you need, send him the msg.
+
 io.on('connection', socket => {
     console.log('socket connected! ')
-    
-  //USER CONNECTING
-    socket.on('userConnected', data => {
-        io.emit('userIsConnected', data);
 
-        console.log('new user connected. id: ', data)
+    //USER CONNECTING
+    socket.on('userConnected', userId => {
+        socket.join(userId)
+        io.emit('userIsConnected', userId);
+
+        console.log('new user connected. id: ', userId)
     })
     //TASK WAS OWNED
     socket.on('owningTask', data => {
@@ -87,6 +89,6 @@ io.on('connection', socket => {
     });
 });
 
-app.listen(PORT, () => console.log(`app listening on port ${PORT}`))
+server.listen(PORT, () => console.log(`app listening on port ${PORT}`))
 
 
