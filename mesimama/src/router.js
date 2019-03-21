@@ -6,6 +6,7 @@ import chat from './views/chat.vue'
 import notifications from './views/notifications.vue'
 import myAccount from './views/my-account.vue'
 import socketHouse from './components/socket-house.vue'
+import dashboard from './components/dashboard.vue'
 
 Vue.use(Router)
 
@@ -45,6 +46,11 @@ export default new Router({
           path: 'socketHouse',
           name: 'socketHouse',
           component: socketHouse
+        },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: dashboard
         },
 
       ]
