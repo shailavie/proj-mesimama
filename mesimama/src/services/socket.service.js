@@ -1,6 +1,6 @@
 
 import ioClient from 'socket.io-client'
-var socket = ioClient('http://localhost:3003');
+var socket = ioClient('http://localhost:3004');
 // var socket = {}
 
 // AFTER MERGE, IMPORT UTIL AND USER THE ID MAKER THERE!
@@ -44,7 +44,7 @@ function connectSocket(){
 	})
 	// TASK WAS OWNED
 	socket.on('taskOwnedBy',data =>{
-		console.log('the task was owned! task:  owner: ')
+		console.log('the task was owned! task:  helper: ')
 	})
 	//NEW TASK ADDED
 	socket.on('newTaskPublish',data=>{

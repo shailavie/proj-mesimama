@@ -37,7 +37,7 @@ function _createTask(task) {
     return {
         "_id": getRandomId(),
         "creatorId" : 'mom2',
-        "ownerId" : null,
+        "helperId" : null,
         "title": task.title,
         "desc": task.desc,
         "type": _getRandomType(),
