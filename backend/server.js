@@ -7,8 +7,10 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
 const addTaskRoutes = require('./routes/task-route')
-const creatorId = 'mom1' // To do: Get mom from session
-addTaskRoutes(app, creatorId)
+const addUserRoutes = require('./routes/user-route')
+const directorId = 'mom1' // To do: Get mom from session
+addTaskRoutes(app)
+addUserRoutes(app)
 
 const PORT = process.env.PORT || 3000;
 
