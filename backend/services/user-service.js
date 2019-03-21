@@ -1,4 +1,4 @@
-const mongoService = require('./mongo-service')
+const mongoService = require('./mongo-service.js')
 
 const ObjectId = require('mongodb').ObjectId;
 

@@ -35,6 +35,9 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
+addTaskRoutes(app)
+addUserRoutes(app)
+
 //TODO: as soon as user connects, send him into a room with his ID.
 // you always know the Admin id, so when you need, send him the msg.
 
@@ -91,8 +94,6 @@ io.on('connection', socket => {
     });
 });
 
-addTaskRoutes(app)
-addUserRoutes(app)
 
 server.listen(PORT, () => console.log(`app listening on port ${PORT}`))
 
