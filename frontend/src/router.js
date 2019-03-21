@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from './views/home.vue'
+import home from './views/Home.vue'
 import tasks from './views/tasks.vue'
 import chat from './views/chat.vue'
 import notifications from './views/notifications.vue'

@@ -1,9 +1,10 @@
 <template>
   <section>
+    <h1 class="task-list-title">{{title}}</h1>
     <div class="empty-state-container" v-if="!tasks.length">
-      <h2> No Tasks? </h2>
-          <img class="emptyState" src="/img/icons/emptyState.png"/>
-      <h4> Me and mom have a nickname for people with no tasks..</h4>
+      <h2>No Tasks?</h2>
+      <img class="emptyState" src="/img/icons/emptyState.png">
+      <h4>Me and mom have a nickname for people with no tasks..</h4>
       <el-button type="primary" @click="$emit('toggle-tasks')">Take Responsibility!</el-button>
     </div>
     <div class="task-list-container">
@@ -21,10 +22,10 @@
 </template>
 
 <script>
-import taskPreview from "./taskPreview.vue";
+import taskPreview from "./task-preview-cmp.vue";
 
 export default {
-  props: ["tasks"],
+  props: ["tasks", "title"],
   components: {
     taskPreview
   },
@@ -55,10 +56,20 @@ ul {
   justify-content: center;
   text-align: center;
   align-items: center;
-  width: 200px;
+  width: 400px;
   margin: 0 auto;
+  border: 1px solid rgb(192, 188, 188);
+  padding: 20px;
+  border-radius: 4px;
+  margin-top: 32px;
+}
+h4 {
+  width: 300px;
 }
 .task-list-container {
   margin-bottom: 100px;
+}
+.task-list-title {
+  text-align: center;
 }
 </style>

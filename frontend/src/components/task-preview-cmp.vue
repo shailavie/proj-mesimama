@@ -2,17 +2,19 @@
 <template>
   <section class="task-card">
     <div class="task-card-container">
-    <img class="user-avatar" :src="userProfilePicSrc" alt="">
+      <img class="user-avatar" :src="userProfilePicSrc" alt>
       <div class="task-card-info">
         <h2 class="task-card-title">{{task.title}}</h2>
         <h3>{{task.desc}}</h3>
-          <img src="/img/icons/taskTime30.png"/>
-        <h5>
-          For {{task.dueAt | moment("calendar")}}
-        </h5>
+        <img src="/img/icons/taskTime30.png">
+        <h5>For {{task.dueAt | moment("calendar")}}</h5>
         <div class="task-status-containter">
           <div class="task-status" :style="statusClass"></div>
           <h4>{{task.status}}</h4>
+          <div class="task-points-container">
+            <h4 class="task-points">{{task.points}}</h4>
+            <img class="task-points-star" src="/icons/star.svg" alt>
+          </div>
         </div>
       </div>
       <el-button v-if="task.helperId" type="primary" @click="markDone(task._id)">Done!</el-button>
@@ -40,26 +42,28 @@ export default {
       return this.task.helperId ? "secondary" : "primary";
     },
     buttonText() {
-      return this.task.helperId ? "Pass Task" : "Own this Task";
+      return this.task.helperId ? "Pass" : "Own it";
     },
-    statusClass(){
-      switch (this.task.status){
-        case 'done' : 
-          return {'backgroundColor': 'blue'}
+    statusClass() {
+      switch (this.task.status) {
+        case "done":
+          return { backgroundColor: "blue" };
           break;
-        case 'pendingPass' : 
-          return {'backgroundColor': 'yellow'}
+        case "pendingPass":
+          return { backgroundColor: "yellow" };
           break;
         default:
-        case 'active' : 
-          return {'backgroundColor': 'green'}
+        case "active":
+          return { backgroundColor: "green" };
           break;
       }
     },
-    userProfilePicSrc(){
-      let src = `https://api.adorable.io/avatars/50/${this.task.helperId}.png`
-      console.log(src)
-      return src
+    userProfilePicSrc() {
+      if (this.task.helperId) {
+        let user = this.$store.getters.currUser
+        return user.imgSrc
+      } else
+      return ''
     }
   }
 };
@@ -68,6 +72,9 @@ export default {
 <style scoped lang="scss">
 .task-card {
   position: relative;
+  width: 300px;
+  margin: 15px;
+  border: 1px solid rgb(192, 188, 188);
 }
 .task-status-containter {
   margin: 10px 0;
@@ -75,7 +82,6 @@ export default {
 .task-status {
   width: 10px;
   height: 10px;
-  // background-color: red;
   border-radius: 100px;
   display: inline-block;
   margin-right: 5px;
@@ -89,10 +95,13 @@ h5 {
 }
 h3 {
   font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .task-card-title {
   font-weight: bolder;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
 }
 img {
   width: 15px;
@@ -106,6 +115,25 @@ img {
   top: 10px;
   right: 10px;
   border-radius: 40px;
+}
+.task-points-container {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+}
+.task-points {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  font-size: 10px;
+  font-weight: bolder;
+}
+.task-points-star {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
 }
 </style>
 

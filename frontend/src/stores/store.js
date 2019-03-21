@@ -11,7 +11,12 @@ export default new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-    user: { name: 'puki', _id: 'j3F4fd' }, // TODO: Get the current user from session
+    user: {
+        name: "Saba Zion",
+        _id: 'j3F4fd',
+        score: 138,
+        imgSrc: "/img/users/grampa.jpeg"
+      },
   },
   mutations: {
     setTaskItems(state, { tasks }) {
@@ -55,6 +60,9 @@ export default new Vuex.Store({
     },
     currUserId(state) {
       return state.user._id
+    },
+    currUser(state) {
+      return state.user
     }
   }
 })
