@@ -29,6 +29,7 @@
         @toggle-tasks="toggleTasks"
       ></task-list-cmp>
       <podium-board-cmp></podium-board-cmp>
+      <dash-board></dash-board>
     </div>
   </section>
 </template>
@@ -37,12 +38,14 @@
 <script>
 import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
+import dashBoard from "../components/dashboard.vue";
 import { Button } from "element-ui";
 export default {
   name: "tasksPage",
   components: {
     taskListCmp,
-    podiumBoardCmp
+    podiumBoardCmp,
+    dashBoard
   },
   data() {
     return {
@@ -51,14 +54,14 @@ export default {
       window: {
         width: 0
       },
-      user:null,
+      user: null
     };
   },
   created() {
     this.$store.dispatch({ type: "loadUnownedTasks" });
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
-    this.user = this.$store.getters.currentUser
+    this.user = this.$store.getters.currentUser;
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -79,20 +82,20 @@ export default {
         task => task.helperId !== null
       );
     },
-    taskListTitle(){
-      return this.showMyTasks? this.myTasksCount : this.allTasksCount;
+    taskListTitle() {
+      return this.showMyTasks ? this.myTasksCount : this.allTasksCount;
     },
-    allTasksCount(){
+    allTasksCount() {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
-            task => task.helperId === null
-          ).length
-      return `All Tasks (${allTasksCount})`
+        task => task.helperId === null
+      ).length;
+      return `All Tasks (${allTasksCount})`;
     },
-    myTasksCount(){
+    myTasksCount() {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
-            task => task.helperId !== null
-          ).length
-      return `My Tasks (${allTasksCount})`
+        task => task.helperId !== null
+      ).length;
+      return `My Tasks (${allTasksCount})`;
     }
   },
   methods: {

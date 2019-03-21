@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import taskPreview from "./task-preview-cmp.vue";
 
 export default {
   props: [],
