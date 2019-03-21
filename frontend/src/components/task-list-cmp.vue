@@ -18,16 +18,22 @@
         </li>
       </ul>
     </div>
+<dash-board>
+</dash-board>
   </section>
 </template>
 
 <script>
-import taskPreview from "./task-preview-cmp.vue";
+
+import taskPreview from "./taskPreview.vue";
+import dashBoard from "./dashboard.vue"
+
 
 export default {
   props: ["tasks", "title"],
   components: {
-    taskPreview
+    taskPreview,
+    dashBoard
   },
   methods: {
     ownTask(taskId) {
