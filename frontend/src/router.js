@@ -7,11 +7,17 @@ import notifications from './views/notifications.vue'
 import myAccount from './views/my-account.vue'
 import socketHouse from './components/socket-house.vue'
 import dashboard from './components/dashboard.vue'
+import login from './views/login.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
     {
       path: '/app',
       name: 'home',

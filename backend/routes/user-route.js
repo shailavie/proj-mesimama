@@ -10,6 +10,11 @@ function addUserRoutes(app) {
                 res.json(user)
             })
     })
+
+    app.post(`${API_URL}/setuser`, (req, res) => {
+        req.session.userId = req.body.userId;
+        res.send(req.session.userId)
+    })
 }
 
 module.exports = addUserRoutes;
