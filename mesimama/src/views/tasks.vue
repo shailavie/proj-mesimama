@@ -60,7 +60,6 @@ export default {
     },
     toggleTasks() {
       console.log("switch");
-      // this.value = !this.value
       this.showMyTasks = !this.showMyTasks;
     }
   }

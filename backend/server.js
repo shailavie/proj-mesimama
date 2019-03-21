@@ -10,9 +10,10 @@ const addTaskRoutes = require('./routes/task-route')
 const creatorId = 'mom1' // To do: Get mom from session
 addTaskRoutes(app, creatorId)
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3003;
 
 var io = require('socket.io')(server);
+server.listen(3004)
 
 app.use(express.static('front'));
 app.use(cors({
@@ -55,7 +56,7 @@ io.on('connection', socket => {
     })
     //TASK WAS ACOMPLISHED
     socket.on('finishedTask', data => {
-        //TODO- SEND ONLY TO MOTHER. send prev owner and task details.
+        //TODO- SEND ONLY TO MOTHER. send prev helper and task details.
         console.log(socket.id, '    socket ID')
         // socket.to('mom').emit('taskAcomplished',data)
     })
