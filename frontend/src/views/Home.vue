@@ -11,7 +11,6 @@
   </div>
 </template>
 
-
 <script>
 import headerCmp from "@/components/header.vue";
 
