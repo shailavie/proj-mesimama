@@ -1,6 +1,6 @@
 
 import ioClient from 'socket.io-client'
-var socket = ioClient('http://localhost:3003');
+var socket = ioClient('//localhost:3003');
 // var socket = {}
 
 // AFTER MERGE, IMPORT UTIL AND USER THE ID MAKER THERE!
