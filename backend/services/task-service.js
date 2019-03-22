@@ -30,8 +30,7 @@ function remove(taskId) {
 
 function update(task) {
     let _id = new ObjectId(task._id)
-    if (task['_id']) delete task['_id'];
-    console.log(task)
+    delete task['_id'];
     return mongoService.connect()
         .then(db => db.collection('tasks').replaceOne({ _id }, task))
 }
