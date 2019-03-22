@@ -53,10 +53,10 @@ function connectSocket() {
 	socket.on('taskOwnedBy', data => {
 		Vue.notify({
 			group: 'foo',
-			title: 'Important message',
-			type: 'success',
+			title: `A task was owned! `,
+			// type: 'success',
 			classes:'vue-notification',
-			text: `new task was owned! `
+			text: 'Woohoo! This is great! thanks everybody! ',
 		})
 		console.log('the task was owned! task:  helper: ')
 	})
@@ -65,10 +65,10 @@ function connectSocket() {
 		console.log('new task was published! ')
 		Vue.notify({
 			group: 'foo',
-			title: 'Important message',
-			type: 'success',
+			title: 'A new task was added! ',
+			// type: 'success',
 			classes:'vue-notification',
-			text: `new task was published! `
+			text: `Better go check it out! `
 		})
 	})
 	//TASK WAS ACOMPLISHED
@@ -76,10 +76,10 @@ function connectSocket() {
 		console.log('task was acomplished!!!')
 		Vue.notify({
 			group: 'foo',
-			title: 'Important message',
+			title: 'Someone acomplished a task!',
 			type: 'success',
 			classes:'vue-notification',
-			text: `new task was acomplished! `
+			text: `Mom will be so happy! `
 		})
 	})
 
