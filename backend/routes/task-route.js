@@ -6,22 +6,20 @@ const API_URL = '/api/tasks'
 function addTaskRoutes(app) {
   app.get(`${API_URL}`, (req, res) => {
     const userId = req.session.userId;
-    var directorId = '';
     userService.getById(userId).then(user => {
-      res.send(JSON.parse(user))
+      return user
     })
-
-    // .then(() => {
-    //   taskService.query(directorId)
-    //     .then(tasks => {
-    //       if (!tasks || tasks.length === 0) {
-    //         res.send('Nothing found!')
-    //       }
-    //       else {
-    //         res.json(tasks)
-    //       }
-    //     })
-    // })
+      .then((user) => {
+        taskService.query((user.isDirector) ? userId : user.directorId)
+          .then(tasks => {
+            if (!tasks || tasks.length === 0) {
+              res.send('Nothing found!')
+            }
+            else {
+              res.json(tasks)
+            }
+          })
+      })
   })
 }
 
