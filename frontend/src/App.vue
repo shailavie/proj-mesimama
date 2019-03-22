@@ -5,13 +5,21 @@
   </div>
 </template>
 
-
+<script>
+export default {
+  created(){
+    this.$store.dispatch({type: 'setCurrUser'})
+    .then(()=>{
+      console.log('WE HAVE USER!')
+    })
+  }
+}
+</script>
 <style lang="scss" scoped>
 .vue-notification {
   padding: 10px;
   margin: 0 5px 5px;
  
-  font-size: 12px;
  
   color: #ffffff;
   background: #44A4FC;
@@ -29,6 +37,7 @@
  
   &.success {
     background: #68CD86;
+    color: black;
     border-left-color: #42A85F;
   }
 }

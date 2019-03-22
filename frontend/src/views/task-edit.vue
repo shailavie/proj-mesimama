@@ -24,6 +24,7 @@
               type="datetime"
               placeholder="Select date and time"
               picker-options="pickerOptions1"
+              value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
           <el-button class="saveBtn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
@@ -73,6 +74,7 @@ export default {
   async created() {
     let taskId = this.$route.params.taskId;
     this.directorId = this.$store.getters.currDirectorId;
+    console.log('DIRECTOR ID:',this.directorId)
     console.log("taskId", taskId);
     if (taskId) {
       this.taskToEdit = await this.$store.dispatch({
@@ -81,18 +83,19 @@ export default {
       });
     } else {
       this.taskToEdit = taskService.getEmptyTask(this.directorId);
-      console.log(this.taskToEdit);
+      console.log('EMPTY TASK WITH DIRECTOR ID:',this.taskToEdit);
     }
   },
   methods: {    
     saveTask(){
        if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
         console.log("Saving....", this.taskToEdit);
+        this.taskToEdit.duaAt = new Date(this.taskToEdit.duaAt)
         this.$store.dispatch("saveTask", this.taskToEdit)
         .then(savedTask => {
           console.log("saved task", savedTask);
-          this.$store.dispatch({ type: "loadTaskItems" }).then(() => {
-            this.$router.push("/");
+          this.$store.dispatch({ type: "loadActiveTasks" }).then(() => {
+            this.$router.push("/app/tasks");
           });
         });
     }

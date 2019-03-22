@@ -53,21 +53,21 @@ io.on('connection', socket => {
 
     //TASK WAS OWNED
     socket.on('owningTask', data => {
-        //TODO- SEND ONLY TO MOTHER. send new ownder and task detailes.
+        //TODO send new owner and task detailes.
         socket.broadcast.emit('taskOwnedBy','he')
         // console.log(socket)
     })
 
-    //TASK WAS ADDED
+    //TASK WAS ADDED- send to everyone but mom
     socket.on('addedTask', data => {
         socket.broadcast.emit('newTaskPublish')
     })
 
     //TASK WAS ACOMPLISHED
     socket.on('finishedTask', data => {
-        //TODO- SEND ONLY TO MOTHER. send prev helper and task details.
+        //TODO- SEND TO EVERYONE- send user data and task
         console.log(socket.id, '    socket ID')
-        // socket.to('mom').emit('taskAcomplished',data)
+       io.emit('taskAcomplished',data)
     })
 
     socket.on('login', userId => {
