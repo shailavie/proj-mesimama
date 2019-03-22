@@ -51,19 +51,19 @@ function connectSocket() {
 		msgs.push(msg);
 	})
 	// TASK WAS OWNED
-	socket.on('taskOwnedBy', data => {
+	socket.on('taskOwnedBy', user => {
 		Vue.notify({
 			group: 'foo',
-			title: `A task was owned! `,
+			title: `${user.name} took some responsibility `,
 			// type: 'success',
 			classes:'vue-notification',
-			text: 'Woohoo! This is great! thanks everybody! ',
+			text: 'Woohoo! This is great! thank you so much!! ',
 		})
 		console.log('the task was owned! task:  helper: ')
 	})
 	//NEW TASK ADDED
 	socket.on('newTaskPublish', data => {
-		console.log('new task was published! ')
+		console.log('before notification at socket service ',data)
 		Vue.notify({
 			group: 'foo',
 			title: 'A new task was added! ',
