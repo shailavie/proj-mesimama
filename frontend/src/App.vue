@@ -5,7 +5,16 @@
   </div>
 </template>
 
-
+<script>
+export default {
+  created(){
+    this.$store.dispatch({type: 'setCurrUser'})
+    .then(()=>{
+      console.log('WE HAVE USER!')
+    })
+  }
+}
+</script>
 <style lang="scss" scoped>
 .vue-notification {
   padding: 10px;
