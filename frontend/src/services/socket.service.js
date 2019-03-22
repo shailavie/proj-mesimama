@@ -1,6 +1,7 @@
 
 import ioClient from 'socket.io-client'
 import Vue from 'vue'
+import store from '../stores/store.js'
 
 var socket = ioClient('//localhost:3003');
 
@@ -9,9 +10,6 @@ var socket = ioClient('//localhost:3003');
 import storgeService from './storage.service.js';
 
 const msgs = []
-
-
-
 
 
 export default {
@@ -64,6 +62,8 @@ function connectSocket() {
 	//NEW TASK ADDED
 	socket.on('newTaskPublish', data => {
 		console.log('before notification at socket service ',data)
+		console.log(store)
+		store.dispatch({ type: "loadActiveTasks" }).then(()=>{console.log('FETCHING!!!')})
 		Vue.notify({
 			group: 'foo',
 			title: 'A new task was added! ',
