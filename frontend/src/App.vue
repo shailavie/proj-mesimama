@@ -11,7 +11,6 @@
   padding: 10px;
   margin: 0 5px 5px;
  
-  font-size: 12px;
  
   color: #ffffff;
   background: #44A4FC;
@@ -29,6 +28,7 @@
  
   &.success {
     background: #68CD86;
+    color: black;
     border-left-color: #42A85F;
   }
 }
