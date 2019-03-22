@@ -14,7 +14,16 @@ function getById(taskId) {
         .then(db => db.collection('tasks').findOne({ _id }))
 }
 
+function add(task) {
+    return mongoService.connect()
+        .then(db => db.collection('tasks').insertOne(task))
+        .then(res => {
+            return getById(res.insertedId)
+        })
+}
+
 module.exports = {
     query,
-    getById
+    getById,
+    add
 }

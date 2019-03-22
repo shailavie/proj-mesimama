@@ -4,6 +4,7 @@ const userService = require('../services/user-service.js')
 const API_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
+
   // Get all tasks for the user
   app.get(`${API_URL}`, (req, res) => {
     const userId = req.session.userId
@@ -24,6 +25,7 @@ function addTaskRoutes(app) {
       })
   })
 
+  // Get task by id
   app.get(`${API_URL}/:taskId`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
@@ -47,10 +49,14 @@ function addTaskRoutes(app) {
     })
   })
 
-  // // Post new task
-  // app.post(`${API_URL}`, (req, res) => {
-
-  // })
+  // Post new task
+  app.post(`${API_URL}`, (req, res) => {
+    const task = req.body
+    console.log(task)
+    taskService.add(task).then(task => {
+      res.json(task);
+    })
+  })
 }
 
 module.exports = addTaskRoutes
