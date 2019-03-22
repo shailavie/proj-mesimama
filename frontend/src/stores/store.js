@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import storeTasks from './modules/store-tasks.js'
 import taskService from '../services/task-service.js'
 import userService from '../services/user.service.js'
+import socketService from '../services/socket.service.js'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -78,6 +79,8 @@ export default new Vuex.Store({
     async setTaskHelper(context, taskId) {
       await taskService.setTaskHelper(taskId, context.state.user._id)
       context.commit({ type: 'setTaskHelper', taskId, helperId: context.state.user._id })
+      socketService.emit('owningTask',taskId,context.state.user)
+      console.log('task is owned')
     },
     async clearTaskHelper(context, taskId) {
       await taskService.clearTaskHelper(taskId)
@@ -92,6 +95,7 @@ export default new Vuex.Store({
       } else {
         console.log('new task')
         let newTask = await taskService.addTask(task)
+      socketService.emit("addedTask", newTask);        
         context.commit({ type: 'addTask', newTask })
         console.log('STORE DONE ADDING NEW TASK')
       }

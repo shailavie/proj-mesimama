@@ -1,10 +1,8 @@
 const taskService = require('../services/task-service.js')
 const userService = require('../services/user-service.js')
-
 const API_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
-
   // Get all tasks for the user
   app.get(`${API_URL}`, (req, res) => {
     const userId = req.session.userId
@@ -83,7 +81,7 @@ function addTaskRoutes(app) {
     const task = req.body
     console.log('now:', task._id)
     taskService.update(task)
-      .then(task => res.json(task))
+      .then(() => res.json(task))
   })
 
   //Own Task

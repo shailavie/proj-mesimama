@@ -52,15 +52,16 @@ io.on('connection', socket => {
     })
 
     //TASK WAS OWNED
-    socket.on('owningTask', data => {
+    socket.on('owningTask', (taskId,user) => {
         //TODO send new owner and task detailes.
-        socket.broadcast.emit('taskOwnedBy','he')
+        socket.broadcast.emit('taskOwnedBy',user)
         // console.log(socket)
     })
 
     //TASK WAS ADDED- send to everyone but mom
-    socket.on('addedTask', data => {
-        socket.broadcast.emit('newTaskPublish')
+    socket.on('addedTask', task => {
+        console.log('at server with task: ',task)
+        socket.broadcast.emit('newTaskPublish',task)
     })
 
     //TASK WAS ACOMPLISHED
