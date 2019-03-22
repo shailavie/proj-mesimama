@@ -80,7 +80,10 @@ function findIdxById(id) {
     return taskDB.findIndex(task => task._id === id)
 }
 
-function getEmptyTask({directorId}){
+function getEmptyTask(directorId){
+
+
+    console.log('TASK SERVICE GOT DIRECTOR ID', directorId)
     let emptyTask = {
         createdAt: null,
         desc: '',

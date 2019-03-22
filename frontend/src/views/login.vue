@@ -9,15 +9,25 @@
 
       <div class="content-container">
         <div class="img-container">
-    <img src="../assets/icons/family.svg" >
+          <img src="../assets/icons/family.svg">
         </div>
         <div class="input-container">
-          <button class="loginBtn loginBtn--facebook">  {{msg}} with Facebook</button>
-    <el-input placeholder="You'r@email.com" type="email" autofocus prefix-icon="el-icon-message" v-model="input.email"></el-input>
-    <el-input placeholder="Please input password" v-model="input.password" show-password></el-input>
-      <el-button type="primary">{{msg}}</el-button>
-            <h3 v-if="isMember">Got an acount? <button @click="isMember=!isMember">Login</button> </h3>
-      <h3 v-else>New to 'APP NAME HERE'? <button @click="isMember=!isMember">Sign Up</button></h3>
+          <button class="loginBtn loginBtn--facebook">{{msg}} with Facebook</button>
+          <el-input
+            placeholder="You'r@email.com"
+            type="email"
+            autofocus
+            prefix-icon="el-icon-message"
+            v-model="input.email"
+          ></el-input>
+          <el-input placeholder="Please input password" v-model="input.password" show-password></el-input>
+          <el-button type="primary">{{msg}}</el-button>
+          <h3 v-if="isMember">Got an acount?
+            <button @click="isMember=!isMember">Login</button>
+          </h3>
+          <h3 v-else>New to 'APP NAME HERE'?
+            <button @click="isMember=!isMember">Sign Up</button>
+          </h3>
         </div>
       </div>
     </div>
@@ -27,6 +37,7 @@
     </select>
     <button @click="setRole">Set Role</button>
     <button @click="printSession">Print session</button>
+
   </section>
 </template>
 
@@ -45,12 +56,12 @@ export default {
         password: "",
         email: ""
       },
-      isMember:true,
+      isMember: true
     };
   },
-  computed:{
-    msg(){
-       return (!this.isMember)? "Login" : "Sign Up"
+  computed: {
+    msg() {
+      return !this.isMember ? "Login" : "Sign Up";
     }
   },
   methods: {
@@ -69,32 +80,32 @@ export default {
 
 
 <style lang="scss" scoped>
-img{
-      width: 190px;
+img {
+  width: 190px;
 }
-.content-container{
+.content-container {
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
-.container{
+.container {
   margin: 30px auto;
   text-align: center;
   width: 400px;
 }
-.el-input{
+.el-input {
   margin-bottom: 10px;
   margin-left: 10px;
-  &:focus{
+  &:focus {
     border: 2px solid lightblue;
   }
 }
-.input-container{
+.input-container {
   margin: 30px;
   display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 //fb button
@@ -103,7 +114,7 @@ img{
   box-sizing: border-box;
   position: relative;
   /* width: 13em;  - apply for fixed size */
-   margin-bottom: 10px;
+  margin-bottom: 10px;
 
   padding: 0 15px 0 46px;
   border: none;
@@ -112,7 +123,7 @@ img{
   white-space: nowrap;
   border-radius: 0.2em;
   font-size: 16px;
-  color: #FFF;
+  color: #fff;
 }
 .loginBtn:before {
   content: "";
@@ -127,24 +138,24 @@ img{
   outline: none;
 }
 .loginBtn:active {
-  box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+  box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
 }
-
 
 /* Facebook */
 .loginBtn--facebook {
-  background-color: #4C69BA;
-  background-image: linear-gradient(#4C69BA, #3B55A0);
+  background-color: #4c69ba;
+  background-image: linear-gradient(#4c69ba, #3b55a0);
   /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
-  text-shadow: 0 -1px 0 #354C8C;
+  text-shadow: 0 -1px 0 #354c8c;
 }
 .loginBtn--facebook:before {
   border-right: #364e92 1px solid;
-  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png")
+    6px 6px no-repeat;
 }
 .loginBtn--facebook:hover,
 .loginBtn--facebook:focus {
-  background-color: #5B7BD5;
-  background-image: linear-gradient(#5B7BD5, #4864B1);
+  background-color: #5b7bd5;
+  background-image: linear-gradient(#5b7bd5, #4864b1);
 }
 </style>

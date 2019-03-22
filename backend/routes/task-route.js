@@ -72,7 +72,7 @@ function addTaskRoutes(app) {
           taskService.remove(taskId)
             .then(() => {
               res.status(200);
-              res.send('Deleted ' + taskId);
+              res.send('Deleted ' + taskId)
             })
         }
         else {
@@ -81,7 +81,6 @@ function addTaskRoutes(app) {
         }
       })
   })
-
 }
 
 module.exports = addTaskRoutes
