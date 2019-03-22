@@ -79,9 +79,9 @@ function addTaskRoutes(app) {
   })
 
   // Update task
-  app.put(`${API_URL}/:taskId`, (req, res) => {
+  app.put(`${API_URL}`, (req, res) => {
     const task = req.body
-    taskService.update(task)
+    taskService.update(task._id)
       .then(task => {
         res.json(task);
       })
