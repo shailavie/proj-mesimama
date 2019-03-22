@@ -36,6 +36,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loadActiveTasks(context) {
+      taskService.query()
+        .then(tasks => {
+          context.commit({ type: 'setTaskItems', tasks })
+        })
+    },
     async loadTask(context, {taskId}){
       console.log('inside store',taskId)
       let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
@@ -50,13 +56,6 @@ export default new Vuex.Store({
         return task
       }
     },
-    loadUnownedTasks(context) {
-      taskService.query()
-        .then(tasks => {
-          console.log('store got from util', tasks)
-          context.commit({ type: 'setTaskItems', tasks })
-        })
-    },
     async setTaskHelper(context, taskId) {
       await taskService.setTaskHelper(taskId, context.state.user._id)
       context.commit({ type: 'setTaskHelper', taskId, helperId: context.state.user._id })
@@ -67,6 +66,19 @@ export default new Vuex.Store({
       context.commit({ type: 'clearTaskHelper', taskId })
       console.log('store action : task is passed')
     },
+    async saveTask(context, task){
+      if (task._id) {
+        console.log('STORE GOT TASK:',task)
+        let updatedTask = await taskService.saveTask(task)
+        context.commit({type: 'saveTask', updatedTask})
+        console.log('STORE DONE UPDATING NEW TASK')
+      } else {
+        console.log('new task')
+        let newTask = await taskService.addTask(task)
+        context.commit({type: 'addTask', newTask})
+        console.log('STORE DONE ADDING NEW TASK')
+      }
+    }
   },
   getters: {
     filteredTasks(state) {

@@ -6,6 +6,8 @@ var axios = Axios.create({
 });
 export default {
     query,
+    addTask,
+    updateTask,
     setTaskHelper,
     clearTaskHelper,
     getEmptyTask,
@@ -23,6 +25,24 @@ function query() {
                  resolve(resDB)
             })
     })
+}
+function addTask(task){
+    return new Promise((resolve, reject) => {
+        axios.post(`${BASE_URL}/tasks`,task)
+            .then(res => {
+                let addedTask = res.data
+                 resolve(addedTask)
+            })
+    }) 
+}
+function updateTask(task){
+    return new Promise((resolve, reject) => {
+        axios.put(`${BASE_URL}/tasks`,task)
+            .then(res => {
+                let addedTask = res.data
+                 resolve(addedTask)
+            })
+    }) 
 }
 function getTaskByIdOLD(id){
     console.log('fetching task by id from server', id)

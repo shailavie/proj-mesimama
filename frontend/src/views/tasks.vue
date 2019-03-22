@@ -65,7 +65,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch({ type: "loadUnownedTasks" });
+    this.$store.dispatch({ type: "loadActiveTasks" });
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     this.user = this.$store.getters.currentUser;
