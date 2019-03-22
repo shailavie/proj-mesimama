@@ -40,10 +40,8 @@ addUserRoutes(app)
 
 //TODO: as soon as user connects, send him into a room with his ID.
 // you always know the Admin id, so when you need, send him the msg.
-
 io.on('connection', socket => {
     console.log('socket connected! ')
-
     //USER CONNECTING
     socket.on('userConnected', userId => {
         socket.join(userId)
