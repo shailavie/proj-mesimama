@@ -83,7 +83,7 @@ function addTaskRoutes(app) {
     const task = req.body
     console.log('now:', task._id)
     taskService.update(task)
-      .then(task => res.json(task))
+      .then(() => res.json(task))
   })
 
   //Own Task
