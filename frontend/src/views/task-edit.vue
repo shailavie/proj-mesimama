@@ -90,7 +90,7 @@ export default {
     saveTask(){
        if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
         console.log("Saving....", this.taskToEdit);
-        this.taskToEdit.duaAt = new Date(this.taskToEdit.duaAt)
+        this.taskToEdit.dueAt = new Date(this.taskToEdit.duaAt)
         this.$store.dispatch("saveTask", this.taskToEdit)
         .then(savedTask => {
           console.log("saved task", savedTask);
