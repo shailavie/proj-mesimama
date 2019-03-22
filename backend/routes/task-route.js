@@ -104,6 +104,23 @@ function addTaskRoutes(app) {
           })
       })
   })
+
+  app.get(`${API_URL}/pass/:taskId`, (req, res) => {
+    const userId = req.session.userId
+    const taskId = req.params.taskId
+    taskService.getById(taskId)
+      .then(task => {
+        userService.getById(userId)
+          .then(user => {
+            if (task.directorId === user.directorId && task.helperId === userId) {
+              task.helperId = null
+              taskService.update(task).then(task => {
+                res.json(task)
+              })
+            }
+          })
+      })
+  })
 }
 
 module.exports = addTaskRoutes
