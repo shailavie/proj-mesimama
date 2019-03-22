@@ -94,7 +94,7 @@ export default {
       this.taskToEdit = taskService.getEmptyTask(this.directorId);
       console.log("EMPTY TASK WITH DIRECTOR ID:", this.taskToEdit);
     }
-  },
+  }, 
   methods: {
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();

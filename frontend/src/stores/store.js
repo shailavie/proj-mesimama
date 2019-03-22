@@ -24,9 +24,13 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    removeTask(state,taskId){
+    updateTask(state, { updatedTask }) {
+      let taskIdx = state.taskItems.findIndex(task => task._id === updatedTask._id)
+      state.taskItems.splice(taskIdx, 1, updatedTask)
+    },
+    removeTask(state, taskId) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      state.taskItems.splice(taskIdx,1)
+      state.taskItems.splice(taskIdx, 1)
     },
     addTask(state, newTask) {
       state.taskItems.unshift(newTask)
@@ -47,9 +51,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async removeTask(context, taskId){
+    async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
-      context.commit({type: 'removeTask', taskId})
+      context.commit({ type: 'c', taskId })
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
