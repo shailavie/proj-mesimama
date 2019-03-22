@@ -2,7 +2,7 @@ const mongoService = require('./mongo-service')
 
 const ObjectId = require('mongodb').ObjectId;
 
-function query(directorId) { 
+function query(directorId) {
     let _id = new ObjectId(directorId)
     return mongoService.connect()
         .then(db => db.collection('tasks').find({ directorId }).toArray())
@@ -22,8 +22,15 @@ function add(task) {
         })
 }
 
+function remove(taskId) {
+    let _id = new ObjectId(taskId)
+    return mongoService.connect()
+        .then(db => db.collection('tasks').remove({ _id }))
+}
+
 module.exports = {
     query,
     getById,
-    add
+    add,
+    remove
 }

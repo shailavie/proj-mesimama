@@ -30,33 +30,56 @@ function addTaskRoutes(app) {
     const userId = req.session.userId
     const taskId = req.params.taskId
     console.log(taskId)
-    userService.getById(userId).then(user => {
-      return user;
-    }).then((user) => {
-      if (!user) {
-        res.send('No user!')
-        return
-      }
-      taskService.getById(taskId)
-        .then(task => {
-          if (task.directorId === user.directorId || task.directorId === user._id) {
-            res.json(task)
-          }
-          else {
-            res.send('Not allowed!')
-          }
-        })
-    })
+    userService.getById(userId)
+      .then(user => {
+        return user;
+      }).then((user) => {
+        if (!user) {
+          res.send('No user!')
+          return
+        }
+        taskService.getById(taskId)
+          .then(task => {
+            if (task.directorId === user.directorId || task.directorId === user._id) {
+              res.json(task)
+            }
+            else {
+              res.send('Not allowed!')
+            }
+          })
+      })
   })
 
   // Post new task
   app.post(`${API_URL}`, (req, res) => {
     const task = req.body
     console.log(task)
-    taskService.add(task).then(task => {
-      res.json(task);
-    })
+    taskService.add(task)
+      .then(task => {
+        res.json(task);
+      })
   })
+
+  // Delete task
+  app.delete(`${API_URL}/:taskId`, (req, res) => {
+    const userId = req.session.userId
+    const taskId = req.params.taskId
+    taskService.getById(taskId)
+      .then(task => {
+        if (task.directorId === userId) {
+          taskService.remove(taskId)
+            .then(() => {
+              res.status(200);
+              res.send('Deleted ' + taskId);
+            })
+        }
+        else {
+          res.status(400);
+          res.send('Not allowed!')
+        }
+      })
+  })
+
 }
 
 module.exports = addTaskRoutes
