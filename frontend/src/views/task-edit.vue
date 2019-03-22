@@ -17,10 +17,9 @@
           </el-form-item>
           <el-form-item label="Urgent task?">
             <el-switch type="checkbox" v-model="taskToEdit.isUrgent"></el-switch>
-          </el-form-item>
+          </el-form-item> 
           <el-form-item label="Due to">
             <el-date-picker
-            
               v-model="taskToEdit.dueAt"
               type="datetime"
               placeholder="Select date and time"
@@ -84,7 +83,20 @@ export default {
       this.taskToEdit = taskService.getEmptyTask(this.directorId);
       console.log(this.taskToEdit);
     }
-  }
+  },
+  methods: {    
+    saveTask(){
+       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
+        console.log("Saving....", this.taskToEdit);
+        this.$store.dispatch("saveTask", this.taskToEdit)
+        .then(savedTask => {
+          console.log("saved task", savedTask);
+          this.$store.dispatch({ type: "loadTaskItems" }).then(() => {
+            this.$router.push("/");
+          });
+        });
+    }
+  },
 };
 </script>
 
