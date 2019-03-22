@@ -17,7 +17,7 @@
           </el-form-item>
           <el-form-item label="Urgent task?">
             <el-switch type="checkbox" v-model="taskToEdit.isUrgent"></el-switch>
-          </el-form-item> 
+          </el-form-item>
           <el-form-item label="Due to">
             <el-date-picker
               v-model="taskToEdit.dueAt"
@@ -27,7 +27,13 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
-          <el-button class="saveBtn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
+          <el-button class="save-btn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
+          <el-button
+            v-if="taskToEdit._id"
+            class="remove-btn"
+            type="secondary"
+            @click.native.prevent="removeTask"
+          >Delete Task</el-button>
         </el-form>
       </div>
     </div>
@@ -61,6 +67,7 @@
 <script>
 import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
+import utilService from "../services/util-service.js";
 
 export default {
   name: "taskEdit",
@@ -74,32 +81,36 @@ export default {
   async created() {
     let taskId = this.$route.params.taskId;
     this.directorId = this.$store.getters.currDirectorId;
-    console.log('DIRECTOR ID:',this.directorId)
+    console.log("DIRECTOR ID:", this.directorId);
     console.log("taskId", taskId);
     if (taskId) {
-      this.taskToEdit = await this.$store.dispatch({
+      let taskToEdit = await this.$store.dispatch({
         type: "loadTask",
         taskId
       });
+      this.taskToEdit = utilService.deepCopy(taskToEdit)
+      console.log('COPIED:',this.taskToEdit)
     } else {
       this.taskToEdit = taskService.getEmptyTask(this.directorId);
-      console.log('EMPTY TASK WITH DIRECTOR ID:',this.taskToEdit);
+      console.log("EMPTY TASK WITH DIRECTOR ID:", this.taskToEdit);
     }
   },
-  methods: {    
-    saveTask(){
-       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
-        console.log("Saving....", this.taskToEdit);
-        this.taskToEdit.dueAt = new Date(this.taskToEdit.duaAt)
-        this.$store.dispatch("saveTask", this.taskToEdit)
-        .then(savedTask => {
-          console.log("saved task", savedTask);
-          this.$store.dispatch({ type: "loadActiveTasks" }).then(() => {
-            this.$router.push("/app/tasks");
-          });
+  methods: {
+    saveTask() {
+      if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
+      this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
+        this.$store.dispatch({ type: "loadActiveTasks" }).then(() => {
+          this.$router.push("/app/tasks");
         });
+      });
+    },
+    removeTask() {
+      console.log("DELETE!", this.taskToEdit._id);
+      this.$store.dispatch("removeTask", this.taskToEdit._id).then(() => {
+        this.$router.push("/app/tasks");
+      });
     }
-  },
+  }
 };
 </script>
 
@@ -113,7 +124,7 @@ export default {
 .task-edit-container {
   flex-grow: 1;
   margin: 20px;
-  max-width: 500px
+  max-width: 500px;
 }
 .saveBtn {
   position: absolute;

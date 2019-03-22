@@ -24,6 +24,7 @@ function addUserRoutes(app) {
         console.log(req.session.userId)
         res.send(req.session.userId)
     })
+    
 }
 
 module.exports = addUserRoutes;

@@ -27,7 +27,6 @@ function addTaskRoutes(app) {
   app.get(`${API_URL}/:taskId`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
-    console.log(taskId)
     userService.getById(userId)
       .then(user => {
         return user;
@@ -51,7 +50,6 @@ function addTaskRoutes(app) {
   // Post new task
   app.post(`${API_URL}`, (req, res) => {
     const task = req.body
-    console.log(task)
     taskService.add(task)
       .then(task => {
         res.json(task);
@@ -75,6 +73,49 @@ function addTaskRoutes(app) {
           res.status(400);
           res.send('Not allowed!')
         }
+      })
+  })
+
+  // Update task
+  app.put(`${API_URL}`, (req, res) => {
+    const task = req.body
+    console.log('now:', task._id)
+    taskService.update(task)
+      .then(() => res.json(task))
+  })
+
+  //Own Task
+  app.get(`${API_URL}/own/:taskId`, (req, res) => {
+    const userId = req.session.userId
+    const taskId = req.params.taskId
+    taskService.getById(taskId)
+      .then(task => {
+        userService.getById(userId)
+          .then(user => {
+            if (task.directorId === user.directorId) {
+              task.helperId = userId
+              taskService.update(task).then(task => {
+                res.json(task)
+              })
+            }
+          })
+      })
+  })
+
+  app.get(`${API_URL}/pass/:taskId`, (req, res) => {
+    const userId = req.session.userId
+    const taskId = req.params.taskId
+    taskService.getById(taskId)
+      .then(task => {
+        userService.getById(userId)
+          .then(user => {
+            if (task.directorId === user.directorId && task.helperId === userId) {
+              task.helperId = null
+              taskService.update(task).then(task => {
+                res.json(task)
+              })
+            }
+          })
       })
   })
 }

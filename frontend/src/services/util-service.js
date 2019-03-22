@@ -3,9 +3,12 @@ export default {
     getRandomIntInclusive,
     getRandomId,
     createDummyData,
-    getJsonData
+    getJsonData,
+    deepCopy
 }
-
+function deepCopy(item){
+    return JSON.parse(JSON.stringify(item))
+}
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
