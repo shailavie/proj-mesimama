@@ -6,7 +6,7 @@ const API_URL = '/api/tasks'
 function addTaskRoutes(app) {
   // Get all tasks for the user
   app.get(`${API_URL}`, (req, res) => {
-    const userId = req.session.userIdy
+    const userId = req.session.userId
     userService.getById(userId).then(user => {
       return user
     })
