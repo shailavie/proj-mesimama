@@ -79,7 +79,7 @@ export default new Vuex.Store({
     async setTaskHelper(context, taskId) {
       await taskService.setTaskHelper(taskId, context.state.user._id)
       context.commit({ type: 'setTaskHelper', taskId, helperId: context.state.user._id })
-      socketService.emit('owningTask',taskId,context.state.user)
+      socketService.emit('owningTask', taskId, context.state.user)
       console.log('task is owned')
     },
     async clearTaskHelper(context, taskId) {
@@ -95,7 +95,7 @@ export default new Vuex.Store({
       } else {
         console.log('new task')
         let newTask = await taskService.addTask(task)
-      socketService.emit("addedTask", newTask);        
+        socketService.emit("addedTask", newTask);
         context.commit({ type: 'addTask', newTask })
         console.log('STORE DONE ADDING NEW TASK')
       }
