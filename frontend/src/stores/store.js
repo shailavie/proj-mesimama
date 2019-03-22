@@ -24,6 +24,10 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    removeTask(state,taskId){
+      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
+      state.taskItems.splice(taskIdx,1)
+    },
     addTask(state, newTask) {
       state.taskItems.unshift(newTask)
     },
@@ -36,15 +40,17 @@ export default new Vuex.Store({
     setTaskHelper(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
       state.taskItems[taskIdx].helperId = state.user._id
-      // console.log(state.user.name, ' took Helpership over task ', taskId)
     },
     clearTaskHelper(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
       state.taskItems[taskIdx].helperId = null
-      console.log('TASK ABANDONED!')
     }
   },
   actions: {
+    async removeTask(context, taskId){
+      await taskService.removeTask(taskId)
+      context.commit({type: 'removeTask', taskId})
+    },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
       context.commit({ type: 'setCurrUser', currUser })
@@ -56,34 +62,28 @@ export default new Vuex.Store({
         })
     },
     async loadTask(context, { taskId }) {
-      console.log('inside store', taskId)
       let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
       if (taskIdx !== -1) {
         var task = context.state.taskItems[taskIdx]
-        console.log('task was found', task)
         return task
       } else {
-        console.log('couldnt find task in store (idx:,', taskIdx, ') fetching from service')
         var task = await taskService.getTaskById(taskId)
-        console.log('task was found', task)
         return task
       }
     },
     async setTaskHelper(context, taskId) {
       await taskService.setTaskHelper(taskId, context.state.user._id)
       context.commit({ type: 'setTaskHelper', taskId, helperId: context.state.user._id })
-      console.log('task is owned')
     },
     async clearTaskHelper(context, taskId) {
       await taskService.clearTaskHelper(taskId)
       context.commit({ type: 'clearTaskHelper', taskId })
-      console.log('store action : task is passed')
     },
     async saveTask(context, task) {
       if (task._id) {
         console.log('STORE GOT TASK:', task)
-        let updatedTask = await taskService.saveTask(task)
-        context.commit({ type: 'saveTask', updatedTask })
+        let updatedTask = await taskService.updateTask(task)
+        context.commit({ type: 'updateTask', updatedTask })
         console.log('STORE DONE UPDATING NEW TASK')
       } else {
         console.log('new task')
