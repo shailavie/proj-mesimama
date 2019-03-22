@@ -1,6 +1,7 @@
 const taskService = require('../services/task-service.js')
 const userService = require('../services/user-service.js')
 
+
 const API_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
@@ -56,6 +57,7 @@ function addTaskRoutes(app) {
     console.log(task)
     taskService.add(task)
       .then(task => {
+        //TODO- SOCKET :)
         res.json(task);
       })
   })

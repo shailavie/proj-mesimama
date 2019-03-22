@@ -1,5 +1,7 @@
 
 import ioClient from 'socket.io-client'
+import Vue from 'vue'
+
 var socket = ioClient('//localhost:3003');
 
 // AFTER MERGE, IMPORT UTIL AND USER THE ID MAKER THERE!
@@ -8,7 +10,6 @@ import storgeService from './storage.service.js';
 
 const msgs = []
 
-import Vue from 'vue'
 
 
 

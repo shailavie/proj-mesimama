@@ -3,10 +3,6 @@
 
 <template>
   <section class="login">
-    <!-- <select v-model="role">
-      <option value="5c93538ced3d88a4b25d83ad">Helper</option>
-      <option value="5c93538ced3d88a4b25d83ac">Director</option>
-    </select>-->
     <div class="container">
       <h1>Welcome Friends and Family!</h1>
       <h2>Thank god you came! we need at least 4-5 more hands on deck!</h2>
@@ -25,9 +21,12 @@
         </div>
       </div>
     </div>
-    <!-- {{input.password}}----{{input.email}}
+    <select v-model="role">
+      <option value="5c93538ced3d88a4b25d83ad">Helper</option>
+      <option value="5c93538ced3d88a4b25d83ac">Director</option>
+    </select>
     <button @click="setRole">Set Role</button>
-    <button @click="printSession">Print session</button> -->
+    <button @click="printSession">Print session</button>
   </section>
 </template>
 
