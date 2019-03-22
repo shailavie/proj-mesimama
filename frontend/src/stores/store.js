@@ -42,11 +42,11 @@ export default new Vuex.Store({
     setTaskItems(state, { tasks }) {
       state.taskItems = tasks
     },
-    setTaskHelper(state, { taskId }) {
+    ownTask(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
       state.taskItems[taskIdx].helperId = state.user._id
     },
-    clearTaskHelper(state, { taskId }) {
+    passTask(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
       state.taskItems[taskIdx].helperId = null
     }
@@ -76,15 +76,15 @@ export default new Vuex.Store({
         return task
       }
     },
-    async setTaskHelper(context, taskId) {
-      await taskService.setTaskHelper(taskId, context.state.user._id)
-      context.commit({ type: 'setTaskHelper', taskId, helperId: context.state.user._id })
+    async ownTask(context, taskId) {
+      await taskService.ownTask(taskId, context.state.user._id)
+      context.commit({ type: 'ownTask', taskId, helperId: context.state.user._id })
       socketService.emit('owningTask', taskId, context.state.user)
       console.log('task is owned')
     },
-    async clearTaskHelper(context, taskId) {
-      await taskService.clearTaskHelper(taskId)
-      context.commit({ type: 'clearTaskHelper', taskId })
+    async passTask(context, taskId) {
+      await taskService.passTask(taskId)
+      context.commit({ type: 'passTask', taskId })
     },
     async saveTask(context, task) {
       if (task._id) {
