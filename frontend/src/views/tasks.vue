@@ -108,8 +108,8 @@ export default {
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
     },
-    passTask(taskId) {
-      this.$store.dispatch("passTask", taskId);
+    passTask(task) {
+      this.$store.dispatch("passTask", task);
     },
     toggleTasks() {
       this.showMyTasks = !this.showMyTasks;
