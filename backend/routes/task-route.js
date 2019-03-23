@@ -32,6 +32,7 @@ function addTaskRoutes(app) {
         return user;
       }).then((user) => {
         if (!user) {
+          res.code(400)
           res.send('No user!')
           return
         }
@@ -41,6 +42,7 @@ function addTaskRoutes(app) {
               res.json(task)
             }
             else {
+              res.code(403)
               res.send('Not allowed!')
             }
           })
@@ -70,7 +72,7 @@ function addTaskRoutes(app) {
             })
         }
         else {
-          res.status(400);
+          res.status(403);
           res.send('Not allowed!')
         }
       })
