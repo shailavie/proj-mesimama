@@ -1,7 +1,7 @@
 <template>
   <section class="task-list-page">
     <router-link to="/app/edit">
-      <button class="add-task-btn">Add Task</button>
+    <button class="add-task-btn">+</button>
     </router-link>
     <div class="toggle-tasks-container">
       <el-switch

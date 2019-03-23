@@ -23,7 +23,7 @@
               v-model="taskToEdit.dueAt"
               type="datetime"
               placeholder="Select date and time"
-              picker-options="pickerOptions1"
+              :picker-options="pickerOptions"
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
@@ -74,7 +74,13 @@ export default {
   components: {},
   data() {
     return {
-      taskToEdit: null
+      taskToEdit: null,
+      directorId: null,
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      }
     };
   },
   async created() {
