@@ -37,7 +37,7 @@ export default {
         this.$emit("task-passed", this.task);
       }
     },
-    editTask(taskId){
+    editTask(taskId) {
       this.$emit("task-edit", taskId);
     }
   },
@@ -64,10 +64,9 @@ export default {
     },
     userProfilePicSrc() {
       if (this.task.helperId) {
-        let user = this.$store.getters.currUser
-        return user.imgSrc
-      } else
-      return ''
+        let user = this.$store.getters.currUser;
+        return user.imgSrc;
+      } else return "";
     }
   }
 };
@@ -78,14 +77,16 @@ export default {
   position: relative;
   width: 300px;
   margin: 15px;
-  border: 1px solid rgb(192, 188, 188);
+  border: 1px solid rgba(0, 0, 0, 0.03);
   font-size: 30px;
   flex-grow: 1;
   margin: 20px;
   max-width: 500px;
-  background-color: #fcf7b7;
+  background-color: #fffdda;
+  padding: 15px;
+  border-radius: 5px;
   padding: 20px;
-  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 .task-status-containter {
   margin: 10px 0;
