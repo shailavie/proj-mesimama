@@ -6,7 +6,6 @@
             @task-passed="passTask($event)"
             @task-edit="editTask($event)"
           ></task-preview>
-    </div>
     <task-comments :comments="comments"></task-comments>
   </section>
 </template>

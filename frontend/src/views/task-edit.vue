@@ -23,7 +23,7 @@
               v-model="taskToEdit.dueAt"
               type="datetime"
               placeholder="Select date and time"
-              picker-options="pickerOptions1"
+              :picker-options="pickerOptions"
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
@@ -75,7 +75,12 @@ export default {
   data() {
     return {
       taskToEdit: null,
-      directorId: null
+      directorId: null,
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      }
     };
   },
   async created() {
@@ -88,13 +93,13 @@ export default {
         type: "loadTask",
         taskId
       });
-      this.taskToEdit = utilService.deepCopy(taskToEdit)
-      console.log('COPIED:',this.taskToEdit)
+      this.taskToEdit = utilService.deepCopy(taskToEdit);
+      console.log("COPIED:", this.taskToEdit);
     } else {
       this.taskToEdit = taskService.getEmptyTask(this.directorId);
       console.log("EMPTY TASK WITH DIRECTOR ID:", this.taskToEdit);
     }
-  }, 
+  },
   methods: {
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
