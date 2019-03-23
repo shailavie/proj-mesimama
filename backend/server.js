@@ -69,6 +69,9 @@ io.on('connection', socket => {
         console.log(socket.id, '    socket ID')
        io.emit('taskAcomplished',data)
     })
+    socket.on('urgentTask',task =>{
+        socket.broadcast.emit('publishUrgent',task)
+    })
 
     socket.on('login', userId => {
         socket.userId = userId
