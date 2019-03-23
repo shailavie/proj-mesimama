@@ -37,9 +37,9 @@ export default {
       console.log("task list: task is owened", taskId);
       this.$emit("task-owned", taskId);
     },
-    passTask(taskId) {
-      console.log("task list: task is PASSED", taskId);
-      this.$emit("task-passed", taskId);
+    passTask(task) {
+      console.log("task list: task is PASSED", task.name);
+      this.$emit("task-passed", task);
     },
     editTask(taskId) {
       this.$emit("task-edit", taskId);

@@ -34,7 +34,7 @@ export default {
         this.$emit("task-owned", taskId);
       } else {
         console.log("task is PASSED", taskId);
-        this.$emit("task-passed", taskId);
+        this.$emit("task-passed", this.task);
       }
     },
     editTask(taskId){

@@ -38,8 +38,8 @@ export default new Vuex.Store({
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
       state.taskItems[taskIdx].helperId = state.currUser._id
     },
-    passTask(state, { taskId }) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
+    passTask(state, { task }) {
+      let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
       state.taskItems[taskIdx].helperId = null
     }
   },
@@ -47,6 +47,7 @@ export default new Vuex.Store({
     async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
       context.commit({ type: 'c', taskId })
+      socketService.emit('reloadTasks')
       Vue.notify({
         group: 'foo',
         title: 'Task was deleted! ',
@@ -81,9 +82,12 @@ export default new Vuex.Store({
       socketService.emit('owningTask', taskId, context.state.currUser)
       console.log('task is owned')
     },
-    async passTask(context, taskId) {
-      await taskService.passTask(taskId)
-      context.commit({ type: 'passTask', taskId })
+    async passTask(context, task) {
+      var id= task._id
+      await taskService.passTask(id)
+      context.commit({ type: 'passTask', task })
+      socketService.emit('taskPassed',task)
+
     },
     async saveTask(context, task) {
       if (task._id) {
