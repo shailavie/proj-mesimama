@@ -9,7 +9,8 @@
 
 body {
   margin: 0;
-  // font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
+  background: #fafafa;
 }
 
 ul {
@@ -25,7 +26,7 @@ li {
 header {
   position: fixed;
   background: #fff;
-  background-color:white;
+  background-color: white;
   width: 100vw;
   top: 0;
   left: 0;
@@ -62,6 +63,7 @@ footer {
 }
 
 header {
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
 }
 
 .header-container {
@@ -69,7 +71,7 @@ header {
   justify-content: space-between;
   align-items: stretch;
   padding: 10px 0;
-  height: 60px;
+  height: 70px;
 }
 
 .header-logo {
@@ -80,21 +82,42 @@ header {
 
 // Nav
 
+.header-container .main-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 220px;
+}
+
 .header-container nav {
   background-color: #fff;
   display: flex;
   justify-content: space-evenly;
   align-items: stretch;
+  flex-basis: 160px;
 }
 
 @media (max-width: 768px) {
+  .header-container .main-nav {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: unset;
+
+    .item-tasks {
+      order: unset;
+    }
+
+    .notifications-badge {
+      top: 12px;
+    }
+  }
+
   .header-container nav {
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 80px;
+    height: 60px;
     width: 100vw;
-    border-top: 1px solid #ececec;
+    border-top: 1px solid rgba(0, 0, 0, 0.0975);
   }
 }
 
@@ -112,8 +135,12 @@ header {
   align-items: center;
 }
 .nav-item-icon {
-  width: 32px;
+  width: 25px;
   height: auto;
+}
+
+.item-tasks {
+  order: -1;
 }
 
 // .nav-item.user .nav-item-icon {
@@ -126,12 +153,12 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   border-radius: 50%;
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
   left: -4px;
-  top: 15px;
+  top: 8px;
   background: red;
   color: #fff;
 }

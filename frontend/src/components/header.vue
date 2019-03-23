@@ -2,73 +2,70 @@
   <div class="wrapper">
     <div class="header-container">
       <div class="header-logo">Mesimama</div>
-      <nav>
-        <span class="nav-item notifications">
-          <router-link to="/app/notifications">
-            <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
-            <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span>
-          </router-link>
-        </span>
-        <span class="nav-item tasks">
-          <router-link to="/app/tasks">
-            <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
-          </router-link>
-        </span>
-        <span class="nav-item chat">
-          <router-link to="/app/chat">
-            <img src="@/assets/icons/chat.svg" class="nav-item-icon">
-          </router-link>
-        </span>
-      </nav>
-      <div class="user-msg">
-        <span>
-         {{userMsg}}
-        </span>
-        <span class="nav-item user">
-          <router-link to="/app/my-account">
-            <img class="user-avatar" :src="avatarSrc">
-          </router-link>
-        </span>
+      <div class="main-nav">
+        <nav>
+          <span class="nav-item">
+            <router-link to="/app/chat">
+              <img src="@/assets/icons/chat.svg" class="nav-item-icon">
+            </router-link>
+          </span>
+          <span class="nav-item item-tasks">
+            <router-link to="/app/tasks">
+              <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
+            </router-link>
+          </span>
+          <span class="nav-item">
+            <router-link to="/app/notifications">
+              <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
+              <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span>
+            </router-link>
+          </span>
+        </nav>
+        <div class="current-user" v-if="currUser">
+          <span class="nav-item user">
+            <router-link to="/app/my-account">
+              <user-avatar :url="avatarUrl"/>
+            </router-link>
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import userAvatar from "@/components/user-avatar-cmp.vue";
+
 export default {
+  components: {
+    userAvatar
+  },
   data() {
-    return {
-      user: null
-    };
+    return {};
   },
   created() {
     this.user = this.$store.getters.currUser;
   },
   computed: {
     notificationsCount() {
-      return this.$store.getters.notificationsCount;
+      return 2;
     },
-    avatarSrc() {
-      return this.user.imgSrc;
+    currUser() {
+      return this.$store.getters.currUser;
     },
-    userMsg() {
-      return `Hello ${this.user.name}`;
+    avatarUrl() {
+      return this.currUser.avatarUrl;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.user-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 100px;
-  margin-left: 10px;
-}
 .user-msg {
   display: flex;
   align-items: center;
+  align-self: center;
+  margin-right: 10px;
 }
- 
 </style>
 

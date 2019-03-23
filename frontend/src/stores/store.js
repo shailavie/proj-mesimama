@@ -14,15 +14,7 @@ export default new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-    currUser: null,
-    // directorId: 'mom1', //TO DO - GET ALL THIS FROM SESSION
-    user: { //TO DO - GET ALL THIS FROM SESSION
-      name: "Saba Zion",
-      directorId: 'mom1',
-      _id: 'j3F4fd',
-      score: 138,
-      imgSrc: "/img/users/grampa.jpeg"
-    },
+    currUser: null
   },
   mutations: {
     updateTask(state, { updatedTask }) {
@@ -44,7 +36,7 @@ export default new Vuex.Store({
     },
     ownTask(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      state.taskItems[taskIdx].helperId = state.user._id
+      state.taskItems[taskIdx].helperId = state.currUser._id
     },
     passTask(state, { task }) {
       let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
@@ -85,9 +77,9 @@ export default new Vuex.Store({
       }
     },
     async ownTask(context, taskId) {
-      await taskService.ownTask(taskId, context.state.user._id)
-      context.commit({ type: 'ownTask', taskId, helperId: context.state.user._id })
-      socketService.emit('owningTask', context.state.user)
+      await taskService.ownTask(taskId, context.state.currUser._id)
+      context.commit({ type: 'ownTask', taskId, helperId: context.state.currUser._id })
+      socketService.emit('owningTask', taskId, context.state.currUser)
       console.log('task is owned')
     },
     async passTask(context, task) {
@@ -125,10 +117,10 @@ export default new Vuex.Store({
       return state.taskItems
     },
     currUserId(state) {
-      return state.user._id
+      return state.currUser._id
     },
     currUser(state) {
-      return state.user
+      return state.currUser
     },
     currDirectorId(state) {
       return (state.currUser.isDirector) ? state.currUser._id : state.currUser.directorId

@@ -79,6 +79,13 @@ export default {
   width: 300px;
   margin: 15px;
   border: 1px solid rgb(192, 188, 188);
+  font-size: 30px;
+  flex-grow: 1;
+  margin: 20px;
+  max-width: 500px;
+  background-color: #fcf7b7;
+  padding: 20px;
+  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
 }
 .task-status-containter {
   margin: 10px 0;
