@@ -10,7 +10,7 @@ export default {
   created(){
     this.$store.dispatch({type: 'setCurrUser'})
     .then(()=>{
-      console.log('WE HAVE USER!')
+      // console.log('WE HAVE USER!')
     })
   }
 }

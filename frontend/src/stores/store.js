@@ -31,8 +31,8 @@ export default new Vuex.Store({
     setCurrUser(state, { currUser }) {
       state.currUser = currUser
     },
-    setTaskItems(state, { tasks }) {
-      state.taskItems = tasks
+    setTaskItems(state, { activeTasks }) {
+      state.taskItems = activeTasks
     },
     ownTask(state, { taskId }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
@@ -46,13 +46,14 @@ export default new Vuex.Store({
   actions: {
     async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
-      context.commit({ type: 'c', taskId })
+      context.commit({ type: 'removeTask', taskId })
+      context.dispatch({type: 'loadActiveTasks'})
       socketService.emit('reloadTasks')
       Vue.notify({
         group: 'foo',
         title: 'Task was deleted! ',
         type: 'warn',
-        classes:'vue-notification',
+        classes: 'vue-notification',
         text: `Maybe think of a new one?  `
       })
     },
@@ -60,11 +61,9 @@ export default new Vuex.Store({
       let currUser = await userService.getCurrUser()
       context.commit({ type: 'setCurrUser', currUser })
     },
-    loadActiveTasks(context) {
-      taskService.query()
-        .then(tasks => {
-          context.commit({ type: 'setTaskItems', tasks })
-        })
+    async loadActiveTasks(context) {
+      let activeTasks = await taskService.query()
+      context.commit({ type: 'setTaskItems', activeTasks })
     },
     async loadTask(context, { taskId }) {
       let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
@@ -83,34 +82,29 @@ export default new Vuex.Store({
       console.log('task is owned')
     },
     async passTask(context, task) {
-      var id= task._id
+      var id = task._id
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
-      socketService.emit('taskPassed',task)
+      socketService.emit('taskPassed', task)
 
     },
     async saveTask(context, task) {
       if (task._id) {
-        console.log('STORE GOT TASK:', task)
         let updatedTask = await taskService.updateTask(task)
         context.commit({ type: 'updateTask', updatedTask })
         Vue.notify({
           group: 'foo',
           title: 'Task was updated! ',
-          // type: 'success',
-          classes:'vue-notification',
+          classes: 'vue-notification',
           text: `Good job, keep it up! `
         })
-        if (task.isUrgent) socketService.emit('urgentTask',task)
-        console.log('STORE DONE UPDATING NEW TASK')
+        if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
-        console.log('new task')
         let newTask = await taskService.addTask(task)
         socketService.emit("addedTask", newTask);
         context.commit({ type: 'addTask', newTask })
-        console.log('STORE DONE ADDING NEW TASK')
       }
-    }
+    },
   },
   getters: {
     filteredTasks(state) {

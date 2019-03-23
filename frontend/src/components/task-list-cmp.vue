@@ -15,6 +15,7 @@
             @task-owned="ownTask($event)"
             @task-passed="passTask($event)"
             @task-edit="editTask($event)"
+            @task-remove="removeTask($event)"
           ></task-preview>
         </li>
       </ul>
@@ -43,6 +44,9 @@ export default {
     },
     editTask(taskId) {
       this.$emit("task-edit", taskId);
+    },
+    removeTask(taskId) {
+      this.$emit("task-remove", taskId);
     }
   }
 };

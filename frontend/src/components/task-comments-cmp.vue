@@ -7,9 +7,10 @@
           <comment-preview :comment="currComment"></comment-preview>
         </li>
       </ul>
-      <div class="add-comment-container">
-        <img class="user-avater" :src="comments[0].userImg" alt>
-        <el-input placeholder="Enter comment"/>
+      <div v-show="newCommentToEdit" class="add-comment-container">
+        <user-avater-cmp class="user-avater-cmp" :url="user.avatarUrl"/>
+        <el-input v-model="newCommentToEdit.txt" placeholder="Enter comment"/>
+        <el-button type="primary" icon="el-icon-d-arrow-right" @click="addNewComment" circle></el-button>
       </div>
     </div>
   </section>
@@ -17,53 +18,56 @@
 
 <script>
 import commentPreview from "./comment-preview-cmp.vue";
+import userAvaterCmp from "./user-avatar-cmp.vue";
+import utilService from '../services/util-service.js';
 
 export default {
-  name: "taskComments",
-  props: ["comments"],
+  name: "taskCommentsCmp",
+  props: ["comments", "newComment", "user"],
   components: {
-    commentPreview
-  },
-  created(){
-      this.newComment = ''
+    commentPreview,
+    userAvaterCmp
   },
   data(){
-      return {
-          newComment : {
-          _id: "21312",
-          userId: "4234gd",
-          userImg:'https://pickaface.net/gallery/avatar/alyssa.luck.5653c47e3a515ee.png',
-          userName : 'Yair',
-          txt: "I'm on it!",
-          createdAt: Date.now(),
-          likes: 1
-        },
-      }
+    return {
+      newCommentToEdit : null,
+    }
   },
-  methods: {},
+  created(){
+    console.log('got this from papa',this.newComment)
+    this.newCommentToEdit = utilService.deepCopy(this.newComment)
+    // this.newCommentToEdit =  this.newComment
+    console.log('copy this!!!!',this.newCommentToEdit)
+  },
+  methods: {
+    addNewComment() {
+      this.newCommentToEdit.createdAt = Date.now()
+      console.log("adding new Comment:", this.newCommentToEdit);
+      this.$emit("task-new-comment", this.newCommentToEdit);
+      this.newCommentToEdit.txt = 'Enter comment'
+
+    }
+  },
   computed: {}
 };
 </script>
 
 <style scoped lang="scss">
 .task-comments-container {
-  width: 300px;
+  width: 400px;
   height: auto;
   padding: 20px;
   background-color: whitesmoke;
   border-radius: 8px;
   margin: 10px;
 }
-.user-avater {
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
-  border: 1px solid gray;
-  margin-right: 15px;
-}
 .add-comment-container {
   padding: 10px;
   display: flex;
+  justify-content: space-between;
+}
+.user-avater-cmp {
+  margin-right: 10px;
 }
 </style>
 
