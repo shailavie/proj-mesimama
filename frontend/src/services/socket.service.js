@@ -84,6 +84,16 @@ function connectSocket() {
 		})
 	})
 
+	socket.on('publishUrgent',task =>{
+		Vue.notify({
+			group: 'foo',
+			title: 'Urgent task alert!',
+			type: 'error',
+			classes:'vue-notification',
+			text: `See if you can help out `
+		})
+	})
+
 }
 
 function send(msg) {

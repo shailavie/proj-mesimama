@@ -55,6 +55,13 @@ export default new Vuex.Store({
     async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
       context.commit({ type: 'c', taskId })
+      Vue.notify({
+        group: 'foo',
+        title: 'Task was deleted! ',
+        type: 'warn',
+        classes:'vue-notification',
+        text: `Maybe think of a new one?  `
+      })
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
@@ -91,6 +98,14 @@ export default new Vuex.Store({
         console.log('STORE GOT TASK:', task)
         let updatedTask = await taskService.updateTask(task)
         context.commit({ type: 'updateTask', updatedTask })
+        Vue.notify({
+          group: 'foo',
+          title: 'Task was updated! ',
+          // type: 'success',
+          classes:'vue-notification',
+          text: `Good job, keep it up! `
+        })
+        if (task.isUrgent) socketService.emit('urgentTask',task)
         console.log('STORE DONE UPDATING NEW TASK')
       } else {
         console.log('new task')
