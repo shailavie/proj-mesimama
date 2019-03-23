@@ -1,10 +1,10 @@
 const taskService = require('../services/task-service.js')
 const userService = require('../services/user-service.js')
-const API_URL = '/api/tasks'
+const BASE_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
   // Get all tasks for the user
-  app.get(`${API_URL}`, (req, res) => {
+  app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId
     userService.getById(userId).then(user => {
       return user
@@ -24,7 +24,7 @@ function addTaskRoutes(app) {
   })
 
   // Get task by id
-  app.get(`${API_URL}/:taskId`, (req, res) => {
+  app.get(`${BASE_URL}/:taskId`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
     userService.getById(userId)
@@ -50,7 +50,7 @@ function addTaskRoutes(app) {
   })
 
   // Post new task
-  app.post(`${API_URL}`, (req, res) => {
+  app.post(`${BASE_URL}`, (req, res) => {
     const task = req.body
     taskService.add(task)
       .then(task => {
@@ -59,7 +59,7 @@ function addTaskRoutes(app) {
   })
 
   // Delete task
-  app.delete(`${API_URL}/:taskId`, (req, res) => {
+  app.delete(`${BASE_URL}/:taskId`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
     taskService.getById(taskId)
@@ -79,7 +79,7 @@ function addTaskRoutes(app) {
   })
 
   // Update task
-  app.put(`${API_URL}`, (req, res) => {
+  app.put(`${BASE_URL}`, (req, res) => {
     const task = req.body
     console.log('now:', task._id)
     taskService.update(task)
@@ -87,7 +87,7 @@ function addTaskRoutes(app) {
   })
 
   //Own Task
-  app.get(`${API_URL}/own/:taskId`, (req, res) => {
+  app.get(`${BASE_URL}/own/:taskId`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
     taskService.getById(taskId)
@@ -104,7 +104,8 @@ function addTaskRoutes(app) {
       })
   })
 
-  app.get(`${API_URL}/pass/:taskId`, (req, res) => {
+  // Pass a task
+  app.get(`${BASE_URL}/pass/:taskId`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
     taskService.getById(taskId)

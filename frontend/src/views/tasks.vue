@@ -95,13 +95,13 @@ export default {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId === null
       ).length;
-      return `All Tasks (${allTasksCount})`;
+      return `All (${allTasksCount})`;
     },
     myTasksCount() {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId !== null
       ).length;
-      return `My Tasks (${allTasksCount})`;
+      return `Mine (${allTasksCount})`;
     }
   },
   methods: {
