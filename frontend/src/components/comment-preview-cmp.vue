@@ -1,24 +1,36 @@
  
 <template>
-  <section>
+  <section v-if="user">
     <div class="comment-container">
-      <img class="user-avater" :src="comment.userImg" alt>
+      <user-avater-cmp :url="user.avatarUrl"/>
       <div class="comment-body">
+        <h4>{{user.name}}</h4>
         <h3>{{comment.txt}}</h3>
-        <h6>
-          {{comment.likes}}
-          | {{comment.createdAt | moment("from","now")}}
-          <span></span>
-        </h6>
-      </div>
+        <h6>{{comment.createdAt | moment("from","now")}}</h6>
+      </div> 
     </div>
   </section>
 </template>
 
 <script>
+import userService from "../services/user.service.js";
+import userAvaterCmp from "./user-avatar-cmp.vue";
+
 export default {
   name: "commentPreview",
   props: ["comment"],
+  components: {
+    userAvaterCmp
+  },
+  data() {
+    return {
+      user: null
+    };
+  },
+  async created() {
+    let user = await userService.getUserById(this.comment.userId);
+    this.user = user;
+  },
   methods: {},
   computed: {}
 };
@@ -41,10 +53,11 @@ export default {
 .comment-body {
   margin-left: 15px;
   // background-color: red;
-  
 }
-h3 ,h6{
-  margin: 0;
+h3,
+h4,
+h6 {
+  margin: 4px 0;
 }
 </style>
 

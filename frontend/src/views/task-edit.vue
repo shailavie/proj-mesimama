@@ -85,8 +85,6 @@ export default {
   },
   async created() {
     let taskId = this.$route.params.taskId;
-    this.directorId = this.$store.getters.currDirectorId;
-    console.log("DIRECTOR ID:", this.directorId);
     console.log("taskId", taskId);
     if (taskId) {
       let taskToEdit = await this.$store.dispatch({
@@ -94,15 +92,14 @@ export default {
         taskId
       });
       this.taskToEdit = utilService.deepCopy(taskToEdit);
-      console.log("COPIED:", this.taskToEdit);
     } else {
-      this.taskToEdit = taskService.getEmptyTask(this.directorId);
-      console.log("EMPTY TASK WITH DIRECTOR ID:", this.taskToEdit);
+      this.taskToEdit = taskService.getEmptyTask();
     }
   },
   methods: {
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
+      this.taskToEdit.directorId = this.$store.getters.currDirectorId;
       this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
         this.$store.dispatch({ type: "loadActiveTasks" }).then(() => {
           this.$router.push("/app/tasks");

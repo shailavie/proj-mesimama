@@ -1,4 +1,4 @@
-import util from './util-service.js'
+import utilService from './util-service.js'
 import Axios from "axios";
 
 var axios = Axios.create({
@@ -8,11 +8,12 @@ export default {
     query,
     addTask,
     updateTask,
+    removeTask,
     ownTask,
     passTask,
     getEmptyTask,
     getTaskById,
-    removeTask
+    getEmptyComment,
 }
 
 const BASE_URL = 'http://localhost:3003/api'
@@ -62,7 +63,7 @@ function getTaskById(id) {
             })
     })
 }
-function ownTask(taskId){
+function ownTask(taskId) {
     console.log('OWNING IT!')
     return new Promise((resolve, reject) => {
         axios.get(`${BASE_URL}/tasks/own/${taskId}`)
@@ -72,7 +73,7 @@ function ownTask(taskId){
             })
     })
 }
-function passTask(taskId){
+function passTask(taskId) {
     console.log('OWNING IT!')
     return new Promise((resolve, reject) => {
         axios.get(`${BASE_URL}/tasks/pass/${taskId}`)
@@ -82,17 +83,27 @@ function passTask(taskId){
             })
     })
 }
-function getEmptyTask(directorId) {
+function getEmptyTask() {
     let emptyTask = {
         createdAt: null,
         desc: '',
         dueAt: null,
-        directorId: directorId,
+        directorId: null,
         helperId: null,
         points: 1,
         status: 'active',
         title: '',
         isUrgent: false,
+        comments: [],
     }
     return emptyTask
+}
+function getEmptyComment(userId) {
+    let emptyComment = {
+        _id: null,
+        userId: userId,
+        txt: '',
+        createdAt: null,
+    }
+    return emptyComment
 }

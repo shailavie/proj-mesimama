@@ -1,12 +1,17 @@
 <template>
   <section v-if="taskToDisplay" class="task-details-page">
-  <task-preview
-            :task="taskToDisplay"
-            @task-owned="ownTask($event)"
-            @task-passed="passTask($event)"
-            @task-edit="editTask($event)"
-          ></task-preview>
-    <task-comments :comments="comments"></task-comments>
+    <task-preview
+      :task="taskToDisplay"
+      @task-owned="ownTask($event)"
+      @task-passed="passTask($event)"
+      @task-edit="editTask($event)"
+    ></task-preview>
+    <task-comments
+      :comments="task.comments"
+      :newComment="newComment"
+      :user="currUser"
+      @task-new-comment="addNewComment($event)"
+    ></task-comments>
   </section>
 </template>
 
@@ -16,6 +21,7 @@ import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
 import taskComments from "../components/task-comments-cmp.vue";
 import taskPreview from "../components/task-preview-cmp.vue";
+import userService from "../services/user.service.js";
 
 export default {
   name: "taskDetails",
@@ -27,39 +33,21 @@ export default {
     return {
       task: null,
       currUser: null,
-      comments: [
-        {
-          _id: "21312",
-          userId: "4234gd",
-          userImg:'https://pickaface.net/gallery/avatar/alyssa.luck.5653c47e3a515ee.png',
-          userName : 'Yair',
-          txt: "I'm on it!",
-          createdAt: Date.now(),
-          likes: 1
-        },
-        {
-          _id: "21313",
-          userId: "4234gd2",
-          userImg: 'http://admissionsmom.college/wp-content/themes/admissionsmom/media/avatar_2x.png',
-          userName: 'Sara',
-          txt: "B A M A!",
-          createdAt: Date.now(),
-          likes: 0
-        }
-      ]
+      newComment: null
     };
   },
   async created() {
+    let user = await userService.getCurrUser();
     let taskId = this.$route.params.taskId;
     if (taskId) {
       this.task = await this.$store.dispatch({
         type: "loadTask",
         taskId
       });
-    } else {
-      console.log("SOMETHING WENT WRONG - TASK WAS NOT FOUND");
     }
-
+    this.currUser = user;
+    this.newComment = taskService.getEmptyComment(this.currUser._id);
+    console.log("NEW COMMENT FROM SERVICE", this.newComment);
   },
   methods: {
     ownTask(taskId) {
@@ -70,14 +58,21 @@ export default {
     },
     editTask(taskId) {
       this.$router.push("/app/edit/" + taskId);
+    },
+    addNewComment(comment) {
+      let commentCopy = utilService.deepCopy(comment)
+      commentCopy._id = utilService.makeId()
+      this.task.comments.push(commentCopy); //OPTIMISTIC
+      this.$store.dispatch("saveTask", this.task);
+      this.newComment = taskService.getEmptyComment(this.currUser._id);
     }
   },
   computed: {
     urgentTaskBadge() {
       return this.taskToDisplay.isUrgent ? "Urgent task" : "";
     },
-    taskToDisplay(){
-      return this.task
+    taskToDisplay() {
+      return this.task;
     }
   }
 };
@@ -101,10 +96,9 @@ export default {
   background-color: #fcf7b7;
   padding: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  transform: rotate(-2deg)
+  transform: rotate(-2deg);
 }
 h5 {
   font-size: 16px;
 }
-
 </style>

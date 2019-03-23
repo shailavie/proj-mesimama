@@ -23,6 +23,7 @@
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
+        @task-remove="removeTask($event)"
       ></task-list-cmp>
       <task-list-cmp
         v-if="window.width>680"
@@ -32,6 +33,7 @@
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
+        @task-remove="removeTask($event)"
       ></task-list-cmp>
       <div class="stats-panel">
         <podium-board-cmp></podium-board-cmp>
@@ -46,7 +48,6 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
-// import { Button } from "element-ui";
 export default {
   name: "tasksPage",
   components: {
@@ -75,7 +76,7 @@ export default {
   },
   computed: {
     tasksToShow() {
-      return !this.showMyTasks
+      return !this.showMyTaskss
         ? this.$store.getters.filteredTasks.filter(
             task => task.helperId === null
           )
@@ -119,6 +120,11 @@ export default {
     },
     editTask(taskId) {
       this.$router.push("edit/" + taskId);
+    },
+    removeTask(taskId) {
+      this.$store.dispatch("removeTask", taskId).then(() => {
+        this.$router.push("/app/tasks");
+      });
     }
   }
 };
