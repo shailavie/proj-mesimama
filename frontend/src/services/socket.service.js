@@ -11,7 +11,6 @@ import storgeService from './storage.service.js';
 
 const msgs = []
 
-
 export default {
 	// user, 
 	msgs,
@@ -60,10 +59,11 @@ function connectSocket() {
 		console.log('the task was owned! task:  helper: ')
 	})
 	//NEW TASK ADDED
-	socket.on('newTaskPublish', data => {
-		console.log('before notification at socket service ',data)
-		console.log(store)
-		store.dispatch({ type: "loadActiveTasks" }).then(()=>{console.log('FETCHING!!!')})
+	socket.on('newTaskPublish',what)
+
+	async function what(){
+		await refresh()
+	
 		Vue.notify({
 			group: 'foo',
 			title: 'A new task was added! ',
@@ -71,7 +71,8 @@ function connectSocket() {
 			classes:'vue-notification',
 			text: `Better go check it out! `
 		})
-	})
+	}
+
 	//TASK WAS ACOMPLISHED
 	socket.on('taskAcomplished', data => {
 		console.log('task was acomplished!!!')
@@ -84,7 +85,7 @@ function connectSocket() {
 		})
 	})
 
-	socket.on('publishUrgent',task =>{
+socket.on('publishUrgent',task =>{
 		Vue.notify({
 			group: 'foo',
 			title: 'Urgent task alert!',
@@ -93,7 +94,10 @@ function connectSocket() {
 			text: `See if you can help out `
 		})
 	})
+}
 
+function refresh(){
+	return store.dispatch({ type: "loadActiveTasks" })
 }
 
 function send(msg) {

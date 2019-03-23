@@ -46,7 +46,7 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
-import { Button } from "element-ui";
+// import { Button } from "element-ui";
 export default {
   name: "tasksPage",
   components: {
@@ -106,10 +106,10 @@ export default {
   },
   methods: {
     ownTask(taskId) {
-      this.$store.dispatch("setTaskHelper", taskId);
+      this.$store.dispatch("ownTask", taskId);
     },
     passTask(taskId) {
-      this.$store.dispatch("clearTaskHelper", taskId);
+      this.$store.dispatch("passTask", taskId);
     },
     toggleTasks() {
       this.showMyTasks = !this.showMyTasks;

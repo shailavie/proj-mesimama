@@ -8,8 +8,8 @@ export default {
     query,
     addTask,
     updateTask,
-    setTaskHelper,
-    clearTaskHelper,
+    ownTask,
+    passTask,
     getEmptyTask,
     getTaskById,
     removeTask
@@ -63,24 +63,32 @@ function getTaskById(id) {
             })
     })
 }
-function setTaskHelper(taskId, userId) {
-    console.log('insider service!')
-    let idx = findIdxById(taskId)
-    taskDB[idx].helperId = userId
-    console.log(taskDB[idx], 'is changed')
-    return Promise.resolve(taskDB)
-}
-function clearTaskHelper(taskId) {
-    console.log('insider service!')
-    let idx = findIdxById(taskId)
-    taskDB[idx].helperId = null
-    console.log(taskDB[idx], 'is cleared')
-    return Promise.resolve(taskDB)
-}
 
-function findIdxById(id) {
-    return taskDB.findIndex(task => task._id === id)
+// /api/tasks/own/:taskId
+// /api/tasks/pass/:taskId
+
+
+function ownTask(taskId){
+    console.log('OWNING IT!')
+    return new Promise((resolve, reject) => {
+        axios.get(`${BASE_URL}/tasks/own/${taskId}`)
+            .then((res) => {
+                let ownedTask = res.data
+                resolve(ownedTask)
+            })
+    })
 }
+function passTask(taskId){
+    console.log('OWNING IT!')
+    return new Promise((resolve, reject) => {
+        axios.get(`${BASE_URL}/tasks/pass/${taskId}`)
+            .then((res) => {
+                let ownedTask = res.data
+                resolve(ownedTask)
+            })
+    })
+}
+ 
 
 function getEmptyTask(directorId) {
     let emptyTask = {
