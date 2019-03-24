@@ -47,12 +47,9 @@ header {
   // padding: 0px 15px;
 }
 
-
-
 footer {
   height: 60px;
 }
-
 
 @media (min-width: 768px) {
   .wrapper {
@@ -172,7 +169,6 @@ main {
 
 // Tasks
 
-
 .add-task-btn {
   width: 80px;
   height: 80px;
@@ -198,3 +194,9 @@ main {
     background: #66b1ff;
   }
 }
+
+.login-page-el-input .el-input__inner {
+  background-color: transparent !important;
+  color: #fff;
+}
+

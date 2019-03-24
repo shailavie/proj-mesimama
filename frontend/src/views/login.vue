@@ -7,11 +7,7 @@
             Assist. Collaborate.
             <br>Get it done.
           </h1>
-          <span style="color:#999">Have fun guys!</span>
-        </div>
-        <div class="login-middle-box"></div>
-        <div class="login-bottom-box">
-          <h2>{{loginSignupCTA}}</h2>
+          <!-- <h2 class="cta">{{loginSignupCTA}}</h2> -->
           <span class="is-member-call">{{loginSignupMsg}}</span>
           <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
           <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
@@ -22,9 +18,14 @@
               autofocus
               prefix-icon="el-icon-message"
               v-model="input.email"
-              class="input-email"
+              class="login-page-el-input"
             ></el-input>
             <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>
+          </div>
+        </div>
+        <div class="login-middle-box"></div>
+        <div class="login-bottom-box">
+          <div>
             <div class="qa-box">
               <div style="margin-bottom:5px">
                 <div class="curr-user-info" v-if="currUser">
@@ -32,14 +33,11 @@
                   Logged as: {{currUser.name}}
                 </div>
               </div>
-              <el-select v-model="role" placeholder="Select role">
+              <el-select v-model="role" placeholder="Select role" class="login-page-el-input">
                 <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
                 <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
               </el-select>
-              <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
-              <div>
-                <el-button @click="getTeam">Print Team to Console</el-button>
-              </div>
+              <el-button @click="setRole" style="margin-left:5px;background:transparent;color:#fff">Set Role</el-button>
             </div>
           </div>
         </div>
@@ -73,7 +71,7 @@ export default {
   },
   computed: {
     loginSignupCTA() {
-      return !this.isMember ? "Log in" : "Sign up";
+      return !this.isMember ? "Log in" : "SIGN UP";
     },
     loginSignupSwitch() {
       return !this.isMember ? "Sign up" : "Log in";
@@ -96,9 +94,9 @@ export default {
       let test = await axios.get("http://localhost:3003/api/users/current");
       console.log(test.data);
     },
-    async getTeam(){
-      let users = await axios.get("http://localhost:3003/api/users")
-      console.log(users.data)
+    async getTeam() {
+      let users = await axios.get("http://localhost:3003/api/users");
+      console.log(users.data);
     }
   }
 };
@@ -108,9 +106,6 @@ export default {
 <style lang="scss" scoped>
 a {
   cursor: pointer;
-}
-.el-input__inner {
-  background-color: transparent !important;
 }
 
 h1 {
@@ -128,13 +123,13 @@ h1 {
   background-position: center center;
   background-image: url("../../public/img/login-banner.jpg");
   background-size: cover;
-  flex-basis: 60%;
+  flex-basis: 66%;
 }
 .login-box-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 60px 30px;
+  padding: 60px 30px 60px 5%;
   background: #1c1735;
   color: #fff;
   flex-grow: 1;
@@ -145,13 +140,17 @@ h1 {
 }
 .login-form {
   margin-top: 10px;
+  max-width: 300px;
 }
 
-.input-email {
-  margin-bottom: 5px;
-}
 .sign-up-btn {
   margin-top: 10px;
+  width: 100%;
+}
+
+.cta {
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 @media (max-width: 768px) {
