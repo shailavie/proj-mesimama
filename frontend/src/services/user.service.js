@@ -7,7 +7,7 @@ var axios = Axios.create({
 export default {
     getCurrUser,
     updateUser,
-    setUserSession
+    setUserSession,
     getUserById
 }
 
