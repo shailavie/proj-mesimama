@@ -5,7 +5,6 @@ import tasks from './views/tasks.vue'
 import chat from './views/chat.vue'
 import notifications from './views/notifications.vue'
 import myAccount from './views/my-account.vue'
-import socketHouse from './components/socket-house.vue'
 import dashboard from './components/dashboard.vue'
 import photoGallery from './components/photo-gallery-cmp.vue'
 import login from './views/login.vue'
@@ -56,11 +55,6 @@ export default new Router({
           path: 'my-account',
           name: 'my-account',
           component: myAccount
-        },
-        {
-          path: 'socketHouse',
-          name: 'socketHouse',
-          component: socketHouse
         },
         {
           path: 'dashboard',

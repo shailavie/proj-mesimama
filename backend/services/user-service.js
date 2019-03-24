@@ -10,7 +10,6 @@ function getById(userId) {
 }
 
 function update(user) {
-    console.log(user,'USER!! AT USER SERVICE')
     let _id = new ObjectId(user._id)
     delete user['_id'];
     return mongoService.connect()
@@ -18,10 +17,8 @@ function update(user) {
 }
 
 function reward(userId, points) {
-    console.log('***',userId)
     return new Promise((resolve, reject) => {
         getById(userId).then(user => {
-            console.log('***',user)
             user.score += points
             update(user).then(resolve(user))
         })
