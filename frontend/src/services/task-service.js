@@ -14,6 +14,7 @@ export default {
     getEmptyTask,
     getTaskById,
     getEmptyComment,
+    markDone
 }
 
 const BASE_URL = 'http://localhost:3003/api'
@@ -42,6 +43,15 @@ function updateTask(task) {
             .then(res => {
                 let addedTask = res.data
                 resolve(addedTask)
+            })
+    })
+}
+function markDone(task){
+    return new Promise((resolve, reject) => {
+        axios.put(`${BASE_URL}/tasks/${task._id}/done`, task)
+            .then(res => {
+                let updatedTask = res.data
+                resolve(updatedTask)
             })
     })
 }

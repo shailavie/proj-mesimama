@@ -68,7 +68,6 @@ io.on('connection', socket => {
         //toast for users about new task
         socket.broadcast.emit('newTaskPublish',obj.newTask)
         //update all users with new notification
-        console.log(obj.notification,' at server')
         socket.broadcast.emit('updateUserNotifications',obj.notification)
     })
 

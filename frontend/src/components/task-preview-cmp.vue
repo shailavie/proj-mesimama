@@ -17,7 +17,7 @@
           </div>
         </div>
       </div>
-      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task._id)">Done!</el-button>
+      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">Done!</el-button>
       <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
       <el-button title="Edit task" type="primary" icon="el-icon-edit" circle @click.native="editTask(task._id)"></el-button>
       <el-button title="Delete task" type="danger" icon="el-icon-delete" circle @click.native="removeTask(task._id)"></el-button>
@@ -45,8 +45,8 @@ export default {
     editTask(taskId){
       this.$emit("task-edit", taskId);
     },
-    markDone(taskId){
-      //TO DO - 
+    markDone(task){
+      this.$emit('task-done',task)
     },    
     removeTask(taskId){
       this.$emit('task-remove',taskId)

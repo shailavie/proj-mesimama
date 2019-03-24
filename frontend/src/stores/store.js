@@ -54,7 +54,7 @@ export default new Vuex.Store({
     async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
       context.commit({ type: 'removeTask', taskId })
-      context.dispatch({type: 'loadActiveTasks'})
+      context.dispatch({ type: 'loadActiveTasks' })
       socketService.emit('reloadTasks')
       Vue.notify({
         group: 'foo',
@@ -96,6 +96,9 @@ export default new Vuex.Store({
       socketService.emit('owningTask', context.state.currUser)
       console.log('task is owned')
     },
+    async doneTask(context, taskId) {
+
+    },
     async passTask(context, task) {
       var id = task._id
       await taskService.passTask(id)
@@ -114,6 +117,11 @@ export default new Vuex.Store({
 
 
     },
+    async markDone(context, task) {
+      var updatedTask = await taskService.markDone(task)
+      console.log(updatedTask, ' after done')
+      context.dispatch({ type: 'setCurrUser' })
+    },
     async saveTask(context, task) {
       if (task._id) {
         let updatedTask = await taskService.updateTask(task)
@@ -121,7 +129,6 @@ export default new Vuex.Store({
         Vue.notify({
           group: 'foo',
           title: 'Task was updated! ',
-
           classes: 'vue-notification',
           text: `Good job, keep it up! `
         })

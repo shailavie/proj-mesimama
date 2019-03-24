@@ -20,6 +20,7 @@
         :title="taskListTitle"
         :tasks="tasksToShow"
         @task-owned="ownTask($event)"
+        @task-done="doneTask($event)"
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
@@ -30,6 +31,7 @@
         title="My Tasks"
         :tasks="tasksToShowDT"
         @task-owned="ownTask($event)"
+        @task-done="doneTask($event)"
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
@@ -108,6 +110,9 @@ export default {
   methods: {
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
+    },
+    doneTask(task){
+      this.$store.dispatch('markDone',task)
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);
