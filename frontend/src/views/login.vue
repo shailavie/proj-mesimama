@@ -17,8 +17,8 @@
         <div class="login-middle-box"></div>
         <div class="login-bottom-box">
           <!-- <h2>{{loginSignupCTA}}</h2> -->
-          <span class="is-member-call">{{loginSignupMsg}}</span>
-          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
+          <!-- <span class="is-member-call">{{loginSignupMsg}}</span>
+          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a> -->
           <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
           <div class="login-form">
             <!-- <el-input
@@ -38,7 +38,7 @@
             <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
             <div class="qa-box" v-if="currUser">
               <div style="margin-bottom:5px">
-                <user-avatar :url="currUser.avatarUrl"/>
+                <user-avatar  :url="currUser.avatarUrl"/>
                 Logged as: {{currUser.name}}
               </div>
               <el-select v-model="role" placeholder="Select role">
