@@ -27,7 +27,7 @@ app.use(session({
     secret: 'puki muki',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: { secure: false, maxAge: 604800000 }
 }))
 
 // Temp index route (will be serving the frontend)
@@ -59,16 +59,16 @@ io.on('connection', socket => {
         let task = obj.task
         let notification = obj.notification
         io.emit('publishPassedTask', task)
-        io.emit('updateUserNotifications',notification)
+        io.emit('updateUserNotifications', notification)
     })
 
     //TASK WAS ADDED- send to everyone but mom
     socket.on('addedTask', (obj) => {
         //update user with new notification
         //toast for users about new task
-        socket.broadcast.emit('newTaskPublish',obj.newTask)
+        socket.broadcast.emit('newTaskPublish', obj.newTask)
         //update all users with new notification
-        socket.broadcast.emit('updateUserNotifications',obj.notification)
+        socket.broadcast.emit('updateUserNotifications', obj.notification)
     })
 
     //TASK WAS ACOMPLISHED
@@ -78,13 +78,13 @@ io.on('connection', socket => {
     })
     socket.on('urgentTask', task => {
         socket.broadcast.emit('publishUrgent', task)
-        let notification={
-            name:`${task.title} was made urgent, see if you can help!`,
+        let notification = {
+            name: `${task.title} was made urgent, see if you can help!`,
             isRead: false,
             createdAt: Date.now()
 
         }
-        socket.broadcast.emit('updateUserNotifications',notification)
+        socket.broadcast.emit('updateUserNotifications', notification)
 
     })
     socket.on('reloadTasks', data => {
