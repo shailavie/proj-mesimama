@@ -15,9 +15,8 @@ var axios = Axios.create({
 export default {
   computed: {},
   created() {
-    // if (!this.$store.getters.currUserId) {
-      this.$store.dispatch({ type: "setCurrUser" });
-    // }
+    this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+    });
   }
 };
 </script>

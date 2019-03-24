@@ -38,7 +38,6 @@ export default {
     };
   },
   async created() {
-    
     console.log("DETAILS PAGE LOADING...");
     let taskId = this.$route.params.taskId;
     if (taskId) {
@@ -46,7 +45,7 @@ export default {
         type: "loadTask",
         taskId
       });
-    } 
+    }
     this.newComment = taskService.getEmptyComment();
     // console.log("TASK is:", task);
     // console.log("user is:", user);
@@ -65,7 +64,7 @@ export default {
     addNewComment(comment) {
       let commentCopy = utilService.deepCopy(comment);
       commentCopy._id = utilService.makeId();
-      commentCopy.userId = this.userToDisplay._id
+      commentCopy.userId = this.userToDisplay._id;
       this.task.comments.push(commentCopy); //OPTIMISTIC
       this.$store.dispatch("saveTask", this.task);
       this.newComment = taskService.getEmptyComment(this.userToDisplay._id);

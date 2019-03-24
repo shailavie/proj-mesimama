@@ -5,6 +5,10 @@ import taskService from '../services/task-service.js'
 import userService from '../services/user.service.js'
 import socketService from '../services/socket.service.js'
 
+//Delete router, only for dev!
+import Router from 'vue-router'
+Vue.use(Router)
+
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -14,7 +18,7 @@ export default new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-    currUser: null,
+    currUser: null
   },
   mutations: {
     updateTask(state, { updatedTask }) {
@@ -66,7 +70,6 @@ export default new Vuex.Store({
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
-      console.log(currUser,' at user store')
       context.commit({ type: 'setCurrUser', currUser })
     },
 
@@ -101,7 +104,6 @@ export default new Vuex.Store({
       var id = task._id
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
-
       var notification = {
         name: `${task.title} was passed, see if you can help out`,
         isRead: false,
@@ -117,6 +119,7 @@ export default new Vuex.Store({
       var updatedTask = await taskService.markDone(task)
       console.log(updatedTask, ' after done')
       context.dispatch({ type: 'setCurrUser' })
+      context.dispatch({type:'loadActiveTasks'})
     },
     async saveTask(context, task) {
       if (task._id) {

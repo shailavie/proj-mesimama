@@ -31,6 +31,7 @@
         <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">Done!</el-button>
         <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
       </div>
+ 
 
       <!-- Task actions -->
       <div class="task-actions" v-show="showTaskActions" :class="{'blur' : !showTaskActions}">
@@ -41,6 +42,7 @@
           icon="el-icon-delete"
           @click.native="removeTask(task._id)"
         >Delete</el-button>
+ 
       </div>
     </div>
   </section>

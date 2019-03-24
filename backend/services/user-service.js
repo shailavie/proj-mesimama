@@ -3,6 +3,13 @@ const ObjectId = require('mongodb').ObjectId;
 
 const USERS_COLLECTION = 'users';
 
+function query(directorId) {
+    directorId = String(directorId);
+    const directorId_ObjectId = new ObjectId(directorId)
+    return mongoService.connect()
+        .then(db => db.collection(USERS_COLLECTION).find({ $or: [{ _id: directorId_ObjectId }, { directorId: directorId }] }).toArray())
+}
+
 function getById(userId) {
     const _id = new ObjectId(userId)
     return mongoService.connect()
@@ -10,7 +17,6 @@ function getById(userId) {
 }
 
 function update(user) {
-    console.log(user,'USER!! AT USER SERVICE')
     let _id = new ObjectId(user._id)
     delete user['_id'];
     return mongoService.connect()
@@ -18,10 +24,8 @@ function update(user) {
 }
 
 function reward(userId, points) {
-    console.log('***',userId)
     return new Promise((resolve, reject) => {
         getById(userId).then(user => {
-            console.log('***',user)
             user.score += points
             update(user).then(resolve(user))
         })
@@ -29,6 +33,7 @@ function reward(userId, points) {
 }
 
 module.exports = {
+    query,
     getById,
     update,
     reward

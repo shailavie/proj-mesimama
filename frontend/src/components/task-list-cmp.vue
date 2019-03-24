@@ -43,7 +43,7 @@ export default {
       this.$emit("task-done", task);
     },
     passTask(task) {
-      this.$emit("task-passed", this.task);
+      this.$emit("task-passed", task);
     },
     editTask(taskId) {
       this.$emit("task-edit", taskId);
@@ -87,7 +87,6 @@ h4 {
   text-align: center;
 }
 h1 {
-
   text-align: center;
   display: flex;
   align-items: center;
