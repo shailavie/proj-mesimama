@@ -1,20 +1,27 @@
-
-
-
 <template>
   <section class="login">
     <div class="login-page-container">
       <div class="login-box-container">
-        <h1>
-          Assist. Collaborate.
-          <br>Get it done.
-        </h1>
-        <!-- <h2>{{loginSignupCTA}}</h2> -->
-        <span class="is-member-call">{{loginSignupMsg}}</span>
-        <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
-        <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
-        <div class="login-form">
-          <!-- <el-input
+        <div class="login-upper-box">
+          <h1>
+            Assist. Collaborate.
+            <br>Get it done.
+          </h1>
+          <span style="color:#999">
+            Role play the Netanyahus.
+            <br>Simulate the amazing relationship between Sara and Yair,
+            <br>As they try to dodge their father's bullets.
+            <br>Super fun guaranteed!
+          </span>
+        </div>
+        <div class="login-middle-box"></div>
+        <div class="login-bottom-box">
+          <!-- <h2>{{loginSignupCTA}}</h2> -->
+          <!-- <span class="is-member-call">{{loginSignupMsg}}</span>
+          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a> -->
+          <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
+          <div class="login-form">
+            <!-- <el-input
             placeholder="Enter your email address"
             type="email"
             autofocus
@@ -28,13 +35,18 @@
             v-model="input.password"
             show-password
           ></el-input>
-          <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
-          <div class="qa-box">
-            <el-select v-model="role" placeholder="Select role">
-              <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
-              <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
-            </el-select>
-            <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
+            <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
+            <div class="qa-box" v-if="currUser">
+              <div style="margin-bottom:5px">
+                <user-avatar  :url="currUser.avatarUrl"/>
+                Logged as: {{currUser.name}}
+              </div>
+              <el-select v-model="role" placeholder="Select role">
+                <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
+                <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
+              </el-select>
+              <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -45,12 +57,16 @@
 
 <script>
 import Axios from "axios";
+import userAvatar from "@/components/user-avatar-cmp.vue";
 
 var axios = Axios.create({
   withCredentials: true
 });
 
 export default {
+  components: {
+    userAvatar
+  },
   data() {
     return {
       role: "",
@@ -70,6 +86,9 @@ export default {
     },
     loginSignupMsg() {
       return this.isMember ? "Already a member? " : "New to Mesimama? ";
+    },
+    currUser() {
+      return this.$store.getters.currUser;
     }
   },
   methods: {
@@ -77,6 +96,7 @@ export default {
       let test = await axios.post("http://localhost:3003/api/users/setuser", {
         userId: this.role
       });
+      this.$store.dispatch({ type: "setCurrUser" });
     },
     async printSession() {
       let test = await axios.get("http://localhost:3003/api/users/current");
@@ -108,11 +128,14 @@ h1 {
 }
 .login-banner-container {
   background-position: center center;
-  background-image: url("../../public/img/login-banner-1.jpg");
+  background-image: url("../../public/img/login-banner.jpg");
   background-size: cover;
   flex-basis: 60%;
 }
 .login-box-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 60px 30px;
   background: #1c1735;
   color: #fff;

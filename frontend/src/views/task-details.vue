@@ -1,15 +1,17 @@
 <template>
-  <section v-if="taskToDisplay" class="task-details-page">
+  <section v-if="taskToDisplay && userToDisplay" class="task-details-page">
+    <!-- {{userToDisplay}} -->
     <task-preview
       :task="taskToDisplay"
       @task-owned="ownTask($event)"
       @task-passed="passTask($event)"
       @task-edit="editTask($event)"
+      @task-remove="removeTask($event)"
     ></task-preview>
     <task-comments
-      :comments="task.comments"
+      :comments="taskToDisplay.comments"
       :newComment="newComment"
-      :user="currUser"
+      :user="userToDisplay"
       @task-new-comment="addNewComment($event)"
     ></task-comments>
   </section>
@@ -37,16 +39,18 @@ export default {
     };
   },
   async created() {
-    let user = await userService.getCurrUser();
+    
+    console.log("DETAILS PAGE LOADING...");
     let taskId = this.$route.params.taskId;
     if (taskId) {
       this.task = await this.$store.dispatch({
         type: "loadTask",
         taskId
       });
-    }
-    this.currUser = user;
-    this.newComment = taskService.getEmptyComment(this.currUser._id);
+    } 
+    this.newComment = taskService.getEmptyComment();
+    // console.log("TASK is:", task);
+    // console.log("user is:", user);
     console.log("NEW COMMENT FROM SERVICE", this.newComment);
   },
   methods: {
@@ -60,11 +64,17 @@ export default {
       this.$router.push("/app/edit/" + taskId);
     },
     addNewComment(comment) {
-      let commentCopy = utilService.deepCopy(comment)
-      commentCopy._id = utilService.makeId()
+      let commentCopy = utilService.deepCopy(comment);
+      commentCopy._id = utilService.makeId();
+      commentCopy.userId = this.userToDisplay._id
       this.task.comments.push(commentCopy); //OPTIMISTIC
       this.$store.dispatch("saveTask", this.task);
-      this.newComment = taskService.getEmptyComment(this.currUser._id);
+      this.newComment = taskService.getEmptyComment(this.userToDisplay._id);
+    },
+    removeTask(taskId) {
+      this.$store.dispatch("removeTask", taskId).then(() => {
+        this.$router.push("/app/tasks");
+      });
     }
   },
   computed: {
@@ -73,6 +83,9 @@ export default {
     },
     taskToDisplay() {
       return this.task;
+    },
+    userToDisplay() {
+      return this.$store.getters.currUser;
     }
   }
 };

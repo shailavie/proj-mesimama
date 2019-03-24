@@ -44,7 +44,7 @@ export default {
       this.newCommentToEdit.createdAt = Date.now()
       console.log("adding new Comment:", this.newCommentToEdit);
       this.$emit("task-new-comment", this.newCommentToEdit);
-      this.newCommentToEdit.txt = 'Enter comment'
+      this.newCommentToEdit.txt = ''
 
     }
   },
