@@ -1,4 +1,3 @@
-
 <template>
   <section class="login">
     <div class="login-page-container">
@@ -38,6 +37,10 @@
           ></el-input>
             <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
             <div class="qa-box">
+              <div style="margin-bottom:5px">
+                <user-avatar v-if="currUser" :url="currUser.avatarUrl"/>
+                Logged as: {{currUser.name}}
+              </div>
               <el-select v-model="role" placeholder="Select role">
                 <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
                 <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
@@ -54,12 +57,16 @@
 
 <script>
 import Axios from "axios";
+import userAvatar from "@/components/user-avatar-cmp.vue";
 
 var axios = Axios.create({
   withCredentials: true
 });
 
 export default {
+  components: {
+    userAvatar
+  },
   data() {
     return {
       role: "",
@@ -79,6 +86,9 @@ export default {
     },
     loginSignupMsg() {
       return this.isMember ? "Already a member? " : "New to Mesimama? ";
+    },
+    currUser() {
+      return this.$store.getters.currUser;
     }
   },
   methods: {
@@ -86,6 +96,7 @@ export default {
       let test = await axios.post("http://localhost:3003/api/users/setuser", {
         userId: this.role
       });
+      this.$store.dispatch({ type: "setCurrUser" });
     },
     async printSession() {
       let test = await axios.get("http://localhost:3003/api/users/current");
