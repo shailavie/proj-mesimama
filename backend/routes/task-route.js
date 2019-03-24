@@ -133,8 +133,7 @@ function addTaskRoutes(app) {
         if (task.status === 'active' && task.helperId) {
           if (task.helperId === userId || task.directorId === userId) {
             task.status = 'done'
-            taskService.update(task).then(task => {
-              console.log(task,' ### TASK POINTS')
+            taskService.update(task).then(() => {
               userService.reward(userId, task.points).then(() => {
                 res.status(200)
                 res.json(task)
