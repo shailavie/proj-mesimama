@@ -7,6 +7,7 @@ import notifications from './views/notifications.vue'
 import myAccount from './views/my-account.vue'
 import socketHouse from './components/socket-house.vue'
 import dashboard from './components/dashboard.vue'
+import photoGallery from './components/photo-gallery-cmp.vue'
 import login from './views/login.vue'
 import login2 from './views/login2.vue'
 import taskEdit from './views/task-edit.vue'
@@ -75,6 +76,11 @@ export default new Router({
           path: 'details/:taskId',
           name: 'details',
           component: taskDetails
+        },
+        {
+          path: 'gallery',
+          name: 'gallery',
+          component: photoGallery
         }
 
       ]

@@ -1,12 +1,13 @@
 <template>
   <section class="task-list-page">
     <router-link to="/app/edit">
-    <button class="add-task-btn">+</button>
+      <button class="add-task-btn">+</button>
     </router-link>
+
     <div class="toggle-tasks-container">
       <el-switch
         v-if="window.width<680"
-        class="toggleTasks"
+        class="toggle-tasks"
         v-model="value"
         active-color="#434e60"
         inactive-color="#434e60"
@@ -15,16 +16,20 @@
         @change="toggleTasks"
       ></el-switch>
     </div>
+
     <div class="task-list-container">
-      <task-list-cmp
-        :title="taskListTitle"
-        :tasks="tasksToShow"
-        @task-owned="ownTask($event)"
-        @task-passed="passTask($event)"
-        @toggle-tasks="toggleTasks"
-        @task-edit="editTask($event)"
-        @task-remove="removeTask($event)"
-      ></task-list-cmp>
+      <section class="all-tasks-panel">
+        <h2>Things TO DO</h2>
+        <task-list-cmp
+          :title="taskListTitle"
+          :tasks="tasksToShow"
+          @task-owned="ownTask($event)"
+          @task-passed="passTask($event)"
+          @toggle-tasks="toggleTasks"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+      </section>
       <task-list-cmp
         v-if="window.width>680"
         title="My Tasks"
@@ -38,6 +43,7 @@
       <div class="stats-panel">
         <podium-board-cmp></podium-board-cmp>
         <dash-board></dash-board>
+        <photo-gallery/>
       </div>
     </div>
   </section>
@@ -48,12 +54,15 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
+import photoGallery from "../components/photo-gallery-cmp.vue";
+
 export default {
   name: "tasksPage",
   components: {
     taskListCmp,
     podiumBoardCmp,
-    dashBoard
+    dashBoard,
+    photoGallery
   },
   data() {
     return {
@@ -76,7 +85,7 @@ export default {
   },
   computed: {
     tasksToShow() {
-      return !this.showMyTaskss
+      return !this.showMyTasks
         ? this.$store.getters.filteredTasks.filter(
             task => task.helperId === null
           )
@@ -131,7 +140,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.toggleTasks {
+.task-list-page {
+  width: 100vw;
+}
+.all-tasks-panel {
+  background-color: darkslategray;
+}
+.toggle-tasks {
   margin: 10px auto;
 }
 .toggle-tasks-container {
@@ -141,6 +156,7 @@ export default {
 .task-list-container {
   display: flex;
   flex-direction: column;
+  width: 400px;
 }
 @media (min-width: 420px) {
   .task-list-container {
