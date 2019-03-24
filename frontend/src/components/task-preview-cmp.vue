@@ -10,16 +10,18 @@
         <h5>For {{task.dueAt | moment("calendar")}}</h5>
         <div class="task-status-containter">
           <div class="task-status" :style="statusClass"></div>
-          <h4>{{task.status}}</h4>
+          <h5>{{task.status}}</h5>
           <div class="task-points-container">
             <h4 class="task-points">{{task.points}}</h4>
             <img class="task-points-star" src="/icons/star.svg" alt>
           </div>
         </div>
       </div>
-      <el-button v-if="task.helperId" type="primary" @click="markDone(task._id)">Done!</el-button>
-      <el-button :type="buttonClass" @click="clickOnTask(task._id)">{{buttonText}}</el-button>
-      <el-button type="primary" icon="el-icon-edit" circle @click="editTask(task._id)"></el-button>
+      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task._id)">Done!</el-button>
+      <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
+      <el-button title="Edit task" type="primary" icon="el-icon-edit" circle @click.native="editTask(task._id)"></el-button>
+      <el-button title="Delete task" type="danger" icon="el-icon-delete" circle @click.native="removeTask(task._id)"></el-button>
+      <el-button title="Delete task" type="warning" icon="el-icon-view" circle @click.native="detailsTask(task._id)"></el-button>
     </div>
   </section>
 </template>
@@ -37,8 +39,17 @@ export default {
         this.$emit("task-passed", this.task);
       }
     },
+    detailsTask(taskId){
+      this.$router.push(`details/${taskId}`)
+    },
     editTask(taskId){
       this.$emit("task-edit", taskId);
+    },
+    markDone(taskId){
+      //TO DO - 
+    },    
+    removeTask(taskId){
+      this.$emit('task-remove',taskId)
     }
   },
   computed: {
@@ -64,10 +75,9 @@ export default {
     },
     userProfilePicSrc() {
       if (this.task.helperId) {
-        let user = this.$store.getters.currUser
-        return user.imgSrc
-      } else
-      return ''
+        let user = this.$store.getters.currUser;
+        return user.imgSrc;
+      } else return "";
     }
   }
 };
@@ -78,14 +88,16 @@ export default {
   position: relative;
   width: 300px;
   margin: 15px;
-  border: 1px solid rgb(192, 188, 188);
+  border: 1px solid rgba(0, 0, 0, 0.03);
   font-size: 30px;
   flex-grow: 1;
   margin: 20px;
   max-width: 500px;
-  background-color: #fcf7b7;
+  background-color: #fffdda;
+  padding: 15px;
+  border-radius: 5px;
   padding: 20px;
-  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 .task-status-containter {
   margin: 10px 0;
@@ -101,8 +113,12 @@ h4 {
   display: inline;
   text-transform: capitalize;
 }
+h2 {
+  font-size: 20px;
+}
 h5 {
   display: inline;
+  font-size: 14px;
 }
 h3 {
   font-size: 14px;

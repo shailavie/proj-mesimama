@@ -13,26 +13,17 @@ export default {
 
 const BASE_URL ='http://localhost:3003/api'
 
-// function lorem(size = 5) {
-//     var text = "";
-//     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-//     for (var i = 0; i < size; i++)
-//         text += possible.charAt(Math.floor(Math.random() * possible.length));
-// console.log(text)
-//     return text;
-// }
 
 function getCurrUser(){
     return new Promise((resolve, reject) => {
         axios.get(`${BASE_URL}/users/current`)
             .then(res => {
                 let user = res.data
-                // console.log('USER SERVICE:',user)
                  resolve(user)
             })
     })
 }
+
 
 //Update user
 
@@ -45,3 +36,14 @@ function updateUser(user) {
             })
     })
 }
+
+function getUserById(userId){
+    return new Promise((resolve, reject) => {
+        axios.get(`${BASE_URL}/users/${userId}`)
+            .then(res => {
+                let user = res.data
+                 resolve(user)
+            })
+    })
+}
+

@@ -1,7 +1,7 @@
 
 export default {
     getRandomIntInclusive,
-    getRandomId,
+    makeId,
     createDummyData,
     getJsonData,
     deepCopy
@@ -15,7 +15,7 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
-function getRandomId(len = 10) {
+function makeId(len = 10) {
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     let id = ''
     for (let i = 0; i < len; i++) {
@@ -24,21 +24,18 @@ function getRandomId(len = 10) {
     }
     return id
 }
-
-
 function _createTasksJson(tasksContent) {
     return tasksContent.map(task => {
         return _createTask(task)
     })
 }
-
 function _createTask(task) {
     //Below function randomize between now and N days interval
     let daysInt = 3;
     let randomDate = getRandomIntInclusive(Date.now() - 1000 * 60 * 60 * 24 * daysInt, Date.now())
     let randomDueDate = getRandomIntInclusive(Date.now(), Date.now() + 1000 * 60 * 60 * 24 * daysInt)
     return {
-        "_id": getRandomId(),
+        "_id": makeId(),
         "creatorId" : 'mom2',
         "helperId" : null,
         "title": task.title,
