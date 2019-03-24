@@ -11,7 +11,7 @@
             <br>Get it done.
           </h1>
           <span style="color:#999">
-            Role play the netanyahu family.
+            Role play the Netanyahus.
             <br>Simulate the amazing relationship between Sara and Yair,
             <br>As they try to dodge their father's bullets.
             <br>Super fun guaranteed!
