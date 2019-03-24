@@ -101,7 +101,6 @@ export default new Vuex.Store({
       var id = task._id
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
-
       var notification = {
         name: `${task.title} was passed, see if you can help out`,
         isRead: false,
@@ -117,6 +116,7 @@ export default new Vuex.Store({
       var updatedTask = await taskService.markDone(task)
       console.log(updatedTask, ' after done')
       context.dispatch({ type: 'setCurrUser' })
+      context.dispatch({type:'loadActiveTasks'})
     },
     async saveTask(context, task) {
       if (task._id) {
