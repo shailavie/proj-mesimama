@@ -121,8 +121,8 @@ export default {
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
     },
-    doneTask(task){
-      this.$store.dispatch('markDone',task)
+    doneTask(task) {
+      this.$store.dispatch("markDone", task);
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);

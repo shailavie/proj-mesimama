@@ -11,6 +11,7 @@ import photoGallery from './components/photo-gallery-cmp.vue'
 import login from './views/login.vue'
 import taskEdit from './views/task-edit.vue'
 import taskDetails from './views/task-details.vue'
+import rewards from './views/rewards.vue'
 
 Vue.use(Router)
 
@@ -45,6 +46,11 @@ export default new Router({
           path: 'notifications',
           name: 'notifications',
           component: notifications
+        },
+        {
+          path: 'rewards',
+          name: 'rewards',
+          component: rewards
         },
         {
           path: 'my-account',
