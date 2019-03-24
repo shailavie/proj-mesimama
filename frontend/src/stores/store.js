@@ -97,9 +97,6 @@ export default new Vuex.Store({
       socketService.emit('owningTask', context.state.currUser)
       console.log('task is owned')
     },
-    async doneTask(context, taskId) {
-
-    },
     async passTask(context, task) {
       var id = task._id
       await taskService.passTask(id)
@@ -115,8 +112,6 @@ export default new Vuex.Store({
         notification
       }
       socketService.emit('taskPassed', obj)
-
-
     },
     async markDone(context, task) {
       var updatedTask = await taskService.markDone(task)

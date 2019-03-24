@@ -5,9 +5,9 @@ var axios = Axios.create({
 });
 
 export default {
-    // lorem,
     getCurrUser,
-    updateUser
+    updateUser,
+    getUserById
 }
 
 

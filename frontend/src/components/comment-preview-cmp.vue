@@ -1,6 +1,6 @@
  
 <template>
-  <section v-if="user">
+  <section v-if="userToDisplay">
     <div class="comment-container">
       <user-avater-cmp :url="user.avatarUrl"/>
       <div class="comment-body">
@@ -28,11 +28,17 @@ export default {
     };
   },
   async created() {
+    // let user = await userService.getUserById(this.comment.userId);
     let user = await userService.getUserById(this.comment.userId);
+    console.log('GOT USER FROM SERVICE:',user)
     this.user = user;
   },
   methods: {},
-  computed: {}
+  computed: {
+    userToDisplay(){
+      return this.user
+    }
+  }
 };
 </script>
 

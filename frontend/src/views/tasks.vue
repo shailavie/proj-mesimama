@@ -19,7 +19,6 @@
 
     <div class="task-list-container">
       <section class="all-tasks-panel">
-        <h2>Things TO DO</h2>
         <task-list-cmp
           :title="taskListTitle"
           :tasks="tasksToShow"
@@ -108,13 +107,13 @@ export default {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId === null
       ).length;
-      return `All (${allTasksCount})`;
+      return `Open Tasks (${allTasksCount})`;
     },
     myTasksCount() {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId !== null
       ).length;
-      return `Mine (${allTasksCount})`;
+      return `My Tasks (${allTasksCount})`;
     }
   },
   methods: {
@@ -147,7 +146,9 @@ export default {
 
 <style scoped lang="scss">
 .task-list-page {
-  width: 100vw;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40%, 40%, 1fr;
 }
 .all-tasks-panel {
   background-color: darkslategray;
@@ -177,4 +178,5 @@ export default {
   flex-direction: column;
   text-align: center;
 }
+ 
 </style>
