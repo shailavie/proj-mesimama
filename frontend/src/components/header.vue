@@ -21,6 +21,12 @@
               <!-- <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span> -->
             </router-link>
           </span>
+          <span class="nav-item">
+            <router-link to="/app/rewards">
+              <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
+              <span class="notifications-badge" >{{score}}</span>
+            </router-link>
+          </span>
         </nav>
         <div class="current-user" v-if="currUser">
           <span class="nav-item user">
@@ -59,6 +65,9 @@ export default {
     },
     counter() {
       return this.$store.getters.notificationCounter;
+    },
+    score(){
+      return this.$store.getters.currUser.score 
     }
   }
 };
