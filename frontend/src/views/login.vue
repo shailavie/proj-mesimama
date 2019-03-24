@@ -5,16 +5,26 @@
   <section class="login">
     <div class="login-page-container">
       <div class="login-box-container">
-        <h1>
-          Assist. Collaborate.
-          <br>Get it done.
-        </h1>
-        <!-- <h2>{{loginSignupCTA}}</h2> -->
-        <span class="is-member-call">{{loginSignupMsg}}</span>
-        <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
-        <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
-        <div class="login-form">
-          <!-- <el-input
+        <div class="login-upper-box">
+          <h1>
+            Assist. Collaborate.
+            <br>Get it done.
+          </h1>
+          <span style="color:#999">
+            Role play the netanyahu family.
+            <br>Simulate the amazing relationship between Sara and Yair,
+            <br>As they try to dodge their father's bullets.
+            <br>Super fun guaranteed!
+          </span>
+        </div>
+        <div class="login-middle-box"></div>
+        <div class="login-bottom-box">
+          <!-- <h2>{{loginSignupCTA}}</h2> -->
+          <span class="is-member-call">{{loginSignupMsg}}</span>
+          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
+          <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
+          <div class="login-form">
+            <!-- <el-input
             placeholder="Enter your email address"
             type="email"
             autofocus
@@ -28,13 +38,14 @@
             v-model="input.password"
             show-password
           ></el-input>
-          <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
-          <div class="qa-box">
-            <el-select v-model="role" placeholder="Select role">
-              <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
-              <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
-            </el-select>
-            <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
+            <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
+            <div class="qa-box">
+              <el-select v-model="role" placeholder="Select role">
+                <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
+                <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
+              </el-select>
+              <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -113,6 +124,9 @@ h1 {
   flex-basis: 60%;
 }
 .login-box-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 60px 30px;
   background: #1c1735;
   color: #fff;
