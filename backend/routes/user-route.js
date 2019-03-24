@@ -1,5 +1,4 @@
 const userService = require('../services/user-service.js')
-
 const BASE_URL = '/api/users'
 
 function addUserRoutes(app) {
@@ -32,8 +31,6 @@ function addUserRoutes(app) {
     userService.update(user)
       .then(() => res.json(user))
   })
-
-
     
 }
 
