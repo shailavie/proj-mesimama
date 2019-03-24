@@ -74,6 +74,7 @@ export default {
     },
     markDone(task) {
       this.$emit("task-done", task);
+
     },
     removeTask(taskId) {
       this.$emit("task-remove", taskId);
