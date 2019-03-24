@@ -8,7 +8,9 @@ import locale from 'element-ui/lib/locale/lang/en'
 import './registerServiceWorker'
 import '@/assets/style.scss';
 import 'element-ui/lib/theme-chalk/index.css';
+import VueMasonry from 'vue-masonry-css'
 
+Vue.use(VueMasonry);
 Vue.use(Notifications)
 Vue.config.productionTip = false
 

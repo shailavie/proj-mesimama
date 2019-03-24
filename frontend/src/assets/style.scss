@@ -43,29 +43,29 @@ header {
   z-index: 2;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
 }
-
-main {
-  height: calc(100vh - 140px);
-  padding-top: 20px;
-  margin-top: 70px;
+.wrapper {
+  // padding: 0px 15px;
 }
+
+
 
 footer {
   height: 60px;
 }
 
-.wrapper {
-  padding: 0px 15px;
-}
 
 @media (min-width: 768px) {
   .wrapper {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0px 10px;
+    // max-width: 980px;
+    // margin: 0 auto;
+    // padding: 0px 10px;
   }
 }
 
+main {
+  height: calc(100vh - 140px);
+  margin-top: 70px;
+}
 // Header
 
 .header-logo {
