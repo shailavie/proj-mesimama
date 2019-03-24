@@ -14,7 +14,7 @@ export default new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-    currUser: null
+    currUser: null,
   },
   mutations: {
     updateTask(state, { updatedTask }) {
@@ -41,6 +41,13 @@ export default new Vuex.Store({
     passTask(state, { task }) {
       let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
       state.taskItems[taskIdx].helperId = null
+    },
+    updateNotifications(state, { notification }) {
+      let notifs = state.currUser.notifications
+      if (notifs.length > 10) {
+        notifs.pop()
+        notifs.unsift(notification)
+      } else notifs.unshift(notification)
     }
   },
   actions: {
@@ -52,13 +59,18 @@ export default new Vuex.Store({
         group: 'foo',
         title: 'Task was deleted! ',
         type: 'warn',
-        classes:'vue-notification',
+        classes: 'vue-notification',
         text: `Maybe think of a new one?  `
       })
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
       context.commit({ type: 'setCurrUser', currUser })
+    },
+    async updateUser(context, { user }) {
+      console.log(user)
+      let updatedUser = await userService.updateUser(user)
+      context.state.currUser = updatedUser
     },
     loadActiveTasks(context) {
       taskService.query()
@@ -79,14 +91,23 @@ export default new Vuex.Store({
     async ownTask(context, taskId) {
       await taskService.ownTask(taskId, context.state.currUser._id)
       context.commit({ type: 'ownTask', taskId, helperId: context.state.currUser._id })
-      socketService.emit('owningTask', taskId, context.state.currUser)
+      socketService.emit('owningTask', context.state.currUser)
       console.log('task is owned')
     },
     async passTask(context, task) {
-      var id= task._id
+      var id = task._id
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
-      socketService.emit('taskPassed',task)
+      var notification = {
+        name: `${task.title} was passed, see if you can help out`,
+        isRead: false,
+        createdAt: task.createdAt
+      }
+      var obj = {
+        task,
+        notification
+      }
+      socketService.emit('taskPassed', obj)
 
     },
     async saveTask(context, task) {
@@ -98,21 +119,36 @@ export default new Vuex.Store({
           group: 'foo',
           title: 'Task was updated! ',
           // type: 'success',
-          classes:'vue-notification',
+          classes: 'vue-notification',
           text: `Good job, keep it up! `
         })
-        if (task.isUrgent) socketService.emit('urgentTask',task)
+        if (task.isUrgent) socketService.emit('urgentTask', task)
         console.log('STORE DONE UPDATING NEW TASK')
       } else {
         console.log('new task')
         let newTask = await taskService.addTask(task)
-        socketService.emit("addedTask", newTask);
+        //adding new task to local array
         context.commit({ type: 'addTask', newTask })
+        //create notification
+        var notification = {
+          name: `task title: ${task.title} was added, see if you can help!`,
+          isRead: false,
+          createdAt: newTask.createdAt
+        }
+        var obj = {
+          notification,
+          newTask
+        }
+        //sending to server the notification and new task for update and broadcast to all users
+        socketService.emit("addedTask", obj);
         console.log('STORE DONE ADDING NEW TASK')
       }
-    }
+    },
   },
   getters: {
+    notifications(state) {
+      return state.notifications
+    },
     filteredTasks(state) {
       return state.taskItems
     },
@@ -124,6 +160,12 @@ export default new Vuex.Store({
     },
     currDirectorId(state) {
       return (state.currUser.isDirector) ? state.currUser._id : state.currUser.directorId
+    },
+    notificationCounter(state) {
+      var unReadNotifications = state.currUser.notifications.filter((notification) => {
+        return !notification.isRead
+      })
+      return unReadNotifications.length
     }
   }
 })

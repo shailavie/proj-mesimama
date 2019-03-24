@@ -2,6 +2,8 @@
 import ioClient from 'socket.io-client'
 import Vue from 'vue'
 import store from '../stores/store.js'
+import userService from '../services/user.service.js'
+import utilService from '../services/util-service.js'
 
 var socket = ioClient('//localhost:3003');
 
@@ -31,7 +33,7 @@ function connectSocket() {
 
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
-		_notification(`${user.name} just connected!  `, 'success', 'Dont forget to say hello')
+		_toasting(`${user.name} just connected!  `, 'success', 'Dont forget to say hello')
 	})
 	//NEW MSG RECIVED
 	socket.on('msg-recived', msg => {
@@ -40,12 +42,13 @@ function connectSocket() {
 	// TASK WAS OWNED
 	socket.on('taskOwnedBy', user => {
 		refresh()
-		_notification(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
+		_toasting(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
 	})
 	//TASK WAS PASSED
 	socket.on('publishPassedTask', task => {
 		refresh()
-		_notification(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
+		_toasting(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
+		
 	})
 
 	// ON DELETE TASK. DONT SEND TOAST, JUST REFRESH THE DATA FOR USERS.
@@ -56,16 +59,22 @@ function connectSocket() {
 
 	async function refreshCallback() {
 		await refresh()
-		_notification('New task was added!', 'success', 'Better go check it out!')
+		_toasting('New task was added!', 'success', 'Better go check it out!')
 	}
 
 	//TASK WAS ACOMPLISHED
 	socket.on('taskAcomplished', data => {
-		_notification('Someone acomplished a task!', 'success', 'Mom will be so happy!')
+		_toasting('Someone acomplished a task!', 'success', 'Mom will be so happy!')
 	})
 
 	socket.on('publishUrgent', task => {
-		_notification('Urgent task alert!', 'error', 'See if you can help out')
+		_toasting('Urgent task alert!', 'error', 'See if you can help out')
+	})
+	socket.on('updateUserNotifications',(notification) =>{
+	let user =utilService.deepCopy(store.getters.currUser) 
+	user.notifications.unshift(notification)
+	console.log('user :', user.name)
+	store.dispatch({type:'updateUser', user})
 	})
 }
 
@@ -84,7 +93,7 @@ function on(eventName, cb) {
 	socket.on(eventName, cb)
 }
 
-function _notification(title = 'default title', type = 'success', text = 'dafault text') {
+function _toasting(title = 'default title', type = 'success', text = 'dafault text') {
 	Vue.notify({
 		group: 'foo',
 		title: title,

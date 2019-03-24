@@ -1,5 +1,5 @@
-<template>
-  <div class="wrapper">
+<template >
+  <div class="wrapper" v-if="currUser">
     <div class="header-container">
       <div class="header-logo">Mesimama</div>
       <div class="main-nav">
@@ -17,7 +17,8 @@
           <span class="nav-item">
             <router-link to="/app/notifications">
               <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
-              <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span>
+              <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
+              <!-- <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span> -->
             </router-link>
           </span>
         </nav>
@@ -41,20 +42,23 @@ export default {
     userAvatar
   },
   data() {
-    return {};
+    return {
+      // user: null,
+    };
   },
   created() {
-    this.user = this.$store.getters.currUser;
+    // this.user = this.$store.getters.currUser;
+    // console.log('got here with user', this.user)
   },
   computed: {
-    notificationsCount() {
-      return 2;
-    },
     currUser() {
       return this.$store.getters.currUser;
     },
     avatarUrl() {
       return this.currUser.avatarUrl;
+    },
+    counter() {
+      return this.$store.getters.notificationCounter;
     }
   }
 };

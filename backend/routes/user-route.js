@@ -7,7 +7,8 @@ function addUserRoutes(app) {
     // Get current logged user
     app.get(`${BASE_URL}/current`, (req, res) => {
         userService.getById(req.session.userId)
-            .then(user => {
+        .then(user => {
+            console.log(user,'**************')
                 res.json(user)
             })
     })
@@ -27,6 +28,15 @@ function addUserRoutes(app) {
         console.log(req.session.userId)
         res.send(req.session.userId)
     })
+
+      // Update user
+  app.put(`${BASE_URL}`, (req, res) => {
+    const user = req.body
+    userService.update(user)
+      .then(() => res.json(user))
+  })
+
+
     
 }
 

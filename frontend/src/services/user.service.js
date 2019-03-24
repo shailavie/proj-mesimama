@@ -6,7 +6,8 @@ var axios = Axios.create({
 
 export default {
     // lorem,
-    getCurrUser
+    getCurrUser,
+    updateUser
 }
 
 
@@ -27,8 +28,20 @@ function getCurrUser(){
         axios.get(`${BASE_URL}/users/current`)
             .then(res => {
                 let user = res.data
-                console.log('USER SERVICE:',user)
+                // console.log('USER SERVICE:',user)
                  resolve(user)
+            })
+    })
+}
+
+//Update user
+
+function updateUser(user) {
+    return new Promise((resolve, reject) => {
+        axios.put(`${BASE_URL}/users`,user)
+            .then(res => {
+                let updatedUser = res.data
+                resolve(updatedUser)
             })
     })
 }
