@@ -86,4 +86,14 @@ h4 {
 .task-list-title {
   text-align: center;
 }
+h1 {
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  font-weight: 100;
+  font-size: 20px;
+}
 </style>

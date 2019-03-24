@@ -5,10 +5,10 @@ var axios = Axios.create({
 });
 
 export default {
-    // lorem,
     getCurrUser,
     updateUser,
     setUserSession
+    getUserById
 }
 
 
@@ -48,6 +48,7 @@ function getUserById(userId) {
     })
 }
 
+// Set user session programatically
 function setUserSession(userId) {
     return new Promise((resolve, reject) => {
         axios.post("http://localhost:3003/api/users/setuser", {
