@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     tasksToShow() {
-      return !this.showMyTaskss
+      return !this.showMyTasks
         ? this.$store.getters.filteredTasks.filter(
             task => task.helperId === null
           )
