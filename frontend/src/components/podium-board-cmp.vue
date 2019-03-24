@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Wall of Fame</h1>
+    <h1>The Daily Stars!</h1>
     <div class="podium-board-container">
       <div class="podium-container">
         <img :src="users.place2.imgSrc">
