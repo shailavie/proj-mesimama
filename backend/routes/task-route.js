@@ -84,7 +84,7 @@ function addTaskRoutes(app) {
     const task = req.body
     if (userId === task.directorId) {
       taskService.update(task)
-      .then(() => res.json(task))
+        .then(() => res.json(task))
     }
   })
 
@@ -136,7 +136,7 @@ function addTaskRoutes(app) {
             taskService.update(task).then(task => {
               userService.reward(userId, task.points).then(() => {
                 res.status(200)
-                res.send(`user ${userId} rewarded!`)
+                res.json(task)
               })
             })
           } else {
