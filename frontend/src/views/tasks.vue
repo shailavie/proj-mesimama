@@ -151,7 +151,7 @@ export default {
   grid-template-columns: 40%, 40%, 1fr;
 }
 .all-tasks-panel {
-  background-color: darkslategray;
+  background-color: #d3dbde;
 }
 .toggle-tasks {
   margin: 10px auto;

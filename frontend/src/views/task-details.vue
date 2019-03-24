@@ -1,6 +1,5 @@
 <template>
   <section v-if="taskToDisplay && userToDisplay" class="task-details-page">
-    <!-- {{userToDisplay}} -->
     <task-preview
       :task="taskToDisplay"
       @task-owned="ownTask($event)"

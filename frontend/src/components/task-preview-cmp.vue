@@ -17,6 +17,7 @@
     <div class="due-container">
       <img class="star" src="/img/icons/taskTime30.png">
       <h5>For {{task.dueAt | moment("calendar")}}</h5>
+      <h5>For {{task.dueAt | duration('humanize')}}</h5>
     </div>
 
     <!-- Card bg img -->
@@ -27,11 +28,6 @@
       <div class="info">
         <h2 class="title">{{task.title}}</h2>
         <p class="description truncate">{{task.desc}}</p>
-
-        <div class="status-containter">
-          <div class="status" :style="statusClass"></div>
-          <h5>{{task.status}}</h5>
-        </div>
       </div>
       <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">Done!</el-button>
       <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
@@ -74,12 +70,11 @@ export default {
     },
     markDone(task) {
       this.$emit("task-done", task);
-
     },
     removeTask(taskId) {
       this.$emit("task-remove", taskId);
     },
-    getImgByKeyword(task) { 
+    getImgByKeyword(task) {
       let keywords = task.title.split(" ").join(",");
       let res1 = `https://source.unsplash.com/160x90/?${keywords}`;
       let res2 = `https://loremflickr.com/g/320/240/${keywords}/all`;
@@ -91,24 +86,10 @@ export default {
   },
   computed: {
     buttonClass() {
-      return this.task.helperId ? "secondary" : "primary";
+      return this.task.helperId ? "secondary" : "secondary";
     },
     buttonText() {
       return this.task.helperId ? "Pass" : "Own it";
-    },
-    statusClass() {
-      switch (this.task.status) {
-        case "done":
-          return { backgroundColor: "blue" };
-          break;
-        case "pendingPass":
-          return { backgroundColor: "yellow" };
-          break;
-        default:
-        case "active":
-          return { backgroundColor: "green" };
-          break;
-      }
     },
     userProfilePicSrc() {
       if (this.task.helperId) {
@@ -133,9 +114,10 @@ export default {
   margin: 0 20px;
   margin-bottom: 20px;
   border-radius: 15px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
   transition: 0.2s ease;
   &:hover {
-    transform: translate(0, -3px);
+    // transform: translate(0, -3px);
   }
 
   .feel-img {
@@ -213,8 +195,6 @@ export default {
       margin: 0;
     }
   }
-
-  // box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 .description {
   width: 200px;
