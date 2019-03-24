@@ -16,7 +16,17 @@ function update(user) {
         .then(db => db.collection('users').replaceOne({ _id }, user))
 }
 
+function reward(userId, points) {
+    return new Promise((resolve, reject) => {
+        getById(userId).then(user => {
+            user.score += points
+            update(user).then(resolve())
+        })
+    })
+}
+
 module.exports = {
     getById,
-    update
+    update,
+    reward
 }
