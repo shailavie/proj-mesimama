@@ -30,12 +30,11 @@
           ></el-input>
           <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
           <div class="qa-box">
-            <el-select v-model="role">
+            <el-select v-model="role" placeholder="Select role">
               <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
               <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
             </el-select>
-            <el-button @click="setRole">Set Role</el-button>
-            <el-button @click="printSession">Print session</el-button>
+            <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
           </div>
         </div>
       </div>
