@@ -3,6 +3,7 @@ const userService = require('../services/user-service.js')
 const BASE_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
+
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId

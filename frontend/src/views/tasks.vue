@@ -125,6 +125,7 @@ export default {
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);
+      console.log('lala',task)
     },
     toggleTasks() {
       this.showMyTasks = !this.showMyTasks;
