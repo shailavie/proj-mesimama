@@ -108,12 +108,13 @@ function getEmptyTask() {
     }
     return emptyTask
 }
-function getEmptyComment(userId) {
+function getEmptyComment() {
     let emptyComment = {
         _id: null,
-        userId: userId,
+        userId: null,
         txt: '',
         createdAt: null,
     }
+    console.log('task service sending empty comment', emptyComment)
     return emptyComment
 }
