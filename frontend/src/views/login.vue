@@ -3,41 +3,44 @@
 
 <template>
   <section class="login">
-    <div class="container">
-      <h1>Welcome Friends and Family!</h1>
-      <h2>Thank god you came! we need at least 4-5 more hands on deck!</h2>
-
-      <div class="content-container">
-        <div class="img-container">
-          <img src="../assets/icons/family.svg">
-        </div>
-        <div class="input-container">
-          <button class="loginBtn loginBtn--facebook">{{msg}} with Facebook</button>
-          <el-input
-            placeholder="You'r@email.com"
+    <div class="login-page-container">
+      <div class="login-box-container">
+        <h1>
+          Assist. Collaborate.
+          <br>Get it done.
+        </h1>
+        <!-- <h2>{{loginSignupCTA}}</h2> -->
+        <span class="is-member-call">{{loginSignupMsg}}</span>
+        <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
+        <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
+        <div class="login-form">
+          <!-- <el-input
+            placeholder="Enter your email address"
             type="email"
             autofocus
             prefix-icon="el-icon-message"
             v-model="input.email"
+            class="input-email"
           ></el-input>
-          <el-input placeholder="Please input password" v-model="input.password" show-password></el-input>
-          <el-button type="primary">{{msg}}</el-button>
-          <h3 v-if="isMember">Got an acount?
-            <button @click="isMember=!isMember">Login</button>
-          </h3>
-          <h3 v-else>New to 'APP NAME HERE'?
-            <button @click="isMember=!isMember">Sign Up</button>
-          </h3>
+          <el-input
+            prefix-icon="el-icon-lock"
+            placeholder="Select a password"
+            v-model="input.password"
+            show-password
+          ></el-input>
+          <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
+          <div class="qa-box">
+            <el-select v-model="role">
+              <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
+              <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
+            </el-select>
+            <el-button @click="setRole">Set Role</el-button>
+            <el-button @click="printSession">Print session</el-button>
+          </div>
         </div>
       </div>
+      <div class="login-banner-container"></div>
     </div>
-    <select v-model="role">
-      <option value="5c93538ced3d88a4b25d83ad">Helper</option>
-      <option value="5c93538ced3d88a4b25d83ac">Director</option>
-    </select>
-    <button @click="setRole">Set Role</button>
-    <button @click="printSession">Print session</button>
-
   </section>
 </template>
 
@@ -60,8 +63,14 @@ export default {
     };
   },
   computed: {
-    msg() {
-      return !this.isMember ? "Login" : "Sign Up";
+    loginSignupCTA() {
+      return !this.isMember ? "Log in" : "Sign up";
+    },
+    loginSignupSwitch() {
+      return !this.isMember ? "Sign up" : "Log in";
+    },
+    loginSignupMsg() {
+      return this.isMember ? "Already a member? " : "New to Mesimama? ";
     }
   },
   methods: {
@@ -80,82 +89,59 @@ export default {
 
 
 <style lang="scss" scoped>
-img {
-  width: 190px;
+a {
+  cursor: pointer;
 }
-.content-container {
+.el-input__inner {
+  background-color: transparent !important;
+}
+
+h1 {
+  font-size: 250%;
+  font-weight: 500;
+  margin-bottom: 40px;
+}
+.login-page-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
 }
-.container {
-  margin: 30px auto;
-  text-align: center;
-  width: 400px;
+.login-banner-container {
+  background-position: center center;
+  background-image: url("../../public/img/login-banner-1.jpg");
+  background-size: cover;
+  flex-basis: 60%;
 }
-.el-input {
-  margin-bottom: 10px;
-  margin-left: 10px;
-  &:focus {
-    border: 2px solid lightblue;
+.login-box-container {
+  padding: 60px 30px;
+  background: #1c1735;
+  color: #fff;
+  flex-grow: 1;
+}
+
+.is-member-call {
+  color: #999;
+}
+.login-form {
+  margin-top: 10px;
+}
+
+.input-email {
+  margin-bottom: 5px;
+}
+.sign-up-btn {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .login-page-container {
+    flex-direction: column;
+  }
+  .login-banner-container {
+    order: -1;
+    flex-basis: 200px;
   }
 }
-.input-container {
-  margin: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-//fb button
-
-.loginBtn {
-  box-sizing: border-box;
-  position: relative;
-  /* width: 13em;  - apply for fixed size */
-  margin-bottom: 10px;
-
-  padding: 0 15px 0 46px;
-  border: none;
-  text-align: left;
-  line-height: 34px;
-  white-space: nowrap;
-  border-radius: 0.2em;
-  font-size: 16px;
-  color: #fff;
-}
-.loginBtn:before {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 100%;
-}
-.loginBtn:focus {
-  outline: none;
-}
-.loginBtn:active {
-  box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
-}
-
-/* Facebook */
-.loginBtn--facebook {
-  background-color: #4c69ba;
-  background-image: linear-gradient(#4c69ba, #3b55a0);
-  /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
-  text-shadow: 0 -1px 0 #354c8c;
-}
-.loginBtn--facebook:before {
-  border-right: #364e92 1px solid;
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png")
-    6px 6px no-repeat;
-}
-.loginBtn--facebook:hover,
-.loginBtn--facebook:focus {
-  background-color: #5b7bd5;
-  background-image: linear-gradient(#5b7bd5, #4864b1);
-}
 </style>
+

@@ -8,7 +8,6 @@ import myAccount from './views/my-account.vue'
 import socketHouse from './components/socket-house.vue'
 import dashboard from './components/dashboard.vue'
 import login from './views/login.vue'
-import login2 from './views/login2.vue'
 import taskEdit from './views/task-edit.vue'
 import taskDetails from './views/task-details.vue'
 
@@ -20,11 +19,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login
-    },
-    {
-      path: '/login2',
-      name: 'login2',
-      component: login2
     },
     {
       path: '/app',

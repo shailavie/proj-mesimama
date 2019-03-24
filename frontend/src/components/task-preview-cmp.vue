@@ -87,11 +87,9 @@ export default {
 .task-card {
   position: relative;
   width: 300px;
-  margin: 15px;
   border: 1px solid rgba(0, 0, 0, 0.03);
   font-size: 30px;
   flex-grow: 1;
-  margin: 20px;
   max-width: 500px;
   background-color: #fffdda;
   padding: 15px;

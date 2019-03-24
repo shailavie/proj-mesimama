@@ -55,6 +55,7 @@ export default {
 <style scoped lang="scss">
 ul {
   display: grid;
+  grid-gap: 10px;
 }
 .emptyState {
   width: 100px;
