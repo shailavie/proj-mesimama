@@ -1,6 +1,4 @@
 
-
-
 <template>
   <section class="login">
     <div class="login-page-container">
