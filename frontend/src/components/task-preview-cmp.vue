@@ -10,41 +10,50 @@
     ></el-button>
 
     <!-- floating info -->
-    <div class="task-points-container">
-      <h4 class="task-points">{{task.points}}</h4>
-      <img class="task-points-coin" src="@/assets/icons/coin.svg">
-    </div>
+    <user-avatar class="user-avatar" :url="userProfilePicSrc"/>
     <div class="due-container">
       <img class="star" src="/img/icons/taskTime30.png">
       <h5>For {{task.dueAt | moment("calendar")}}</h5>
-      <h5>For {{task.dueAt | duration('humanize')}}</h5>
     </div>
 
     <!-- Card bg img -->
-    <img class="feel-img" :src="getImgByKeyword(task)" alt>
+    <!-- <img class="feel-img" :src="getImgByKeyword(task)" alt> -->
+    <div class="feel-img" :class="{'blur' : showTaskActions}" :style="getImgByKeyword(task)" alt></div>
 
-    <!-- <img class="user-avatar" :src="userProfilePicSrc" alt> -->
+    <!-- Task info -->
     <div class="container">
       <div class="info">
         <h2 class="title">{{task.title}}</h2>
         <p class="description truncate">{{task.desc}}</p>
       </div>
-      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">Done!</el-button>
-      <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
+
+      <div class="main-actions-container">
+        <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">Done!</el-button>
+        <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
+      </div>
 
       <!-- Task actions -->
-      <div class="task-actions" v-show="showTaskActions">
-        <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)"></el-button>
-        <el-button title="Show task" icon="el-icon-view" @click.native="detailsTask(task._id)"></el-button>
-        <el-button title="Delete task" icon="el-icon-delete" @click.native="removeTask(task._id)"></el-button>
+      <div class="task-actions" v-show="showTaskActions" :class="{'blur' : !showTaskActions}">
+        <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)">Edit</el-button>
+        <el-button title="Show task" icon="el-icon-view" @click.native="detailsTask(task._id)">Show</el-button>
+        <el-button
+          title="Delete task"
+          icon="el-icon-delete"
+          @click.native="removeTask(task._id)"
+        >Delete</el-button>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import userAvatar from "./user-avatar-cmp.vue";
+
 export default {
   props: ["task"],
+  components: {
+    userAvatar
+  },
   data() {
     return {
       showTaskActions: false,
@@ -76,25 +85,30 @@ export default {
     },
     getImgByKeyword(task) {
       let keywords = task.title.split(" ").join(",");
-      let res1 = `https://source.unsplash.com/160x90/?${keywords}`;
+      let res1 = `https://source.unsplash.com/320x240/?${keywords}`;
       let res2 = `https://loremflickr.com/g/320/240/${keywords}/all`;
-      return res1;
+      let bgClass = `background: url(${res1}) no-repeat 0 50%`;
+      return bgClass;
     },
     toggleActions() {
+      console.log("toggle!");
       this.showTaskActions = !this.showTaskActions;
     }
   },
   computed: {
+    blur() {
+      return "{filter: blur(4px)}";
+    },
     buttonClass() {
       return this.task.helperId ? "secondary" : "secondary";
     },
     buttonText() {
-      return this.task.helperId ? "Pass" : "Own it";
+      return this.task.helperId ? "Pass" : "Take it!";
     },
     userProfilePicSrc() {
       if (this.task.helperId) {
         let user = this.$store.getters.currUser;
-        return user.imgSrc;
+        return user.avatarUrl;
       } else return "";
     }
   }
@@ -102,6 +116,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.main-actions-container {
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  align-items: center;
+  margin-top: 30px;
+}
 .task-card {
   display: flex;
   position: relative;
@@ -115,10 +136,7 @@ export default {
   margin-bottom: 20px;
   border-radius: 15px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-  transition: 0.2s ease;
-  &:hover {
-    // transform: translate(0, -3px);
-  }
+  transition: 1s ease;
 
   .feel-img {
     width: 200px;
@@ -133,42 +151,14 @@ export default {
     text-transform: capitalize;
   }
 
-  .task-actions {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .task-points-container {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 10px;
-    left: 10px;
-    opacity: 1;
-  }
-  .task-points {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 11px;
-    font-weight: bolder;
-  }
-  .task-points-coin {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-right: 5px;
-    color: white;
-    fill: white;
-  }
   .more-actions {
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: 10px;
     width: 30px;
     height: 30px;
     border: none;
-    transform: rotate(90deg);
+    // transform: rotate(90deg);
     text-align: center;
     background-color: transparent;
   }
@@ -180,19 +170,26 @@ export default {
   }
   .task-actions {
     position: absolute;
-    bottom: 0;
-    right: 2px;
+    top: 0;
+    left: 5px;
     width: 100px;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    transition: 0.3s ease;
-    // background-color: red;
+    justify-content: space-evenly;
+    transition: 1s ease;
 
     .el-button {
       width: 80px;
       align-self: right;
       margin: 0;
+      background-color: transparent;
+      mix-blend-mode: difference;
+      border: none;
+      // color: #fff;
+      &:hover {
+        color: rgb(100, 131, 218);
+      }
     }
   }
 }
@@ -204,6 +201,9 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.blur {
+  filter: blur(4px);
 }
 .task-status-containter {
   margin: 10px 0;
@@ -247,8 +247,9 @@ h5 {
   height: 40px;
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px;
   border-radius: 40px;
+  z-index: 1;
 }
 </style>
 

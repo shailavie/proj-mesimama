@@ -1,10 +1,6 @@
 <template>
   <section class="task-list-page">
-    <router-link to="/app/edit">
-      <button class="add-task-btn">+</button>
-    </router-link>
-
-    <div class="toggle-tasks-container">
+    <!-- <div class="toggle-tasks-container" >
       <el-switch
         v-if="window.width<680"
         class="toggle-tasks"
@@ -15,7 +11,7 @@
         :inactive-text="allTasksCount"
         @change="toggleTasks"
       ></el-switch>
-    </div>
+    </div> -->
 
     <div class="task-list-container">
       <section class="all-tasks-panel">
@@ -43,11 +39,14 @@
         @task-remove="removeTask($event)"
       ></task-list-cmp>
       <div class="stats-panel">
-        <podium-board-cmp></podium-board-cmp>
-        <dash-board></dash-board>
         <photo-gallery/>
+        <dash-board></dash-board>
+        <podium-board-cmp></podium-board-cmp>
       </div>
     </div>
+    <router-link to="/app/edit">
+      <button class="add-task-btn">+</button>
+    </router-link>
   </section>
 </template>
 
@@ -145,10 +144,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.stats-panel {
+  background-color: #d3dbde;
+  padding: 0 20px;
+}
 .task-list-page {
-  width: 100%;
+  // width: 100%;
   display: grid;
-  grid-template-columns: 40%, 40%, 1fr;
+  grid-template-columns: 40% 1fr 40%;
 }
 .all-tasks-panel {
   background-color: #d3dbde;
@@ -178,5 +181,4 @@ export default {
   flex-direction: column;
   text-align: center;
 }
- 
 </style>
