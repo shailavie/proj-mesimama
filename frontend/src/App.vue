@@ -2,11 +2,15 @@
   <div id="app">
     <router-view/>
     <notifications group="foo" />
+<div class="test">
+</div>
   </div>
 </template>
 
 <script>
 export default {
+  computed:{
+  },
   created(){
     this.$store.dispatch({type: 'setCurrUser'})
     .then(()=>{
@@ -16,6 +20,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .vue-notification {
   padding: 10px;
   margin: 0 5px 5px;
