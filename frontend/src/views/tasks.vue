@@ -1,7 +1,7 @@
 <template>
   <section class="task-list-page">
     <router-link to="/app/edit">
-    <button class="add-task-btn">+</button>
+      <button class="add-task-btn">+</button>
     </router-link>
     <div class="toggle-tasks-container">
       <el-switch
@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     tasksToShow() {
-      return !this.showMyTaskss
+      return !this.showMyTasks
         ? this.$store.getters.filteredTasks.filter(
             task => task.helperId === null
           )
@@ -111,8 +111,8 @@ export default {
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
     },
-    doneTask(task){
-      this.$store.dispatch('markDone',task)
+    doneTask(task) {
+      this.$store.dispatch("markDone", task);
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);

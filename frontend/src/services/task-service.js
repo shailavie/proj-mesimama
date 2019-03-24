@@ -48,7 +48,7 @@ function updateTask(task) {
 }
 function markDone(task){
     return new Promise((resolve, reject) => {
-        axios.put(`${BASE_URL}/tasks/${task._id}/done`, task)
+        axios.put(`${BASE_URL}/tasks/${task._id}/done`)
             .then(res => {
                 let updatedTask = res.data
                 resolve(updatedTask)

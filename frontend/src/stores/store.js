@@ -66,6 +66,7 @@ export default new Vuex.Store({
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
+      console.log(currUser,' at user store')
       context.commit({ type: 'setCurrUser', currUser })
     },
 
