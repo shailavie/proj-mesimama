@@ -1,11 +1,17 @@
 <template>
-  <section>
-    <h1>rewards</h1>
-    <ul>
-      <li v-for="(url,idx) in urls" :key="idx">
-        <img :src="url" alt srcset>
-      </li>
-    </ul>
+  <section v-if="user" class="section">
+    <h1>Hey {{user.name}}, here are your rewards: </h1>
+    <masonry :cols="3" :gutter="5">
+      <figure v-for="(url,idx) in pics" :key="idx" class="img-container">
+            <img :src="url" class="gallery-item">
+      </figure>
+    </masonry>
+    <h2>{{user.name}}, you have {{user.score}} points, do some tasks and open more rewards!</h2>
+        <masonry :cols="3" :gutter="5">
+      <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
+            <img :src="url" class="next-reward gallery-item">
+      </figure>
+    </masonry>
   </section>
 </template>
 
@@ -37,9 +43,45 @@ export default {
         'https://images.pexels.com/photos/590471/pexels-photo-590471.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'
       ]
     };
+  },
+  computed:{
+      user(){
+          return this.$store.getters.currUser
+      },
+      pics(){
+         return this.urls.slice(0,this.user.score)
+      },
+      nextRewards(){
+          return this.urls.slice(this.user.score)
+      }
   }
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.section{
+    text-align: center;
+}
+
+.img-container {
+  width: 100%;
+  margin: 0;
+//   height: auto;
+  cursor: pointer;
+  overflow: hidden;
+//   &:hover .img-content-hover {
+//     // display: block;
+//   }
+}
+img {
+  width: 100%;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.next-reward{
+    opacity: 0.4;
+}
 </style>
