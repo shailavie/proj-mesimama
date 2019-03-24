@@ -14,7 +14,7 @@ export default new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-    currUser: null
+    currUser: null,
   },
   mutations: {
     updateTask(state, { updatedTask }) {
@@ -41,13 +41,20 @@ export default new Vuex.Store({
     passTask(state, { task }) {
       let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
       state.taskItems[taskIdx].helperId = null
+    },
+    updateNotifications(state, { notification }) {
+      let notifs = state.currUser.notifications
+      if (notifs.length > 10) {
+        notifs.pop()
+        notifs.unsift(notification)
+      } else notifs.unshift(notification)
     }
   },
   actions: {
     async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
       context.commit({ type: 'removeTask', taskId })
-      context.dispatch({type: 'loadActiveTasks'})
+      context.dispatch({ type: 'loadActiveTasks' })
       socketService.emit('reloadTasks')
       Vue.notify({
         group: 'foo',
@@ -61,9 +68,17 @@ export default new Vuex.Store({
       let currUser = await userService.getCurrUser()
       context.commit({ type: 'setCurrUser', currUser })
     },
+
+    async updateUser(context, { user }) {
+      console.log(user)
+      let updatedUser = await userService.updateUser(user)
+      context.state.currUser = updatedUser
+    },
+
     async loadActiveTasks(context) {
       let activeTasks = await taskService.query()
       context.commit({ type: 'setTaskItems', activeTasks })
+
     },
     async loadTask(context, { taskId }) {
       let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
@@ -78,15 +93,34 @@ export default new Vuex.Store({
     async ownTask(context, taskId) {
       await taskService.ownTask(taskId, context.state.currUser._id)
       context.commit({ type: 'ownTask', taskId, helperId: context.state.currUser._id })
-      socketService.emit('owningTask', taskId, context.state.currUser)
+      socketService.emit('owningTask', context.state.currUser)
       console.log('task is owned')
+    },
+    async doneTask(context, taskId) {
+
     },
     async passTask(context, task) {
       var id = task._id
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
-      socketService.emit('taskPassed', task)
 
+      var notification = {
+        name: `${task.title} was passed, see if you can help out`,
+        isRead: false,
+        createdAt: task.createdAt
+      }
+      var obj = {
+        task,
+        notification
+      }
+      socketService.emit('taskPassed', obj)
+
+
+    },
+    async markDone(context, task) {
+      var updatedTask = await taskService.markDone(task)
+      console.log(updatedTask, ' after done')
+      context.dispatch({ type: 'setCurrUser' })
     },
     async saveTask(context, task) {
       if (task._id) {
@@ -101,12 +135,29 @@ export default new Vuex.Store({
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
         let newTask = await taskService.addTask(task)
-        socketService.emit("addedTask", newTask);
+        //adding new task to local array
         context.commit({ type: 'addTask', newTask })
+
+        //create notification
+        var notification = {
+          name: `task title: ${task.title} was added, see if you can help!`,
+          isRead: false,
+          createdAt: newTask.createdAt
+        }
+        var obj = {
+          notification,
+          newTask
+        }
+        //sending to server the notification and new task for update and broadcast to all users
+        socketService.emit("addedTask", obj);
+        console.log('STORE DONE ADDING NEW TASK')
       }
     },
   },
   getters: {
+    notifications(state) {
+      return state.notifications
+    },
     filteredTasks(state) {
       return state.taskItems
     },
@@ -118,6 +169,12 @@ export default new Vuex.Store({
     },
     currDirectorId(state) {
       return (state.currUser.isDirector) ? state.currUser._id : state.currUser.directorId
+    },
+    notificationCounter(state) {
+      var unReadNotifications = state.currUser.notifications.filter((notification) => {
+        return !notification.isRead
+      })
+      return unReadNotifications.length
     }
   }
 })

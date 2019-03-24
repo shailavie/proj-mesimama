@@ -32,7 +32,7 @@ function addTaskRoutes(app) {
         return user;
       }).then((user) => {
         if (!user) {
-          res.code(400)
+          res.status(400)
           res.send('No user!')
           return
         }
@@ -42,7 +42,7 @@ function addTaskRoutes(app) {
               res.json(task)
             }
             else {
-              res.code(403)
+              res.status(403)
               res.send('Not allowed!')
             }
           })
@@ -80,14 +80,16 @@ function addTaskRoutes(app) {
 
   // Update task
   app.put(`${BASE_URL}`, (req, res) => {
+    const userId = req.session.userId
     const task = req.body
-    console.log('now:', task._id)
-    taskService.update(task)
-      .then(() => res.json(task))
+    if (userId === task.directorId) {
+      taskService.update(task)
+        .then(() => res.json(task))
+    }
   })
 
   //Own Task
-  app.get(`${BASE_URL}/own/:taskId`, (req, res) => {
+  app.put(`${BASE_URL}/:taskId/own`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
     taskService.getById(taskId)
@@ -105,7 +107,7 @@ function addTaskRoutes(app) {
   })
 
   // Pass a task
-  app.get(`${BASE_URL}/pass/:taskId`, (req, res) => {
+  app.put(`${BASE_URL}/:taskId/pass`, (req, res) => {
     const userId = req.session.userId
     const taskId = req.params.taskId
     taskService.getById(taskId)
@@ -119,6 +121,32 @@ function addTaskRoutes(app) {
               })
             }
           })
+      })
+  })
+
+  // Mark task as done
+  app.put(`${BASE_URL}/:taskId/done`, (req, res) => {
+    const userId = req.session.userId
+    const taskId = req.params.taskId
+    taskService.getById(taskId)
+      .then(task => {
+        if (task.status === 'active' && task.helperId) {
+          if (task.helperId === userId || task.directorId === userId) {
+            task.status = 'done'
+            taskService.update(task).then(task => {
+              userService.reward(userId, task.points).then(() => {
+                res.status(200)
+                res.json(task)
+              })
+            })
+          } else {
+            res.status(403)
+            res.send('Not allowed!')
+          }
+        } else {
+          res.status(403)
+          res.send('Not valid')
+        }
       })
   })
 }

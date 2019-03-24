@@ -25,16 +25,19 @@
           :tasks="tasksToShow"
           @task-owned="ownTask($event)"
           @task-passed="passTask($event)"
+          @task-done="doneTask($event)"
           @toggle-tasks="toggleTasks"
           @task-edit="editTask($event)"
           @task-remove="removeTask($event)"
         ></task-list-cmp>
       </section>
+
       <task-list-cmp
         v-if="window.width>680"
         title="My Tasks"
         :tasks="tasksToShowDT"
         @task-owned="ownTask($event)"
+        @task-done="doneTask($event)"
         @task-passed="passTask($event)"
         @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
@@ -117,6 +120,9 @@ export default {
   methods: {
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
+    },
+    doneTask(task){
+      this.$store.dispatch('markDone',task)
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);

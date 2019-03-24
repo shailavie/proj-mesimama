@@ -14,6 +14,7 @@ export default {
     getEmptyTask,
     getTaskById,
     getEmptyComment,
+    markDone
 }
 
 const BASE_URL = 'http://localhost:3003/api'
@@ -45,6 +46,15 @@ function updateTask(task) {
             })
     })
 }
+function markDone(task){
+    return new Promise((resolve, reject) => {
+        axios.put(`${BASE_URL}/tasks/${task._id}/done`, task)
+            .then(res => {
+                let updatedTask = res.data
+                resolve(updatedTask)
+            })
+    })
+}
 function removeTask(taskId) {
     return new Promise((resolve, reject) => {
         axios.delete(`${BASE_URL}/tasks/${taskId}`)
@@ -66,7 +76,7 @@ function getTaskById(id) {
 function ownTask(taskId) {
     console.log('OWNING IT!')
     return new Promise((resolve, reject) => {
-        axios.get(`${BASE_URL}/tasks/own/${taskId}`)
+        axios.put(`${BASE_URL}/tasks/${taskId}/own`)
             .then((res) => {
                 let ownedTask = res.data
                 resolve(ownedTask)
@@ -74,9 +84,9 @@ function ownTask(taskId) {
     })
 }
 function passTask(taskId) {
-    console.log('OWNING IT!')
+    console.log('PASSING IT!')
     return new Promise((resolve, reject) => {
-        axios.get(`${BASE_URL}/tasks/pass/${taskId}`)
+        axios.put(`${BASE_URL}/tasks/${taskId}/pass`)
             .then((res) => {
                 let ownedTask = res.data
                 resolve(ownedTask)

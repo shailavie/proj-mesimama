@@ -15,7 +15,7 @@
           <el-form-item label="Points">
             <el-input type="number" v-model="taskToEdit.points"></el-input>
           </el-form-item>
-          <el-form-item label="Urgent task?">
+          <el-form-item label="Urgent">
             <el-switch type="checkbox" v-model="taskToEdit.isUrgent"></el-switch>
           </el-form-item>
           <el-form-item label="Due to">
@@ -36,29 +36,6 @@
           >Delete Task</el-button>
         </el-form>
       </div>
-    </div>
-
-    <div class="task-details">
-      <h4>
-        <span>Title:</span>
-        {{taskToEdit.title}}
-      </h4>
-      <h4>
-        <span>Description:</span>
-        {{taskToEdit.desc}}
-      </h4>
-      <h4>
-        <span>Points:</span>
-        {{taskToEdit.points}}
-      </h4>
-      <h4>
-        <span>Urgent Task:</span>
-        {{taskToEdit.isUrgent}}
-      </h4>
-      <h4>
-        <span>Due to :</span>
-        {{taskToEdit.dueAt}}
-      </h4>
     </div>
   </section>
 </template>

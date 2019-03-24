@@ -82,7 +82,7 @@ export default {
       this.$emit("task-edit", taskId);
     },
     markDone(taskId) {
-      //TO DO -
+      this.$emit('task-done',task)
     },
     removeTask(taskId) {
       this.$emit("task-remove", taskId);

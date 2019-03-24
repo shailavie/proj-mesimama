@@ -13,6 +13,7 @@
           <task-preview
             :task="currTask"
             @task-owned="ownTask($event)"
+            @task-done="doneTask($event)"
             @task-passed="passTask($event)"
             @task-edit="editTask($event)"
             @task-remove="removeTask($event)"
@@ -38,9 +39,11 @@ export default {
       console.log("task list: task is owened", taskId);
       this.$emit("task-owned", taskId);
     },
+    doneTask(task) {
+      this.$emit("task-done", task);
+    },
     passTask(task) {
-      console.log("task list: task is PASSED", task.name);
-      this.$emit("task-passed", task);
+      this.$emit("task-passed", this.task);
     },
     editTask(taskId) {
       this.$emit("task-edit", taskId);
@@ -55,6 +58,7 @@ export default {
 <style scoped lang="scss">
 ul {
   display: grid;
+  grid-gap: 10px;
 }
 .emptyState {
   width: 100px;
