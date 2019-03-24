@@ -11,26 +11,20 @@
         </div>
         <div class="login-middle-box"></div>
         <div class="login-bottom-box">
-          <!-- <h2>{{loginSignupCTA}}</h2> -->
-          <!-- <span class="is-member-call">{{loginSignupMsg}}</span>
-          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>-->
+          <h2>{{loginSignupCTA}}</h2>
+          <span class="is-member-call">{{loginSignupMsg}}</span>
+          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
           <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
           <div class="login-form">
-            <!-- <el-input
-            placeholder="Enter your email address"
-            type="email"
-            autofocus
-            prefix-icon="el-icon-message"
-            v-model="input.email"
-            class="input-email"
-          ></el-input>
-          <el-input
-            prefix-icon="el-icon-lock"
-            placeholder="Select a password"
-            v-model="input.password"
-            show-password
-          ></el-input>
-            <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
+            <el-input
+              placeholder="Enter your email address"
+              type="email"
+              autofocus
+              prefix-icon="el-icon-message"
+              v-model="input.email"
+              class="input-email"
+            ></el-input>
+            <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>
             <div class="qa-box">
               <div style="margin-bottom:5px">
                 <div class="curr-user-info" v-if="currUser">
@@ -43,6 +37,9 @@
                 <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
               </el-select>
               <el-button @click="setRole" style="margin-left:5px">Set Role</el-button>
+              <div>
+                <el-button @click="getTeam">Print Team to Console</el-button>
+              </div>
             </div>
           </div>
         </div>
@@ -98,6 +95,10 @@ export default {
     async printSession() {
       let test = await axios.get("http://localhost:3003/api/users/current");
       console.log(test.data);
+    },
+    async getTeam(){
+      let users = await axios.get("http://localhost:3003/api/users")
+      console.log(users.data)
     }
   }
 };

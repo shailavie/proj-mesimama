@@ -3,10 +3,26 @@ const BASE_URL = '/api/users'
 
 function addUserRoutes(app) {
 
+    // Get all team members
+    app.get(`${BASE_URL}`, (req, res) => {
+        if (!req.session.userId) {
+            res.status(403)
+            res.send('No user logged')
+        } else {
+            userService.getById(req.session.userId).then(user => {
+                let directorId = (user.isDirector) ? user._id : user.directorId
+                userService.query(directorId)
+                    .then(users => {
+                        res.json(users)
+                    })
+            })
+        }
+    })
+
     // Get current logged user
     app.get(`${BASE_URL}/current`, (req, res) => {
         userService.getById(req.session.userId)
-        .then(user => {
+            .then(user => {
                 res.json(user)
             })
     })
@@ -25,13 +41,13 @@ function addUserRoutes(app) {
         res.send(req.session.userId)
     })
 
-      // Update user
-  app.put(`${BASE_URL}`, (req, res) => {
-    const user = req.body
-    userService.update(user)
-      .then(() => res.json(user))
-  })
-    
+    // Update user
+    app.put(`${BASE_URL}`, (req, res) => {
+        const user = req.body
+        userService.update(user)
+            .then(() => res.json(user))
+    })
+
 }
 
 module.exports = addUserRoutes;
