@@ -36,9 +36,9 @@
             show-password
           ></el-input>
             <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>-->
-            <div class="qa-box">
+            <div class="qa-box" v-if="currUser">
               <div style="margin-bottom:5px">
-                <user-avatar v-if="currUser" :url="currUser.avatarUrl"/>
+                <user-avatar :url="currUser.avatarUrl"/>
                 Logged as: {{currUser.name}}
               </div>
               <el-select v-model="role" placeholder="Select role">
@@ -128,7 +128,7 @@ h1 {
 }
 .login-banner-container {
   background-position: center center;
-  background-image: url("../../public/img/login-banner-1.jpg");
+  background-image: url("../../public/img/login-banner.jpg");
   background-size: cover;
   flex-basis: 60%;
 }
