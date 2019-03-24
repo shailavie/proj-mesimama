@@ -7,12 +7,7 @@
             Assist. Collaborate.
             <br>Get it done.
           </h1>
-          <span style="color:#999">
-            Role play the Netanyahus.
-            <br>Simulate the amazing relationship between Sara and Yair,
-            <br>As they try to dodge their father's bullets.
-            <br>Super fun guaranteed!
-          </span>
+          <span style="color:#999">Have fun guys!</span>
         </div>
         <div class="login-middle-box"></div>
         <div class="login-bottom-box">
