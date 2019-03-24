@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 })
 
 addTaskRoutes(app)
-addUserRoutes(app) 
+addUserRoutes(app)
 
 
 //TODO: as soon as user connects, send him into a room with his ID.
@@ -51,26 +51,45 @@ io.on('connection', socket => {
     })
 
     //TASK WAS OWNED
-    socket.on('owningTask', (taskId,user) => {
-        //TODO send new owner and task detailes.
-        socket.broadcast.emit('taskOwnedBy',user)
-        // console.log(socket)
+    socket.on('owningTask', user => {
+        io.emit('taskOwnedBy', user)
+    })
+    //TASK WAS PASSED
+    socket.on('taskPassed', obj => {
+        let task = obj.task
+        let notification = obj.notification
+        io.emit('publishPassedTask', task)
+        io.emit('updateUserNotifications',notification)
     })
 
     //TASK WAS ADDED- send to everyone but mom
-    socket.on('addedTask', task => {
-        console.log('at server with task: ',task)
-        socket.broadcast.emit('newTaskPublish',task)
+    socket.on('addedTask', (obj) => {
+        //update user with new notification
+        //toast for users about new task
+        socket.broadcast.emit('newTaskPublish',obj.newTask)
+        //update all users with new notification
+        console.log(obj.notification,' at server')
+        socket.broadcast.emit('updateUserNotifications',obj.notification)
     })
 
     //TASK WAS ACOMPLISHED
     socket.on('finishedTask', data => {
         //TODO- SEND TO EVERYONE- send user data and task
-        console.log(socket.id, '    socket ID')
-       io.emit('taskAcomplished',data)
+        io.emit('taskAcomplished', data)
     })
-    socket.on('urgentTask',task =>{
-        socket.broadcast.emit('publishUrgent',task)
+    socket.on('urgentTask', task => {
+        socket.broadcast.emit('publishUrgent', task)
+        let notification={
+            name:`${task.title} was made urgent, see if you can help!`,
+            isRead: false,
+            createdAt: Date.now()
+
+        }
+        socket.broadcast.emit('updateUserNotifications',notification)
+
+    })
+    socket.on('reloadTasks', data => {
+        socket.broadcast.emit('loadTasks')
     })
 
     socket.on('login', userId => {
@@ -84,8 +103,6 @@ io.on('connection', socket => {
     })
 
     socket.on('post-msg', msg => {
-        // console.log('POsting a message', msg, 'to:', socket.theTopic);
-        console.log('POsting a message', msg);
         // socket.to - send to everyone in the room except the sender
         io.emit('msg-recived', msg);
         // socket.to(socket.theTopic).emit('msg-recived', msg);
