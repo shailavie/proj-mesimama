@@ -44,7 +44,7 @@ header {
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
 }
 .wrapper {
-  // padding: 0px 15px;
+  padding: 0px 15px;
 }
 
 footer {
@@ -53,9 +53,9 @@ footer {
 
 @media (min-width: 768px) {
   .wrapper {
-    // max-width: 980px;
-    // margin: 0 auto;
-    // padding: 0px 10px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0px 10px;
   }
 }
 

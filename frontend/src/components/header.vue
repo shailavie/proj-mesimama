@@ -1,7 +1,10 @@
 <template >
   <div class="wrapper" v-if="currUser">
     <div class="header-container">
-      <div class="header-logo">Mesimama</div>
+      <div class="container">
+        <div class="header-logo">Mesimama</div>
+        <el-button class="add-new-task" @click.native="addTask">+ New Task</el-button>
+      </div>
       <div class="main-nav">
         <nav>
           <span class="nav-item">
@@ -24,7 +27,7 @@
           <span class="nav-item">
             <router-link to="/app/rewards">
               <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
-              <span class="notifications-badge" >{{score}}</span>
+              <span class="notifications-badge">{{score}}</span>
             </router-link>
           </span>
         </nav>
@@ -56,6 +59,11 @@ export default {
     // this.user = this.$store.getters.currUser;
     // console.log('got here with user', this.user)
   },
+  methods: {
+    addTask() {
+      this.$router.push("/app/edit");
+    }
+  },
   computed: {
     currUser() {
       return this.$store.getters.currUser;
@@ -66,8 +74,8 @@ export default {
     counter() {
       return this.$store.getters.notificationCounter;
     },
-    score(){
-      return this.$store.getters.currUser.score 
+    score() {
+      return this.$store.getters.currUser.score;
     }
   }
 };
@@ -79,6 +87,13 @@ export default {
   align-items: center;
   align-self: center;
   margin-right: 10px;
+}
+.add-new-task {
+  border: none;
+  margin-left: 20px;
+}
+.container {
+  display: flex;
 }
 </style>
 
