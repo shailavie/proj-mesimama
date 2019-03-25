@@ -7,7 +7,7 @@
           <!-- <div><small>Points: {{task.points}}</small></div> -->
           <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
           <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
-          <p>{{task.desc}}</p>
+          <p class="details-content-desc">{{task.desc}}</p>
         </div>
         <div class="text-details-comments">
           <task-comments
@@ -91,8 +91,7 @@ export default {
       return this.$store.getters.currUser;
     },
     taskHelper() {
-      if (this.task.helperId){
-
+      if (this.task.helperId) {
         return userService.getUserById(this.task.helperId);
       }
     }
@@ -128,6 +127,11 @@ export default {
   padding-right: 40px;
   flex-basis: 50%;
 }
+
+.details-content-desc {
+  text-transform: capitalize;
+}
+
 .details-tag {
   display: inline-block;
   padding: 4px 6px;
@@ -135,7 +139,7 @@ export default {
   border-radius: 3px;
   margin-right: 3px;
   font-size: 0.8em;
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-weight: 300;
 }
 
