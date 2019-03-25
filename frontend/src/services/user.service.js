@@ -64,6 +64,7 @@ function getUsers() {
         axios.get(`${BASE_URL}/users`)
             .then(res => {
                 let users = res.data
+                console.log(users)
                 resolve(users)
             })
     })

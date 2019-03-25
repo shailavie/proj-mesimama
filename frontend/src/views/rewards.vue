@@ -82,6 +82,10 @@ img {
   }
 }
 .next-reward{
-    opacity: 0.4;
+    opacity: 0.3;
+      &:hover {
+    transform: scale(1);
+    cursor: not-allowed;
+  }
 }
 </style>

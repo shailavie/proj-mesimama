@@ -18,9 +18,16 @@ export default new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-    currUser: null
+    currUser: null,
+    currGroup: []
   },
   mutations: {
+    loadGroup(state, { users }) {
+      users = users.sort(function (a, b) {
+        return a.score > b.score ? 1 : -1;
+      });
+      state.currGroup = users
+    },
     updateTask(state, { updatedTask }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === updatedTask._id)
       state.taskItems.splice(taskIdx, 1, updatedTask)
@@ -47,14 +54,22 @@ export default new Vuex.Store({
       state.taskItems[taskIdx].helperId = null
     },
     updateNotifications(state, { notification }) {
+      console.log('got to update')
       let notifs = state.currUser.notifications
+      console.log(notifs)
       if (notifs.length > 10) {
-        notifs.pop()
+        notifs.shift()
         notifs.unsift(notification)
       } else notifs.unshift(notification)
+      console.log(notifs)
+      state.currUser.notifications = notifs
     }
   },
   actions: {
+    async loadGroup(context) {
+      let users = await userService.getUsers()
+      context.commit({ type: 'loadGroup', users })
+    },
     async removeTask(context, taskId) {
       await taskService.removeTask(taskId)
       context.commit({ type: 'removeTask', taskId })
@@ -119,7 +134,8 @@ export default new Vuex.Store({
       var updatedTask = await taskService.markDone(task)
       console.log(updatedTask, ' after done')
       context.dispatch({ type: 'setCurrUser' })
-      context.dispatch({type:'loadActiveTasks'})
+      context.dispatch({ type: 'loadActiveTasks' })
+      context.dispatch({ type: 'loadGroup' })
     },
     async saveTask(context, task) {
       if (task._id) {
@@ -154,6 +170,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    currGroup(state) {
+      return state.currGroup
+    },
     notifications(state) {
       return state.notifications
     },
