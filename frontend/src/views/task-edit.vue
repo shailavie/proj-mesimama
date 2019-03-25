@@ -24,13 +24,15 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
-          <el-button class="save-btn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
-          <el-button
-            v-if="taskToEdit._id"
-            class="remove-btn"
-            type="secondary"
-            @click.native.prevent="removeTask"
-          >Delete Task</el-button>
+          <el-form-item>
+            <el-button class="save-btn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
+            <el-button
+              v-if="taskToEdit._id"
+              class="remove-btn"
+              type="secondary"
+              @click.native.prevent="removeTask"
+            >Delete Task</el-button>
+          </el-form-item>
         </el-form>
       </div>
     </div>

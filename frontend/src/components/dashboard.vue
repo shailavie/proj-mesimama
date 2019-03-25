@@ -6,21 +6,31 @@
         <div class="img-container">
           <img src="../assets/icons/high-five.svg" alt srcset>
         </div>
-        <div class="text-container">35 done tasks, great job!</div>
+        <div class="text-container">
+          <small>Done</small>
+          <br>
+          <small>35</small>
+        </div>
       </div>
       <div class="tasks-container style">
         <div class="img-container">
           <img src="../assets/icons/hourglass.svg" alt srcset>
         </div>
-        <div
-          class="text-container"
-        >4 tasks are awaiting for a helper, maybe we should contact grandpa?</div>
+        <div class="text-container">
+          <small>Waiting</small>
+          <br>
+          <small>4</small>
+        </div>
       </div>
       <div class="tasks-container style">
         <div class="img-container">
           <img src="../assets/icons/team.svg" alt srcset>
         </div>
-        <div class="text-container">6 tasks are in process, dont forget to thanks the helpers!</div>
+        <div class="text-container">
+          <small>Active</small>
+          <br>
+          <small>5</small>
+        </div>
       </div>
     </div>
   </section>
@@ -37,34 +47,37 @@ export default {
 
 <style scoped lang="scss">
 img {
-  height: 60px;
-  width: 60px;
+  height: 35px;
+  width: 35px;
 }
 .container {
   text-align: center;
+  max-width: 300px;
   display: flex;
   flex-wrap: wrap;
-  margin: 50px 0;
+  justify-content: space-between;
+  margin: 20px auto;
+  padding: 0px 20px;
   text-align: center;
 }
 .tasks-container {
   display: flex;
   flex-direction: column;
-  text-align: center;
   justify-content: center;
+  align-items: stretch;
+  text-align: center;
+  small:first-child {
+    color: #999;
+  }
 }
 .style {
-  margin: 0 auto;
-  width: 200px;
-  margin-top: 10px;
-  display: flex;
-  text-align: left;
-  align-items: center;
 }
 .img-container {
-  margin-right: 20px;
+  filter: invert(1);
+  max-width: 48px;
 }
 .text-container {
   font-size: 16px;
+  width: 48px;
 }
 </style>

@@ -45,18 +45,12 @@ header {
 }
 .wrapper {
   padding: 0px 15px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 footer {
   height: 60px;
-}
-
-@media (min-width: 768px) {
-  .wrapper {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0px 10px;
-  }
 }
 
 main {
@@ -167,7 +161,6 @@ main {
   color: #fff;
 }
 
- 
 // Tasks
 
 .add-task-btn {
@@ -200,4 +193,3 @@ main {
   background-color: transparent !important;
   color: #fff;
 }
-
