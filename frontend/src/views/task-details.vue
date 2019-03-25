@@ -100,22 +100,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.task-details-container {
-  padding-top: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.task-details-center-box {
-  padding: 40px;
-  flex-basis: 50%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  background: #fff;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-}
 
 @media (max-width: 768px) {
   .task-details-center-box {

@@ -1,7 +1,7 @@
 <template>
   <section v-if="taskToEdit" class="task-edit-page">
-    <div class="task-edit-container">
-      <div class="task-edit-form-container">
+    <div class="task-details-container">
+      <div class="task-details-center-box">
         <el-form @submit.native.prevent="saveTask" :model="taskToEdit" label-width="100px">
           <el-form-item label="Title">
             <el-input type="text" :maxlength="25" v-model="taskToEdit.title"></el-input>
@@ -98,7 +98,6 @@ export default {
 
 <style scoped lang="scss">
 .task-edit-page {
-  display: flex;
 }
 .task-details {
   max-width: 400px;
