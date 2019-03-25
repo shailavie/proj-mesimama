@@ -95,6 +95,7 @@ export default {
 }
 .add-new-task {
   margin-right: 1.6em;
+  color: #666;
 }
 .container {
   display: flex;
