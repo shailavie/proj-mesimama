@@ -94,7 +94,7 @@ export default {
   margin-right: 10px;
 }
 .add-new-task {
-  margin-right: 1.6em;
+  margin-right: 2.2em;
   color: #666;
 }
 .container {
@@ -103,6 +103,10 @@ export default {
 
 .nav-item {
   margin-right: 1.6em;
+}
+
+span.nav-item.user {
+  margin-right: 0;
 }
 
 .nav-item-text-link {
