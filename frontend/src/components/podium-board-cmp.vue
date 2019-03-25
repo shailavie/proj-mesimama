@@ -1,19 +1,24 @@
 <template>
-  <section>
+  <div v-if="users">
+    <div v-for="(x,idx) in users" :key="idx">{{x.name}}</div>
+    
+      
+  </div>
+  <!-- <section>
     <h1>The Daily Stars!</h1>
     <div class="podium-board-container">
       <div class="podium-container">
         <img :src="users.place2.imgSrc">
         <div class="podium place-2">
           <h3>{{users.place2.name}}</h3>
-         <h4>{{users.place2.score}}</h4>
+          <h4>{{users.place2.score}}</h4>
         </div>
       </div>
       <div class="podium-container">
         <img :src="users.place1.imgSrc">
         <div class="podium place-1">
           <h3>{{users.place1.name}}</h3>
-         <h4>{{users.place1.score}}</h4>
+          <h4>{{users.place1.score}}</h4>
         </div>
       </div>
       <div class="podium-container">
@@ -24,33 +29,53 @@
         </div>
       </div>
     </div>
-  </section>
+  </section>-->
 </template>
 
 <script>
-
+import userService from "../services/user.service.js";
 export default {
   props: [],
   data() {
     return {
-      users: {
-        place1: {
-          name: "Saba Zion",
-          score: 138,
-          imgSrc: "/img/users/grampa.jpeg"
-        },
-        place2: {
-          name: "Savta Bracha",
-          score: 102,
-          imgSrc: "/img/users/grandma.jpg"
-        },
-        place3: {
-          name: "Shlomi",
-          score: 96,
-          imgSrc: "/img/users/dad.jpg"
-        }
-      }
+      // users: {
+      //   place1: {
+      //     name: "Saba Zion",
+      //     score: 138,
+      //     imgSrc: "/img/users/grampa.jpeg"
+      //   },
+      //   place2: {
+      //     name: "Savta Bracha",
+      //     score: 102,
+      //     imgSrc: "/img/users/grandma.jpg"
+      //   },
+      //   place3: {
+      //     name: "Shlomi",
+      //     score: 96,
+      //     imgSrc: "/img/users/dad.jpg"
+      //   }
+      // }
     };
+  },
+  async created() {
+    // let users = await userService.getUsers();
+    // users = users.sort(function(a, b) {
+    //   return a.score > b.score ? 1 : -1;
+    // });
+    // this.users = users;
+    // console.log(users);
+  },
+
+   computed:{
+   async users(){
+    let users = await userService.getUsers();
+    users = users.sort(function(a, b) {
+      return a.score > b.score ? 1 : -1;
+    });
+    return users
+
+    }
+    
   }
 };
 </script>
@@ -95,8 +120,8 @@ img {
   margin-bottom: 10px;
 }
 h4 {
-    margin: 0;
-    font-size: 20px;
-    padding-bottom: 5px;
+  margin: 0;
+  font-size: 20px;
+  padding-bottom: 5px;
 }
 </style>
