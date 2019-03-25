@@ -44,10 +44,10 @@ img {
   width: 100%;
   transform: scale(1);
   transition: all 0.3s;
-  border-radius: 2px;
-  border:2px solid transparent;
+  border-radius: 8px;
+  border: 2px solid #ececec;
   &:hover {
-    border:2px solid blue;
+    border: 2px solid blue;
   }
 }
 </style>
