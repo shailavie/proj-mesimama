@@ -37,7 +37,7 @@
         :type="buttonClass"
         @click.native="clickOnTask(task._id)"
       >{{buttonText}}</el-button>
-      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">
+      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)" class="checkmark-btn">
         <img class="checkmark" src="@/assets/icons/checked.svg">
       </el-button>
     </div>
@@ -131,8 +131,8 @@ export default {
 
 <style scoped lang="scss">
 .checkmark {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   fill: white;
 }
 
