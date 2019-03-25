@@ -20,18 +20,17 @@
             </router-link>
           </span>
           <span class="nav-item">
-            <span class="nav-item">
-              <router-link to="/app/rewards">
-                <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
-                <span class="nav-item-text-link">Rewards</span>
+            <router-link to="/app/rewards">
+              <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
+              <span class="nav-item-text-link">Rewards</span>
 
-                <span class="notifications-badge">{{score}}</span>
-              </router-link>
-            </span>
+              <span class="notifications-badge">{{score}}</span>
+            </router-link>
+          </span>
+          <span class="nav-item">
             <router-link to="/app/notifications">
               <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
               <span class="nav-item-text-link">News</span>
-
               <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
               <!-- <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span> -->
             </router-link>
@@ -109,6 +108,15 @@ export default {
   color: #666;
   font-size: 0.8em;
   margin-left: 0.3em;
+}
+
+@media (max-width: 768px) {
+  .nav-item {
+    margin-right: 0;
+  }
+  .nav-item-text-link {
+    display: none;
+  }
 }
 </style>
 
