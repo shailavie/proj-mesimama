@@ -1,12 +1,24 @@
 <template>
   <section class="task-list-page">
-
     <section class="all-tasks-panel">
       <!-- My Tasks -->
       <task-list-cmp
         v-if="userToShow"
         :title="myTasksCount"
         :tasks="myTasksToShow"
+        @task-owned="ownTask($event)"
+        @task-passed="passTask($event)"
+        @task-done="doneTask($event)"
+        @toggle-tasks="toggleTasks"
+        @task-edit="editTask($event)"
+        @task-remove="removeTask($event)"
+      ></task-list-cmp>
+
+      <!-- Others Tasks -->
+      <task-list-cmp
+        v-if="userToShow"
+        :title="othersTasksCount"
+        :tasks="othersTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -54,7 +66,7 @@ export default {
   },
   data() {
     return {
-      value: false, //TO DO - Check if we still need this value (used for toggle)
+      value: false, 
       showMyTasks: false,
       window: {
         width: 0
@@ -83,6 +95,9 @@ export default {
     myTasksToShow() {
       return this.$store.getters.filteredTasks.filter(task => task.helperId === this.userToShow._id)
     },
+    othersTasksToShow() {
+      return this.$store.getters.filteredTasks.filter(task => task.helperId !== null)
+    },
     tasksToShowDT() {
       return this.$store.getters.filteredTasks.filter(
         task => task.helperId !== null
@@ -98,10 +113,16 @@ export default {
       return `Live Tasks (${allTasksCount})`;
     },
     myTasksCount() {
-      let allTasksCount = this.$store.getters.filteredTasks.filter(
-        task => task.helperId !== null
+      let myTasksCount = this.$store.getters.filteredTasks.filter(
+        task => task.helperId === this.userToShow._id
       ).length;
-      return `My Tasks (${allTasksCount})`;
+      return `My Tasks (${myTasksCount})`;
+    },
+    othersTasksCount() {
+      let othersTasksCount = this.$store.getters.filteredTasks.filter(
+        task => (task.helperId !== null) && (task.helperId !== this.userToShow._id)
+      ).length;
+      return `Other's Tasks (${othersTasksCount})`;
     },
     userToShow(){
       return this.$store.getters.currUser;

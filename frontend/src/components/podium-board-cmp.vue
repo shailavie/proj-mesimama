@@ -67,8 +67,7 @@ export default {
     users() {
       let group = this.$store.getters.currGroup;
       let users = group.slice(group.length - 3, group.length);
-      console.log(users);
-
+      console.log('users podium:',users);
       return users;
     }
   }
