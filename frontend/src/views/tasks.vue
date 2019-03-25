@@ -1,6 +1,5 @@
 <template>
   <section class="task-list-page">
-
     <section class="all-tasks-panel">
       <!-- My Tasks -->
       <task-list-cmp
@@ -26,7 +25,6 @@
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
-
     </section>
 
     <section class="stats-panel">
@@ -81,7 +79,9 @@ export default {
           );
     },
     myTasksToShow() {
-      return this.$store.getters.filteredTasks.filter(task => task.helperId === this.userToShow._id)
+      return this.$store.getters.filteredTasks.filter(
+        task => task.helperId === this.userToShow._id
+      );
     },
     tasksToShowDT() {
       return this.$store.getters.filteredTasks.filter(
@@ -103,7 +103,7 @@ export default {
       ).length;
       return `My Tasks (${allTasksCount})`;
     },
-    userToShow(){
+    userToShow() {
       return this.$store.getters.currUser;
     }
   },
@@ -137,10 +137,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.stats-panel {
-  background-color: #d3dbde;
-  padding: 0 20px;
-}
 .task-list-page {
   // width: 100%;
   display: grid;
@@ -148,15 +144,17 @@ export default {
   grid-template-columns: 1fr 400px;
 }
 .all-tasks-panel {
-  background-color: #d3dbde;
   grid-area: tasks;
+  padding-left: 40px;
 }
 .stats-panel {
+  padding: 40px 60px 0px 60px;
   display: flex;
   flex-direction: column;
   text-align: center;
   grid-area: stats;
-  background-color: rgb(91, 93, 209);
+  background-color: #1c1735;
+  color: #fff;
 }
 .toggle-tasks {
   margin: 10px auto;
@@ -178,7 +176,6 @@ export default {
 .task-list-title {
   text-align: center;
 }
-
 </style>
 
 
