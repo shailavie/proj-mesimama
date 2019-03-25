@@ -6,6 +6,7 @@
         <div class="img-container">
           <img src="../assets/icons/high-five.svg" alt srcset>
         </div>
+        </div>
         <!-- <div class="text-container">
           <small>Done</small>
           <br>
