@@ -7,9 +7,7 @@
           <!-- <div><small>Points: {{task.points}}</small></div> -->
           <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
           <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
-          <div v-if="taskHelpr">{{taskHelper.name}}</div>
           <p>{{task.desc}}</p>
-          {{taskHelper}}
         </div>
         <div class="text-details-comments">
           <task-comments
@@ -41,8 +39,7 @@ export default {
     return {
       task: null,
       currUser: null,
-      newComment: null,
-      taskHelper: null
+      newComment: null
     };
   },
   async created() {
@@ -53,8 +50,6 @@ export default {
         type: "loadTask",
         taskId
       });
-      let taskHelper = await userService.getUserById(this.task.helperId);
-      this.taskHelper = taskHelper;
     }
     this.newComment = taskService.getEmptyComment();
     console.log("NEW COMMENT FROM SERVICE", this.newComment);
@@ -94,6 +89,12 @@ export default {
     },
     userToDisplay() {
       return this.$store.getters.currUser;
+    },
+    taskHelper() {
+      if (this.task.helperId){
+
+        return userService.getUserById(this.task.helperId);
+      }
     }
   }
 };

@@ -41,8 +41,11 @@
     </section>
 
     <section class="stats-panel">
-      <podium-board-cmp></podium-board-cmp>
+      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
+
       <dash-board></dash-board>
+      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
+      <podium-board-cmp></podium-board-cmp>
       <photo-gallery/>
     </section>
   </section>
@@ -65,7 +68,7 @@ export default {
   },
   data() {
     return {
-      value: false, 
+      value: false,
       showMyTasks: false,
       window: {
         width: 0
@@ -97,7 +100,9 @@ export default {
       );
     },
     othersTasksToShow() {
-      return this.$store.getters.filteredTasks.filter(task => task.helperId !== null)
+      return this.$store.getters.filteredTasks.filter(
+        task => task.helperId !== null
+      );
     },
     tasksToShowDT() {
       return this.$store.getters.filteredTasks.filter(
@@ -117,13 +122,13 @@ export default {
       let myTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId === this.userToShow._id
       ).length;
-      return `My Tasks (${myTasksCount})`;
+      return `Mine (${myTasksCount})`;
     },
     othersTasksCount() {
       let othersTasksCount = this.$store.getters.filteredTasks.filter(
-        task => (task.helperId !== null) && (task.helperId !== this.userToShow._id)
+        task => task.helperId !== null && task.helperId !== this.userToShow._id
       ).length;
-      return `Other's Tasks (${othersTasksCount})`;
+      return `Other's (${othersTasksCount})`;
     },
     userToShow() {
       return this.$store.getters.currUser;

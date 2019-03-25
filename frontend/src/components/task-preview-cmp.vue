@@ -18,7 +18,7 @@
 
     <!-- Task info -->
     <div class="task-info-container">
-      <h3 class="title">{{task.title}}</h3>
+      <h3 class="title" @click="showTaskDetails(task._id)">{{task.title}}</h3>
       <p class="description truncate">{{task.desc}}</p>
       <div class="task-extra-info" @click="showTaskDetails(task._id)">
         <img class="task-info-item" src="@/assets/icons/hourglass.svg">
@@ -37,23 +37,27 @@
         :type="buttonClass"
         @click.native="clickOnTask(task._id)"
       >{{buttonText}}</el-button>
-      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)"><img class="checkmark" src="@/assets/icons/checked.svg" /></el-button>
+      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">
+        <img class="checkmark" src="@/assets/icons/checked.svg">
+      </el-button>
     </div>
 
     <!-- Director actions -->
-    <div class="director-actions" v-show="showTaskActions">
-      <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)">Edit</el-button>
-      <el-button
-        title="Show task"
-        icon="el-icon-view"
-        @click.native="showTaskDetails(task._id)"
-      >Show</el-button>
-      <el-button
-        title="Delete task"
-        icon="el-icon-delete"
-        @click.native="removeTask(task._id)"
-      >Delete</el-button>
-    </div>
+    <transition name="fade">
+      <div class="director-actions" v-if="showTaskActions">
+        <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)">Edit</el-button>
+        <el-button
+          title="Show task"
+          icon="el-icon-view"
+          @click.native="showTaskDetails(task._id)"
+        >Show</el-button>
+        <el-button
+          title="Delete task"
+          icon="el-icon-delete"
+          @click.native="removeTask(task._id)"
+        >Delete</el-button>
+      </div>
+    </transition>
   </section>
 </template>
 
@@ -178,9 +182,7 @@ export default {
   width: 550px;
   height: 120px;
   background-color: white;
-  margin: 15px;
-  margin: 0 20px;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto;
   border-radius: 15px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
   transition: 1s ease;
@@ -272,9 +274,8 @@ h5 {
   font-size: 14px;
 }
 
-.task-card-title {
-  font-weight: bolder;
-  font-family: "Helvetica Neue", sans-serif;
+.title {
+  cursor: pointer;
 }
 
 .user-avatar {
@@ -285,6 +286,18 @@ h5 {
   left: 10px;
   border-radius: 40px;
   z-index: 1;
+}
+
+// Animations
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+  transform: translateX(0px);
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(-20px);
 }
 </style>
 

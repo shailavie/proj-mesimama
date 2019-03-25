@@ -7,20 +7,20 @@
     Daily Stars
     <div class="podium-board-container">
       <div class="podium-container">
-        <img :src="users[1].avatarUrl">
+        <img :src="users[1].avatarUrl" class="user-avatar-test">
         <div class="podium place-2">
           <div class="user-score">{{users[1].score}}</div>
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users[2].avatarUrl">
+        <img :src="users[2].avatarUrl" class="user-avatar-test">
         <div class="podium place-1">
           <img class="first-trophy" src="../assets/icons/gold.svg">
           <div class="user-score">{{users[2].score}}</div>
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users[0].avatarUrl">
+        <img :src="users[0].avatarUrl" class="user-avatar-test">
         <div class="podium place-3">
           <div class="user-score">{{users[0].score}}</div>
         </div>
@@ -31,11 +31,11 @@
 
 <script>
 import userService from "../services/user.service.js";
-import userAvatar from "@/components/user-avatar-cmp.vue";
+import userAvatarCmp from "../components/user-avatar-cmp.vue";
 
 export default {
-  componenets: {
-    userAvatar
+  components: {
+    userAvatarCmp
   },
   props: [],
   data() {
@@ -67,7 +67,7 @@ export default {
     users() {
       let group = this.$store.getters.currGroup;
       let users = group.slice(group.length - 3, group.length);
-      console.log('users podium:',users);
+      console.log("users podium:", users);
       return users;
     }
   }
@@ -75,6 +75,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+section {
+  margin: 40px 0;
+}
 .podium-board-container {
   display: flex;
   flex-direction: row;
@@ -88,7 +91,7 @@ export default {
   align-items: center;
 }
 .podium {
-  width: 100px;
+  width: 80px;
   border: 1px solid rgb(105, 105, 105);
   background-color: transparent;
   margin-left: -1px;
@@ -97,7 +100,7 @@ export default {
   justify-content: center;
   text-align: center;
   padding: 5px;
-  border-radius: 8px 8px 0 0;
+  border-radius: 5px 5px 0 0;
   opacity: 0.8;
 }
 
@@ -142,5 +145,8 @@ h4 {
   margin: 0;
   font-size: 20px;
   padding-bottom: 5px;
+}
+.podium-container .user-avatar-test {
+  border-radius: 50%;
 }
 </style>
