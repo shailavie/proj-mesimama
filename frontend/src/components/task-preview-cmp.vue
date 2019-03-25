@@ -131,8 +131,8 @@ export default {
 
 <style scoped lang="scss">
 .checkmark {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   fill: white;
 }
 
