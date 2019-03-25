@@ -1,7 +1,7 @@
  
 <template>
   <section class="task-card">
-    <!-- Floating drawer -->
+    <!-- Director actions Btn -->
     <el-button
       v-if="user.isDirector"
       @click.native="toggleActions"
@@ -9,41 +9,50 @@
       icon="el-icon-more"
     ></el-button>
 
-    <!-- floating info -->
-    <user-avatar class="user-avatar" :url="userProfilePicSrc"/>
-    <div class="due-container">
-      <img class="star" src="/img/icons/taskTime30.png">
-      <h5>For {{task.dueAt | moment("calendar")}}</h5>
-    </div>
+    <!-- Floating info -->
+    <!-- <user-avatar class="user-avatar" :url="userProfilePicSrc"/> -->
+    <div class="urgent-badge" v-if="task.isUrgent">Urgent</div>
 
-    <!-- Card bg img -->
-    <!-- <img class="feel-img" :src="getImgByKeyword(task)" alt> -->
-    <div class="feel-img" :class="{'blur' : showTaskActions}" :style="getImgByKeyword(task)" alt></div>
+    <!-- Card bg feel img -->
+    <div class="feel-img" :style="getImgByKeyword(task)" alt></div>
 
     <!-- Task info -->
-    <div class="container">
-      <div class="info">
-        <h2 class="title">{{task.title}}</h2>
-        <p class="description truncate">{{task.desc}}</p>
+    <div class="task-info-container">
+      <h3 class="title">{{task.title}}</h3>
+      <p class="description truncate">{{task.desc}}</p>
+      <div class="task-extra-info" @click="showTaskDetails(task._id)">
+        <img class="task-info-item" src="@/assets/icons/hourglass.svg">
+        <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
+        <img class="task-info-item" src="@/assets/icons/blogging.svg">
+        <small>{{task.comments.length}}</small>&nbsp;&nbsp;
+        <img class="task-info-item" src="@/assets/icons/information.svg">
+        <small>more info</small>&nbsp;
       </div>
+    </div>
 
-      <div class="main-actions-container">
-        <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)">Done!</el-button>
-        <el-button :type="buttonClass" @click.native="clickOnTask(task._id)">{{buttonText}}</el-button>
-      </div>
- 
+    <!-- Main actions -->
+    <div class="main-actions-container">
+      <el-button
+        class="main-cta-btn"
+        :type="buttonClass"
+        @click.native="clickOnTask(task._id)"
+      >{{buttonText}}</el-button>
+      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)"><img class="checkmark" src="@/assets/icons/checked.svg" /></el-button>
+    </div>
 
-      <!-- Task actions -->
-      <div class="task-actions" v-show="showTaskActions" :class="{'blur' : !showTaskActions}">
-        <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)">Edit</el-button>
-        <el-button title="Show task" icon="el-icon-view" @click.native="detailsTask(task._id)">Show</el-button>
-        <el-button
-          title="Delete task"
-          icon="el-icon-delete"
-          @click.native="removeTask(task._id)"
-        >Delete</el-button>
- 
-      </div>
+    <!-- Director actions -->
+    <div class="director-actions" v-show="showTaskActions">
+      <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)">Edit</el-button>
+      <el-button
+        title="Show task"
+        icon="el-icon-view"
+        @click.native="showTaskDetails(task._id)"
+      >Show</el-button>
+      <el-button
+        title="Delete task"
+        icon="el-icon-delete"
+        @click.native="removeTask(task._id)"
+      >Delete</el-button>
     </div>
   </section>
 </template>
@@ -73,7 +82,7 @@ export default {
         this.$emit("task-passed", this.task);
       }
     },
-    detailsTask(taskId) {
+    showTaskDetails(taskId) {
       this.$router.push(`details/${taskId}`);
     },
     editTask(taskId) {
@@ -93,7 +102,6 @@ export default {
       return bgClass;
     },
     toggleActions() {
-      console.log("toggle!");
       this.showTaskActions = !this.showTaskActions;
     }
   },
@@ -105,7 +113,7 @@ export default {
       return this.task.helperId ? "secondary" : "secondary";
     },
     buttonText() {
-      return this.task.helperId ? "Pass" : "Take it!";
+      return this.task.helperId ? "Pass" : "I'm on it!";
     },
     userProfilePicSrc() {
       if (this.task.helperId) {
@@ -118,22 +126,59 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.checkmark {
+  width: 10px;
+  height: 10px;
+  fill: white;
+}
+
+// .urgent-badge {
+//   position: absolute;
+//   bottom: 0px;
+//   left: 120px;
+//   width: 420px;
+//   height: 2px;
+//   background-color: rgb(224, 83, 83);
+// }
+
+.urgent-badge {
+  position: absolute;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  top: -15px;
+  left: 25px;
+  z-index: 2;
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.task-extra-info {
+  display: flex;
+}
 .main-actions-container {
   display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
   text-align: center;
   align-items: center;
-  margin-top: 30px;
+  margin: 20px;
+
+  .main-cta-btn {
+    // border: none;
+    // border-bottom: 2px solid rgb(71, 141, 71);
+  }
 }
 .task-card {
   display: flex;
   position: relative;
-  width: 450px;
-  height: 170px;
+  width: 550px;
+  height: 120px;
   background-color: white;
   margin: 15px;
-  font-size: 30px;
-  flex-grow: 1;
   margin: 0 20px;
   margin-bottom: 20px;
   border-radius: 15px;
@@ -141,22 +186,31 @@ export default {
   transition: 1s ease;
 
   .feel-img {
-    width: 200px;
-    height: 170px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
-    opacity: 0.7;
+    opacity: 0.8;
     overflow: hidden;
     border-radius: 15px 0 0 15px;
   }
-  .container {
+  .task-info-container {
     padding: 15px;
-    text-transform: capitalize;
-  }
+    padding-left: 20px;
+    // text-transform: capitalize;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 
+    .task-info-item {
+      width: 15px;
+      height: 15px;
+      margin: 0 5px;
+    }
+  }
   .more-actions {
     position: absolute;
     top: 0px;
-    right: 10px;
+    right: 15px;
     width: 30px;
     height: 30px;
     border: none;
@@ -170,10 +224,10 @@ export default {
     left: 10px;
     opacity: 1;
   }
-  .task-actions {
+  .director-actions {
     position: absolute;
     top: 0;
-    left: 5px;
+    right: -100px;
     width: 100px;
     height: 100%;
     display: flex;
@@ -196,7 +250,7 @@ export default {
   }
 }
 .description {
-  width: 200px;
+  width: 220px;
   font-size: 14px;
 }
 .truncate {
@@ -204,51 +258,30 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.blur {
-  filter: blur(4px);
-}
-.task-status-containter {
-  margin: 10px 0;
-}
-.task-status {
-  width: 10px;
-  height: 10px;
-  border-radius: 100px;
-  display: inline-block;
-  margin-right: 5px;
-}
+
 h4 {
   display: inline;
   text-transform: capitalize;
 }
-h2 {
+h3 {
   font-size: 20px;
+  margin: 0;
 }
 h5 {
   display: inline;
   font-size: 14px;
 }
-// h3 {
-//   font-size: 14px;
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// }
+
 .task-card-title {
   font-weight: bolder;
   font-family: "Helvetica Neue", sans-serif;
-}
-.star {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
 }
 
 .user-avatar {
   width: 40px;
   height: 40px;
   position: absolute;
-  top: 10px;
+  top: 30px;
   left: 10px;
   border-radius: 40px;
   z-index: 1;
