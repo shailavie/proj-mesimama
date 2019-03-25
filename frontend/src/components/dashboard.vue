@@ -73,7 +73,7 @@ img {
 .style {
 }
 .img-container {
-  filter: invert(1);
+  filter: invert(0.2);
   max-width: 48px;
 }
 .text-container {

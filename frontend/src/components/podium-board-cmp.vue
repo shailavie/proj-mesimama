@@ -20,8 +20,7 @@
       </div>
       <div class="podium-container">
         <img :src="users[0].avatarUrl" class="user-avatar-test">
-        <div class="podium place-3">
-        </div>
+        <div class="podium place-3"></div>
       </div>
     </div>
   </section>
@@ -79,7 +78,6 @@ section {
 .podium-board-container {
   display: flex;
   flex-direction: row;
-  margin: 20px;
   justify-content: center;
 }
 .podium-container {
@@ -89,8 +87,8 @@ section {
   align-items: center;
 }
 .podium {
-  width: 80px;
-  border: 1px solid rgb(105, 105, 105);
+  width: 92px;
+  border: 1px solid #999;
   background-color: transparent;
   margin-left: -1px;
   display: flex;
@@ -107,16 +105,18 @@ section {
 }
 
 .podium img {
-  filter: invert(1);
+  filter: invert(0.2);
 }
 .place-1 {
   height: 180px;
 }
 .place-2 {
   height: 140px;
+  margin-left: -1px;
 }
 .place-3 {
   height: 100px;
+  margin-right: -1px;
 }
 img {
   margin: 0 auto;

@@ -41,10 +41,8 @@
     </section>
 
     <section class="stats-panel">
-      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
-
       <dash-board></dash-board>
-      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
+      <div style="height:0px;border-top:1px solid rgba(0,0,0,0.1)"></div>
       <podium-board-cmp></podium-board-cmp>
       <photo-gallery/>
     </section>
@@ -180,8 +178,8 @@ export default {
   flex-direction: column;
   text-align: center;
   grid-area: stats;
-  background-color: #1c1735;
-  color: #fff;
+  color: #999;
+  background: #f4f4f4;
 }
 .toggle-tasks {
   margin: 10px auto;
