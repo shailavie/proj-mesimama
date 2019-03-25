@@ -173,7 +173,7 @@ export default {
   padding-left: 40px;
 }
 .stats-panel {
-  padding: 20px 60px 0px 60px;
+  padding: 20px 80px 0px 80px;
   display: flex;
   flex-direction: column;
   text-align: center;
