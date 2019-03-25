@@ -1,53 +1,39 @@
 <template>
   <section class="task-list-page">
-    <router-link to="/app/edit">
-      <button class="add-task-btn">+</button>
-    </router-link>
 
-    <div class="toggle-tasks-container">
-      <el-switch
-        v-if="window.width<680"
-        class="toggle-tasks"
-        v-model="value"
-        active-color="#434e60"
-        inactive-color="#434e60"
-        :active-text="myTasksCount"
-        :inactive-text="allTasksCount"
-        @change="toggleTasks"
-      ></el-switch>
-    </div>
-
-    <div class="task-list-container">
-      <section class="all-tasks-panel">
-        <task-list-cmp
-          :title="taskListTitle"
-          :tasks="tasksToShow"
-          @task-owned="ownTask($event)"
-          @task-passed="passTask($event)"
-          @task-done="doneTask($event)"
-          @toggle-tasks="toggleTasks"
-          @task-edit="editTask($event)"
-          @task-remove="removeTask($event)"
-        ></task-list-cmp>
-      </section>
-
+    <section class="all-tasks-panel">
+      <!-- My Tasks -->
       <task-list-cmp
-        v-if="window.width>680"
-        title="My Tasks"
-        :tasks="tasksToShowDT"
+        v-if="userToShow"
+        :title="myTasksCount"
+        :tasks="myTasksToShow"
         @task-owned="ownTask($event)"
-        @task-done="doneTask($event)"
         @task-passed="passTask($event)"
+        @task-done="doneTask($event)"
         @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
-      <div class="stats-panel">
-        <podium-board-cmp></podium-board-cmp>
-        <dash-board></dash-board>
-        <photo-gallery/>
-      </div>
-    </div>
+
+      <!-- Live Tasks -->
+      <task-list-cmp
+        :title="taskListTitle"
+        :tasks="tasksToShow"
+        @task-owned="ownTask($event)"
+        @task-passed="passTask($event)"
+        @task-done="doneTask($event)"
+        @toggle-tasks="toggleTasks"
+        @task-edit="editTask($event)"
+        @task-remove="removeTask($event)"
+      ></task-list-cmp>
+
+    </section>
+
+    <section class="stats-panel">
+      <podium-board-cmp></podium-board-cmp>
+      <dash-board></dash-board>
+      <photo-gallery/>
+    </section>
   </section>
 </template>
 
@@ -80,7 +66,6 @@ export default {
     this.$store.dispatch({ type: "loadActiveTasks" });
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
-    this.user = this.$store.getters.currentUser;
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -95,6 +80,9 @@ export default {
             task => task.helperId !== null
           );
     },
+    myTasksToShow() {
+      return this.$store.getters.filteredTasks.filter(task => task.helperId === this.userToShow._id)
+    },
     tasksToShowDT() {
       return this.$store.getters.filteredTasks.filter(
         task => task.helperId !== null
@@ -107,13 +95,16 @@ export default {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId === null
       ).length;
-      return `Open Tasks (${allTasksCount})`;
+      return `Live Tasks (${allTasksCount})`;
     },
     myTasksCount() {
       let allTasksCount = this.$store.getters.filteredTasks.filter(
         task => task.helperId !== null
       ).length;
       return `My Tasks (${allTasksCount})`;
+    },
+    userToShow(){
+      return this.$store.getters.currUser;
     }
   },
   methods: {
@@ -125,6 +116,7 @@ export default {
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);
+      console.log("lala", task);
     },
     toggleTasks() {
       this.showMyTasks = !this.showMyTasks;
@@ -145,13 +137,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.stats-panel {
+  background-color: #d3dbde;
+  padding: 0 20px;
+}
 .task-list-page {
-  width: 100%;
+  // width: 100%;
   display: grid;
-  grid-template-columns: 40%, 40%, 1fr;
+  grid-template-areas: "tasks stats";
+  grid-template-columns: 1fr 400px;
 }
 .all-tasks-panel {
-  background-color: darkslategray;
+  background-color: #d3dbde;
+  grid-area: tasks;
+}
+.stats-panel {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  grid-area: stats;
+  background-color: rgb(91, 93, 209);
 }
 .toggle-tasks {
   margin: 10px auto;
@@ -173,10 +178,20 @@ export default {
 .task-list-title {
   text-align: center;
 }
-.stats-panel {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
- 
+
 </style>
+
+
+
+    <!-- <div class="toggle-tasks-container" >
+      <el-switch
+        v-if="window.width<680"
+        class="toggle-tasks"
+        v-model="value"
+        active-color="#434e60"
+        inactive-color="#434e60"
+        :active-text="myTasksCount"
+        :inactive-text="allTasksCount"
+        @change="toggleTasks"
+      ></el-switch>
+    </div>-->

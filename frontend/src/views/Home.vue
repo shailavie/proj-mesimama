@@ -1,10 +1,10 @@
 <template>
   <div id="home">
-    <header>
+    <header class="wrapper">
       <header-cmp/>
     </header>
     <main>
-      <div class="wrapper">
+      <div>
           <router-view/>
       </div>
     </main>

@@ -3,6 +3,7 @@ const userService = require('../services/user-service.js')
 const BASE_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
+
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId
@@ -133,7 +134,7 @@ function addTaskRoutes(app) {
         if (task.status === 'active' && task.helperId) {
           if (task.helperId === userId || task.directorId === userId) {
             task.status = 'done'
-            task.helperid = null
+            task.helperId = null
             taskService.update(task).then(() => {
               userService.reward(userId, task.points).then(() => {
                 res.status(200)

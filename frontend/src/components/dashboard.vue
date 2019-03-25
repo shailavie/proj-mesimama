@@ -2,21 +2,23 @@
 <template>
   <section>
     <div class="container">
-      <div class="done-tasks-container style">
+      <div class="tasks-container style">
         <div class="img-container">
-          <img src="../assets/icons/done.svg" alt srcset>
+          <img src="../assets/icons/high-five.svg" alt srcset>
         </div>
         <div class="text-container">35 done tasks, great job!</div>
       </div>
-      <div class="appending-tasks-container style">
+      <div class="tasks-container style">
         <div class="img-container">
-          <img src="../assets/icons/clock.svg" alt srcset>
+          <img src="../assets/icons/hourglass.svg" alt srcset>
         </div>
-        <div class="text-container"> 4 tasks are awaiting for a helper, maybe we should contact grandpa?</div>
+        <div
+          class="text-container"
+        >4 tasks are awaiting for a helper, maybe we should contact grandpa?</div>
       </div>
-      <div class="working-tasks-container style">
+      <div class="tasks-container style">
         <div class="img-container">
-          <img src="../assets/icons/working.svg" alt srcset>
+          <img src="../assets/icons/team.svg" alt srcset>
         </div>
         <div class="text-container">6 tasks are in process, dont forget to thanks the helpers!</div>
       </div>
@@ -40,13 +42,22 @@ img {
 }
 .container {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 50px 0;
+  text-align: center;
+}
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
 }
 .style {
   margin: 0 auto;
   width: 200px;
   margin-top: 10px;
   display: flex;
-  // height: 200px;
   text-align: left;
   align-items: center;
 }
@@ -54,6 +65,6 @@ img {
   margin-right: 20px;
 }
 .text-container {
-    font-size: 16px;
+  font-size: 16px;
 }
 </style>

@@ -2,12 +2,14 @@
 <template>
   <section v-if="userToDisplay">
     <div class="comment-container">
-      <user-avater-cmp :url="user.avatarUrl"/>
+      <user-avater-cmp :url="user.avatarUrl" class="user-avatar-comments"/>
       <div class="comment-body">
-        <h4>{{user.name}}</h4>
-        <h3>{{comment.txt}}</h3>
-        <h6>{{comment.createdAt | moment("from","now")}}</h6>
-      </div> 
+        <div class="comment-user-name">
+          <strong>{{user.name}}</strong>
+        </div>
+        <small style="margin:0; display:block;color:#333;">{{comment.txt}}</small>
+        <small>{{comment.createdAt | moment("from","now")}}</small>
+      </div>
     </div>
   </section>
 </template>
@@ -30,13 +32,13 @@ export default {
   async created() {
     // let user = await userService.getUserById(this.comment.userId);
     let user = await userService.getUserById(this.comment.userId);
-    console.log('GOT USER FROM SERVICE:',user)
+    console.log("GOT USER FROM SERVICE:", user);
     this.user = user;
   },
   methods: {},
   computed: {
-    userToDisplay(){
-      return this.user
+    userToDisplay() {
+      return this.user;
     }
   }
 };
@@ -44,26 +46,31 @@ export default {
 
 <style scoped lang="scss">
 .comment-container {
-  width: 90%;
   height: auto;
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
 }
-.user-avater {
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
-  border: 1px solid gray;
+.user-avatar-comments {
+  flex-basis: 48px;
 }
 .comment-body {
-  margin-left: 15px;
-  // background-color: red;
+  flex-shrink: 10;
+  margin-left: 10px;
 }
+
 h3,
 h4,
 h6 {
   margin: 4px 0;
+}
+
+.comment-user-name {
+  text-transform: capitalize;
+  margin-bottom: 0.2em;
+}
+small {
+  color: #999;
 }
 </style>
 

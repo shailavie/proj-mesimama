@@ -6,7 +6,6 @@ const USERS_COLLECTION = 'users';
 function query(directorId) {
     directorId = String(directorId);
     const directorId_ObjectId = new ObjectId(directorId)
-    console.log('OKKKK', directorId)
     return mongoService.connect()
         .then(db => db.collection(USERS_COLLECTION).find({ $or: [{ _id: directorId_ObjectId }, { directorId: directorId }] }).toArray())
 }

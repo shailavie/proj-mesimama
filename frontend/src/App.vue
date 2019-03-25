@@ -24,7 +24,6 @@ export default {
 .vue-notification {
   padding: 10px;
   margin: 0 5px 5px;
-
   color: #ffffff;
   background: #44a4fc;
   border-left: 5px solid #187fe7;
