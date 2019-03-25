@@ -4,7 +4,7 @@
     <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
   </div>-->
   <section>
-    Daily Stars
+    <div class="podium-title">Daily Stars</div>
     <div class="podium-board-container">
       <div class="podium-container">
         <img :src="users[1].avatarUrl" class="user-avatar-test">
@@ -16,11 +16,14 @@
         <img :src="users[2].avatarUrl" class="user-avatar-test">
         <div class="podium place-1">
           <img class="first-trophy" src="../assets/icons/gold.svg">
+          <div class="user-score">{{users[2].score}}</div>
         </div>
       </div>
       <div class="podium-container">
         <img :src="users[0].avatarUrl" class="user-avatar-test">
-        <div class="podium place-3"></div>
+        <div class="podium place-3">
+          <div class="user-score">{{users[0].score}}</div>
+        </div>
       </div>
     </div>
   </section>
@@ -146,5 +149,9 @@ h4 {
 }
 .podium-container .user-avatar-test {
   border-radius: 50%;
+}
+
+.podium-title {
+  margin-bottom: 10px;
 }
 </style>
