@@ -10,24 +10,30 @@
           <span class="nav-item">
             <router-link to="/app/chat">
               <img src="@/assets/icons/chat.svg" class="nav-item-icon">
+              <span class="nav-item-text-link">Chat</span>
             </router-link>
           </span>
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
+              <span class="nav-item-text-link">Tasks</span>
             </router-link>
           </span>
           <span class="nav-item">
+            <span class="nav-item">
+              <router-link to="/app/rewards">
+                <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
+                <span class="nav-item-text-link">Rewards</span>
+
+                <span class="notifications-badge">{{score}}</span>
+              </router-link>
+            </span>
             <router-link to="/app/notifications">
               <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
+              <span class="nav-item-text-link">News</span>
+
               <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
               <!-- <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span> -->
-            </router-link>
-          </span>
-          <span class="nav-item">
-            <router-link to="/app/rewards">
-              <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
-              <span class="notifications-badge">{{score}}</span>
             </router-link>
           </span>
         </nav>
@@ -89,10 +95,20 @@ export default {
   margin-right: 10px;
 }
 .add-new-task {
-  border: none;
+  margin-right: 1.6em;
 }
 .container {
   display: flex;
+}
+
+.nav-item {
+  margin-right: 1.6em;
+}
+
+.nav-item-text-link {
+  color: #666;
+  font-size: 0.8em;
+  margin-left: 0.3em;
 }
 </style>
 

@@ -23,6 +23,10 @@ body {
   background: #fafafa;
 }
 
+a {
+  text-decoration: none;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -82,7 +86,7 @@ main {
 .header-container .main-nav {
   display: flex;
   justify-content: space-between;
-  flex-basis: 350px;
+  flex-basis: 450px;
 }
 
 .header-container nav {
