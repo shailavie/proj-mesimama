@@ -30,14 +30,14 @@
               <div style="margin-bottom:5px">
                 <div class="curr-user-info" v-if="currUser">
                   <user-avatar :url="currUser.avatarUrl"/>
-                  Logged as: {{currUser.name}}
+                  <div style="margin-bottom: 10px">Logged as: {{currUser.name}}</div>
                 </div>
               </div>
               <el-select v-model="role" placeholder="Select role" class="login-page-el-input">
                 <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
                 <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
               </el-select>
-              <el-button @click="setRole" style="margin-left:5px;background:transparent;color:#fff">Set Role</el-button>
+              <el-button @click="setRole" class="set-role-btn">Set Role</el-button>
             </div>
           </div>
         </div>
@@ -66,7 +66,8 @@ export default {
         password: "",
         email: ""
       },
-      isMember: true
+      isMember: true,
+      test: null
     };
   },
   computed: {
@@ -96,7 +97,7 @@ export default {
     },
     async getTeam() {
       let users = await axios.get("http://localhost:3003/api/users");
-      console.log(users.data);
+      this.test = users.data;
     }
   }
 };
@@ -151,6 +152,12 @@ h1 {
 .cta {
   font-weight: 500;
   opacity: 0.9;
+}
+
+.set-role-btn {
+  margin-left: 5px;
+  background: transparent;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

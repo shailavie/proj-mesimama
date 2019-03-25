@@ -8,9 +8,12 @@
         </li>
       </ul>
       <div v-show="newCommentToEdit" class="add-comment-container">
-        <user-avater-cmp class="user-avater-cmp" :url="user.avatarUrl"/>
-        <el-input v-model="newCommentToEdit.txt" placeholder="Enter comment"/>
-        <el-button type="primary" icon="el-icon-d-arrow-right" @click="addNewComment" circle></el-button>
+        <user-avater-cmp :url="user.avatarUrl"/>
+        <el-input
+          v-model="newCommentToEdit.txt"
+          @keyup.native.enter="addNewComment"
+          placeholder="Add a comment..."
+        />
       </div>
     </div>
   </section>
@@ -19,7 +22,7 @@
 <script>
 import commentPreview from "./comment-preview-cmp.vue";
 import userAvaterCmp from "./user-avatar-cmp.vue";
-import utilService from '../services/util-service.js';
+import utilService from "../services/util-service.js";
 
 export default {
   name: "taskCommentsCmp",
@@ -28,24 +31,23 @@ export default {
     commentPreview,
     userAvaterCmp
   },
-  data(){
+  data() {
     return {
-      newCommentToEdit : null,
-    }
+      newCommentToEdit: null
+    };
   },
-  created(){
-    console.log('got this from papa',this.newComment)
-    this.newCommentToEdit = utilService.deepCopy(this.newComment)
+  created() {
+    console.log("got this from papa", this.newComment);
+    this.newCommentToEdit = utilService.deepCopy(this.newComment);
     // this.newCommentToEdit =  this.newComment
-    console.log('copy this!!!!',this.newCommentToEdit)
+    console.log("copy this!!!!", this.newCommentToEdit);
   },
   methods: {
     addNewComment() {
-      this.newCommentToEdit.createdAt = Date.now()
+      this.newCommentToEdit.createdAt = Date.now();
       console.log("adding new Comment:", this.newCommentToEdit);
       this.$emit("task-new-comment", this.newCommentToEdit);
-      this.newCommentToEdit.txt = ''
-
+      this.newCommentToEdit.txt = "";
     }
   },
   computed: {}
@@ -54,17 +56,12 @@ export default {
 
 <style scoped lang="scss">
 .task-comments-container {
-  width: 400px;
   height: auto;
   padding: 20px;
   background-color: whitesmoke;
   border-radius: 8px;
-  margin: 10px;
 }
 .add-comment-container {
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
 }
 .user-avater-cmp {
   margin-right: 10px;
