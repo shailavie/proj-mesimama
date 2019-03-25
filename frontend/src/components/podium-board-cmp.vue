@@ -119,7 +119,6 @@ section {
 }
 .place-3 {
   height: 100px;
-  margin-right: -1px;
 }
 img {
   margin: 0 auto;
