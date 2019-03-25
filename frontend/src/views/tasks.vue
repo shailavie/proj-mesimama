@@ -1,10 +1,13 @@
 <template>
   <section class="task-list-page">
     <section class="all-tasks-panel">
+      <!-- <pre>{{myTasksToShow}}</pre> -->
+      <!-- <pre>{{othersTasksToShow}}</pre> -->
+      <!-- {{userToShow}} -->
+
       <!-- My Tasks -->
       <task-list-cmp
         v-if="userToShow"
-        :title="myTasksCount"
         :tasks="myTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
@@ -17,7 +20,6 @@
       <!-- Others Tasks -->
       <task-list-cmp
         v-if="userToShow"
-        :title="othersTasksCount"
         :tasks="othersTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
@@ -29,8 +31,7 @@
 
       <!-- Live Tasks -->
       <task-list-cmp
-        :title="taskListTitle"
-        :tasks="tasksToShow"
+        :tasks="unOwnedTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -77,6 +78,7 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch({ type: "loadUsersWithTasks" });
     this.$store.dispatch({ type: "loadActiveTasks" });
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
@@ -85,50 +87,43 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   computed: {
+    tasksWithNoHelpers() {
+      return this.$store.getters.tasksWithNoHelpers;
+    },
+    usersWithTasks() {
+      return this.$store.getters.usersWithTasks;
+    },
     tasksToShow() {
       return !this.showMyTasks
-        ? this.$store.getters.filteredTasks.filter(
+        ? this.$store.getters.usersWithTasks.filter(
             task => task.helperId === null
           )
-        : this.$store.getters.filteredTasks.filter(
+        : this.$store.getters.usersWithTasks.filter(
             task => task.helperId !== null
           );
     },
+
     myTasksToShow() {
-      return this.$store.getters.filteredTasks.filter(
-        task => task.helperId === this.userToShow._id
+      return this.$store.getters.usersWithTasks.filter(
+        user => user._id === this.userToShow._id
       );
     },
     othersTasksToShow() {
-      return this.$store.getters.filteredTasks.filter(
-        task => task.helperId !== null
+      return this.$store.getters.usersWithTasks.filter(
+        user => user._id !== this.userToShow._id
       );
     },
-    tasksToShowDT() {
-      return this.$store.getters.filteredTasks.filter(
-        task => task.helperId !== null
-      );
+    unOwnedTasksToShow2() {
+      return [
+        {tasks: [this.$store.getters.tasksWithNoHelpers]},
+        ];
+    },
+    unOwnedTasksToShow() {
+      let allUnOwnedTasks = this.$store.getters.allTasks.filter(task => task.helperId === null)
+      return [{tasks: allUnOwnedTasks}]
     },
     taskListTitle() {
       return this.showMyTasks ? this.myTasksCount : this.allTasksCount;
-    },
-    allTasksCount() {
-      let allTasksCount = this.$store.getters.filteredTasks.filter(
-        task => task.helperId === null
-      ).length;
-      return `Live Tasks (${allTasksCount})`;
-    },
-    myTasksCount() {
-      let myTasksCount = this.$store.getters.filteredTasks.filter(
-        task => task.helperId === this.userToShow._id
-      ).length;
-      return `Mine (${myTasksCount})`;
-    },
-    othersTasksCount() {
-      let othersTasksCount = this.$store.getters.filteredTasks.filter(
-        task => task.helperId !== null && task.helperId !== this.userToShow._id
-      ).length;
-      return `Other's (${othersTasksCount})`;
     },
     userToShow() {
       return this.$store.getters.currUser;

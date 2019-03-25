@@ -5,7 +5,25 @@
         <div class="header-logo">Mesimama</div>
       </div>
       <div class="main-nav">
-        <el-button class="add-new-task" @click.native="addTask">+ New Task</el-button>
+        <!-- qa -->
+        <div class="login">
+          <el-select v-model="role" placeholder="Select role" class="login-page-el-input">
+            <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
+            <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
+            <el-option value="5c98fb581c9d4400002a2a3d">Ruti</el-option>
+            <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
+          </el-select>
+          <el-button @click="setRole" class="set-role-btn">Set Role</el-button>
+        </div>
+
+        <el-button
+          class="add-new-task"
+          v-if="currUser.isDirector"
+          @click.native="addTask"
+        >+ New Task</el-button>
+
+        <!-- Navbar -->
         <nav>
           <span class="nav-item">
             <router-link to="/app/chat">
@@ -45,6 +63,11 @@
 
 <script>
 import userAvatar from "@/components/user-avatar-cmp.vue";
+import Axios from "axios";
+
+var axios = Axios.create({
+  withCredentials: true
+});
 
 export default {
   components: {
@@ -53,6 +76,7 @@ export default {
   data() {
     return {
       // user: null,
+      role: ""
     };
   },
   created() {
@@ -62,6 +86,12 @@ export default {
   methods: {
     addTask() {
       this.$router.push("/app/edit");
+    },
+    async setRole() {
+      let test = await axios.post("http://localhost:3003/api/users/setuser", {
+        userId: this.role
+      });
+      this.$store.dispatch({ type: "setCurrUser" });
     }
   },
   computed: {
@@ -82,6 +112,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.login {
+  margin: 0 20px;
+}
 .user-msg {
   display: flex;
   align-items: center;
@@ -93,6 +126,14 @@ export default {
 }
 .container {
   display: flex;
+}
+.main-nav {
+  flex-grow: 1;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 </style>
 

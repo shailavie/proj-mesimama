@@ -3,7 +3,7 @@
     <h1>Our Daily Stars</h1>
     <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
   </div>-->
-  <section>
+  <section v-if="users">
     Daily Stars
     <div class="podium-board-container">
       <div class="podium-container">
@@ -65,7 +65,7 @@ export default {
     users() {
       let group = this.$store.getters.currGroup;
       let users = group.slice(group.length - 3, group.length);
-      console.log("users podium:", users);
+      // console.log("users podium:", users);
       return users;
     }
   }
