@@ -153,12 +153,13 @@ export default {
   padding: 5px 10px;
   border-radius: 4px;
   top: -15px;
-  left: 25px;
+  left: -10px;
   z-index: 2;
   background-color: red;
   color: white;
   font-size: 14px;
   text-transform: uppercase;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 .task-extra-info {
   display: flex;
