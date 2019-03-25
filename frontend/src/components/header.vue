@@ -3,9 +3,9 @@
     <div class="header-container">
       <div class="container">
         <div class="header-logo">Mesimama</div>
-        <el-button class="add-new-task" @click.native="addTask">+ New Task</el-button>
       </div>
       <div class="main-nav">
+        <el-button class="add-new-task" @click.native="addTask">+ New Task</el-button>
         <nav>
           <span class="nav-item">
             <router-link to="/app/chat">
@@ -90,7 +90,6 @@ export default {
 }
 .add-new-task {
   border: none;
-  margin-left: 20px;
 }
 .container {
   display: flex;

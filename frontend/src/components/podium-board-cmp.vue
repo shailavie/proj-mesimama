@@ -16,13 +16,11 @@
         <img :src="users[2].avatarUrl" class="user-avatar-test">
         <div class="podium place-1">
           <img class="first-trophy" src="../assets/icons/gold.svg">
-          <div class="user-score">{{users[2].score}}</div>
         </div>
       </div>
       <div class="podium-container">
         <img :src="users[0].avatarUrl" class="user-avatar-test">
         <div class="podium place-3">
-          <div class="user-score">{{users[0].score}}</div>
         </div>
       </div>
     </div>
