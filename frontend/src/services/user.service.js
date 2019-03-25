@@ -8,7 +8,8 @@ export default {
     getCurrUser,
     updateUser,
     setUserSession,
-    getUserById
+    getUserById,
+    getUsers
 }
 
 
@@ -27,7 +28,6 @@ function getCurrUser() {
 
 
 //Update user
-
 function updateUser(user) {
     return new Promise((resolve, reject) => {
         axios.put(`${BASE_URL}/users`, user)
@@ -54,5 +54,18 @@ function setUserSession(userId) {
         axios.post("http://localhost:3003/api/users/setuser", {
             userId
         }).then(resolve())
+    })
+}
+
+//Get all the group users for the podium
+
+function getUsers() {
+    return new Promise((resolve, reject) => {
+        axios.get(`${BASE_URL}/users`)
+            .then(res => {
+                let users = res.data
+                console.log(users)
+                resolve(users)
+            })
     })
 }

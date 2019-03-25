@@ -1,26 +1,33 @@
 <template>
+  <!-- <div v-if="users">
+    <h1>Our Daily Stars</h1>
+    <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
+  </div>-->
   <section>
     <h1>The Daily Stars!</h1>
     <div class="podium-board-container">
       <div class="podium-container">
-        <img :src="users.place2.imgSrc">
+        <img :src="users[1].avatarUrl">
         <div class="podium place-2">
-          <h3>{{users.place2.name}}</h3>
-         <h4>{{users.place2.score}}</h4>
+          <h3>{{users[1].name}}</h3>
+          <img class="second-trophy" src="../assets/icons/trophy.svg">
+          <h4>{{users[1].score}}</h4>
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users.place1.imgSrc">
+        <img :src="users[2].avatarUrl">
         <div class="podium place-1">
-          <h3>{{users.place1.name}}</h3>
-         <h4>{{users.place1.score}}</h4>
+          <h3>{{users[2].name}}</h3>
+          <img class="first-trophy" src="../assets/icons/gold.svg">
+          <h4>{{users[2].score}}</h4>
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users.place3.imgSrc">
-        <div class="podium place-3">
-          <h3>{{users.place3.name}}</h3>
-          <h4>{{users.place3.score}}</h4>
+        <img :src="users[0].avatarUrl">
+        <div class="podium place-3" >
+          <h3>{{users[0].name}}</h3>
+          <img class="third-trophy" src="../assets/icons/trophy.svg">
+          <h4>{{users[0].score}}</h4>
         </div>
       </div>
     </div>
@@ -28,29 +35,42 @@
 </template>
 
 <script>
-
+import userService from "../services/user.service.js";
 export default {
   props: [],
   data() {
     return {
-      users: {
-        place1: {
-          name: "Saba Zion",
-          score: 138,
-          imgSrc: "/img/users/grampa.jpeg"
-        },
-        place2: {
-          name: "Savta Bracha",
-          score: 102,
-          imgSrc: "/img/users/grandma.jpg"
-        },
-        place3: {
-          name: "Shlomi",
-          score: 96,
-          imgSrc: "/img/users/dad.jpg"
-        }
-      }
+      // users: {
+      //   place1: {
+      //     name: "Saba Zion",
+      //     score: 138,
+      //     imgSrc: "/img/users/grampa.jpeg"
+      //   },
+      //   place2: {
+      //     name: "Savta Bracha",
+      //     score: 102,
+      //     imgSrc: "/img/users/grandma.jpg"
+      //   },
+      //   place3: {
+      //     name: "Shlomi",
+      //     score: 96,
+      //     imgSrc: "/img/users/dad.jpg"
+      //   }
+      // }
     };
+  },
+  async created() {
+    this.$store.dispatch("loadGroup");
+  },
+
+  computed: {
+    users() {
+      let group = this.$store.getters.currGroup;
+      let users = group.slice(group.length - 3, group.length);
+      console.log(users);
+
+      return users;
+    }
   }
 };
 </script>
@@ -89,14 +109,23 @@ export default {
   height: 100px;
 }
 img {
+  margin: 0 auto;
   width: 50px;
   height: 50px;
   border-radius: 100px;
   margin-bottom: 10px;
 }
+.second-trophy{
+  width: 35px;
+  height: 35px;
+}
+.third-trophy{
+  width: 25px;
+  height: 25px;
+}
 h4 {
-    margin: 0;
-    font-size: 20px;
-    padding-bottom: 5px;
+  margin: 0;
+  font-size: 20px;
+  padding-bottom: 5px;
 }
 </style>
