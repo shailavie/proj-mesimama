@@ -6,32 +6,13 @@
         <div class="img-container">
           <img src="../assets/icons/high-five.svg" alt srcset>
         </div>
-        <div class="text-container">
+        </div>
+        <!-- <div class="text-container">
           <small>Done</small>
           <br>
           <small>35</small>
         </div>
-      </div>
-      <div class="tasks-container style">
-        <div class="img-container">
-          <img src="../assets/icons/hourglass.svg" alt srcset>
-        </div>
-        <div class="text-container">
-          <small>Waiting</small>
-          <br>
-          <small>4</small>
-        </div>
-      </div>
-      <div class="tasks-container style">
-        <div class="img-container">
-          <img src="../assets/icons/team.svg" alt srcset>
-        </div>
-        <div class="text-container">
-          <small>Active</small>
-          <br>
-          <small>5</small>
-        </div>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
@@ -67,13 +48,13 @@ img {
   align-items: stretch;
   text-align: center;
   small:first-child {
-    color: #999;
+    color: #666;
   }
 }
 .style {
 }
 .img-container {
-  filter: invert(1);
+  filter: invert(0.2);
   max-width: 48px;
 }
 .text-container {

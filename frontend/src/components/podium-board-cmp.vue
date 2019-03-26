@@ -3,8 +3,10 @@
     <h1>Our Daily Stars</h1>
     <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
   </div>-->
-  <section v-if="users">
-    Daily Stars
+
+  <section>
+    <div class="podium-title">Daily Stars</div>
+
     <div class="podium-board-container">
       <div class="podium-container">
         <img :src="users[1].avatarUrl" class="user-avatar-test">
@@ -16,11 +18,13 @@
         <img :src="users[2].avatarUrl" class="user-avatar-test">
         <div class="podium place-1">
           <img class="first-trophy" src="../assets/icons/gold.svg">
+          <div class="user-score">{{users[2].score}}</div>
         </div>
       </div>
       <div class="podium-container">
         <img :src="users[0].avatarUrl" class="user-avatar-test">
         <div class="podium place-3">
+          <div class="user-score">{{users[0].score}}</div>
         </div>
       </div>
     </div>
@@ -79,7 +83,6 @@ section {
 .podium-board-container {
   display: flex;
   flex-direction: row;
-  margin: 20px;
   justify-content: center;
 }
 .podium-container {
@@ -89,8 +92,8 @@ section {
   align-items: center;
 }
 .podium {
-  width: 80px;
-  border: 1px solid rgb(105, 105, 105);
+  width: 92px;
+  border: 1px solid #999;
   background-color: transparent;
   margin-left: -1px;
   display: flex;
@@ -107,13 +110,14 @@ section {
 }
 
 .podium img {
-  filter: invert(1);
+  filter: invert(0.2);
 }
 .place-1 {
   height: 180px;
 }
 .place-2 {
   height: 140px;
+  margin-left: -1px;
 }
 .place-3 {
   height: 100px;
@@ -146,5 +150,9 @@ h4 {
 }
 .podium-container .user-avatar-test {
   border-radius: 50%;
+}
+
+.podium-title {
+  margin-bottom: 10px;
 }
 </style>

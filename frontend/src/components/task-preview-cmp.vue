@@ -22,12 +22,18 @@
       <h3 class="title" @click="showTaskDetails(task._id)">{{task.title}}</h3>
       <p class="description truncate">{{task.desc}}</p>
       <div class="task-extra-info" @click="showTaskDetails(task._id)">
-        <img class="task-info-item" src="@/assets/icons/hourglass.svg">
-        <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
-        <img class="task-info-item" src="@/assets/icons/blogging.svg">
-        <small>{{task.comments.length}}</small>&nbsp;&nbsp;
-        <img class="task-info-item" src="@/assets/icons/information.svg">
-        <small>more info</small>&nbsp;
+        <div class="task-info-item-container">
+          <img class="task-info-item" src="@/assets/icons/hourglass.svg">
+          <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
+        </div>
+        <div class="task-info-item-container">
+          <img class="task-info-item" src="@/assets/icons/blogging.svg">
+          <small>{{task.comments.length}}</small>&nbsp;&nbsp;
+        </div>
+        <div class="task-info-item-container">
+          <img class="task-info-item" src="@/assets/icons/information.svg">
+          <small>more info</small>&nbsp;
+        </div>
       </div>
     </div>
 
@@ -38,7 +44,12 @@
         :type="buttonClass"
         @click.native="clickOnTask(task._id)"
       >{{buttonText}}</el-button>
-      <el-button v-if="task.helperId" type="primary" @click.native="markDone(task)" class="checkmark-btn">
+      <el-button
+        v-if="task.helperId"
+        type="primary"
+        @click.native="markDone(task)"
+        class="checkmark-btn"
+      >
         <img class="checkmark" src="@/assets/icons/checked.svg">
       </el-button>
     </div>
@@ -164,6 +175,17 @@ export default {
 }
 .task-extra-info {
   display: flex;
+}
+
+.task-extra-info {
+  color: #999;
+}
+.task-info-item-container {
+  display: flex;
+  align-items: center;
+}
+.task-info-item {
+  filter: invert(0.5);
 }
 .main-actions-container {
   display: flex;
