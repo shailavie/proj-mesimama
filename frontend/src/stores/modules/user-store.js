@@ -41,13 +41,13 @@ const userStore = {
             console.log(context.state.currUser.notifications)
           },
           async loadUsersWithTasks(context) {
+            console.log('LOADING USERS!')
             let activeTasks = await taskService.query()
             let usersWithTasks = await userService.getUsers()
-            usersWithTasks.map(user => user.tasks = [])
             usersWithTasks.map(user => {
               user.tasks = []
               activeTasks.forEach(task => {
-                if (task.helperId === user._id)
+                if (task.helperId === user._id && task.status !== 'done')
                   user.tasks.push(task)
               })
             })

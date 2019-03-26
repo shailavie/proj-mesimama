@@ -71,13 +71,9 @@
 </template>
 
 <script>
-import userAvatar from "./user-avatar-cmp.vue";
 
 export default {
   props: ["task"],
-  components: {
-    userAvatar
-  },
   data() {
     return {
       showTaskActions: false,
@@ -273,15 +269,7 @@ h5 {
   cursor: pointer;
 }
 
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 30px;
-  left: 10px;
-  border-radius: 40px;
-  z-index: 1;
-}
+ 
 
 // Animations
 

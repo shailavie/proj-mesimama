@@ -106,9 +106,6 @@ export default {
       );
       return [{ tasks: allUnOwnedTasks }];
     },
-    taskListTitle() {
-      return this.showMyTasks ? this.myTasksCount : this.allTasksCount;
-    },
     userToShow() {
       return this.$store.getters.currUser;
     }

@@ -48,6 +48,8 @@ const store = new Vuex.Store({
       await taskService.removeTask(taskId)
       context.commit({ type: 'removeTask', taskId })
       context.dispatch({ type: 'loadActiveTasks' })
+      // Reloading users with tasks 
+      context.dispatch({ type: 'loadUsersWithTasks' })
       socketService.emit('reloadTasks')
       Vue.notify({
         group: 'foo',
@@ -95,6 +97,7 @@ const store = new Vuex.Store({
     async markDone(context, task) {
       console.log('at store with :', task)
       var updatedTask = await taskService.markDone(task)
+      
       console.log('at store after done', updatedTask)
       // context.dispatch({ type: 'setCurrUser' })
       // context.dispatch({ type: 'loadActiveTasks' })

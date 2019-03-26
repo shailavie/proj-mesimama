@@ -69,7 +69,6 @@ export default {
       this.$emit("task-owned", taskId);
     },
     doneTask(task) {
-      console.log('at list')
       this.$emit("task-done", task);
     },
     passTask(task) {
