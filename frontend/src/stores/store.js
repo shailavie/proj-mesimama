@@ -75,7 +75,6 @@ const store = new Vuex.Store({
       await taskService.ownTask(taskId, userStore.state.currUser._id)
       context.commit({ type: 'ownTask', taskId, helperId: userStore.state.currUser._id })
       socketService.emit('owningTask', userStore.state.currUser)
-      console.log('task is owned')
     },
     async passTask(context, task) {
       var id = task._id
@@ -93,9 +92,7 @@ const store = new Vuex.Store({
       socketService.emit('taskPassed', obj)
     },
     async markDone(context, task) {
-      console.log('at store with :', task)
       var updatedTask = await taskService.markDone(task)
-      console.log('at store after done', updatedTask)
       // context.dispatch({ type: 'setCurrUser' })
       // context.dispatch({ type: 'loadActiveTasks' })
       // context.dispatch({ type: 'loadGroup' })
@@ -111,6 +108,7 @@ const store = new Vuex.Store({
           classes: 'vue-notification',
           text: `Good job, keep it up! `
         })
+        socketService.emit('updateTask',task)
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
         let group = await context.getters.currGroup
@@ -126,7 +124,6 @@ const store = new Vuex.Store({
         context.commit({ type: 'addTask', newTask })
         //sending to server the notification and new task for update and broadcast to all users
         socketService.emit("addedTask", newTask);
-        console.log('STORE DONE ADDING NEW TASK')
       }
     },
   },

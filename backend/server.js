@@ -54,6 +54,10 @@ io.on('connection', socket => {
     socket.on('owningTask', user => {
         io.emit('taskOwnedBy', user)
     })
+    //TASK WAS UPDATED
+    socket.on('updateTask',task=>{
+        socket.broadcast.emit('publishUpdatedTask',task)
+    })
     //TASK WAS PASSED
     socket.on('taskPassed', obj => {
         let task = obj.task

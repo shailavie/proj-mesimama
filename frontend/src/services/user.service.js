@@ -34,7 +34,6 @@ function updateUser(user) {
         axios.put(`${BASE_URL}/users`, user)
             .then(res => {
                 let updatedUser = res.data
-                console.log(updatedUser,'after server update $$$$')
                 resolve(updatedUser)
             })
     })
@@ -73,7 +72,6 @@ function getUsers() {
 
 //update user notifications 
  function updateGroupNotifications(group,notification){
-    console.log(group)
     group.forEach((user)=>{
         if (!user.isDirector){
             let notifs = user.notifications
@@ -88,6 +86,5 @@ function getUsers() {
                })
         }
     })
-    console.log(group,'after change')
     } 
 

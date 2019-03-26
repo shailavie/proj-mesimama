@@ -42,17 +42,28 @@ function connectSocket() {
 	// TASK WAS OWNED
 	socket.on('taskOwnedBy', user => {
 		refreshTasks()
+		refreshUserTasks()
 		_toasting(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
 	})
 	//TASK WAS PASSED
 	socket.on('publishPassedTask', task => {
 		refreshTasks()
+		refreshUserTasks()
 		_toasting(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
-
+	})
+	//TASK WAS UPDATED
+	socket.on('publishUpdatedTask',task=>{
+		refreshTasks()
+		refreshUserTasks()
 	})
 
-	// ON DELETE TASK. DONT SEND TOAST, JUST REFRESH THE DATA FOR USERS.
-	socket.on('loadTasks', refreshTasks)
+	// TASK WAS DELETED . 
+	socket.on('loadTasks', deleteRefreshCallBack)
+
+	async function deleteRefreshCallBack() {
+		await refreshUserTasks()
+		await refreshTasks()
+	}
 
 	//NEW TASK ADDED
 	socket.on('newTaskPublish', refreshCallback)
@@ -67,10 +78,10 @@ function connectSocket() {
 	socket.on('taskAcomplished', acomplishedCallBack)
 
 	async function acomplishedCallBack() {
-		console.log('got to acomplish at socket service')
 		await refreshTasks()
 		await refreshUser()
 		await refreshGroup()
+		await refreshUserTasks()
 		_toasting('Someone acomplished a task!', 'success', 'Mom will be so happy!')
 	}
 
@@ -90,6 +101,9 @@ function refreshUser() {
 
 function refreshGroup() {
 	return store.dispatch({ type: 'loadGroup' })
+}
+function refreshUserTasks() {
+	return store.dispatch({ type: "loadUsersWithTasks" });
 }
 
 function send(msg) {

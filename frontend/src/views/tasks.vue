@@ -118,7 +118,6 @@ export default {
       this.$store.dispatch("ownTask", taskId);
     },
     doneTask(task) {
-      console.log('at tasks :',task)
       this.$store.dispatch("markDone", task);
     },
     passTask(task) {

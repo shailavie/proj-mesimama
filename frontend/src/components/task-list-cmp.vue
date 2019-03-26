@@ -65,11 +65,9 @@ export default {
   },
   methods: {
     ownTask(taskId) {
-      console.log("task list: task is owened", taskId);
       this.$emit("task-owned", taskId);
     },
     doneTask(task) {
-      console.log('at list')
       this.$emit("task-done", task);
     },
     passTask(task) {

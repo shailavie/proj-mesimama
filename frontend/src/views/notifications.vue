@@ -25,13 +25,13 @@ export default {
     };
   },
   created() {
-    setTimeout(() => {
-      this.user.notifications.forEach(notification => {
-        notification.isRead = true;
-      });
-      let user = this.user;
-      this.$store.dispatch({ type: "updateUser", user });
-    }, 10000);
+    // setTimeout(() => {
+    //   this.user.notifications.forEach(notification => {
+    //     notification.isRead = true;
+    //   });
+    //   let user = this.user;
+    //   this.$store.dispatch({ type: "updateUser", user });
+    // }, 10000);
   },
   methods: {
     isRead(notification) {
@@ -44,7 +44,10 @@ export default {
       }
 
   },
-  beforeDestroy:{}
+  beforeDestroy(){
+    console.log('got here');
+    this.$store.dispatch({type:'updateUserNotifications'})
+  }
 };
 </script>
 
