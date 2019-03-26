@@ -79,8 +79,10 @@ function connectSocket() {
 	})
 }
 
+
 function refreshTasks() {
 	return store.dispatch({ type: "loadActiveTasks" })
+
 }
 function refreshUser() {
 	return store.dispatch({ type: 'setCurrUser' })

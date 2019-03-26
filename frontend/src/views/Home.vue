@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <header class="wrapper">
+    <header>
       <header-cmp/>
     </header>
     <main>
@@ -20,3 +20,7 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+</style>

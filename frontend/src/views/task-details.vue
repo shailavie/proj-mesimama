@@ -7,7 +7,7 @@
           <!-- <div><small>Points: {{task.points}}</small></div> -->
           <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
           <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
-          <p>{{task.desc}}</p>
+          <p class="details-content-desc">{{task.desc}}</p>
         </div>
         <div class="text-details-comments">
           <task-comments
@@ -88,28 +88,17 @@ export default {
     },
     userToDisplay() {
       return this.$store.getters.currUser;
+    },
+    taskHelper() {
+      if (this.task.helperId) {
+        return userService.getUserById(this.task.helperId);
+      }
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.task-details-container {
-  padding-top: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.task-details-center-box {
-  padding: 40px;
-  flex-basis: 50%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  background: #fff;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-}
 
 @media (max-width: 768px) {
   .task-details-center-box {
@@ -121,6 +110,11 @@ export default {
   padding-right: 40px;
   flex-basis: 50%;
 }
+
+.details-content-desc {
+  text-transform: capitalize;
+}
+
 .details-tag {
   display: inline-block;
   padding: 4px 6px;
@@ -128,7 +122,7 @@ export default {
   border-radius: 3px;
   margin-right: 3px;
   font-size: 0.8em;
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-weight: 300;
 }
 

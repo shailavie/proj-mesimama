@@ -1,12 +1,26 @@
 <template>
   <section class="task-list-page">
-
     <section class="all-tasks-panel">
+      <!-- <pre>{{myTasksToShow}}</pre> -->
+      <!-- <pre>{{othersTasksToShow}}</pre> -->
+      <!-- {{userToShow}} -->
+
       <!-- My Tasks -->
       <task-list-cmp
         v-if="userToShow"
-        :title="myTasksCount"
         :tasks="myTasksToShow"
+        @task-owned="ownTask($event)"
+        @task-passed="passTask($event)"
+        @task-done="doneTask($event)"
+        @toggle-tasks="toggleTasks"
+        @task-edit="editTask($event)"
+        @task-remove="removeTask($event)"
+      ></task-list-cmp>
+
+      <!-- Others Tasks -->
+      <task-list-cmp
+        v-if="userToShow"
+        :tasks="othersTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -17,8 +31,7 @@
 
       <!-- Live Tasks -->
       <task-list-cmp
-        :title="taskListTitle"
-        :tasks="tasksToShow"
+        :tasks="unOwnedTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -26,12 +39,14 @@
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
-
     </section>
 
     <section class="stats-panel">
-      <podium-board-cmp></podium-board-cmp>
+      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
+
       <dash-board></dash-board>
+      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
+      <podium-board-cmp></podium-board-cmp>
       <photo-gallery/>
     </section>
   </section>
@@ -55,7 +70,7 @@ export default {
   },
   data() {
     return {
-      value: false, //TO DO - Check if we still need this value (used for toggle)
+      value: false,
       showMyTasks: false,
       window: {
         width: 0
@@ -64,6 +79,7 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch({ type: "loadUsersWithTasks" });
     this.$store.dispatch({ type: "loadActiveTasks" });
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
@@ -72,39 +88,45 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   computed: {
+    tasksWithNoHelpers() {
+      return this.$store.getters.tasksWithNoHelpers;
+    },
+    usersWithTasks() {
+      return this.$store.getters.usersWithTasks;
+    },
     tasksToShow() {
       return !this.showMyTasks
-        ? this.$store.getters.filteredTasks.filter(
+        ? this.$store.getters.usersWithTasks.filter(
             task => task.helperId === null
           )
-        : this.$store.getters.filteredTasks.filter(
+        : this.$store.getters.usersWithTasks.filter(
             task => task.helperId !== null
           );
     },
+
     myTasksToShow() {
-      return this.$store.getters.filteredTasks.filter(task => task.helperId === this.userToShow._id)
-    },
-    tasksToShowDT() {
-      return this.$store.getters.filteredTasks.filter(
-        task => task.helperId !== null
+      return this.$store.getters.usersWithTasks.filter(
+        user => user._id === this.userToShow._id
       );
+    },
+    othersTasksToShow() {
+      return this.$store.getters.usersWithTasks.filter(
+        user => user._id !== this.userToShow._id
+      );
+    },
+    unOwnedTasksToShow2() {
+      return [
+        {tasks: [this.$store.getters.tasksWithNoHelpers]},
+        ];
+    },
+    unOwnedTasksToShow() {
+      let allUnOwnedTasks = this.$store.getters.allTasks.filter(task => task.helperId === null)
+      return [{tasks: allUnOwnedTasks}]
     },
     taskListTitle() {
       return this.showMyTasks ? this.myTasksCount : this.allTasksCount;
     },
-    allTasksCount() {
-      let allTasksCount = this.$store.getters.filteredTasks.filter(
-        task => task.helperId === null
-      ).length;
-      return `Live Tasks (${allTasksCount})`;
-    },
-    myTasksCount() {
-      let allTasksCount = this.$store.getters.filteredTasks.filter(
-        task => task.helperId !== null
-      ).length;
-      return `My Tasks (${allTasksCount})`;
-    },
-    userToShow(){
+    userToShow() {
       return this.$store.getters.currUser;
     }
   },
@@ -138,10 +160,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.stats-panel {
-  background-color: #d3dbde;
-  padding: 0 20px;
-}
 .task-list-page {
   // width: 100%;
   display: grid;
@@ -149,15 +167,17 @@ export default {
   grid-template-columns: 1fr 400px;
 }
 .all-tasks-panel {
-  background-color: #d3dbde;
   grid-area: tasks;
+  padding-left: 40px;
 }
 .stats-panel {
+  padding: 40px 60px 0px 60px;
   display: flex;
   flex-direction: column;
   text-align: center;
   grid-area: stats;
-  background-color: rgb(91, 93, 209);
+  background-color: #1c1735;
+  color: #fff;
 }
 .toggle-tasks {
   margin: 10px auto;
@@ -179,7 +199,6 @@ export default {
 .task-list-title {
   text-align: center;
 }
-
 </style>
 
 

@@ -8,20 +8,24 @@ import socketService from '../services/socket.service.js'
 //Delete router, only for dev!
 import Router from 'vue-router'
 Vue.use(Router)
-
 Vue.use(Vuex)
+
 export default new Vuex.Store({
   modules: {
     // storeTasks 
   },
   state: {
     taskItems: [],
+    usersWithTasks: [],
     filterBy: {},
     currTask: null,
     currUser: null,
     currGroup: []
   },
   mutations: {
+    setUsersWithTasks(state, { usersWithTasks }) {
+      state.usersWithTasks = usersWithTasks
+    },
     loadGroup(state, { users }) {
       users = users.sort(function (a, b) {
         return a.score > b.score ? 1 : -1;
@@ -89,16 +93,26 @@ export default new Vuex.Store({
     },
 
     async updateUser(context, { user }) {
-      console.log(context.state.currUser)
       let updatedUser = await userService.updateUser(user)
       context.state.currUser = updatedUser
       console.log(context.state.currUser.notifications)
     },
-
+    async loadUsersWithTasks(context) {
+      let activeTasks = await taskService.query()
+      let usersWithTasks = await userService.getUsers()
+      usersWithTasks.map(user => user.tasks = [])
+      usersWithTasks.map(user => {
+        user.tasks = []
+        activeTasks.forEach(task => {
+          if (task.helperId === user._id)
+            user.tasks.push(task)
+        })
+      })
+      context.commit({ type: 'setUsersWithTasks', usersWithTasks })
+    },
     async loadActiveTasks(context) {
       let activeTasks = await taskService.query()
       context.commit({ type: 'setTaskItems', activeTasks })
-
     },
     async loadTask(context, { taskId }) {
       let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
@@ -176,8 +190,14 @@ export default new Vuex.Store({
     notifications(state) {
       return state.notifications
     },
-    filteredTasks(state) {
-      return state.taskItems
+    usersWithTasks(state) {
+      return state.usersWithTasks
+    },
+    tasksWithNoHelpers(state) {
+      return state.taskItems.filter(task =>  task.helperId === null)
+    },
+    allTasks(state) {
+      return state.taskItems 
     },
     currUserId(state) {
       return state.currUser._id

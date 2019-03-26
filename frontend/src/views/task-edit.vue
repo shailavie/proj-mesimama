@@ -1,7 +1,7 @@
 <template>
   <section v-if="taskToEdit" class="task-edit-page">
-    <div class="task-edit-container">
-      <div class="task-edit-form-container">
+    <div class="task-details-container">
+      <div class="task-details-center-box">
         <el-form @submit.native.prevent="saveTask" :model="taskToEdit" label-width="100px">
           <el-form-item label="Title">
             <el-input type="text" :maxlength="25" v-model="taskToEdit.title"></el-input>
@@ -24,13 +24,15 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
-          <el-button class="save-btn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
-          <el-button
-            v-if="taskToEdit._id"
-            class="remove-btn"
-            type="secondary"
-            @click.native.prevent="removeTask"
-          >Delete Task</el-button>
+          <el-form-item>
+            <el-button class="save-btn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
+            <el-button
+              v-if="taskToEdit._id"
+              class="remove-btn"
+              type="secondary"
+              @click.native.prevent="removeTask"
+            >Delete Task</el-button>
+          </el-form-item>
         </el-form>
       </div>
     </div>
@@ -76,7 +78,7 @@ export default {
       this.taskToEdit.directorId = this.$store.getters.currDirectorId;
       this.taskToEdit.points = Number(this.taskToEdit.points);
       this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
-        this.$store.dispatch({ type: "loadActiveTasks" }).then(() => {
+        this.$store.dispatch({ type: "loadUsersWithTasks" }).then(() => {
           this.$router.push("/app/tasks");
         });
       });
@@ -96,7 +98,6 @@ export default {
 
 <style scoped lang="scss">
 .task-edit-page {
-  display: flex;
 }
 .task-details {
   max-width: 400px;

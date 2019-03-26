@@ -1,41 +1,40 @@
 <template>
-  <section v-if="users">
-    <h1>The Daily Stars!</h1>
+  <!-- <div v-if="users">
+    <h1>Our Daily Stars</h1>
+    <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
+  </div>-->
+  <section>
+    <div class="podium-title">Daily Stars</div>
     <div class="podium-board-container">
       <div class="podium-container">
-        <user-avatar :url="users[1].avatarUrl"></user-avatar>
+        <img :src="users[1].avatarUrl" class="user-avatar-test">
         <div class="podium place-2">
-          <h3>{{users[1].name}}</h3>
-          <img class="second-trophy" src="../assets/icons/trophy.svg">
-          <h4>{{users[1].score}}</h4>
+          <div class="user-score">{{users[1].score}}</div>
         </div>
       </div>
       <div class="podium-container">
-        <user-avatar :url="users[2].avatarUrl"></user-avatar>
+        <img :src="users[2].avatarUrl" class="user-avatar-test">
         <div class="podium place-1">
-          <h3>{{users[2].name}}</h3>
           <img class="first-trophy" src="../assets/icons/gold.svg">
-          <h4>{{users[2].score}}</h4>
+          <div class="user-score">{{users[2].score}}</div>
         </div>
       </div>
       <div class="podium-container">
-        <user-avatar :url="users[0].avatarUrl"></user-avatar>
-        <div class="podium place-3" >
-          <h3>{{users[0].name}}</h3>
-          <img class="third-trophy" src="../assets/icons/trophy.svg">
-          <h4>{{users[0].score}}</h4>
+        <img :src="users[0].avatarUrl" class="user-avatar-test">
+        <div class="podium place-3">
+          <div class="user-score">{{users[0].score}}</div>
         </div>
       </div>
     </div>
   </section>
 </template>
-
 <script>
 import userService from "../services/user.service.js";
-import userAvatar from './user-avatar-cmp.vue'
+import userAvatarCmp from "../components/user-avatar-cmp.vue";
 export default {
-  components:{
-    userAvatar
+  components: {
+    userAvatarCmp
+
   },
   props: [],
   data() {
@@ -67,7 +66,6 @@ export default {
     users() {
       let group = this.$store.getters.currGroup;
       let users = group.slice(group.length - 3, group.length);
-
       return users;
     }
   }
@@ -75,10 +73,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+section {
+  margin: 40px 0;
+}
 .podium-board-container {
   display: flex;
   flex-direction: row;
-  margin: 20px;
+  justify-content: center;
 }
 .podium-container {
   display: flex;
@@ -87,22 +88,32 @@ export default {
   align-items: center;
 }
 .podium {
-  width: 100px;
-  border: 1px solid rgb(105, 105, 105);
-  background-color: #fdfbfb;
+  width: 92px;
+  border: 1px solid #999;
+  background-color: transparent;
   margin-left: -1px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
   padding: 5px;
-  border-radius: 8px 8px 0 0;
+  border-radius: 5px 5px 0 0;
+  opacity: 0.8;
+}
+
+.user-score {
+  font-size: 0.6;
+}
+
+.podium img {
+  filter: invert(0.2);
 }
 .place-1 {
   height: 180px;
 }
 .place-2 {
   height: 140px;
+  margin-left: -1px;
 }
 .place-3 {
   height: 100px;
@@ -111,20 +122,33 @@ img {
   margin: 0 auto;
   width: 50px;
   height: 50px;
-  border-radius: 100px;
   margin-bottom: 10px;
 }
-.second-trophy{
+.second-trophy {
   width: 35px;
   height: 35px;
 }
-.third-trophy{
+.third-trophy {
   width: 25px;
   height: 25px;
+}
+
+h1 {
+  margin-top: 20px;
+}
+h3 {
+  font-weight: 500;
 }
 h4 {
   margin: 0;
   font-size: 20px;
   padding-bottom: 5px;
+}
+.podium-container .user-avatar-test {
+  border-radius: 50%;
+}
+
+.podium-title {
+  margin-bottom: 10px;
 }
 </style>
