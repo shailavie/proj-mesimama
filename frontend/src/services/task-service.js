@@ -47,7 +47,6 @@ function updateTask(task) {
     })
 }
 function markDone(task){
-    console.log(task,'at task service')
     return new Promise((resolve, reject) => {
         axios.put(`${BASE_URL}/tasks/${task._id}/done`)
             .then(res => {
@@ -114,6 +113,5 @@ function getEmptyComment() {
         txt: '',
         createdAt: null,
     }
-    console.log('task service sending empty comment', emptyComment)
     return emptyComment
 }
