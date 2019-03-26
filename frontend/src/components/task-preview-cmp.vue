@@ -102,6 +102,7 @@ export default {
       this.$emit("task-edit", taskId);
     },
     markDone(task) {
+      console.log('at preview')
       this.$emit("task-done", task);
     },
     removeTask(taskId) {

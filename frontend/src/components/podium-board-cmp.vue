@@ -1,9 +1,10 @@
 <template>
-  <!-- <div v-if="users">
-    <h1>Our Daily Stars</h1>
+  <!-- <div v-if="users.length >= 2"> -->
+  <!-- <h1>Our Daily Stars</h1>
+    <img :src="users[1].avatarUrl" class="user-avatar-test">
     <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
   </div>-->
-  <section>
+  <section v-if="users.length >= 2">
     <div class="podium-title">Daily Stars</div>
     <div class="podium-board-container">
       <div class="podium-container">
@@ -34,33 +35,14 @@ import userAvatarCmp from "../components/user-avatar-cmp.vue";
 export default {
   components: {
     userAvatarCmp
-
   },
   props: [],
   data() {
-    return {
-      // users: {
-      //   place1: {
-      //     name: "Saba Zion",
-      //     score: 138,
-      //     imgSrc: "/img/users/grampa.jpeg"
-      //   },
-      //   place2: {
-      //     name: "Savta Bracha",
-      //     score: 102,
-      //     imgSrc: "/img/users/grandma.jpg"
-      //   },
-      //   place3: {
-      //     name: "Shlomi",
-      //     score: 96,
-      //     imgSrc: "/img/users/dad.jpg"
-      //   }
-      // }
-    };
+    return {};
   },
-  async created() {
-    this.$store.dispatch("loadGroup");
-  },
+  // async created() {
+  //  await this.$store.dispatch("loadGroup");
+  // },
 
   computed: {
     users() {

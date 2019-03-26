@@ -89,7 +89,7 @@ function refreshUser() {
 }
 
 function refreshGroup() {
-	return context.dispatch({ type: 'loadGroup' })
+	return store.dispatch({ type: 'loadGroup' })
 }
 
 function send(msg) {
