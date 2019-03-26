@@ -96,7 +96,6 @@ export default {
     },
     async printSession() {
       let test = await axios.get("http://localhost:3003/api/users/current");
-      console.log(test.data);
     },
     async getTeam() {
       let users = await axios.get("http://localhost:3003/api/users");

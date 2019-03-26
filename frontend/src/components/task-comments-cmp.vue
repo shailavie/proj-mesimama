@@ -37,10 +37,8 @@ export default {
     };
   },
   created() {
-    console.log("got this from papa", this.newComment);
     this.newCommentToEdit = utilService.deepCopy(this.newComment);
     // this.newCommentToEdit =  this.newComment
-    console.log("copy this!!!!", this.newCommentToEdit);
   },
   methods: {
     addNewComment() {

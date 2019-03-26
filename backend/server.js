@@ -63,12 +63,9 @@ io.on('connection', socket => {
     })
 
     //TASK WAS ADDED- send to everyone but mom
-    socket.on('addedTask', (obj) => {
-        //update user with new notification
+    socket.on('addedTask', (newTask) => {
         //toast for users about new task
-        socket.broadcast.emit('newTaskPublish', obj.newTask)
-        //update all users with new notification
-        socket.broadcast.emit('updateUserNotifications', obj.notification)
+        socket.broadcast.emit('newTaskPublish',newTask)
     })
 
     //TASK WAS ACOMPLISHED

@@ -31,7 +31,7 @@ export default {
       });
       let user = this.user;
       this.$store.dispatch({ type: "updateUser", user });
-    }, 2500);
+    }, 10000);
   },
   methods: {
     isRead(notification) {
@@ -43,7 +43,8 @@ export default {
       return this.$store.getters.currUser;
       }
 
-  }
+  },
+  beforeDestroy:{}
 };
 </script>
 

@@ -13,7 +13,6 @@ function addUserRoutes(app) {
                 let directorId = (user.isDirector) ? user._id : user.directorId
                 userService.query(directorId)
                     .then(users => {
-                        console.log(users)
                         res.json(users)
                     })
             })
