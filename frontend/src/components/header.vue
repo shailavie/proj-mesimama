@@ -165,6 +165,6 @@ span.nav-item.user {
     display: none;
   }
 
-}
+}}
 </style>
 
