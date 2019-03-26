@@ -78,35 +78,35 @@ const userStore = {
     currUser(state) {
       return state.currUser
     },
+  },
+  actions: {
+    async loadGroup(context) {
+      let users = await userService.getUsers()
+      context.commit({ type: 'loadGroup', users })
+    },
+    async setCurrUser(context) {
+      let currUser = await userService.getCurrUser()
+      context.commit({ type: 'setCurrUser', currUser })
+    },
 
-    actions: {
-        async loadGroup(context) {
-            let users = await userService.getUsers()
-            context.commit({ type: 'loadGroup', users })
-        },
-        async setCurrUser(context) {
-            let currUser = await userService.getCurrUser()
-            context.commit({ type: 'setCurrUser', currUser })
-          },
-      
-          async updateUser(context, { user }) {
-            let updatedUser = await userService.updateUser(user)
-            context.state.currUser = updatedUser
-            console.log(context.state.currUser.notifications)
-          },
-          async loadUsersWithTasks(context) {
-            console.log('LOADING USERS!')
-            let activeTasks = await taskService.query()
-            let usersWithTasks = await userService.getUsers()
-            usersWithTasks.map(user => {
-              user.tasks = []
-              activeTasks.forEach(task => {
-                if (task.helperId === user._id && task.status !== 'done')
-                  user.tasks.push(task)
-              })
-            })
-            context.commit({ type: 'setUsersWithTasks', usersWithTasks })
-          },
+    async updateUser(context, { user }) {
+      let updatedUser = await userService.updateUser(user)
+      context.state.currUser = updatedUser
+      console.log(context.state.currUser.notifications)
+    },
+    async loadUsersWithTasks(context) {
+      console.log('LOADING USERS!')
+      let activeTasks = await taskService.query()
+      let usersWithTasks = await userService.getUsers()
+      usersWithTasks.map(user => {
+        user.tasks = []
+        activeTasks.forEach(task => {
+          if (task.helperId === user._id && task.status !== 'done')
+            user.tasks.push(task)
+        })
+      })
+      context.commit({ type: 'setUsersWithTasks', usersWithTasks })
+    },
 
     currDirectorId(state) {
       return (state.currUser.isDirector) ? state.currUser._id : state.currUser.directorId
@@ -120,4 +120,5 @@ const userStore = {
     }
   }
 }
+
 export default userStore;
