@@ -43,7 +43,6 @@ export default {
     };
   },
   async created() {
-    console.log("DETAILS PAGE LOADING...");
     let taskId = this.$route.params.taskId;
     if (taskId) {
       this.task = await this.$store.dispatch({
@@ -52,7 +51,6 @@ export default {
       });
     }
     this.newComment = taskService.getEmptyComment();
-    console.log("NEW COMMENT FROM SERVICE", this.newComment);
   },
   methods: {
     ownTask(taskId) {
