@@ -7,24 +7,27 @@
       <h2>No Tasks?</h2>
       <img class="emptyState" src="/img/icons/emptyState.png">
       <h4>Me and mom have a nickname for people with no tasks..</h4>
-      <el-button type="primary" @click="$emit('toggle-tasks')">Take Responsibility!</el-button>
     </div>
 
     <!-- Tasks -->
     <div class="task-list-container">
-   
       <!-- User avatar and name -->
       <ul v-if="tasks">
-        <div class="user-tasks-container" v-for="currUser in tasks" :key="currUser._id">
-          <div class="user-info">
-            <div class="user-avatar" :style="getAvatarUrlBg(currUser.avatarUrl)"></div>
-            <h2>{{currUser._id === thisUser._id? 'You' :currUser.name}}</h2>
-            <h2>{{currTitle(currUser)}}</h2>
-            <h3>&nbsp;({{currUser.tasks.length}})</h3>
+        <div class="user-tasks-container" v-for="userToRender in tasks" :key="userToRender._id">
+          <div class="user-info" v-if="userToRender._id">
+            <div class="user-avatar" :style="getAvatarUrlBg(userToRender.avatarUrl)"></div>
+            <h2>{{userToRender._id === thisUser._id? 'You' :userToRender.name}}</h2>
+            <h2>{{currTitle(userToRender)}}</h2>
+            <h3>&nbsp;({{userToRender.tasks.length}})</h3>
+          </div>
+         <div class="user-info" v-else>
+            <user-avatar :url="'https://cdn3.iconfinder.com/data/icons/people-emoji/50/Baby2-512.png'"/>
+            <h2>Shit to do</h2>
+            <h3>&nbsp;({{userToRender.tasks.length}})</h3>
           </div>
           <ul>
             <!-- User's tasks -->
-            <li v-for="currTask in currUser.tasks" :key="currTask._id">
+            <li v-for="currTask in userToRender.tasks" :key="currTask._id">
               <task-preview
                 :task="currTask"
                 @task-owned="ownTask($event)"
@@ -44,7 +47,7 @@
 <script>
 import taskPreview from "./task-preview-cmp.vue";
 import userService from "../services/user.service.js";
-import userAvatar from "@/components/user-avatar-cmp.vue";
+import userAvatar from './user-avatar-cmp.vue'
 
 export default {
   props: ["tasks", "title"],
@@ -80,9 +83,9 @@ export default {
     getAvatarUrlBg(url) {
       return { backgroundImage: `url(${url})` };
     },
-    currTitle(currUser){
-      if (!currUser._id) return 'All Tasks'
-      else (currUser._id === this.thisUser._id)? 'You' :currUser.name
+    currTitle(userToRender){
+      if (!userToRender._id) return 'All Tasks'
+      else (userToRender._id === this.thisUser._id)? 'You' :userToRender.name
     }
   },
   computed: {
@@ -139,9 +142,9 @@ h1 {
   width: 48px;
   height: 48px;
   border-radius: 100px;
-  background-size: cover;
   background-position: center;
-  background-color: green;
+  background-size: cover;
+  // background: url('https://cdn3.iconfinder.com/data/icons/people-emoji/50/Baby2-512.png');
 }
 .user-info {
   display: flex;

@@ -12,7 +12,6 @@
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
-        @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
@@ -24,7 +23,6 @@
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
-        @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
@@ -35,7 +33,6 @@
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
-        @toggle-tasks="toggleTasks"
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
@@ -70,7 +67,6 @@ export default {
   data() {
     return {
       value: false,
-      showMyTasks: false,
       window: {
         width: 0
       },
@@ -93,16 +89,6 @@ export default {
     usersWithTasks() {
       return this.$store.getters.usersWithTasks;
     },
-    tasksToShow() {
-      return !this.showMyTasks
-        ? this.$store.getters.usersWithTasks.filter(
-            task => task.helperId === null
-          )
-        : this.$store.getters.usersWithTasks.filter(
-            task => task.helperId !== null
-          );
-    },
-
     myTasksToShow() {
       return this.$store.getters.usersWithTasks.filter(
         user => user._id === this.userToShow._id
@@ -113,14 +99,11 @@ export default {
         user => user._id !== this.userToShow._id
       );
     },
-    unOwnedTasksToShow2() {
-      return [
-        {tasks: [this.$store.getters.tasksWithNoHelpers]},
-        ];
-    },
     unOwnedTasksToShow() {
-      let allUnOwnedTasks = this.$store.getters.allTasks.filter(task => task.helperId === null)
-      return [{tasks: allUnOwnedTasks}]
+      let allUnOwnedTasks = this.$store.getters.allTasks.filter(
+        task => task.helperId === null
+      );
+      return [{ tasks: allUnOwnedTasks }];
     },
     taskListTitle() {
       return this.showMyTasks ? this.myTasksCount : this.allTasksCount;
@@ -138,10 +121,6 @@ export default {
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);
-      console.log("lala", task);
-    },
-    toggleTasks() {
-      this.showMyTasks = !this.showMyTasks;
     },
     handleResize() {
       this.window.width = window.innerWidth;
