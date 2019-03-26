@@ -79,7 +79,7 @@ function connectSocket() {
 }
 
 function refresh() {
-	return store.dispatch({ type: "loadActiveTasks" })
+	return store.dispatch({ type: "loadUsersWithTasks" })
 }
 
 function send(msg) {

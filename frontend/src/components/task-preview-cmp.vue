@@ -1,6 +1,7 @@
  
 <template>
   <section class="task-card">
+    
     <!-- Director actions Btn -->
     <el-button
       v-if="user.isDirector"
@@ -202,7 +203,7 @@ export default {
 .task-card {
   display: flex;
   position: relative;
-  width: 550px;
+  width: 650px;
   height: 120px;
   background-color: white;
   margin: 0 auto 20px auto;

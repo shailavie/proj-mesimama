@@ -78,7 +78,7 @@ export default {
       this.taskToEdit.directorId = this.$store.getters.currDirectorId;
       this.taskToEdit.points = Number(this.taskToEdit.points);
       this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
-        this.$store.dispatch({ type: "loadActiveTasks" }).then(() => {
+        this.$store.dispatch({ type: "loadUsersWithTasks" }).then(() => {
           this.$router.push("/app/tasks");
         });
       });

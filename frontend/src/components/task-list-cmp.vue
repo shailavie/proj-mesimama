@@ -1,7 +1,6 @@
 <template>
-  <section >
-    <!-- {{users}} -->
-    <h1 class="task-list-title">{{title}}</h1>
+  <section class="task-list-section">
+    <!-- <h1 class="task-list-title">{{title}}</h1> -->
 
     <!-- Empty State -->
     <div class="empty-state-container" v-if="!tasks.length">
@@ -13,24 +12,30 @@
 
     <!-- Tasks -->
     <div class="task-list-container">
-
-      <!-- title and user avatar -->
-      <!-- <ul v-if="usersToShow">
-          <user-avatar v-for="user in usersToShow" :key="user._id" :url="user.avatarUrl"/>
-      </ul> -->
-
-      <!-- Task items -->
-      <ul class="tasks-items">
-        <li v-for="currTask in tasks" :key="currTask._id">
-          <task-preview
-            :task="currTask"
-            @task-owned="ownTask($event)"
-            @task-done="doneTask($event)"
-            @task-passed="passTask($event)"
-            @task-edit="editTask($event)"
-            @task-remove="removeTask($event)"
-          ></task-preview>
-        </li>
+   
+      <!-- User avatar and name -->
+      <ul v-if="tasks">
+        <div class="user-tasks-container" v-for="currUser in tasks" :key="currUser._id">
+          <div class="user-info">
+            <div class="user-avatar" :style="getAvatarUrlBg(currUser.avatarUrl)"></div>
+            <h2>{{currUser._id === thisUser._id? 'You' :currUser.name}}</h2>
+            <h2>{{currTitle(currUser)}}</h2>
+            <h3>&nbsp;({{currUser.tasks.length}})</h3>
+          </div>
+          <ul>
+            <!-- User's tasks -->
+            <li v-for="currTask in currUser.tasks" :key="currTask._id">
+              <task-preview
+                :task="currTask"
+                @task-owned="ownTask($event)"
+                @task-done="doneTask($event)"
+                @task-passed="passTask($event)"
+                @task-edit="editTask($event)"
+                @task-remove="removeTask($event)"
+              ></task-preview>
+            </li>
+          </ul>
+        </div>
       </ul>
     </div>
   </section>
@@ -72,32 +77,26 @@ export default {
     removeTask(taskId) {
       this.$emit("task-remove", taskId);
     },
-    getHelperAvatarUrl() {}
+    getAvatarUrlBg(url) {
+      return { backgroundImage: `url(${url})` };
+    },
+    currTitle(currUser){
+      if (!currUser._id) return 'All Tasks'
+      else (currUser._id === this.thisUser._id)? 'You' :currUser.name
+    }
   },
   computed: {
-    getUniqueUsers() {
-      let helpers = [];
-      this.tasks.forEach(task => {
-        if (helpers.indexOf(task.helperId) === -1) {
-          helpers.push(task.helperId);
-        }
-      });
-      helpers.map(helper => {
-        // console.log(helper)
-        userService.getUserById(helper);
-      });
-      return helpers;
+    thisUser() {
+      return this.$store.getters.currUser;
     },
-    usersToShow(){
-      let users = this.$store.getters.currGroup
-      // console.log(users)
-       return users
-    }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.task-list-section {
+  margin-top: 20px;
+}
 ul {
   display: grid;
   grid-gap: 10px;
@@ -135,5 +134,33 @@ h1 {
   height: 100px;
   font-weight: 100;
   font-size: 20px;
+}
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 100px;
+  background-size: cover;
+  background-position: center;
+  background-color: green;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+
+  h2 {
+    margin-left: 10px;
+  }
+}
+
+ul li {
+  list-style-type: none;
+  list-style: none;
+}
+ul {
+  list-style: none;
+}
+.user-tasks-container {
+  text-align: left;
 }
 </style>
