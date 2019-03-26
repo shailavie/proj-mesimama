@@ -52,7 +52,7 @@ export default new Router({
           component: rewards
         },
         {
-          path: 'my-account',
+          path: 'my-account/:userId',
           name: 'my-account',
           component: myAccount
         },

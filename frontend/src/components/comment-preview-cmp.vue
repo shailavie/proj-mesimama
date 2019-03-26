@@ -2,7 +2,7 @@
 <template>
   <section v-if="userToDisplay">
     <div class="comment-container">
-      <user-avater-cmp :url="user.avatarUrl" class="user-avatar-comments"/>
+      <user-avater-cmp :url="user.avatarUrl" :userId="user._id" class="user-avatar-comments"/>
       <div class="comment-body">
         <div class="comment-user-name">
           <strong>{{user.name}}</strong>

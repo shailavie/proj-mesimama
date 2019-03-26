@@ -48,6 +48,8 @@ const store = new Vuex.Store({
       await taskService.removeTask(taskId)
       context.commit({ type: 'removeTask', taskId })
       context.dispatch({ type: 'loadActiveTasks' })
+      // Reloading users with tasks 
+      context.dispatch({ type: 'loadUsersWithTasks' })
       socketService.emit('reloadTasks')
       Vue.notify({
         group: 'foo',

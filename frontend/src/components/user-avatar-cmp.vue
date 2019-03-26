@@ -1,10 +1,12 @@
 <template>
-  <span class="user-avatar" :style="avatarBackgroundImgStyle"></span>
+  <router-link :to="'/app/my-account/'+userId">
+    <div class="user-avatar" :style="avatarBackgroundImgStyle"></div>
+  </router-link>
 </template>
 
 <script>
 export default {
-  props: ["url"],
+  props: ["url", "userId"],
   computed: {
     avatarBackgroundImgStyle() {
       return {
@@ -22,5 +24,6 @@ export default {
   border-radius: 100px;
   background-size: cover;
   background-position: center;
+  cursor: pointer;
 }
 </style>

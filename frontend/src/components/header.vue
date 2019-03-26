@@ -55,9 +55,9 @@
         </nav>
         <div class="current-user" v-if="currUser">
           <span class="nav-item user">
-            <router-link to="/app/my-account">
-              <user-avatar :url="avatarUrl"/>
-            </router-link>
+            <!-- <router-link to="/app/my-account"> -->
+              <user-avatar :url="avatarUrl" :userId="currUser._id"/>
+            <!-- </router-link> -->
           </span>
         </div>
       </div>

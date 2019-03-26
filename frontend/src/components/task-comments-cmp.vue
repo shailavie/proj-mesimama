@@ -8,7 +8,7 @@
         </li>
       </ul>
       <div v-show="newCommentToEdit" class="add-comment-container">
-        <user-avater-cmp :url="user.avatarUrl"/>
+        <!-- <user-avater-cmp :url="user.avatarUrl" :userId="user._id"/> -->
         <el-input
           v-model="newCommentToEdit.txt"
           @keyup.native.enter="addNewComment"
