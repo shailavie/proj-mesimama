@@ -66,6 +66,7 @@ export default {
       this.$emit("task-owned", taskId);
     },
     doneTask(task) {
+      console.log('at list')
       this.$emit("task-done", task);
     },
     passTask(task) {
@@ -87,7 +88,8 @@ export default {
   },
   computed: {
     thisUser() {
-      return this.$store.getters.currUser;
+      let user = this.$store.getters.currUser;
+      return user
     },
   }
 };
