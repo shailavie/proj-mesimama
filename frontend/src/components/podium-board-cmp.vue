@@ -1,13 +1,9 @@
 <template>
-  <!-- <div v-if="users">
-    <h1>Our Daily Stars</h1>
-    <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
-  </div>-->
-  <section>
+  <section v-if="users">
     <h1>The Daily Stars!</h1>
     <div class="podium-board-container">
       <div class="podium-container">
-        <img :src="users[1].avatarUrl">
+        <user-avatar :url="users[1].avatarUrl"></user-avatar>
         <div class="podium place-2">
           <h3>{{users[1].name}}</h3>
           <img class="second-trophy" src="../assets/icons/trophy.svg">
@@ -15,7 +11,7 @@
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users[2].avatarUrl">
+        <user-avatar :url="users[2].avatarUrl"></user-avatar>
         <div class="podium place-1">
           <h3>{{users[2].name}}</h3>
           <img class="first-trophy" src="../assets/icons/gold.svg">
@@ -23,7 +19,7 @@
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users[0].avatarUrl">
+        <user-avatar :url="users[0].avatarUrl"></user-avatar>
         <div class="podium place-3" >
           <h3>{{users[0].name}}</h3>
           <img class="third-trophy" src="../assets/icons/trophy.svg">
@@ -36,7 +32,11 @@
 
 <script>
 import userService from "../services/user.service.js";
+import userAvatar from './user-avatar-cmp.vue'
 export default {
+  components:{
+    userAvatar
+  },
   props: [],
   data() {
     return {
@@ -67,7 +67,6 @@ export default {
     users() {
       let group = this.$store.getters.currGroup;
       let users = group.slice(group.length - 3, group.length);
-      console.log(users);
 
       return users;
     }

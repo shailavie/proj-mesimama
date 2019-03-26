@@ -9,7 +9,8 @@ export default {
     updateUser,
     setUserSession,
     getUserById,
-    getUsers
+    getUsers,
+    updateGroupNotifications
 }
 
 
@@ -33,6 +34,7 @@ function updateUser(user) {
         axios.put(`${BASE_URL}/users`, user)
             .then(res => {
                 let updatedUser = res.data
+                console.log(updatedUser,'after server update $$$$')
                 resolve(updatedUser)
             })
     })
@@ -64,8 +66,28 @@ function getUsers() {
         axios.get(`${BASE_URL}/users`)
             .then(res => {
                 let users = res.data
-                console.log(users)
                 resolve(users)
             })
     })
 }
+
+//update user notifications 
+ function updateGroupNotifications(group,notification){
+    console.log(group)
+    group.forEach((user)=>{
+        if (!user.isDirector){
+            let notifs = user.notifications
+                if (notifs.length > 9) {
+                    notifs.pop()
+                    notifs.unshift(notification)
+                } else notifs.unshift(notification)
+                user.notifications = notifs
+               updateUser(user)
+               .then((res)=>{
+                   console.log(res.data)
+               })
+        }
+    })
+    console.log(group,'after change')
+    } 
+

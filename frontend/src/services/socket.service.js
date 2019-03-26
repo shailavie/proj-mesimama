@@ -41,45 +41,53 @@ function connectSocket() {
 	})
 	// TASK WAS OWNED
 	socket.on('taskOwnedBy', user => {
-		refresh()
+		refreshTasks()
 		_toasting(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
 	})
 	//TASK WAS PASSED
 	socket.on('publishPassedTask', task => {
-		refresh()
+		refreshTasks()
 		_toasting(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
-		
+
 	})
 
 	// ON DELETE TASK. DONT SEND TOAST, JUST REFRESH THE DATA FOR USERS.
-	socket.on('loadTasks', refresh)
+	socket.on('loadTasks', refreshTasks)
 
 	//NEW TASK ADDED
 	socket.on('newTaskPublish', refreshCallback)
 
 	async function refreshCallback() {
-		await refresh()
+		await refreshTasks()
+		await refreshUser()
 		_toasting('New task was added!', 'success', 'Better go check it out!')
 	}
 
 	//TASK WAS ACOMPLISHED
-	socket.on('taskAcomplished', data => {
+	socket.on('taskAcomplished', acomplishedCallBack)
+
+	async function acomplishedCallBack() {
+		console.log('got to acomplish at socket service')
+		await refreshTasks()
+		await refreshUser()
+		await refreshGroup()
 		_toasting('Someone acomplished a task!', 'success', 'Mom will be so happy!')
-	})
+	}
 
 	socket.on('publishUrgent', task => {
 		_toasting('Urgent task alert!', 'error', 'See if you can help out')
 	})
-	socket.on('updateUserNotifications',(notification) =>{
-	let user =utilService.deepCopy(store.getters.currUser) 
-	user.notifications.unshift(notification)
-	console.log('user :', user.name)
-	store.dispatch({type:'updateUser', user})
-	})
 }
 
-function refresh() {
+function refreshTasks() {
 	return store.dispatch({ type: "loadActiveTasks" })
+}
+function refreshUser() {
+	return store.dispatch({ type: 'setCurrUser' })
+}
+
+function refreshGroup() {
+	return context.dispatch({ type: 'loadGroup' })
 }
 
 function send(msg) {

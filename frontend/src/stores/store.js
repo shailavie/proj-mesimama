@@ -53,17 +53,17 @@ export default new Vuex.Store({
       let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
       state.taskItems[taskIdx].helperId = null
     },
-    updateNotifications(state, { notification }) {
-      console.log('got to update')
-      let notifs = state.currUser.notifications
-      console.log(notifs)
-      if (notifs.length > 10) {
-        notifs.shift()
-        notifs.unsift(notification)
-      } else notifs.unshift(notification)
-      console.log(notifs)
-      state.currUser.notifications = notifs
-    }
+    // updateNotifications(state, { notification }) {
+    //   console.log('got to update')
+    //   let notifs = state.currUser.notifications
+    //   console.log(notifs)
+    //   if (notifs.length > 10) {
+    //     notifs.shift()
+    //     notifs.unsift(notification)
+    //   } else notifs.unshift(notification)
+    //   console.log(notifs)
+    //   state.currUser.notifications = notifs
+    // }
   },
   actions: {
     async loadGroup(context) {
@@ -89,9 +89,10 @@ export default new Vuex.Store({
     },
 
     async updateUser(context, { user }) {
-      console.log(user)
+      console.log(context.state.currUser)
       let updatedUser = await userService.updateUser(user)
       context.state.currUser = updatedUser
+      console.log(context.state.currUser.notifications)
     },
 
     async loadActiveTasks(context) {
@@ -133,9 +134,11 @@ export default new Vuex.Store({
     async markDone(context, task) {
       var updatedTask = await taskService.markDone(task)
       console.log(updatedTask, ' after done')
-      context.dispatch({ type: 'setCurrUser' })
-      context.dispatch({ type: 'loadActiveTasks' })
-      context.dispatch({ type: 'loadGroup' })
+      // context.dispatch({ type: 'setCurrUser' })
+      // context.dispatch({ type: 'loadActiveTasks' })
+      // context.dispatch({ type: 'loadGroup' })
+      socketService.emit('finishedTask')
+
     },
     async saveTask(context, task) {
       if (task._id) {
@@ -149,22 +152,19 @@ export default new Vuex.Store({
         })
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
+        let group= await context.getters.currGroup
         let newTask = await taskService.addTask(task)
+            var notification = {
+              name: `task title: ${task.title} was added, see if you can help!`,
+              isRead: false,
+              createdAt: newTask.createdAt
+            }
+            userService.updateGroupNotifications(group,notification)
+            await context.dispatch({type: 'loadGroup'})
         //adding new task to local array
         context.commit({ type: 'addTask', newTask })
-
-        //create notification
-        var notification = {
-          name: `task title: ${task.title} was added, see if you can help!`,
-          isRead: false,
-          createdAt: newTask.createdAt
-        }
-        var obj = {
-          notification,
-          newTask
-        }
         //sending to server the notification and new task for update and broadcast to all users
-        socketService.emit("addedTask", obj);
+        socketService.emit("addedTask", newTask);
         console.log('STORE DONE ADDING NEW TASK')
       }
     },

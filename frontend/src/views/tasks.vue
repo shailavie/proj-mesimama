@@ -43,6 +43,7 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
 import photoGallery from "../components/photo-gallery-cmp.vue";
+import socketService from "../services/socket.service.js"
 
 export default {
   name: "tasksPage",

@@ -47,6 +47,7 @@ function updateTask(task) {
     })
 }
 function markDone(task){
+    console.log(task,'at task service')
     return new Promise((resolve, reject) => {
         axios.put(`${BASE_URL}/tasks/${task._id}/done`)
             .then(res => {
@@ -59,7 +60,6 @@ function removeTask(taskId) {
     return new Promise((resolve, reject) => {
         axios.delete(`${BASE_URL}/tasks/${taskId}`)
             .then(() => {
-                console.log('task deleted from DB')
                 resolve()
             })
     })
@@ -74,7 +74,6 @@ function getTaskById(id) {
     })
 }
 function ownTask(taskId) {
-    console.log('OWNING IT!')
     return new Promise((resolve, reject) => {
         axios.put(`${BASE_URL}/tasks/${taskId}/own`)
             .then((res) => {
