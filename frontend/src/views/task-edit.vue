@@ -76,6 +76,7 @@ export default {
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
       this.taskToEdit.directorId = this.$store.getters.currDirectorId;
+      console.log('TASK:',this.taskToEdit)
       this.taskToEdit.points = Number(this.taskToEdit.points);
       this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
         this.$store.dispatch({ type: "loadUsersWithTasks" }).then(() => {

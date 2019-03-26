@@ -78,6 +78,16 @@ const userStore = {
     currUser(state) {
       return state.currUser
     },
+    currDirectorId(state) {
+      return (state.currUser.isDirector) ? state.currUser._id : state.currUser.directorId
+
+    },
+    notificationCounter(state) {
+      var unReadNotifications = state.currUser.notifications.filter((notification) => {
+        return !notification.isRead
+      })
+      return unReadNotifications.length
+    }
   },
   actions: {
     async loadGroup(context) {
@@ -107,17 +117,6 @@ const userStore = {
       })
       context.commit({ type: 'setUsersWithTasks', usersWithTasks })
     },
-
-    currDirectorId(state) {
-      return (state.currUser.isDirector) ? state.currUser._id : state.currUser.directorId
-
-    },
-    notificationCounter(state) {
-      var unReadNotifications = state.currUser.notifications.filter((notification) => {
-        return !notification.isRead
-      })
-      return unReadNotifications.length
-    }
   }
 }
 

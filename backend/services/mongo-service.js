@@ -7,7 +7,7 @@ function connectToMongo() {
 
     const url = 'mongodb+srv://mesimama:mesimama@cluster0-3dhnz.mongodb.net/mesimama?retryWrites=true';
 
-    return MongoClient.connect(url)
+    return MongoClient.connect(url , { useNewUrlParser: true })
         .then(client => {
             console.log('Connected to MongoDB');
             // If we get disconnected (e.g. db is down)
