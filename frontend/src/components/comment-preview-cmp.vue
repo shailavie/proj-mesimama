@@ -32,7 +32,6 @@ export default {
   async created() {
     // let user = await userService.getUserById(this.comment.userId);
     let user = await userService.getUserById(this.comment.userId);
-    console.log("GOT USER FROM SERVICE:", user);
     this.user = user;
   },
   methods: {},

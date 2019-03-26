@@ -1,5 +1,5 @@
 <template>
-  <section v-if="user" class="section">
+  <section v-if="!user.isDirector" class="section">
     <h1>Hey {{user.name}}, here are your rewards: </h1>
     <masonry :cols="3" :gutter="5">
       <figure v-for="(url,idx) in pics" :key="idx" class="img-container">
@@ -10,6 +10,15 @@
         <masonry :cols="3" :gutter="5">
       <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
             <img :src="url" class="next-reward gallery-item">
+      </figure>
+    </masonry>
+  </section>
+  <section v-else class="section">
+    <h1>Hey {{user.name}}, how is your day going? </h1>
+    <h2>These are the rewards for your lovley helpers, feel free to add more, they will appreciate it!</h2>
+    <masonry :cols="3" :gutter="5">
+      <figure v-for="(url,idx) in urls" :key="idx" class="img-container">
+            <img :src="url" class="gallery-item">
       </figure>
     </masonry>
   </section>

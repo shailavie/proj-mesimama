@@ -81,7 +81,6 @@ export default {
   computed: {
     tagStatusClass() {
       let statusClass = "tag-" + this.task.status;
-      console.log("status class", statusClass);
       return statusClass;
     },
     taskToDisplay() {
