@@ -157,7 +157,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid rgb(219, 218, 218);
+  border-top: 1px solid rgb(233, 233, 233);
   margin: 1em 0;
   padding: 0;
 }
@@ -171,7 +171,7 @@ hr {
 .user-info {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   h2 {
     margin-left: 10px;

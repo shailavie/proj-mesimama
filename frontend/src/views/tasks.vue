@@ -33,7 +33,7 @@
         </transition>
 
         <!-- Others Tasks -->
-        <h1>Other's Tasks</h1>
+        <h2><strong>Other's Tasks</strong></h2>
         <task-list-cmp
           v-if="userToShow"
           :tasks="othersTasksToShow"

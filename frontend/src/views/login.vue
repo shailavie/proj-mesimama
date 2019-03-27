@@ -93,7 +93,7 @@ export default {
         userId: this.role
       });
       this.$store.dispatch({ type: "setCurrUser" });
-      this.$router.push('/app/tasks')
+      this.$router.push("/app/tasks");
     },
     async printSession() {
       let test = await axios.get("http://localhost:3003/api/users/current");
@@ -171,6 +171,9 @@ h1 {
     order: -1;
     flex-basis: 200px;
   }
+}
+
+.login-page-el-input .el-input__inner {
 }
 </style>
 
