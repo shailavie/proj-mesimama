@@ -11,7 +11,6 @@
     <div class="task-list-container">
       <ul v-if="tasks">
         <div class="user-tasks-container" v-for="userToRender in tasks" :key="userToRender._id">
-          
           <!-- User Info -->
           <div class="user-info flex space-between" v-if="userToRender._id">
             <div class="flex center-ver">
@@ -72,7 +71,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch("loadGroup");
-    console.log('created at task-list');
+    console.log("created at task-list");
     this.$store.dispatch({ type: "loadCurrDirector" });
   },
   methods: {
@@ -106,14 +105,13 @@ export default {
     thisUser() {
       let user = this.$store.getters.currUser;
       return user;
-    },
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
 $chevron: "../assets/icons/arrow-down.svg";
-
 
 .task-list-section {
   margin-top: 20px;
@@ -132,14 +130,15 @@ ul {
   justify-content: center;
   text-align: center;
   align-items: center;
-  width: 400px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 4px;
   margin-top: 32px;
 }
 h4 {
-  width: 300px;
+  max-width: 300px;
+  font-weight: 500;
+  color: #999;
 }
 .task-list-container {
   margin-bottom: 20px;
@@ -161,7 +160,6 @@ hr {
   border-top: 1px solid rgb(219, 218, 218);
   margin: 1em 0;
   padding: 0;
-  width: 650px;
 }
 .user-avatar {
   width: 48px;
@@ -174,7 +172,6 @@ hr {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
-  width: 650px;
 
   h2 {
     margin-left: 10px;
@@ -199,13 +196,13 @@ ul {
   justify-content: center;
   border-radius: 50%;
   font-size: 18px;
-  color: gray;
-  margin-left: 20px;
+  color: transparent;
   cursor: pointer;
-  transition: 0.8s ease;
-  background: rgb(245, 244, 244) no-repeat center/40% url($chevron);
+  transition: 0.4s ease;
+  background: no-repeat center/40% url($chevron);
   //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
   // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
+  filter:invert(0.2)
 }
 .title {
   display: flex;

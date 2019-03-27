@@ -1,6 +1,6 @@
 
 <template>
-  <section class="dashboard" :class="{'won-container':isWon}">
+  <section class="dashboard" :class="{'won-container':isWon}" v-if="currUserScore">
     <div class="reward-container">
       <div class="reward-icon-container" :class="{'won':isWon}">
         <span class="pulse" v-if="isWon"></span>
@@ -17,22 +17,27 @@
 export default {
   data() {
     return {
-      isWon: false
+      isWon: false,
+      isFirstCall: true
     };
   },
   methods: {},
   computed: {
     currUserScore() {
-      if (!this.$store.getters.currUser.score) return 0;
+      if (this.$store.getters.currUser === null) return 0;
       return this.$store.getters.currUser.score;
     }
   },
   watch: {
     currUserScore() {
-      this.isWon = true;
-      setTimeout(() => {
-        this.isWon = false;
-      }, 600);
+      if (!this.isFirstCall) {
+        this.isWon = true;
+        setTimeout(() => {
+          this.isWon = false;
+        }, 600);
+      } else {
+        this.isFirstCall = false;
+      }
     }
   }
 };

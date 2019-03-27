@@ -31,7 +31,7 @@
     </div>
 
     <!-- Main actions -->
-    <div class="main-actions-container" v-if="task.status !== 'done'"> 
+    <div class="main-actions-container" v-if="task.status !== 'done'">
       <!-- v-if="user.isDirector || user._id === task.helperId" -->
       <div
         v-if="!task.helperId || task.helperId === user._id || user.isDirector"
@@ -40,14 +40,21 @@
       >
         <a class="task-action-btn-toggle">
           {{passOrOwnTask}}
-          <img v-if="task.helperId" class="checkmark" src="@/assets/icons/pass.svg">
+          <img
+            v-if="task.helperId"
+            class="checkmark"
+            src="@/assets/icons/pass.svg"
+          >
         </a>
       </div>
 
-      <div class="task-done-btn-container" v-if="task.helperId === user._id || user.isDirector && task.helperId" @click.prevent="markDone(task)">
+      <div
+        class="task-done-btn-container"
+        v-if="task.helperId === user._id || user.isDirector && task.helperId"
+        @click.prevent="markDone(task)"
+      >
         <a class="task-action-btn-done">
-          Done
-          <img class="checkmark" src="@/assets/icons/checked.svg">
+          <img class="checkmark" src="@/assets/icons/tick.svg">
         </a>
       </div>
     </div>
@@ -72,7 +79,6 @@
 </template>
 
 <script>
-
 export default {
   props: ["task"],
   data() {
@@ -99,7 +105,7 @@ export default {
       this.$emit("task-edit", taskId);
     },
     markDone(task) {
-      console.log('at preview')
+      console.log("at preview");
       this.$emit("task-done", task);
     },
     removeTask(taskId) {
@@ -123,7 +129,7 @@ export default {
   computed: {
     passOrOwnTask() {
       return this.task.helperId ? "Pass" : "I'm on it!";
-    },
+    }
   }
 };
 </script>
@@ -166,17 +172,16 @@ export default {
 .main-actions-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   text-align: center;
   align-items: center;
+  flex-grow: 0.5;
   margin: 20px;
-  width: 170px;
 }
 .task-card {
   display: flex;
   position: relative;
-  width: 650px;
-  height: 120px;
+  max-height: 160px;
   background-color: white;
   margin: 15px 0 15px 0;
   border-radius: 15px;
@@ -184,8 +189,9 @@ export default {
   transition: 1s ease;
 
   .feel-img {
-    width: 120px;
     height: 120px;
+    flex-basis: 20%;
+    flex-shrink: 0;
     object-fit: cover;
     opacity: 0.8;
     overflow: hidden;
@@ -198,6 +204,7 @@ export default {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     .task-info-item {
       width: 15px;
@@ -248,7 +255,6 @@ export default {
   }
 }
 .description {
-  width: 220px;
   font-size: 14px;
 }
 .truncate {
@@ -273,8 +279,6 @@ h5 {
 .title {
   cursor: pointer;
 }
-
- 
 
 // Animations
 
@@ -314,7 +318,6 @@ a {
   height: 40px;
   z-index: 1;
   text-align: center;
-  margin-left: 10px;
 }
 
 .task-toggle-btn-container {
@@ -332,54 +335,56 @@ a {
   border-radius: 4px;
   transition: $hover;
   position: relative;
+  cursor: pointer;
+
   overflow: hidden;
 
-  &:before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) scaleY(1) scaleX(1.25);
-    top: 100%;
-    width: 140%;
-    height: 180%;
-    background-color: $black-05;
-    border-radius: 50%;
-    display: block;
-    transition: $slide;
-    z-index: -1;
-  }
+  // // &:before {
+  // //   content: "";
+  // //   position: absolute;
+  // //   left: 50%;
+  // //   transform: translateX(-50%) scaleY(1) scaleX(1.25);
+  // //   top: 100%;
+  // //   width: 140%;
+  // //   height: 180%;
+  // //   background-color: $black-05;
+  // //   border-radius: 50%;
+  // //   display: block;
+  // //   transition: $slide;
+  // //   z-index: -1;
+  // // }
 
-  &:after {
-    content: "";
-    position: absolute;
-    left: 55%;
-    transform: translateX(-50%) scaleY(1) scaleX(1.45);
-    top: 180%;
-    width: 160%;
-    height: 190%;
-    background-color: $green;
-    border-radius: 50%;
-    display: block;
-    transition: $slide;
-    z-index: -1;
-  }
+  // // &:after {
+  // //   content: "";
+  // //   position: absolute;
+  // //   left: 55%;
+  // //   transform: translateX(-50%) scaleY(1) scaleX(1.45);
+  // //   top: 180%;
+  // //   width: 160%;
+  // //   height: 190%;
+  // //   background-color: $green;
+  // //   border-radius: 50%;
+  // //   display: block;
+  // //   transition: $slide;
+  // //   z-index: -1;
+  // // }
 
-  &:hover {
-    color: $white;
-    border: 1px solid $green;
+  // // &:hover {
+  // //   color: $white;
+  // //   border: 1px solid $green;
 
-    &:before {
-      top: -35%;
-      background-color: $green;
-      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-    }
+  // //   &:before {
+  // //     top: -35%;
+  // //     background-color: $green;
+  // //     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  // //   }
 
-    &:after {
-      top: -45%;
-      background-color: $green;
-      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-    }
-  }
+  // //   &:after {
+  // //     top: -45%;
+  // //     background-color: $green;
+  // //     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  // //   }
+  // }
 }
 
 .task-action-btn-toggle {
@@ -390,6 +395,7 @@ a {
   transition: $hover;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   width: 85px;
 
   &:before {

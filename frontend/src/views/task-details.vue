@@ -9,10 +9,10 @@
           <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <div class="task-details-helper" v-if="helper">
             <div class="helper-details">
-              <user-avatar class="user-avatar" :url="helper.avatarUrl"/>
+              <user-avatar class="user-avatar" :url="helper.avatarUrl" :userId="helper._id"/>
               <div class="helper-name">
                 <small>
-                  <strong>{{helper.name}}</strong> is on it.
+                  <strong>{{helper.name}}</strong>'s on it.
                 </small>
               </div>
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="canLoad">
+  <div id="app" v-show="canLoad">
     <router-view/>
     <notifications group="foo"/>
     <div class="test"></div>
