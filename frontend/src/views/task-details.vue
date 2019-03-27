@@ -5,8 +5,6 @@
         <div class="task-details-content">
           <h1>{{task.title}}</h1>
           <!-- <div><small>Points: {{task.points}}</small></div> -->
-          <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
-          <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <div class="task-details-helper" v-if="helper">
             <div class="helper-details">
               <user-avatar class="user-avatar" :url="helper.avatarUrl" :userId="helper._id"/>
@@ -17,7 +15,12 @@
               </div>
             </div>
           </div>
+          <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
+          <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <p class="details-content-desc">{{task.desc}}</p>
+          <div class="back-btn">
+            <el-button plain icon="el-icon-arrow-left">Back</el-button>
+          </div>
         </div>
         <div class="text-details-comments">
           <task-comments
@@ -119,6 +122,9 @@ export default {
   }
 }
 
+.task-details-container {
+  flex-direction: column;
+}
 .task-details-content {
   padding-right: 40px;
   flex-basis: 50%;
@@ -126,6 +132,7 @@ export default {
 
 .details-content-desc {
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 
 .details-tag {
@@ -171,5 +178,8 @@ small strong {
 
 .user-avatar {
   margin-right: 10px;
+}
+
+.back-btn {
 }
 </style>

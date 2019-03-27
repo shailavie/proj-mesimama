@@ -196,6 +196,7 @@ export default {
     opacity: 0.8;
     overflow: hidden;
     border-radius: 15px 0 0 15px;
+    background-size: cover;
   }
   .task-info-container {
     padding: 15px;
