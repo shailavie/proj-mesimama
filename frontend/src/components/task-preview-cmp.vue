@@ -30,7 +30,7 @@
     </div>
 
     <!-- Main actions -->
-    <div class="main-actions-container" > 
+    <div class="main-actions-container" v-if="task.status !== 'done'"> 
       <!-- v-if="user.isDirector || user._id === task.helperId" -->
       <div
         v-if="!task.helperId || task.helperId === user._id || user.isDirector"

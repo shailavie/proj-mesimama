@@ -16,20 +16,20 @@
         @task-remove="removeTask($event)"
       ></task-list-cmp>
 
-      <!-- Others Tasks -->
+      <!-- Live Tasks -->
       <task-list-cmp
-        v-if="userToShow"
-        :tasks="othersTasksToShow"
+        :tasks="unOwnedTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
-
-      <!-- Live Tasks -->
+      
+      <!-- Others Tasks -->
       <task-list-cmp
-        :tasks="unOwnedTasksToShow"
+        v-if="userToShow"
+        :tasks="othersTasksToShow"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -55,7 +55,7 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
 import photoGallery from "../components/photo-gallery-cmp.vue";
-import socketService from "../services/socket.service.js"
+import socketService from "../services/socket.service.js";
 
 export default {
   name: "tasksPage",

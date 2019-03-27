@@ -8,7 +8,7 @@
     <ul>
       <!-- User's tasks -->
       <li v-for="currTask in myTasksToShow" :key="currTask._id">
-          <h4>{{currTask.status}}</h4>
+        <h4>{{currTask.status}}</h4>
         <task-preview
           :task="currTask"
           @task-owned="ownTask($event)"
@@ -17,7 +17,6 @@
           @task-edit="editTask($event)"
           @task-remove="removeTask($event)"
         ></task-preview>
-
       </li>
     </ul>
   </section>
@@ -46,12 +45,18 @@ export default {
     console.log("my account got user!", this.user);
     this.$store.dispatch({ type: "loadActiveTasks" });
   },
+  methods: {
+    doneTask(task) {
+      this.$store.dispatch("markDone", task);
+    },
+    passTask(task) {
+      this.$store.dispatch("passTask", task);
+    }
+  },
   computed: {
     myTasksToShow() {
-      let myTasks = this.$store.getters.allTasks
-      return myTasks.filter(
-        task => task.helperId === this.user._id
-      );
+      let myTasks = this.$store.getters.allTasks;
+      return myTasks.filter(task => task.helperId === this.user._id);
     }
   }
 };
@@ -59,11 +64,11 @@ export default {
 
 <style scoped lang="scss">
 .my-account {
-    padding: 30px;
+  padding: 30px;
 }
 h4 {
-    text-transform: capitalize;
-    margin-bottom: 20px;
+  text-transform: capitalize;
+  margin-bottom: 20px;
 }
 </style>
 
