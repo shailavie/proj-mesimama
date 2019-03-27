@@ -93,6 +93,7 @@ export default {
         userId: this.role
       });
       this.$store.dispatch({ type: "setCurrUser" });
+      this.$router.push('/app/tasks')
     },
     async printSession() {
       let test = await axios.get("http://localhost:3003/api/users/current");
