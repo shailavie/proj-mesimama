@@ -4,21 +4,22 @@
       <!-- <pre>{{myTasksToShow}}</pre> -->
       <!-- <pre>{{othersTasksToShow}}</pre> -->
       <!-- {{userToShow}} -->
-
       <!-- My Tasks -->
       <task-list-cmp
         v-if="userToShow"
         :tasks="myTasksToShow"
+        title="My tasks"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
-
+      
       <!-- Live Tasks -->
       <task-list-cmp
         :tasks="unOwnedTasksToShow"
+         title="Tasks to go"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -27,9 +28,11 @@
       ></task-list-cmp>
 
       <!-- Others Tasks -->
+      <h1>Other's Tasks</h1>
       <task-list-cmp
         v-if="userToShow"
         :tasks="othersTasksToShow"
+        title="Other's tasks"
         @task-owned="ownTask($event)"
         @task-passed="passTask($event)"
         @task-done="doneTask($event)"
@@ -71,7 +74,9 @@ export default {
       window: {
         width: 0
       },
-      user: null
+      user: null,
+      showMyTasks : true, 
+      showUnOwnedTasks : true, 
     };
   },
   created() {
@@ -181,6 +186,7 @@ export default {
 .task-list-title {
   text-align: center;
 }
+ 
 </style>
 
     <!-- <div class="toggle-tasks-container" >
@@ -192,6 +198,6 @@ export default {
         inactive-color="#434e60"
         :active-text="myTasksCount"
         :inactive-text="allTasksCount"
-        @change="toggleTasks"
+        @change="toggleMyTasks"
       ></el-switch>
     </div>-->

@@ -158,12 +158,13 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   border-radius: 50%;
-  height: 15px;
-  width: 15px;
-  left: -4px;
-  top: 8px;
+  font-weight: bolder;
+  height: 18px;
+  width: 18px;
+  left: -10px;
+  top: 0;
   background: red;
   color: #fff;
 }
@@ -233,4 +234,24 @@ button.el-button--primary:hover {
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
   border: 0;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+// Helpers
+
+.flex {display: flex}
+.grid {display: grid}
+.center-all {align-items: center; justify-content: center; text-align: center}
+.center-ver {align-items: center;}
+.column {flex-direction: column}
+.space-between {justify-content: space-between} 
+.space-around {justify-content: space-around} 
+.space:nth-child(1){
+  margin-left: 100px;
+}
+.ml10{
+  margin-left: 10px;
+}
+.mb30{
+  margin-bottom: 30px;
 }

@@ -1,9 +1,7 @@
 <template>
   <section class="task-list-section">
-    <!-- <h1 class="task-list-title">{{title}}</h1> -->
-
     <!-- Empty State -->
-    <div class="empty-state-container" v-if="!tasks.length">
+    <div class="empty-state-container" v-if="tasks.length === 0">
       <h2>No Tasks?</h2>
       <img class="emptyState" src="/img/icons/emptyState.png">
       <h4>Me and mom have a nickname for people with no tasks..</h4>
@@ -11,22 +9,32 @@
 
     <!-- Tasks -->
     <div class="task-list-container">
-      <!-- User avatar and name -->
       <ul v-if="tasks">
         <div class="user-tasks-container" v-for="userToRender in tasks" :key="userToRender._id">
-          <div class="user-info" v-if="userToRender._id">
-            <user-avatar :url="userToRender.avatarUrl" :userId="userToRender._id"/>
-            <h2>{{userToRender._id === thisUser._id? 'You' :userToRender.name}}</h2>
-            <h2>{{currTitle(userToRender)}}</h2>
-            <h3>&nbsp;({{userToRender.tasks.length}})</h3>
+          
+          <!-- User Info -->
+          <div class="user-info flex space-between" v-if="userToRender._id">
+            <div class="flex center-ver">
+              <user-avatar :url="userToRender.avatarUrl" :userId="userToRender._id"/>
+              <h2>{{userToRender._id === thisUser._id? title :userToRender.name}}</h2>
+              <h2>{{currTitle(userToRender)}}</h2>
+              <h2>({{userToRender.tasks.length}})</h2>
+            </div>
+            <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
-         <div class="user-info" v-else>
-            <user-avatar :url="'https://cdn3.iconfinder.com/data/icons/people-emoji/50/Baby2-512.png'"/>
-            <h2>Shit to do</h2>
-            <h3>&nbsp;({{userToRender.tasks.length}})</h3>
+          <div class="user-info flex space-between" v-else>
+            <div class="flex center-ver">
+              <img class="empty-task-avatar" src="@/assets\icons\babytasks.png" alt>
+              <h2>Tasks To Do</h2>
+              <h2>({{userToRender.tasks.length}})</h2>
+            </div>
+            <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
-          <ul>
-            <!-- User's tasks -->
+
+          <hr align="left">
+
+          <!-- User's tasks -->
+          <ul class="users-tasks" :class="{fadeUp : !showTasks}">
             <li v-for="currTask in userToRender.tasks" :key="currTask._id">
               <task-preview
                 :task="currTask"
@@ -47,7 +55,7 @@
 <script>
 import taskPreview from "./task-preview-cmp.vue";
 import userService from "../services/user.service.js";
-import userAvatar from './user-avatar-cmp.vue'
+import userAvatar from "./user-avatar-cmp.vue";
 
 export default {
   props: ["tasks", "title"],
@@ -57,7 +65,8 @@ export default {
   },
   data() {
     return {
-      usersGroup: null
+      usersGroup: null,
+      showTasks: true
     };
   },
   async created() {
@@ -82,21 +91,34 @@ export default {
     getAvatarUrlBg(url) {
       return { backgroundImage: `url(${url})` };
     },
-    currTitle(userToRender){
-      if (!userToRender._id) return 'All Tasks'
-      else (userToRender._id === this.thisUser._id)? 'You' :userToRender.name
+    currTitle(userToRender) {
+      if (!userToRender._id) return "All Tasks";
+      else userToRender._id === this.thisUser._id ? "You" : userToRender.name;
+    },
+    toggleTasks() {
+      this.showTasks = !this.showTasks;
     }
   },
   computed: {
     thisUser() {
       let user = this.$store.getters.currUser;
-      return user
+      return user;
     },
+    noActiveTasks() {
+      // let user = this.$store.getters.currUser;
+      // console.log(user)
+      // let tasksLength = (user.tasks.length)? user.tasks.length : 0
+      // console.log('tasks', tasksLength)
+      // return tasksLength
+      return 1;
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
+$chevron: "http://localhost:8080/img/arrow-down.94b647cc.svg";
+
 .task-list-section {
   margin-top: 20px;
 }
@@ -130,13 +152,20 @@ h4 {
   text-align: center;
 }
 h1 {
-  text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100px;
   font-weight: 100;
-  font-size: 20px;
+  font-size: 30px;
+  font-weight: bolder;
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid rgb(219, 218, 218);
+  margin: 1em 0;
+  padding: 0;
+  width: 650px;
 }
 .user-avatar {
   width: 48px;
@@ -144,12 +173,12 @@ h1 {
   border-radius: 100px;
   background-position: center;
   background-size: cover;
-  // background: url('https://cdn3.iconfinder.com/data/icons/people-emoji/50/Baby2-512.png');
 }
 .user-info {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  width: 650px;
 
   h2 {
     margin-left: 10px;
@@ -165,5 +194,43 @@ ul {
 }
 .user-tasks-container {
   text-align: left;
+}
+.toggle-tasks {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  color: gray;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: 0.8s ease;
+  background: rgb(245, 244, 244) no-repeat center/40% url($chevron);
+  //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
+  // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
+}
+.title {
+  display: flex;
+}
+.tilt {
+  transform: rotate(-90deg);
+}
+.users-tasks {
+  transition: 0.5s ease;
+}
+.hide {
+  opacity: 0;
+  height: 0px;
+}
+.fadeUp {
+  transform: translate3d(0, -10%, 0);
+  opacity: 0;
+  height: 0;
+}
+.empty-task-avatar {
+  width: 60px;
+  height: 60px;
 }
 </style>
