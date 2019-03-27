@@ -24,6 +24,17 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
+          <div class="row">
+            <div class="col-md-12">
+              <input
+                type="file"
+                class="form-control"
+                v-on:change="uploadTaskImg($event.target.files)"
+                accept="image/*"
+              >
+            </div>
+          </div>
+          <div v-if="taskToEdit.imgUrl"><img :src="taskToEdit.imgUrl" alt=""></div>
           <el-form-item>
             <el-button class="save-btn" type="primary" @click.native.prevent="saveTask">Save Task</el-button>
             <el-button
@@ -44,7 +55,7 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
-
+import imgService from "../services/img-service.js"
 export default {
   name: "taskEdit",
   components: {},
@@ -73,6 +84,11 @@ export default {
     }
   },
   methods: {
+   async uploadTaskImg(file){
+      // this.$store.dispatch({type:'uploadTaskImg',file})
+       let url =  await imgService.uploadImg(file)
+       this.taskToEdit.imgUrl=url
+    },
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
       this.taskToEdit.directorId = this.$store.getters.currDirectorId;

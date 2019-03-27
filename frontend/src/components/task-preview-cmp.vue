@@ -13,7 +13,8 @@
     <div class="urgent-badge" v-if="task.isUrgent">Urgent</div>
 
     <!-- Card bg feel img -->
-    <div class="feel-img" :style="getImgByKeyword(task)" alt></div>
+    <div class="feel-img" v-if="task.imgUrl" :style="getTaskImg(task)" alt></div>
+    <div class="feel-img" v-else :style="getImgByKeyword(task)" alt></div>
 
     <!-- Task info -->
     <div class="task-info-container">
@@ -109,6 +110,10 @@ export default {
       let res1 = `https://source.unsplash.com/320x240/?${keywords}`;
       // let res2 = `https://loremflickr.com/g/320/240/${keywords}/all`;
       let bgClass = `background: url(${res1}) no-repeat 0 50%`;
+      return bgClass;
+    },
+    getTaskImg(task) {
+      let bgClass = `background: url(${task.imgUrl}) no-repeat 0 50%`;
       return bgClass;
     },
     toggleActions() {

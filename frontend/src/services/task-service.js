@@ -104,6 +104,7 @@ function getEmptyTask() {
         title: '',
         isUrgent: false,
         comments: [],
+        imgUrl:null
     }
     return emptyTask
 }
