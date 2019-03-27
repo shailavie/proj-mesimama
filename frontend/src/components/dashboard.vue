@@ -7,8 +7,7 @@
         <span class="score-count">{{currUserScore}}</span>
       </div>
       <div class="reward-counter">
-        Points
-        <br>
+        <div class="points-title">Points</div>
       </div>
     </div>
   </section>
@@ -89,6 +88,10 @@ export default {
   filter: invert(0.8);
 }
 
+.points-title {
+  margin-top: 10px;
+  color: #999;
+}
 h2 {
   color: #999;
   font-weight: 300;

@@ -5,7 +5,6 @@
     <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
   </div>-->
   <section v-if="users.length >= 2" class="podium-section">
-    <div class="podium-title">Daily Stars</div>
     <div class="podium-board-container">
       <div class="podium-container">
         <img :src="users[1].avatarUrl" class="user-avatar-test">
@@ -27,6 +26,8 @@
         </div>
       </div>
     </div>
+    <br>
+    <div class="podium-title">Daily Stars</div>
   </section>
 </template>
 <script>
@@ -136,6 +137,6 @@ h4 {
 }
 
 .podium-title {
-  margin-bottom: 10px;
+  color: #999;
 }
 </style>
