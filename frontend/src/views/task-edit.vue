@@ -12,7 +12,7 @@
           <!-- Desription -->
           <el-form-item label="Description">
             <el-input  type="textarea" rows="3" class="form-input" v-model="taskToEdit.desc"></el-input>
-            <speech-to-text class="speech-to-text-btn" :text2.sync="taskToEdit.desc" @speechend="speechEnd2"></speech-to-text>
+            <speech-to-text class="speech-to-text-btn" :text.sync="taskToEdit.desc" @speechend="speechEnd"></speech-to-text>
           </el-form-item>
           <!-- Points -->
           <el-form-item label="Task Points">

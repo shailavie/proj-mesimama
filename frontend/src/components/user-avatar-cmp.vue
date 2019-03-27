@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/app/my-account/'+userId">
+  <router-link :to="'/app/user-profile/'+userId">
     <div class="user-avatar" :style="avatarBackgroundImgStyle"></div>
   </router-link>
 </template>
