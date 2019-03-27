@@ -1,6 +1,6 @@
 
 <template>
-  <section class="dashboard">
+  <section class="dashboard" :class="{'won-container':isWon}">
     <div class="reward-container">
       <div class="reward-icon-container" :class="{'won':isWon}">
         <span class="pulse" v-if="isWon"></span>
@@ -51,6 +51,8 @@ export default {
   justify-content: center;
   // border:1px solid #DCDFE6;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+  transition: 0.6s;
+  transition-timing-function: ease-in-out;
 }
 .reward-container {
   display: flex;
@@ -74,6 +76,10 @@ export default {
   transform: scale(1.2);
   font-size: 140%;
   filter: saturate(3);
+}
+
+.won-container {
+  transform: scale(1.1);
 }
 
 .score-count {

@@ -133,6 +133,7 @@ export default {
   padding: 4px 6px;
   color: #fff;
   border-radius: 3px;
+  margin: 10px 0;
   margin-right: 3px;
   font-size: 0.8em;
   text-transform: uppercase;
