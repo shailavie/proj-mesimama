@@ -38,9 +38,14 @@
         class="task-toggle-btn-container"
         @click.prevent="clickOnTask(task._id)"
       >
-        <el-button>
-          {{passOrOwnTask}}gi
-        </el-button>
+        <a class="task-action-btn-toggle">
+          {{passOrOwnTask}}
+          <img
+            v-if="task.helperId"
+            class="checkmark"
+            src="@/assets/icons/pass.svg"
+          >
+        </a>
       </div>
 
       <div

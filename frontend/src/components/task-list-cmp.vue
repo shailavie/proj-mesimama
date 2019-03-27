@@ -14,10 +14,14 @@
           <!-- User Info -->
           <div class="user-info flex space-between" v-if="userToRender._id">
             <div class="flex center-ver">
-              <user-avatar :url="userToRender.avatarUrl" :userId="userToRender._id"/>
+              <user-avatar
+                class="user-avatar-in-toggle"
+                :url="userToRender.avatarUrl"
+                :userId="userToRender._id"
+              />
               <h2>{{userToRender._id === thisUser._id? title :userToRender.name}}</h2>
               <h2>{{currTitle(userToRender)}}</h2>
-              <h2>({{userToRender.tasks.length}})</h2>
+              <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
@@ -25,7 +29,7 @@
             <div class="flex center-ver">
               <img class="empty-task-avatar" src="@/assets\icons\babytasks.png" alt>
               <h2>Tasks To Do</h2>
-              <h2>({{userToRender.tasks.length}})</h2>
+              <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
@@ -161,12 +165,8 @@ hr {
   margin: 1em 0;
   padding: 0;
 }
-.user-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 100px;
-  background-position: center;
-  background-size: cover;
+.user-avatar-in-toggle {
+  margin-right: 10px;
 }
 .user-info {
   display: flex;
@@ -174,8 +174,12 @@ hr {
   margin-bottom: 10px;
 
   h2 {
-    margin-left: 10px;
+    font-size: 1.2rem;
   }
+}
+
+.tasks-count {
+  margin-left: 5px;
 }
 
 ul li {
@@ -202,7 +206,7 @@ ul {
   background: no-repeat center/40% url($chevron);
   //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
   // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
-  filter:invert(0.2)
+  filter: invert(0.2);
 }
 .title {
   display: flex;
@@ -224,8 +228,9 @@ ul {
   height: 0;
 }
 .empty-task-avatar {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
 }
 
 .buffer {
