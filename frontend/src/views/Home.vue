@@ -5,7 +5,9 @@
     </header>
     <main>
       <div>
+        <div class="wrapper">
           <router-view/>
+        </div>
       </div>
     </main>
   </div>
@@ -22,5 +24,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

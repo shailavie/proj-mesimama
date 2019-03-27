@@ -25,7 +25,7 @@
         @task-edit="editTask($event)"
         @task-remove="removeTask($event)"
       ></task-list-cmp>
-      
+
       <!-- Others Tasks -->
       <task-list-cmp
         v-if="userToShow"
@@ -137,24 +137,30 @@ export default {
 
 <style scoped lang="scss">
 .task-list-page {
-  // width: 100%;
-  display: grid;
-  grid-template-areas: "tasks stats";
-  grid-template-columns: 1fr 400px;
+  display: flex;
+  flex-direction: row;
 }
+
+@media (max-width: 768px) {
+  .task-list-page {
+    flex-direction: column;
+  }
+}
+
 .all-tasks-panel {
-  grid-area: tasks;
-  padding-left: 40px;
+  flex-grow: 1;
 }
 .stats-panel {
-  padding: 40px 60px 0px 60px;
   display: flex;
   flex-direction: column;
   text-align: center;
-  grid-area: stats;
-  background-color: #1c1735;
-  color: #fff;
+  color: #333;
+  flex-basis: 25%;
 }
+@media (max-width: 768px) {
+  padding: 40px 60px 0px 60px;
+}
+
 .toggle-tasks {
   margin: 10px auto;
 }
@@ -165,7 +171,7 @@ export default {
 .task-list-container {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  max-width: 400px;
 }
 @media (min-width: 420px) {
   .task-list-container {
@@ -176,8 +182,6 @@ export default {
   text-align: center;
 }
 </style>
-
-
 
     <!-- <div class="toggle-tasks-container" >
       <el-switch

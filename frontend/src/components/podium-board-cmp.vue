@@ -4,8 +4,7 @@
     <img :src="users[1].avatarUrl" class="user-avatar-test">
     <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
   </div>-->
-  <section v-if="users.length >= 2">
-    <div class="podium-title">Daily Stars</div>
+  <section v-if="users.length >= 2" class="podium-section">
     <div class="podium-board-container">
       <div class="podium-container">
         <img :src="users[1].avatarUrl" class="user-avatar-test">
@@ -27,6 +26,8 @@
         </div>
       </div>
     </div>
+    <br>
+    <div class="podium-title">Daily Stars</div>
   </section>
 </template>
 <script>
@@ -55,8 +56,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-section {
-  margin: 40px 0;
+.podium-section {
+  background: #fff;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding: 20px;
+  margin: 10px 0px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 }
 .podium-board-container {
   display: flex;
@@ -131,6 +137,6 @@ h4 {
 }
 
 .podium-title {
-  margin-bottom: 10px;
+  color: #999;
 }
 </style>
