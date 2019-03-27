@@ -3,12 +3,12 @@
   <section class="dashboard">
     <div class="reward-container">
       <div class="reward-icon-container" :class="{'won':isWon}">
+        <span class="pulse" v-if="isWon"></span>
         <span class="score-count">{{currUserScore}}</span>
       </div>
       <div class="reward-counter">
         Points
         <br>
-        <small>Good job!</small>
       </div>
     </div>
   </section>
@@ -47,7 +47,7 @@ export default {
   // border-left: 2px solid darkorange;
   padding: 20px;
   display: flex;
-  margin: 5px 0px;
+  margin: 10px 0px;
   flex-direction: column;
   justify-content: center;
   // border:1px solid #DCDFE6;
@@ -62,6 +62,7 @@ export default {
 .reward-icon-container {
   display: flex;
   justify-content: center;
+  position: relative;
   align-items: center;
   width: 100px;
   height: 100px;
@@ -96,5 +97,42 @@ h2 {
 
 small {
   color: #999;
+}
+
+.pulse {
+  position: absolute;
+  width: 30px;
+  // transform: translate((calc(50%-11px)), (-20px));
+  height: 30px;
+  transform: translateY(calc(50% - 24px));
+  border-radius: 50%;
+  box-shadow: 0 0 0 rgba(204, 169, 44, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 20px rgba(204, 169, 44, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+  }
 }
 </style>

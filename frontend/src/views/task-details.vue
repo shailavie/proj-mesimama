@@ -8,7 +8,12 @@
           <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
           <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <div class="task-details-helper" v-if="helper">
-            <div class="helper-name">{{helper.name}} is on it!</div>
+            <div class="helper-details">
+              <user-avatar class="user-avatar" :url="helper.avatarUrl"/>
+              <div class="helper-name">
+                <strong>{{helper.name}}</strong> is on it.
+              </div>
+            </div>
           </div>
           <p class="details-content-desc">{{task.desc}}</p>
         </div>
@@ -31,12 +36,14 @@ import utilService from "../services/util-service.js";
 import taskComments from "../components/task-comments-cmp.vue";
 import taskPreview from "../components/task-preview-cmp.vue";
 import userService from "../services/user.service.js";
+import userAvatar from "../components/user-avatar-cmp.vue";
 
 export default {
   name: "taskDetails",
   components: {
     taskComments,
-    taskPreview
+    taskPreview,
+    userAvatar
   },
   data() {
     return {
@@ -143,6 +150,15 @@ export default {
 }
 
 .task-details-helper {
-  margin: 5px 0;
+  margin: 10px 0;
+}
+
+.helper-details {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  margin-right: 10px;
 }
 </style>
