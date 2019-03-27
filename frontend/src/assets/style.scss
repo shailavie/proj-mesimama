@@ -8,6 +8,10 @@
 h1 {
   font-size: 2em;
 }
+
+h2 {
+  font-weight: 500;
+}
 // Typography
 h1,
 h2,
@@ -68,7 +72,8 @@ footer {
 }
 
 main {
-  margin-top: 80px;
+  margin-top: 70px;
+  padding-top: 25px;
 }
 
 .header-logo {
@@ -115,7 +120,7 @@ main {
     }
 
     .notifications-badge {
-      top: 12px;
+      top: 18px;
     }
   }
 
@@ -166,8 +171,8 @@ main {
   font-weight: bolder;
   height: 18px;
   width: 18px;
-  left: -10px;
-  top: 0;
+  left: -6px;
+  top: 4px;
   background: red;
   color: #fff;
 }
@@ -201,7 +206,6 @@ main {
 }
 
 .task-details-container {
-  padding-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;

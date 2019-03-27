@@ -132,14 +132,16 @@ ul {
   justify-content: center;
   text-align: center;
   align-items: center;
-  width: 400px;
   margin: 0 auto;
   padding: 20px;
   border-radius: 4px;
   margin-top: 32px;
 }
 h4 {
-  width: 300px;
+  max-width: 300px;
+  font-weight:500;
+  color:#999;
+
 }
 .task-list-container {
   margin-bottom: 20px;
@@ -161,7 +163,6 @@ hr {
   border-top: 1px solid rgb(219, 218, 218);
   margin: 1em 0;
   padding: 0;
-  width: 650px;
 }
 .user-avatar {
   width: 48px;
@@ -174,7 +175,6 @@ hr {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
-  width: 650px;
 
   h2 {
     margin-left: 10px;

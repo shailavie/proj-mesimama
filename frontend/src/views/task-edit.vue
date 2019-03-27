@@ -3,16 +3,39 @@
     <div class="task-details-container">
       <div class="task-details-center-box">
         <!-- Task Edit/Add form -->
-        <el-form @submit.native.prevent="saveTask" :model="taskToEdit" label-width="120px" class="edit-task-form">
+        <div class="task-title-container">
+          <h1>Add Task</h1>
+        </div>
+        <el-form
+          @submit.native.prevent="saveTask"
+          :model="taskToEdit"
+          label-width="120px"
+          label-position="left"
+          class="edit-task-form"
+        >
           <!-- Title -->
           <el-form-item label="Title">
-            <el-input type="text" class="form-input" :maxlength="25" v-model="taskToEdit.title" clearable></el-input>
-            <speech-to-text class="speech-to-text-btn" :text.sync="taskToEdit.title" @speechend="speechEnd"></speech-to-text>
+            <el-input
+              type="text"
+              class="form-input"
+              :maxlength="25"
+              v-model="taskToEdit.title"
+              clearable
+            ></el-input>
+            <speech-to-text
+              class="speech-to-text-btn"
+              :text.sync="taskToEdit.title"
+              @speechend="speechEnd"
+            ></speech-to-text>
           </el-form-item>
           <!-- Desription -->
           <el-form-item label="Description">
-            <el-input  type="textarea" rows="3" class="form-input" v-model="taskToEdit.desc"></el-input>
-            <speech-to-text class="speech-to-text-btn" :text.sync="taskToEdit.desc" @speechend="speechEnd"></speech-to-text>
+            <el-input type="textarea" rows="3" class="form-input" v-model="taskToEdit.desc"></el-input>
+            <speech-to-text
+              class="speech-to-text-btn"
+              :text.sync="taskToEdit.desc"
+              @speechend="speechEnd"
+            ></speech-to-text>
           </el-form-item>
           <!-- Points -->
           <el-form-item label="Task Points">
@@ -54,7 +77,7 @@
       </div>
     </div>
     <!-- <textarea v-model="text" label="The text" cols="30" rows="10"></textarea>
-    <speech-to-text :text.sync="text" @speechend="speechEnd"></speech-to-text> -->
+    <speech-to-text :text.sync="text" @speechend="speechEnd"></speech-to-text>-->
   </section>
 </template>
 
@@ -64,7 +87,7 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
 import speechToText from "../components/speech-to-text-cmp.vue";
-import shakeService from '../services/shake-service.js'
+import shakeService from "../services/shake-service.js";
 
 export default {
   name: "taskEdit",
@@ -107,21 +130,27 @@ export default {
     );
     this.group.splice(directorIdx, 1); // removing the director
 
-    var shakeEvent = new Shake({threshold: 15});
+    var shakeEvent = new Shake({ threshold: 15 });
     shakeEvent.start();
-    window.addEventListener('shake', function(){
-        if (confirm("Start over?")){
+    window.addEventListener(
+      "shake",
+      function() {
+        if (confirm("Start over?")) {
           this.taskToEdit = taskService.getEmptyTask();
         }
-    }, false);
+      },
+      false
+    );
 
     //stop listening
-    function stopShake(){
-        shakeEvent.stop();
+    function stopShake() {
+      shakeEvent.stop();
     }
 
     //check if shake is supported or not.
-    if(!("ondevicemotion" in window)){alert("Not Supported");}
+    if (!("ondevicemotion" in window)) {
+      alert("Not Supported");
+    }
   },
   methods: {
     speechEnd({ sentences, text }) {
@@ -177,5 +206,18 @@ export default {
 }
 .edit-task-form {
   width: 600px;
+  padding:40px
+}
+
+.task-title-container {
+  padding: 20px 40px;
+  background: #fff;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.task-details-center-box {
+  padding: 0;
+  flex-direction: column;
 }
 </style>

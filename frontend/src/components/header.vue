@@ -34,19 +34,17 @@
               <img src="@/assets/icons/chat.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Chat</span>
             </router-link>
-          </span> -->
+          </span>-->
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Tasks</span>
             </router-link>
           </span>
-          <span class="nav-item">
+          <span class="nav-item item-rewards" >
             <router-link to="/app/rewards">
               <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Rewards</span>
-
-              <span class="notifications-badge">{{score}}</span>
             </router-link>
           </span>
           <span class="nav-item">
@@ -175,6 +173,10 @@ export default {
     }
     .nav-item-text-link {
       display: none;
+    }
+
+    .item-rewards {
+      order: -1;
     }
   }
 }
