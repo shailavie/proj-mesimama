@@ -10,7 +10,7 @@
           <task-list-cmp
             v-if="userToShow"
             :tasks="myTasksToShow"
-            title="My tasks"
+            title="My Tasks"
             @task-owned="ownTask($event)"
             @task-passed="passTask($event)"
             @task-done="doneTask($event)"

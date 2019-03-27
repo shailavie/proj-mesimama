@@ -168,6 +168,7 @@ export default {
 }
 .task-extra-info {
   display: flex;
+  cursor: pointer;
 }
 .main-actions-container {
   display: flex;
