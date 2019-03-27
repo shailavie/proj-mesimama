@@ -1,6 +1,7 @@
 import utilService from './util-service.js'
-import Axios from "axios";
+const CLOUDINARY_URL="cloudinary://757281885482997:B2hh29N3yu87rNqW4ssH75mTxt8@dgvsdobz4"
 
+import Axios from "axios";
 var axios = Axios.create({
     withCredentials: true
 });
@@ -14,7 +15,7 @@ export default {
     getEmptyTask,
     getTaskById,
     getEmptyComment,
-    markDone
+    markDone,
 }
 
 const BASE_URL = 'http://localhost:3003/api'
@@ -115,3 +116,5 @@ function getEmptyComment() {
     }
     return emptyComment
 }
+
+

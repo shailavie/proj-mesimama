@@ -1,8 +1,20 @@
 const taskService = require('../services/task-service.js')
 const userService = require('../services/user-service.js')
+
+//IMG UPLOAD
+// const cloudinary = require('cloudinary');
+// cloudinary.config({ 
+//   cloud_name: 'sample', 
+//   api_key: '559498588269355', 
+//   api_secret: 'qC9KnAVCWrIpNKFtR3w5QM43Gc8' 
+// });
+// const CLOUDINARY_URL="cloudinary://757281885482997:B2hh29N3yu87rNqW4ssH75mTxt8@dgvsdobz4"
+
 const BASE_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
+
+
 
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
