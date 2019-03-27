@@ -49,6 +49,7 @@
         </div>
       </ul>
     </div>
+    <div class="buffer"></div>
   </section>
 </template>
 
@@ -106,20 +107,13 @@ export default {
       let user = this.$store.getters.currUser;
       return user;
     },
-    noActiveTasks() {
-      // let user = this.$store.getters.currUser;
-      // console.log(user)
-      // let tasksLength = (user.tasks.length)? user.tasks.length : 0
-      // console.log('tasks', tasksLength)
-      // return tasksLength
-      return 1;
-    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-$chevron: "http://localhost:8080/img/arrow-down.94b647cc.svg";
+$chevron: "../assets/icons/arrow-down.svg";
+
 
 .task-list-section {
   margin-top: 20px;
@@ -228,11 +222,16 @@ ul {
 }
 .fadeUp {
   transform: translate3d(0, -10%, 0);
+  visibility: hidden;
   opacity: 0;
   height: 0;
 }
 .empty-task-avatar {
   width: 60px;
   height: 60px;
+}
+
+.buffer {
+  height: 40px;
 }
 </style>

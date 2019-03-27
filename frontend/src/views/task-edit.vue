@@ -64,6 +64,7 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
 import speechToText from "../components/speech-to-text-cmp.vue";
+import shakeService from '../services/shake-service.js'
 
 export default {
   name: "taskEdit",
@@ -105,6 +106,22 @@ export default {
       user => user._id === this.directorId
     );
     this.group.splice(directorIdx, 1); // removing the director
+
+    var shakeEvent = new Shake({threshold: 15});
+    shakeEvent.start();
+    window.addEventListener('shake', function(){
+        if (confirm("Start over?")){
+          this.taskToEdit = taskService.getEmptyTask();
+        }
+    }, false);
+
+    //stop listening
+    function stopShake(){
+        shakeEvent.stop();
+    }
+
+    //check if shake is supported or not.
+    if(!("ondevicemotion" in window)){alert("Not Supported");}
   },
   methods: {
     speechEnd({ sentences, text }) {
