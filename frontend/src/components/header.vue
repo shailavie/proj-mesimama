@@ -41,7 +41,7 @@
               <span class="nav-item-text-link">Tasks</span>
             </router-link>
           </span>
-          <span class="nav-item item-rewards" >
+          <span class="nav-item item-rewards">
             <router-link to="/app/rewards">
               <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Rewards</span>
@@ -130,6 +130,7 @@ export default {
 }
 .login-page-el-input {
   height: 48px;
+  width: 40px;
 }
 .user-msg {
   display: flex;

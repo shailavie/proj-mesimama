@@ -170,6 +170,7 @@ export default {
   justify-content: space-between;
   text-align: center;
   align-items: center;
+  flex-grow: 0.5;
   margin: 20px;
 }
 .task-card {
@@ -329,6 +330,8 @@ a {
   border-radius: 4px;
   transition: $hover;
   position: relative;
+  cursor: pointer;
+
   overflow: hidden;
 
   // // &:before {
@@ -387,6 +390,7 @@ a {
   transition: $hover;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   width: 85px;
 
   &:before {

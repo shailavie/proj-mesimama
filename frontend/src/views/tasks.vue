@@ -44,10 +44,7 @@
     </section>
 
     <section class="stats-panel">
-      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
-
       <dash-board></dash-board>
-      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
       <podium-board-cmp></podium-board-cmp>
       <photo-gallery/>
     </section>
@@ -161,7 +158,7 @@ export default {
 }
 
 .all-tasks-panel-inside {
-  max-width: 480px;
+  max-width: 800px;
 }
 
 @media (max-width: 768px) {
