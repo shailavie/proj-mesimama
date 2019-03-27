@@ -18,7 +18,7 @@
           <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
           <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <p class="details-content-desc">{{task.desc}}</p>
-          <div class="back-btn">
+          <div class="back-btn" @click="$router.go(-1)">
             <el-button plain icon="el-icon-arrow-left">Back</el-button>
           </div>
         </div>

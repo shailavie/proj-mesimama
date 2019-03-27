@@ -6,27 +6,31 @@
         <!-- <pre>{{othersTasksToShow}}</pre> -->
         <!-- {{userToShow}} -->
         <!-- My Tasks -->
-        <task-list-cmp
-          v-if="userToShow"
-          :tasks="myTasksToShow"
-          title="My tasks"
-          @task-owned="ownTask($event)"
-          @task-passed="passTask($event)"
-          @task-done="doneTask($event)"
-          @task-edit="editTask($event)"
-          @task-remove="removeTask($event)"
-        ></task-list-cmp>
+        <transition name="fade">
+          <task-list-cmp
+            v-if="userToShow"
+            :tasks="myTasksToShow"
+            title="My tasks"
+            @task-owned="ownTask($event)"
+            @task-passed="passTask($event)"
+            @task-done="doneTask($event)"
+            @task-edit="editTask($event)"
+            @task-remove="removeTask($event)"
+          ></task-list-cmp>
+        </transition>
 
         <!-- Live Tasks -->
-        <task-list-cmp
-          :tasks="unOwnedTasksToShow"
-          title="Tasks to go"
-          @task-owned="ownTask($event)"
-          @task-passed="passTask($event)"
-          @task-done="doneTask($event)"
-          @task-edit="editTask($event)"
-          @task-remove="removeTask($event)"
-        ></task-list-cmp>
+        <transition name="fade">
+          <task-list-cmp
+            :tasks="unOwnedTasksToShow"
+            title="Tasks to go"
+            @task-owned="ownTask($event)"
+            @task-passed="passTask($event)"
+            @task-done="doneTask($event)"
+            @task-edit="editTask($event)"
+            @task-remove="removeTask($event)"
+          ></task-list-cmp>
+        </transition>
 
         <!-- Others Tasks -->
         <h1>Other's Tasks</h1>
@@ -204,6 +208,14 @@ export default {
 }
 .task-list-title {
   text-align: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 

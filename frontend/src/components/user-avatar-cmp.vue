@@ -25,5 +25,6 @@ export default {
   background-size: cover;
   background-position: center;
   cursor: pointer;
+  border: 2px solid #ececec;
 }
 </style>
