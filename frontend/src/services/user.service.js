@@ -14,7 +14,8 @@ export default {
 }
 
 
-const BASE_URL = 'http://localhost:3003/api'
+// const BASE_URL = 'http://localhost:3003/api'
+const BASE_URL = (process.env.NODE_ENV !== 'development') ? '/api' : 'http://localhost:3003/api';
 
 
 function getCurrUser() {
@@ -52,9 +53,9 @@ function getUserById(userId) {
 // Set user session programatically
 function setUserSession(userId) {
     return new Promise((resolve, reject) => {
-        axios.post("http://localhost:3003/api/users/setuser", {
+        axios.post(`${BASE_URL}/users/setuser`, {
             userId
-        }).then(resolve())
+        }).then(res => resolve(res.data))
     })
 }
 
@@ -71,20 +72,20 @@ function getUsers() {
 }
 
 //update user notifications 
- function updateGroupNotifications(group,notification){
-    group.forEach((user)=>{
-        if (!user.isDirector){
+function updateGroupNotifications(group, notification) {
+    group.forEach((user) => {
+        if (!user.isDirector) {
             let notifs = user.notifications
-                if (notifs.length > 9) {
-                    notifs.pop()
-                    notifs.unshift(notification)
-                } else notifs.unshift(notification)
-                user.notifications = notifs
-               updateUser(user)
-               .then((res)=>{
-                   console.log(res.data)
-               })
+            if (notifs.length > 9) {
+                notifs.pop()
+                notifs.unshift(notification)
+            } else notifs.unshift(notification)
+            user.notifications = notifs
+            updateUser(user)
+                .then((res) => {
+                    console.log(res.data)
+                })
         }
     })
-    } 
+}
 

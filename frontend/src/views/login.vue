@@ -53,6 +53,7 @@
 <script>
 import Axios from "axios";
 import userAvatar from "@/components/user-avatar-cmp.vue";
+import userService from "../services/user.service.js";
 
 var axios = Axios.create({
   withCredentials: true
@@ -88,19 +89,24 @@ export default {
     }
   },
   methods: {
-    async setRole() {
-      let test = await axios.post("http://localhost:3003/api/users/setuser", {
-        userId: this.role
-      });
-      this.$store.dispatch({ type: "setCurrUser" });
-      this.$router.push("/app/tasks");
-    },
-    async printSession() {
-      let test = await axios.get("http://localhost:3003/api/users/current");
-    },
-    async getTeam() {
-      let users = await axios.get("http://localhost:3003/api/users");
-      this.test = users.data;
+    setRole() {
+      userService
+        .setUserSession(this.role)
+        .then(res => {
+          console.log("Session is ", res);
+        })
+        .then(() => {
+          this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+            this.$router.push("/app/tasks");
+          });
+        });
+      // console.log('Session is set..')
+      // await this.$store.dispatch({ type: "setCurrUser" });
+      // console.log('Got user in store..')
+      // setTimeout(() => {
+      //   this.$router.push('/app/tasks')
+
+      // }, 3000);
     }
   }
 };

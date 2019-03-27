@@ -5,7 +5,11 @@ import store from '../stores/store.js'
 import userService from '../services/user.service.js'
 import utilService from '../services/util-service.js'
 
-var socket = ioClient('//localhost:3003');
+const BASE_URL = (process.env.NODE_ENV !== 'development') ? '/api' : 'http://localhost:3003/api';
+
+var socket = (process.env.NODE_ENV !== 'development')? ioClient(BASE_URL) : ioClient('//localhost:3003'); //TO DO - WON'T WORK ON HEROKU
+// var socket = ioClient('http://localhost:3003');
+// var socket = io('http://localhost');
 
 const msgs = []
 
