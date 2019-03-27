@@ -70,11 +70,7 @@
 
 <script>
 import userAvatar from "@/components/user-avatar-cmp.vue";
-import Axios from "axios";
-
-var axios = Axios.create({
-  withCredentials: true
-});
+import userService from "@/services/user.service.js";
 
 export default {
   components: {
@@ -94,11 +90,18 @@ export default {
     addTask() {
       this.$router.push("/app/edit");
     },
-    async setRole() {
-      let test = await axios.post("http://localhost:3003/api/users/setuser", {
-        userId: this.role
-      });
-      this.$store.dispatch({ type: "setCurrUser" });
+
+    setRole() {
+      userService
+        .setUserSession(this.role)
+        .then(res => {
+          console.log("Session is ", res);
+        })
+        .then(() => {
+          this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+            console.log("User switched! :)");
+          });
+        });
     }
   },
   computed: {
