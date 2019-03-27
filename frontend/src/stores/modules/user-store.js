@@ -17,7 +17,11 @@ const userStore = {
       state.currDirector=director
     },
      updateDirectoreUrls(state,{url}){
+      //  urls.forEach((url)=>{
+      //   state.currDirector.imgUrls.unshift(url)
+      //  })
       state.currDirector.imgUrls.unshift(url)
+     
     },
     loadCurrDirector(state, { directorIdx }) {
       state.currDirector = state.currGroup[directorIdx]

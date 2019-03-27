@@ -32,6 +32,19 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
+
+          <div class="row">
+            <div class="col-md-12">
+              <input
+                type="file"
+                class="form-control"
+                v-on:change="uploadTaskImg($event.target.files)"
+                accept="image/*"
+              >
+            </div>
+          </div>
+          <div v-if="taskToEdit.imgUrl"><img :src="taskToEdit.imgUrl" alt=""></div>
+
           <!-- Assign to -->
           <el-form-item label="Assign task to">
             <el-select v-model="taskToEdit.helperId" placeholder="Optional">
@@ -41,6 +54,7 @@
             </el-select>
           </el-form-item>
           <!-- Main CTA -->
+
           <el-form-item>
             <el-button type="success" @click.native.prevent="saveTask">Save Task</el-button>
             <el-button
@@ -63,8 +77,12 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
+
+import imgService from "../services/img-service.js"
+
 import speechToText from "../components/speech-to-text-cmp.vue";
 import shakeService from '../services/shake-service.js'
+
 
 export default {
   name: "taskEdit",
@@ -124,6 +142,12 @@ export default {
     if(!("ondevicemotion" in window)){alert("Not Supported");}
   },
   methods: {
+
+   async uploadTaskImg(file){
+      // this.$store.dispatch({type:'uploadTaskImg',file})
+       let url =  await imgService.uploadImg(file)
+       this.taskToEdit.imgUrl=url
+
     speechEnd({ sentences, text }) {
       console.log("text", text);
       console.log("sentences", sentences);
@@ -133,6 +157,7 @@ export default {
       console.log("text", text);
       console.log("sentences", sentences);
       this.sentences2 = sentences;
+
     },
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();

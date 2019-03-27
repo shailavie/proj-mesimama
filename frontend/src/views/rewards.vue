@@ -1,72 +1,60 @@
 <template>
-<div  v-if="canLoad">
-
-  <section v-if="user && !user.isDirector" class="section">
-    <h1>Hey {{user.name}}, here are your rewards:</h1>
-    <masonry :cols="3" :gutter="5" >
-      <figure v-for="(url,idx) in pics" :key="idx" class="img-container">
-        <img :src="url" class="gallery-item">
-      </figure>
-    </masonry>
-    <h2>{{user.name}}, you have {{user.score}} points, do some tasks and open more rewards!</h2>
-    <masonry :cols="3" :gutter="5">
-      <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
-        <img :src="url" class="next-reward gallery-item">
-      </figure>
-    </masonry>
-  </section>
-  <section v-else class="section">
-    <div class="row">
-      <div class="col-md-12">
-        <input
-          type="file"
-          class="form-control"
-          v-on:change="upload($event.target.files)"
-          accept="image/*"
-        >
+  <div v-if="canLoad">
+    <section v-if="user && !user.isDirector" class="section">
+      <h1>Hey {{user.name}}, here are your rewards:</h1>
+      <masonry :cols="3" :gutter="5">
+        <figure v-for="(url,idx) in pics" :key="idx" class="img-container">
+          <img :src="url" class="gallery-item">
+        </figure>
+      </masonry>
+      <h2>{{user.name}}, you have {{user.score}} points, do some tasks and open more rewards!</h2>
+      <masonry :cols="3" :gutter="5">
+        <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
+          <img :src="url" class="next-reward gallery-item">
+        </figure>
+      </masonry>
+    </section>
+    <section v-else class="section">
+      <div class="row">
+        <div class="col-md-12">
+          <input
+            type="file"
+            class="form-control"
+            v-on:change="upload($event.target.files)"
+            accept="image/*"
+          >
+        </div>
       </div>
-    </div>
 
-    <h1>Hey {{user.name}}, how is your day going?</h1>
-    <h2>These are the rewards for your lovley helpers, feel free to add more, they will appreciate it!</h2>
-    <masonry :cols="3" :gutter="5">
-      <figure v-for="(url,idx) in urls" :key="idx" class="img-container">
-        <img :src="url" class="gallery-item">
-      </figure>
-    </masonry>
-  </section>
-</div>
+      <h1>Hey {{user.name}}, how is your day going?</h1>
+      <h2>These are the rewards for your lovley helpers, feel free to add more, they will appreciate it!</h2>
+      <masonry :cols="3" :gutter="5">
+        <figure v-for="(url,idx) in urls" :key="idx" class="img-container">
+          <img :src="url" class="gallery-item">
+        </figure>
+      </masonry>
+    </section>
+  </div>
 </template>
 
 <script>
-
+import imgService from '../services/img-service.js'
 export default {
   data() {
     return {
-      selectedFile: null,
       cloudinary: {
-        uploadPreset: "ymcnebv4",
-        apiKey: "757281885482997",
-        cloudName: "dgvsdobz4"
       },
-      canLoad:false
+      canLoad: false
     };
   },
   methods: {
-    async upload(file) {
-      const formData = new FormData();
-      formData.append("file", file[0]);
-      formData.append("upload_preset", this.cloudinary.uploadPreset);
-      formData.append("tags", "gs-vue,gs-vue-uploaded");
-      let urlForAxios = `https://api.cloudinary.com/v1_1/${
-        this.cloudinary.cloudName
-      }/upload`;
-      this.$store.dispatch({ type: "uploadImg", file: formData, urlForAxios });
+     upload(file) {
+        this.$store.dispatch({ type: "uploadImg", file });
     }
   },
-    async created() {
+  async created() {
     await this.$store.dispatch("loadGroup");
-    await this.$store.dispatch("loadCurrDirector")
+    await this.$store.dispatch("loadCurrDirector");
     this.canLoad = true;
   },
   computed: {
@@ -85,8 +73,7 @@ export default {
       let urls = this.$store.getters.urls;
       return urls.slice(this.user.score);
     }
-  },
-
+  }
 };
 </script>
 
