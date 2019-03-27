@@ -72,7 +72,8 @@ export default {
 
 .won {
   transform: scale(1.2);
-  font-size: 120%;
+  font-size: 140%;
+  filter: saturate(3);
 }
 
 .score-count {
@@ -131,7 +132,7 @@ small {
   }
   70% {
     -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
-    box-shadow: 0 0 0 20px rgba(204, 169, 44, 0);
+    box-shadow: 0 0 0 40px rgba(204, 169, 44, 0);
   }
   100% {
     -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);

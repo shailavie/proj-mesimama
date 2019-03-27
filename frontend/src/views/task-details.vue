@@ -11,7 +11,9 @@
             <div class="helper-details">
               <user-avatar class="user-avatar" :url="helper.avatarUrl"/>
               <div class="helper-name">
-                <strong>{{helper.name}}</strong> is on it.
+                <small>
+                  <strong>{{helper.name}}</strong> is on it.
+                </small>
               </div>
             </div>
           </div>
@@ -158,6 +160,13 @@ export default {
   align-items: center;
 }
 
+small {
+  color: #999;
+}
+
+small strong {
+  color: #333;
+}
 .user-avatar {
   margin-right: 10px;
 }
