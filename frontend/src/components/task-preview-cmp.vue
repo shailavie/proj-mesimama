@@ -119,7 +119,7 @@ export default {
       return bgClass;
     },
     getTaskImg(task) {
-      let bgClass = `background: url(${task.imgUrl}) no-repeat 0 50%`;
+      let bgClass = `background: url(${task.imgUrl}) no-repeat 0 50%; background-size:cover`;
       return bgClass;
     },
     toggleActions() {
