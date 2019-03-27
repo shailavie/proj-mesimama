@@ -1,14 +1,13 @@
 <template>
-  <section class="my-account" v-if="user">
-    <h1>My Account</h1>
-    <user-avatar :url="user.avatarUrl"/>
-    <h2>Name: {{user.name}}</h2>
-    <h3>Tasks:</h3>
-
+  <section class="user-profile" v-if="user">
+    <div class="flex center-ver mb30">
+      <user-avatar :url="user.avatarUrl"/>
+      <h2 class="ml10">{{user.name}}'s tasks</h2>
+    </div>
     <ul>
       <!-- User's tasks -->
       <li v-for="currTask in myTasksToShow" :key="currTask._id">
-          <h4>{{currTask.status}}</h4>
+        <h4>{{currTask.status}}</h4>
         <task-preview
           :task="currTask"
           @task-owned="ownTask($event)"
@@ -17,7 +16,6 @@
           @task-edit="editTask($event)"
           @task-remove="removeTask($event)"
         ></task-preview>
-
       </li>
     </ul>
   </section>
@@ -46,24 +44,30 @@ export default {
     console.log("my account got user!", this.user);
     this.$store.dispatch({ type: "loadActiveTasks" });
   },
+  methods: {
+    doneTask(task) {
+      this.$store.dispatch("markDone", task);
+    },
+    passTask(task) {
+      this.$store.dispatch("passTask", task);
+    }
+  },
   computed: {
     myTasksToShow() {
-      let myTasks = this.$store.getters.allTasks
-      return myTasks.filter(
-        task => task.helperId === this.user._id
-      );
+      let myTasks = this.$store.getters.allTasks;
+      return myTasks.filter(task => task.helperId === this.user._id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.my-account {
-    padding: 30px;
+.user-profile {
+  padding: 30px;
 }
 h4 {
-    text-transform: capitalize;
-    margin-bottom: 20px;
+  text-transform: capitalize;
+  margin-bottom: 20px;
 }
 </style>
 

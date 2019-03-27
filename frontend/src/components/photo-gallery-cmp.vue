@@ -20,6 +20,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.gallery {
+  background: #fff;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding: 20px;
+  margin: 10px 0px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+}
 h1 {
   text-align: center;
   display: flex;
@@ -45,7 +53,7 @@ img {
   transform: scale(1);
   transition: all 0.3s;
   border-radius: 8px;
-  border: 2px solid #ececec;
+  border: 2px solid transparent;
   &:hover {
     border: 2px solid blue;
   }

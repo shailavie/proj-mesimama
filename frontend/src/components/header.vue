@@ -1,13 +1,18 @@
 <template >
   <div class="wrapper" v-if="currUser">
     <div class="header-container">
-      <div class="container">
+      <div class="logo-container">
         <div class="header-logo">Mesimama</div>
       </div>
       <div class="main-nav">
         <!-- qa -->
         <div class="login">
-          <el-select v-model="role" placeholder="Select role" class="login-page-el-input" @change="setRole">
+          <el-select
+            v-model="role"
+            placeholder="Select role"
+            class="login-page-el-input"
+            @change="setRole"
+          >
             <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
             <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
             <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
@@ -24,12 +29,12 @@
 
         <!-- Navbar -->
         <nav>
-          <span class="nav-item">
+          <!-- <span class="nav-item">
             <router-link to="/app/chat">
               <img src="@/assets/icons/chat.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Chat</span>
             </router-link>
-          </span>
+          </span> -->
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
@@ -55,8 +60,8 @@
         </nav>
         <div class="current-user" v-if="currUser">
           <span class="nav-item user">
-            <!-- <router-link to="/app/my-account"> -->
-              <user-avatar :url="avatarUrl" :userId="currUser._id"/>
+            <!-- <router-link to="/app/user-profile"> -->
+            <user-avatar :url="avatarUrl" :userId="currUser._id"/>
             <!-- </router-link> -->
           </span>
         </div>
@@ -119,6 +124,15 @@ export default {
 .login {
   margin: 0 20px;
 }
+
+@media (max-width: 768px) {
+  .login {
+    display: none;
+  }
+}
+.login-page-el-input {
+  height: 48px;
+}
 .user-msg {
   display: flex;
   align-items: center;
@@ -129,17 +143,17 @@ export default {
   margin-right: 2.2em;
   color: #666;
 }
-.container {
+.logo-container {
   display: flex;
 }
 
 .main-nav {
-  flex-grow: 1;
 }
+
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   .nav-item {
     margin-right: 1.6em;
