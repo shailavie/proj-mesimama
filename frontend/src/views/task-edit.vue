@@ -66,7 +66,9 @@
               >
             </div>
           </div>
-          <div v-if="taskToEdit.imgUrl"><img :src="taskToEdit.imgUrl" alt=""></div>
+          <div v-if="taskToEdit.imgUrl">
+            <img :src="taskToEdit.imgUrl" alt>
+          </div>
 
           <!-- Assign to -->
           <el-form-item label="Assign task to">
@@ -101,11 +103,10 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
 
-import imgService from "../services/img-service.js"
+import imgService from "../services/img-service.js";
 
 import speechToText from "../components/speech-to-text-cmp.vue";
 import shakeService from "../services/shake-service.js";
-
 
 export default {
   name: "taskEdit",
@@ -171,12 +172,11 @@ export default {
     }
   },
   methods: {
-
-   async uploadTaskImg(file){
+    async uploadTaskImg(file) {
       // this.$store.dispatch({type:'uploadTaskImg',file})
-       let url =  await imgService.uploadImg(file)
-       this.taskToEdit.imgUrl=url
-
+      let url = await imgService.uploadImg(file);
+      this.taskToEdit.imgUrl = url;
+    },
     speechEnd({ sentences, text }) {
       console.log("text", text);
       console.log("sentences", sentences);
@@ -186,7 +186,6 @@ export default {
       console.log("text", text);
       console.log("sentences", sentences);
       this.sentences2 = sentences;
-
     },
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
@@ -231,7 +230,7 @@ export default {
 }
 .edit-task-form {
   width: 600px;
-  padding:40px
+  padding: 40px;
 }
 
 .task-title-container {
