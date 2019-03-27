@@ -13,7 +13,7 @@ const addTaskRoutes = require('./routes/task-route')
 const addUserRoutes = require('./routes/user-route')
 
 // Define static resources src
-app.use(express.static('front'));
+app.use(express.static('public'));
 // CORS
 app.use(cors({
     origin: ['http://localhost:8080'],
