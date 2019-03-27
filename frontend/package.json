@@ -1,0 +1,38 @@
+{
+  "name": "mesimama",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chart.js": "^2.8.0",
+    "cloudinary-vue": "^1.0.0-beta2",
+    "element-ui": "^2.6.1",
+    "moment": "^2.24.0",
+    "register-service-worker": "^1.6.2",
+    "socket.io": "^2.2.0",
+    "vue": "^2.6.6",
+    "vue-chartjs": "^3.4.2",
+    "vue-masonry-css": "^1.0.3",
+    "vue-moment": "^4.0.0",
+    "vue-notification": "^1.3.16",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.5.0",
+    "@vue/cli-plugin-pwa": "^3.5.0",
+    "@vue/cli-plugin-unit-jest": "^3.5.0",
+    "@vue/cli-service": "^3.5.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^24.5.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.5.21"
+  }
+}

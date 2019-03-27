@@ -1,0 +1,237 @@
+<template>
+  <section class="task-list-section">
+    <!-- Empty State -->
+    <div class="empty-state-container" v-if="tasks.length === 0">
+      <h2>No Tasks?</h2>
+      <img class="emptyState" src="/img/icons/emptyState.png">
+      <h4>Me and mom have a nickname for people with no tasks..</h4>
+    </div>
+
+    <!-- Tasks -->
+    <div class="task-list-container">
+      <ul v-if="tasks">
+        <div class="user-tasks-container" v-for="userToRender in tasks" :key="userToRender._id">
+          
+          <!-- User Info -->
+          <div class="user-info flex space-between" v-if="userToRender._id">
+            <div class="flex center-ver">
+              <user-avatar :url="userToRender.avatarUrl" :userId="userToRender._id"/>
+              <h2>{{userToRender._id === thisUser._id? title :userToRender.name}}</h2>
+              <h2>{{currTitle(userToRender)}}</h2>
+              <h2>({{userToRender.tasks.length}})</h2>
+            </div>
+            <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
+          </div>
+          <div class="user-info flex space-between" v-else>
+            <div class="flex center-ver">
+              <img class="empty-task-avatar" src="@/assets\icons\babytasks.png" alt>
+              <h2>Tasks To Do</h2>
+              <h2>({{userToRender.tasks.length}})</h2>
+            </div>
+            <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
+          </div>
+
+          <hr align="left">
+
+          <!-- User's tasks -->
+          <ul class="users-tasks" :class="{fadeUp : !showTasks}">
+            <li v-for="currTask in userToRender.tasks" :key="currTask._id">
+              <task-preview
+                :task="currTask"
+                @task-owned="ownTask($event)"
+                @task-done="doneTask($event)"
+                @task-passed="passTask($event)"
+                @task-edit="editTask($event)"
+                @task-remove="removeTask($event)"
+              ></task-preview>
+            </li>
+          </ul>
+        </div>
+      </ul>
+    </div>
+    <div class="buffer"></div>
+  </section>
+</template>
+
+<script>
+import taskPreview from "./task-preview-cmp.vue";
+import userService from "../services/user.service.js";
+import userAvatar from "./user-avatar-cmp.vue";
+
+export default {
+  props: ["tasks", "title"],
+  components: {
+    taskPreview,
+    userAvatar
+  },
+  data() {
+    return {
+      usersGroup: null,
+      showTasks: true
+    };
+  },
+  async created() {
+    await this.$store.dispatch("loadGroup");
+    console.log('created at task-list');
+    this.$store.dispatch({ type: "loadCurrDirector" });
+  },
+  methods: {
+    ownTask(taskId) {
+      this.$emit("task-owned", taskId);
+    },
+    doneTask(task) {
+      this.$emit("task-done", task);
+    },
+    passTask(task) {
+      this.$emit("task-passed", task);
+    },
+    editTask(taskId) {
+      this.$emit("task-edit", taskId);
+    },
+    removeTask(taskId) {
+      this.$emit("task-remove", taskId);
+    },
+    getAvatarUrlBg(url) {
+      return { backgroundImage: `url(${url})` };
+    },
+    currTitle(userToRender) {
+      if (!userToRender._id) return "All Tasks";
+      else userToRender._id === this.thisUser._id ? "You" : userToRender.name;
+    },
+    toggleTasks() {
+      this.showTasks = !this.showTasks;
+    }
+  },
+  computed: {
+    thisUser() {
+      let user = this.$store.getters.currUser;
+      return user;
+    },
+  }
+};
+</script>
+
+<style scoped lang="scss">
+$chevron: "../assets/icons/arrow-down.svg";
+
+
+.task-list-section {
+  margin-top: 20px;
+}
+ul {
+  display: grid;
+  grid-gap: 10px;
+}
+.emptyState {
+  width: 100px;
+  height: auto;
+}
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 4px;
+  margin-top: 32px;
+}
+h4 {
+  width: 300px;
+}
+.task-list-container {
+  margin-bottom: 20px;
+}
+.task-list-title {
+  text-align: center;
+}
+h1 {
+  display: flex;
+  align-items: center;
+  font-weight: 100;
+  font-size: 30px;
+  font-weight: bolder;
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid rgb(219, 218, 218);
+  margin: 1em 0;
+  padding: 0;
+  width: 650px;
+}
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 100px;
+  background-position: center;
+  background-size: cover;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 650px;
+
+  h2 {
+    margin-left: 10px;
+  }
+}
+
+ul li {
+  list-style-type: none;
+  list-style: none;
+}
+ul {
+  list-style: none;
+}
+.user-tasks-container {
+  text-align: left;
+}
+.toggle-tasks {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  color: gray;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: 0.8s ease;
+  background: rgb(245, 244, 244) no-repeat center/40% url($chevron);
+  //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
+  // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
+}
+.title {
+  display: flex;
+}
+.tilt {
+  transform: rotate(-90deg);
+}
+.users-tasks {
+  transition: 0.5s ease;
+}
+.hide {
+  opacity: 0;
+  height: 0px;
+}
+.fadeUp {
+  transform: translate3d(0, -10%, 0);
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+}
+.empty-task-avatar {
+  width: 60px;
+  height: 60px;
+}
+
+.buffer {
+  height: 40px;
+}
+</style>

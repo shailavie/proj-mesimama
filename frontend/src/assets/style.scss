@@ -1,0 +1,275 @@
+// Imports
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2em;
+}
+// Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+// Basic Elements Reset
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background: #fafafa;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+// Layout
+header {
+  position: fixed;
+  background: #fff;
+  background-color: white;
+  width: calc(100vw - 15px);
+  top: 0;
+  left: 0;
+  z-index: 999;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.03);
+}
+
+@media (max-width: 768px) {
+  header {
+    width: 100vw;
+  }
+}
+.wrapper {
+  padding: 0px 15px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+footer {
+  height: 60px;
+}
+
+main {
+  margin-top: 80px;
+}
+
+.header-logo {
+  color: red;
+  font-weight: 700;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 10px 0;
+  height: 70px;
+}
+
+.header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Nav
+.header-container .main-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-container nav {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+  flex-basis: 160px;
+}
+
+@media (max-width: 768px) {
+  .header-container .main-nav {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: unset;
+
+    .item-tasks {
+      order: unset;
+    }
+
+    .notifications-badge {
+      top: 12px;
+    }
+  }
+
+  .header-container nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100vw;
+    border-top: 1px solid rgba(0, 0, 0, 0.0975);
+  }
+}
+
+.nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-item a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-item-icon {
+  width: 25px;
+  height: auto;
+}
+
+.item-tasks {
+  order: -1;
+}
+
+// .nav-item.user .nav-item-icon {
+//   width: 30px;
+//   height: 30px;
+// }
+
+.notifications-badge {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
+  border-radius: 50%;
+  font-weight: bolder;
+  height: 18px;
+  width: 18px;
+  left: -10px;
+  top: 0;
+  background: red;
+  color: #fff;
+}
+
+// Tasks
+
+.add-task-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background-color: #409eff;
+  font-size: 2em;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  cursor: pointer;
+  border: 0;
+  box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    background: #66b1ff;
+  }
+}
+
+.task-details-container {
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-details-center-box {
+  padding: 40px;
+  flex-basis: 60%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background: #fff;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+// Element UI Tweaks
+
+.login-page-el-input .el-input__inner {
+  background-color: transparent !important;
+  color: #fff;
+  height: 48px;
+}
+
+button.el-button--primary,
+button.el-button--primary:active,
+button.el-button--primary:focus {
+  background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
+  border: 0;
+  transition: 0.2s;
+}
+
+button.el-button--primary:hover {
+  background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
+  border: 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+// Helpers
+
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.center-all {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.center-ver {
+  align-items: center;
+}
+.column {
+  flex-direction: column;
+}
+.space-between {
+  justify-content: space-between;
+}
+.space-around {
+  justify-content: space-around;
+}
+.space:nth-child(1) {
+  margin-left: 100px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.mb30 {
+  margin-bottom: 30px;
+}
