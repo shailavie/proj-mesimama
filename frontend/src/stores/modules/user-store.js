@@ -75,7 +75,7 @@ const userStore = {
       usersWithTasks.map(user => {
         user.tasks = []
         activeTasks.forEach(task => {
-          if (task.helperId === user._id)
+          if (task.helperId === user._id && task.status !== 'done')
             user.tasks.push(task)
         })
       })
