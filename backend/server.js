@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 addTaskRoutes(app)
 addUserRoutes(app)
 
-// console.log('THIS IS FOR YOU AMOOOOOOOO',process.env);
+console.log('THIS IS FOR YOU AMOOOOOOOO',process.env);
 
 //TODO: as soon as user connects, send him into a room with his ID.
 // you always know the Admin id, so when you need, send him the msg.
