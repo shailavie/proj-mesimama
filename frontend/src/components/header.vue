@@ -7,7 +7,12 @@
       <div class="main-nav">
         <!-- qa -->
         <div class="login">
-          <el-select v-model="role" placeholder="Select role" class="login-page-el-input" @change="setRole">
+          <el-select
+            v-model="role"
+            placeholder="Select role"
+            class="login-page-el-input"
+            @change="setRole"
+          >
             <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
             <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
             <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
@@ -118,6 +123,15 @@ export default {
 <style scoped lang="scss">
 .login {
   margin: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .login {
+    display: none;
+  }
+}
+.login-page-el-input {
+  height: 48px;
 }
 .user-msg {
   display: flex;
