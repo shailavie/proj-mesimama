@@ -1,7 +1,7 @@
 <template >
   <div class="wrapper" v-if="currUser">
     <div class="header-container">
-      <div class="container">
+      <div class="logo-container">
         <div class="header-logo">Mesimama</div>
       </div>
       <div class="main-nav">
@@ -56,7 +56,7 @@
         <div class="current-user" v-if="currUser">
           <span class="nav-item user">
             <!-- <router-link to="/app/my-account"> -->
-              <user-avatar :url="avatarUrl" :userId="currUser._id"/>
+            <user-avatar :url="avatarUrl" :userId="currUser._id"/>
             <!-- </router-link> -->
           </span>
         </div>
@@ -129,17 +129,17 @@ export default {
   margin-right: 2.2em;
   color: #666;
 }
-.container {
+.logo-container {
   display: flex;
 }
 
 .main-nav {
-  flex-grow: 1;
 }
+
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   .nav-item {
     margin-right: 1.6em;
