@@ -167,6 +167,7 @@ small {
 small strong {
   color: #333;
 }
+
 .user-avatar {
   margin-right: 10px;
 }

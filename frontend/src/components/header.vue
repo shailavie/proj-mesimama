@@ -29,12 +29,12 @@
 
         <!-- Navbar -->
         <nav>
-          <span class="nav-item">
+          <!-- <span class="nav-item">
             <router-link to="/app/chat">
               <img src="@/assets/icons/chat.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Chat</span>
             </router-link>
-          </span>
+          </span> -->
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
