@@ -15,7 +15,7 @@
       <ul v-if="tasks">
         <div class="user-tasks-container" v-for="userToRender in tasks" :key="userToRender._id">
           <div class="user-info" v-if="userToRender._id">
-            <div class="user-avatar" :style="getAvatarUrlBg(userToRender.avatarUrl)"></div>
+            <user-avatar :url="userToRender.avatarUrl" :userId="userToRender._id"/>
             <h2>{{userToRender._id === thisUser._id? 'You' :userToRender.name}}</h2>
             <h2>{{currTitle(userToRender)}}</h2>
             <h3>&nbsp;({{userToRender.tasks.length}})</h3>
