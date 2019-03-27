@@ -38,14 +38,9 @@
         class="task-toggle-btn-container"
         @click.prevent="clickOnTask(task._id)"
       >
-        <a class="task-action-btn-toggle">
-          {{passOrOwnTask}}
-          <img
-            v-if="task.helperId"
-            class="checkmark"
-            src="@/assets/icons/pass.svg"
-          >
-        </a>
+        <el-button>
+          {{passOrOwnTask}}gi
+        </el-button>
       </div>
 
       <div
@@ -53,9 +48,7 @@
         v-if="task.helperId === user._id || user.isDirector && task.helperId"
         @click.prevent="markDone(task)"
       >
-        <a class="task-action-btn-done">
-          <img class="checkmark" src="@/assets/icons/tick.svg">
-        </a>
+        <el-button title="Done!" icon="el-icon-check"></el-button>
       </div>
     </div>
 
@@ -119,7 +112,9 @@ export default {
       return bgClass;
     },
     getTaskImg(task) {
-      let bgClass = `background: url(${task.imgUrl}) no-repeat 0 50%; background-size:cover`;
+      let bgClass = `background: url(${
+        task.imgUrl
+      }) no-repeat 0 50%; background-size:cover`;
       return bgClass;
     },
     toggleActions() {
