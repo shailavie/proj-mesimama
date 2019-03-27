@@ -75,6 +75,7 @@ export default {
     };
   },
   created() {
+    console.log('created at tasks page');
     this.$store.dispatch({ type: "loadUsersWithTasks" });
     this.$store.dispatch({ type: "loadActiveTasks" });
     window.addEventListener("resize", this.handleResize);

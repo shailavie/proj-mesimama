@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="canLoad">
     <router-view/>
     <notifications group="foo"/>
     <div class="test"></div>
@@ -14,8 +14,15 @@ var axios = Axios.create({
 });
 export default {
   computed: {},
-  created() {
-    this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+  data() {
+    return {
+      canLoad: false
+    };
+  },
+  async created() {
+    await this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+      console.log("app created");
+      this.canLoad = true;
     });
   }
 };

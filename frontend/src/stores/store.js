@@ -4,7 +4,7 @@ import userStore from './modules/user-store.js'
 import taskService from '../services/task-service.js'
 import userService from '../services/user.service.js'
 import socketService from '../services/socket.service.js'
-
+import imgService from '../services/img-service.js'
 //Delete router, only for dev!
 import Router from 'vue-router'
 Vue.use(Router)
@@ -18,8 +18,10 @@ const store = new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
+
   },
   mutations: {
+
     updateTask(state, { updatedTask }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === updatedTask._id)
       state.taskItems.splice(taskIdx, 1, updatedTask)
@@ -95,9 +97,6 @@ const store = new Vuex.Store({
     },
     async markDone(context, task) {
       var updatedTask = await taskService.markDone(task)
-      // context.dispatch({ type: 'setCurrUser' })
-      // context.dispatch({ type: 'loadActiveTasks' })
-      // context.dispatch({ type: 'loadGroup' })
       socketService.emit('finishedTask')
     },
     async saveTask(context, task) {
@@ -110,7 +109,7 @@ const store = new Vuex.Store({
           classes: 'vue-notification',
           text: `Good job, keep it up! `
         })
-        socketService.emit('updateTask',task)
+        socketService.emit('updateTask', task)
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
         let group = await context.getters.currGroup
@@ -128,8 +127,18 @@ const store = new Vuex.Store({
         socketService.emit("addedTask", newTask);
       }
     },
+    async uploadImg(context, { file, urlForAxios }) {
+      let url = await imgService.uploadImg(file, urlForAxios)
+      console.log(url)
+      //UPDATE STATE DIRECTOR
+      context.commit({ type: 'updateDirectoreUrls', url })
+      //UPDATE DIRECTOR ON DATABASE SERVER
+await context.dispatch({type:'updateDirectorOnServer',user:userStore.state.currDirector})
+      // context.dispatch({type:'updateCurrDirector'})
+    }
   },
   getters: {
+
     tasksWithNoHelpers(state) {
       return state.taskItems.filter(task => task.helperId === null)
     },

@@ -61,7 +61,9 @@ export default {
     };
   },
   async created() {
-    this.$store.dispatch("loadGroup");
+    await this.$store.dispatch("loadGroup");
+    console.log('created at task-list');
+    this.$store.dispatch({ type: "loadCurrDirector" });
   },
   methods: {
     ownTask(taskId) {

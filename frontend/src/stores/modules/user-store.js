@@ -8,9 +8,19 @@ const userStore = {
   state: {
     usersWithTasks: [],
     currUser: null,
-    currGroup: []
+    currGroup: [],
+    currDirector: {}
   },
   mutations: {
+    updateDirectorOnServer(state,{director}){
+      state.currDirector=director
+    },
+     updateDirectoreUrls(state,{url}){
+      state.currDirector.imgUrls.unshift(url)
+    },
+    loadCurrDirector(state, { directorIdx }) {
+      state.currDirector = state.currGroup[directorIdx]
+    },
     updateUserNotifications(state) {
       state.currUser.notifications.forEach((notif) => {
         return notif.isRead = true;
@@ -31,15 +41,24 @@ const userStore = {
 
   },
   actions: {
+   async updateDirectorOnServer(context,{user}){
+    let director= await  userService.updateUser(user)
+    context.commit({type:'updateDirectorOnServer',director})
+    },
+    loadCurrDirector(context) {
+      let directorIdx = context.state.currGroup.findIndex((user) => {
+        return user.isDirector
+      })
+      context.commit({ type: 'loadCurrDirector', directorIdx })
+    },
     async loadGroup(context) {
       let users = await userService.getUsers()
-      context.commit({ type: 'loadGroup', users })
+     await context.commit({ type: 'loadGroup', users })
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
       context.commit({ type: 'setCurrUser', currUser })
     },
-
     async updateUser(context, { user }) {
       let updatedUser = await userService.updateUser(user)
       context.state.currUser = updatedUser
@@ -63,6 +82,9 @@ const userStore = {
     },
   },
   getters: {
+    urls(state) {
+      return state.currDirector.imgUrls
+    },
     currGroup(state) {
       return state.currGroup
     },
@@ -89,35 +111,6 @@ const userStore = {
       return unReadNotifications.length
     }
   },
-  actions: {
-    async loadGroup(context) {
-      let users = await userService.getUsers()
-      context.commit({ type: 'loadGroup', users })
-    },
-    async setCurrUser(context) {
-      let currUser = await userService.getCurrUser()
-      context.commit({ type: 'setCurrUser', currUser })
-    },
-
-    async updateUser(context, { user }) {
-      let updatedUser = await userService.updateUser(user)
-      context.state.currUser = updatedUser
-      console.log(context.state.currUser.notifications)
-    },
-    async loadUsersWithTasks(context) {
-      console.log('LOADING USERS!')
-      let activeTasks = await taskService.query()
-      let usersWithTasks = await userService.getUsers()
-      usersWithTasks.map(user => {
-        user.tasks = []
-        activeTasks.forEach(task => {
-          if (task.helperId === user._id && task.status !== 'done')
-            user.tasks.push(task)
-        })
-      })
-      context.commit({ type: 'setUsersWithTasks', usersWithTasks })
-    },
-  }
 }
 
 export default userStore;
