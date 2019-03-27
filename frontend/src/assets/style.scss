@@ -5,6 +5,9 @@
   box-sizing: border-box;
 }
 
+h1 {
+  font-size: 2em;
+}
 // Typography
 h1,
 h2,
@@ -13,7 +16,7 @@ h4,
 h5,
 h6 {
   margin-top: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
 }
 // Basic Elements Reset
 
@@ -206,7 +209,7 @@ main {
 
 .task-details-center-box {
   padding: 40px;
-  flex-basis: 50%;
+  flex-basis: 60%;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -236,22 +239,37 @@ button.el-button--primary:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-
 // Helpers
 
-.flex {display: flex}
-.grid {display: grid}
-.center-all {align-items: center; justify-content: center; text-align: center}
-.center-ver {align-items: center;}
-.column {flex-direction: column}
-.space-between {justify-content: space-between} 
-.space-around {justify-content: space-around} 
-.space:nth-child(1){
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.center-all {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.center-ver {
+  align-items: center;
+}
+.column {
+  flex-direction: column;
+}
+.space-between {
+  justify-content: space-between;
+}
+.space-around {
+  justify-content: space-around;
+}
+.space:nth-child(1) {
   margin-left: 100px;
 }
-.ml10{
+.ml10 {
   margin-left: 10px;
 }
-.mb30{
+.mb30 {
   margin-bottom: 30px;
 }
