@@ -128,10 +128,6 @@ main {
     .item-tasks {
       order: unset;
     }
-
-    .notifications-badge {
-      top: 18px;
-    }
   }
 
   .header-container nav {
@@ -181,8 +177,8 @@ main {
   font-weight: bolder;
   height: 18px;
   width: 18px;
-  left: -6px;
-  top: 4px;
+  left: -7px;
+  top: -5px;
   background: red;
   color: #fff;
 }
@@ -253,10 +249,12 @@ button.el-button--primary:focus {
   transition: 0.2s;
 }
 
-button.el-button--primary:hover {
+button.el-button--primary:hover,
+button.el-button--default:hover {
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
   border: 0;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  color: #fff;
 }
 
 // Helpers

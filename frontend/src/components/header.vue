@@ -49,9 +49,11 @@
           </span>
           <span class="nav-item">
             <router-link to="/app/notifications">
-              <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
+              <div style="position:relative;">
+                <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
+                <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
+              </div>
               <span class="nav-item-text-link">News</span>
-              <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
               <!-- <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span> -->
             </router-link>
           </span>
@@ -138,9 +140,8 @@ export default {
   color: #333;
 }
 
-.login-page-el-input .el-input__inner{
-  color:#333;
-
+.login-page-el-input .el-input__inner {
+  color: #333;
 }
 .user-msg {
   display: flex;
@@ -149,14 +150,11 @@ export default {
   margin-right: 10px;
 }
 .add-new-task {
-  margin-right: 2.2em;
+  margin-right: 1em;
   color: #666;
 }
 .logo-container {
   display: flex;
-}
-
-.main-nav {
 }
 
 .header-container {
@@ -165,7 +163,25 @@ export default {
   justify-content: space-between;
 
   .nav-item {
-    margin-right: 1.6em;
+    width: 100px;
+    border-radius: 15px;
+    transition: 0.3s;
+  }
+  @media (min-width: 768px) {
+    .nav-item:hover {
+      background: #f4f4f4;
+    }
+  }
+
+  .nav-item.user {
+    width: fit-content;
+    margin-left: 1em;
+  }
+
+  @media (max-width: 768px) {
+    .nav-item.user {
+      margin: 0;
+    }
   }
 
   span.nav-item.user {

@@ -236,7 +236,9 @@ export default {
     overflow: hidden;
     border-radius: 15px 0 0 15px;
     background-size: cover;
+    background-position: center;
   }
+
   .task-info-container {
     padding: 15px;
     // text-transform: capitalize;
