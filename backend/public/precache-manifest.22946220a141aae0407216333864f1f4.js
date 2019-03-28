@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "851342e0635de294ba8bd6de6072dc4f",
-    "url": "/img/baby6.851342e0.jpg"
+    "revision": "ad303be1a5927f315b68b91bd008a266",
+    "url": "/img/gold.ad303be1.svg"
   },
   {
     "revision": "ac437d8fd50c2b8d41bdf5e9d3e09264",
@@ -16,48 +16,44 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.97bca030.js"
   },
   {
-    "revision": "b2eb89e95bf85706e2081e329a4b9a40",
+    "revision": "3052a6aaabbe0c96899be6706b6f41c0",
     "url": "/index.html"
   },
   {
-    "revision": "be1a9be6e739fc9920e2",
-    "url": "/js/app.83ebd931.js"
+    "revision": "a6367951917064af0a81",
+    "url": "/js/app.a1587ff9.js"
   },
   {
-    "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
-    "url": "/img/baby2.9b47d9b4.jpg"
+    "revision": "ba816909b9b42eaa85bde659bedd0de4",
+    "url": "/img/baby7.ba816909.jpg"
   },
   {
     "revision": "6f0a76321d30f3c8120915e57f7bd77e",
     "url": "/fonts/element-icons.6f0a7632.ttf"
   },
   {
-    "revision": "94b647cc22a3380c09a828727ceb2ccd",
-    "url": "/img/arrow-down.94b647cc.svg"
+    "revision": "156540b1d63e00a1b7834bc798bc1fae",
+    "url": "/img/login-banner.156540b1.jpg"
   },
   {
-    "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
-    "url": "/img/baby1.250570d3.jpg"
+    "revision": "94b647cc22a3380c09a828727ceb2ccd",
+    "url": "/img/arrow-down.94b647cc.svg"
   },
   {
     "revision": "18fd2d4a32acc604097da6dc55a3cb02",
     "url": "/img/baby9.18fd2d4a.jpg"
   },
   {
-    "revision": "f1eb40660164b8b6dafcb4bfa4a3844f",
-    "url": "/img/reward-box.f1eb4066.png"
-  },
-  {
     "revision": "b19b2e45c7d38497321b8d987ac2a234",
     "url": "/img/baby4.b19b2e45.jpg"
   },
   {
-    "revision": "8743fdb5fcaaa2513b63bbe468e4a654",
-    "url": "/img/baby5.8743fdb5.jpg"
+    "revision": "f1eb40660164b8b6dafcb4bfa4a3844f",
+    "url": "/img/reward-box.f1eb4066.png"
   },
   {
-    "revision": "c0cbd0847616c5b88e858a5e2abacdbe",
-    "url": "/img/tick.c0cbd084.svg"
+    "revision": "8743fdb5fcaaa2513b63bbe468e4a654",
+    "url": "/img/baby5.8743fdb5.jpg"
   },
   {
     "revision": "85f07c9cb8f1e7703eeff82128252392",
@@ -68,24 +64,24 @@ self.__precacheManifest = [
     "url": "/img/pass.4702a541.svg"
   },
   {
-    "revision": "d1a0884bfd3fe149f17684bd8afc014e",
-    "url": "/img/users/dad.jpg"
+    "revision": "851342e0635de294ba8bd6de6072dc4f",
+    "url": "/img/baby6.851342e0.jpg"
   },
   {
-    "revision": "ad303be1a5927f315b68b91bd008a266",
-    "url": "/img/gold.ad303be1.svg"
+    "revision": "d1a0884bfd3fe149f17684bd8afc014e",
+    "url": "/img/users/dad.jpg"
   },
   {
     "revision": "63264af46e6cf9a255d5efbda002bfdb",
     "url": "/img/baby3.63264af4.jpg"
   },
   {
-    "revision": "156540b1d63e00a1b7834bc798bc1fae",
-    "url": "/img/login-banner.156540b1.jpg"
+    "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
+    "url": "/img/baby2.9b47d9b4.jpg"
   },
   {
-    "revision": "ba816909b9b42eaa85bde659bedd0de4",
-    "url": "/img/baby7.ba816909.jpg"
+    "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
+    "url": "/img/baby1.250570d3.jpg"
   },
   {
     "revision": "37ad33da11e0aefa65d70603c30cb32f",
@@ -136,7 +132,7 @@ self.__precacheManifest = [
     "url": "/css/chunk-vendors.ef2a2ae9.css"
   },
   {
-    "revision": "be1a9be6e739fc9920e2",
-    "url": "/css/app.3a97681d.css"
+    "revision": "a6367951917064af0a81",
+    "url": "/css/app.167d7daf.css"
   }
 ];
