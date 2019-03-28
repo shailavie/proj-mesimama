@@ -151,15 +151,7 @@ export default {
 
     var shakeEvent = new Shake({ threshold: 15 });
     shakeEvent.start();
-    window.addEventListener(
-      "shake",
-      function() {
-        if (confirm("Start over?")) {
-          this.taskToEdit = taskService.getEmptyTask();
-        }
-      },
-      false
-    );
+    window.addEventListener("shake", handleShake, false);
 
     //stop listening
     function stopShake() {
@@ -171,11 +163,21 @@ export default {
       alert("Not Supported");
     }
   },
+  destyroyed() {
+    window.removeEventListener("shake", this.handleShake, true);
+  },
   methods: {
     async uploadTaskImg(file) {
       // this.$store.dispatch({type:'uploadTaskImg',file})
       let url = await imgService.uploadImg(file);
       this.taskToEdit.imgUrl = url;
+    },
+    handleShake() {
+      console.log('shake shake shake')
+      if (confirm("Start over?")) {
+        this.taskToEdit.title = ''
+        this.taskToEdit.desc = 'Shai you are genius'
+      }
     },
     speechEnd({ sentences, text }) {
       console.log("text", text);

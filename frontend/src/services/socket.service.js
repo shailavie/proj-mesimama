@@ -7,7 +7,7 @@ import utilService from '../services/util-service.js'
 
 const BASE_URL = (process.env.NODE_ENV !== 'development') ? '/api' : 'http://localhost:3003/api';
 
-var socket = (process.env.NODE_ENV !== 'development')? ioClient('http://localhost:3005') : ioClient('//localhost:3003'); //TO DO - WON'T WORK ON HEROKU
+var socket = (process.env.NODE_ENV !== 'development')? ioClient('http://localhost') : ioClient('//localhost:3003'); //TO DO - WON'T WORK ON HEROKU
 // var socket = ioClient('http://localhost:3003');
 // var socket = io('http://localhost');
 
