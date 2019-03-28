@@ -92,8 +92,6 @@
         </el-form>
       </div>
     </div>
-    <!-- <textarea v-model="text" label="The text" cols="30" rows="10"></textarea>
-    <speech-to-text :text.sync="text" @speechend="speechEnd"></speech-to-text>-->
   </section>
 </template>
 
@@ -102,9 +100,7 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
-
 import imgService from "../services/img-service.js";
-
 import speechToText from "../components/speech-to-text-cmp.vue";
 import shakeService from "../services/shake-service.js";
 
@@ -173,11 +169,8 @@ export default {
       this.taskToEdit.imgUrl = url;
     },
     handleShake() {
-      console.log("shake shake shake");
-      if (confirm("Start over?")) {
-        this.taskToEdit.title = "";
-        this.taskToEdit.desc = "Shai you are genius";
-      }
+      this.taskToEdit.title = ''
+      this.taskToEdit.desc = ''
     },
     speechEnd({ sentences, text }) {
       console.log("text", text);

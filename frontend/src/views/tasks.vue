@@ -17,7 +17,7 @@
 
         <task-list-cmp
           :tasks="unOwnedTasksToShow"
-          title="Tasks to go"
+          title="Help Needed"
           @task-owned="ownTask($event)"
           @task-passed="passTask($event)"
           @task-done="doneTask($event)"
@@ -40,18 +40,15 @@
           @task-remove="removeTask($event)"
         ></task-list-cmp>
 
-        <!-- Done Tasks -->
-        <h1>Done Tasks</h1>
-
         <!-- Others Tasks -->
         <h2>
-          <strong>Other's Tasks</strong>
+          <strong>Done Tasks</strong>
         </h2>
 
         <task-list-cmp
           v-if="userToShow"
           :tasks="doneTasksToShow"
-          title="Done tasks"
+          title="Kudos to us!"
           @task-edit="editTask($event)"
           @task-remove="removeTask($event)"
         ></task-list-cmp>

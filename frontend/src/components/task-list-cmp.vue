@@ -22,7 +22,7 @@
           <div class="user-info flex space-between" v-else>
             <div class="flex center-ver">
               <img class="empty-task-avatar" src="@/assets\icons\babytasks.png" alt>
-              <h2>Help Needed</h2>
+              <h2>{{title}}</h2>
               <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
