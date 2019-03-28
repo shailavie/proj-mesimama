@@ -34,8 +34,6 @@
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
 
-          <hr align="left">
-
           <!-- User's tasks -->
           <ul class="users-tasks" :class="{fadeUp : !showTasks}">
             <li v-for="currTask in userToRender.tasks" :key="currTask._id">
@@ -117,9 +115,6 @@ export default {
 <style scoped lang="scss">
 $chevron: "../assets/icons/arrow-down.svg";
 
-.task-list-section {
-  margin-top: 20px;
-}
 ul {
   display: grid;
   grid-gap: 10px;
@@ -206,7 +201,7 @@ ul {
   background: no-repeat center/40% url($chevron);
   //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
   // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
-  filter: invert(0.2);
+  filter: invert(0.7);
 }
 .title {
   display: flex;
@@ -234,6 +229,6 @@ ul {
 }
 
 .buffer {
-  height: 40px;
+  height: 20px;
 }
 </style>

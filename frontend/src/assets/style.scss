@@ -31,6 +31,13 @@ body {
   background: #fafafa;
 }
 
+button:focus {
+  outline: none;
+}
+button:active {
+  outline: none;
+}
+
 a {
   text-decoration: none;
 }
@@ -110,6 +117,9 @@ main {
 }
 
 @media (max-width: 768px) {
+  .header-container {
+    width: calc(100vw - 40px);
+  }
   .header-container .main-nav {
     display: flex;
     justify-content: space-between;
@@ -226,7 +236,6 @@ main {
 .login-page-el-input .el-input__inner {
   background-color: transparent !important;
   color: #fff;
-  
 }
 
 button.el-button--primary,

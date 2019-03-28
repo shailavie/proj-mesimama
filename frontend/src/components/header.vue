@@ -134,13 +134,13 @@ export default {
   }
 }
 .login-page-el-input {
-  height: 48px;
   background: #fff;
   color: #333;
 }
 
 .login-page-el-input .el-input__inner{
-  color:#333
+  color:#333;
+
 }
 .user-msg {
   display: flex;

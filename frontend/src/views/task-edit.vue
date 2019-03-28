@@ -73,7 +73,7 @@
           <!-- Assign to -->
           <el-form-item label="Assign task to">
             <el-select v-model="taskToEdit.helperId" placeholder="Optional">
-              <el-option label="Everyone" :value="null"></el-option>
+              <el-option label="None" :value="null"></el-option>
               <el-option label="Me" :value="directorId"></el-option>
               <el-option v-for="user in group" :key="user._id" :label="user.name" :value="user._id"></el-option>
             </el-select>

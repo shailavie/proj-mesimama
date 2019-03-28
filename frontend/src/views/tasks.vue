@@ -33,7 +33,9 @@
         </transition>
 
         <!-- Others Tasks -->
-        <h2><strong>Other's Tasks</strong></h2>
+        <h2 class="others-tasks">
+          <strong>Other's Tasks</strong>
+        </h2>
         <task-list-cmp
           v-if="userToShow"
           :tasks="othersTasksToShow"
@@ -171,6 +173,9 @@ export default {
   }
 }
 
+.others-tasks {
+  margin-bottom: 10px;
+}
 .stats-panel {
   display: flex;
   flex-direction: column;
