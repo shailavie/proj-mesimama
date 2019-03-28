@@ -6,7 +6,7 @@ import userService from '../services/user.service.js'
 import utilService from '../services/util-service.js'
 
 
-var socket = (process.env.NODE_ENV !== 'development')? ioClient() : ioClient('//localhost:3003'); //TO DO - WON'T WORK ON HEROKU
+var socket = (process.env.NODE_ENV !== 'development')? ioClient('') : ioClient('//localhost:3003'); //TO DO - WON'T WORK ON HEROKU
 // var socket = ioClient('http://localhost:3003');
 // var socket = io('http://localhost');
 
