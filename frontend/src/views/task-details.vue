@@ -121,6 +121,7 @@ export default {
     flex-direction: column;
     width: 100%;
     padding: 20px;
+    padding-top: 0px;
   }
   .text-details-comments {
     margin-top: 20px;
@@ -186,5 +187,9 @@ small strong {
 }
 
 .back-btn {
+}
+
+h1 {
+  text-transform: capitalize;
 }
 </style>

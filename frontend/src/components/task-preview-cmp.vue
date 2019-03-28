@@ -343,6 +343,7 @@ h5 {
 
 .title {
   cursor: pointer;
+  text-transform: capitalize;
 }
 
 // Animations

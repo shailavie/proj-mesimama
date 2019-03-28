@@ -6,11 +6,12 @@
         <div class="task-title-container">
           <h1>Add Task</h1>
         </div>
+        <!-- {{windowWidth}} -->
         <el-form
           @submit.native.prevent="saveTask"
           :model="taskToEdit"
           label-width="120px"
-          label-position="left"
+          label-position="top"
           class="edit-task-form"
         >
           <!-- Title -->
@@ -20,6 +21,7 @@
               class="form-input"
               :maxlength="25"
               v-model="taskToEdit.title"
+              placeholder="Enter task title.."
               clearable
             ></el-input>
             <speech-to-text
@@ -30,7 +32,13 @@
           </el-form-item>
           <!-- Desription -->
           <el-form-item label="Description">
-            <el-input type="textarea" rows="3" class="form-input" v-model="taskToEdit.desc"></el-input>
+            <el-input
+              type="textarea"
+              rows="3"
+              class="form-input"
+              v-model="taskToEdit.desc"
+              placeholder="Enter some more info.."
+            ></el-input>
             <speech-to-text
               class="speech-to-text-btn"
               :text.sync="taskToEdit.desc"
@@ -111,6 +119,7 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       text: "",
       text2: "",
       sentences: null,
@@ -202,8 +211,7 @@ export default {
     sameHourTommorrow() {
       return Date.now() + 1000 * 60 * 60 * 24;
     }
-  },
-  computed: {}
+  }
 };
 </script>
 
@@ -247,5 +255,11 @@ export default {
 
 .upload-file {
   margin: 20px 0;
+}
+
+@media (max-width: 450px) {
+  .el-form--label-top .el-form-item__label {
+    display: none;
+  }
 }
 </style>
