@@ -236,10 +236,10 @@ export default {
 }
 
 .task-title-container {
-  padding: 20px 40px;
+  padding: 40px 0 0 40px;
   background: #fff;
-  margin-bottom: 10px;
-  color: #fff;
+  color: #333;
+  font-size: 50%;
 }
 
 .task-details-center-box {

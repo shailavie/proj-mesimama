@@ -4,19 +4,22 @@
       <div class="all-tasks-panel-inside">
 
         <!-- My Tasks -->
-        <task-list-cmp
-          v-if="userToShow"
-          :tasks="myTasksToShow"
-          title="My tasks"
-          @task-owned="ownTask($event)"
-          @task-passed="passTask($event)"
-          @task-done="doneTask($event)"
-          @task-edit="editTask($event)"
-          @task-remove="removeTask($event)"
-        ></task-list-cmp>
+      
+          <task-list-cmp
+            v-if="userToShow"
+            :tasks="myTasksToShow"
+            title="My Tasks"
+            @task-owned="ownTask($event)"
+            @task-passed="passTask($event)"
+            @task-done="doneTask($event)"
+            @task-edit="editTask($event)"
+            @task-remove="removeTask($event)"
+          ></task-list-cmp>
+ 
 
-        <!-- Live Tasks -->
-        <a id="unOwnedTasksToShow">
+ 
+ 
+ 
           <task-list-cmp
             :tasks="unOwnedTasksToShow"
             title="Tasks to go"
@@ -26,7 +29,7 @@
             @task-edit="editTask($event)"
             @task-remove="removeTask($event)"
           ></task-list-cmp>
-        </a>
+ 
         <!-- Others Tasks -->
         <h1>Other's Tasks</h1>
         <task-list-cmp
@@ -42,6 +45,12 @@
 
         <!-- Done Tasks -->
         <h1>Done Tasks</h1>
+ 
+ 
+
+        <!-- Others Tasks -->
+        <h2><strong>Other's Tasks</strong></h2>
+ 
         <task-list-cmp
           v-if="userToShow"
           :tasks="doneTasksToShow"
@@ -54,7 +63,7 @@
 
     <section class="stats-panel">
       <dash-board></dash-board>
-      <podium-board-cmp></podium-board-cmp>
+      <!-- <podium-board-cmp></podium-board-cmp> -->
       <photo-gallery/>
     </section>
   </section>
@@ -221,6 +230,14 @@ export default {
 }
 .task-list-title {
   text-align: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 

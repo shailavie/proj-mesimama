@@ -53,9 +53,7 @@
         v-if="task.helperId === user._id || user.isDirector && task.helperId"
         @click.prevent="markDone(task)"
       >
-        <a class="task-action-btn-done">
-          <img class="checkmark" src="@/assets/icons/tick.svg">
-        </a>
+        <el-button title="Done!" icon="el-icon-check"></el-button>
       </div>
     </div>
 
@@ -119,7 +117,9 @@ export default {
       return bgClass;
     },
     getTaskImg(task) {
-      let bgClass = `background: url(${task.imgUrl}) no-repeat 0 50%`;
+      let bgClass = `background: url(${
+        task.imgUrl
+      }) no-repeat 0 50%; background-size:cover`;
       return bgClass;
     },
     toggleActions() {
@@ -168,6 +168,7 @@ export default {
 }
 .task-extra-info {
   display: flex;
+  cursor: pointer;
 }
 .main-actions-container {
   display: flex;
@@ -196,6 +197,7 @@ export default {
     opacity: 0.8;
     overflow: hidden;
     border-radius: 15px 0 0 15px;
+    background-size: cover;
   }
   .task-info-container {
     padding: 15px;

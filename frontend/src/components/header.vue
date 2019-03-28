@@ -123,7 +123,9 @@ export default {
 
 <style scoped lang="scss">
 .login {
-  margin: 0 20px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 
 @media (max-width: 768px) {
@@ -133,7 +135,12 @@ export default {
 }
 .login-page-el-input {
   height: 48px;
-  width: 40px;
+  background: #fff;
+  color: #333;
+}
+
+.login-page-el-input .el-input__inner{
+  color:#333
 }
 .user-msg {
   display: flex;
