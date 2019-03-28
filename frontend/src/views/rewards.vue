@@ -2,8 +2,7 @@
   <div v-if="canLoad">
     <section v-if="user && !user.isDirector" class="section">
       <h1>Hey {{user.name}}</h1>
-      <br>
-      Enjoy your rewards!
+      <br>Enjoy your rewards!
       <br>
       <br>
       <masonry :cols="3" :gutter="5">
@@ -23,6 +22,9 @@
       </masonry>
     </section>
     <section v-else class="section">
+      <h1>Hey {{user.name}}</h1>
+      <h2>Enjoy your rewards!</h2>
+      <br>
       <div class="row">
         <div class="col-md-12">
           <input
@@ -32,10 +34,10 @@
             accept="image/*"
           >
         </div>
+        <br>
+        <br>
       </div>
 
-      <h1>Hey {{user.name}}</h1>
-      <h2>Enjoy your rewards!</h2>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in urls" :key="idx" class="img-container">
           <img :src="url" class="gallery-item">
@@ -46,18 +48,17 @@
 </template>
 
 <script>
-import imgService from '../services/img-service.js'
+import imgService from "../services/img-service.js";
 export default {
   data() {
     return {
-      cloudinary: {
-      },
+      cloudinary: {},
       canLoad: false
     };
   },
   methods: {
-     upload(file) {
-        this.$store.dispatch({ type: "uploadImg", file });
+    upload(file) {
+      this.$store.dispatch({ type: "uploadImg", file });
     }
   },
   async created() {

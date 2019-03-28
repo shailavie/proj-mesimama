@@ -2,34 +2,29 @@
   <section class="task-list-page">
     <section class="all-tasks-panel">
       <div class="all-tasks-panel-inside">
-
         <!-- My Tasks -->
-      
-          <task-list-cmp
-            v-if="userToShow"
-            :tasks="myTasksToShow"
-            title="My Tasks"
-            @task-owned="ownTask($event)"
-            @task-passed="passTask($event)"
-            @task-done="doneTask($event)"
-            @task-edit="editTask($event)"
-            @task-remove="removeTask($event)"
-          ></task-list-cmp>
- 
 
- 
- 
- 
-          <task-list-cmp
-            :tasks="unOwnedTasksToShow"
-            title="Tasks to go"
-            @task-owned="ownTask($event)"
-            @task-passed="passTask($event)"
-            @task-done="doneTask($event)"
-            @task-edit="editTask($event)"
-            @task-remove="removeTask($event)"
-          ></task-list-cmp>
- 
+        <task-list-cmp
+          v-if="userToShow"
+          :tasks="myTasksToShow"
+          title="My Tasks"
+          @task-owned="ownTask($event)"
+          @task-passed="passTask($event)"
+          @task-done="doneTask($event)"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+
+        <task-list-cmp
+          :tasks="unOwnedTasksToShow"
+          title="Tasks to go"
+          @task-owned="ownTask($event)"
+          @task-passed="passTask($event)"
+          @task-done="doneTask($event)"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+
         <!-- Others Tasks -->
         <h2 class="others-tasks">
           <strong>Other's Tasks</strong>
@@ -47,12 +42,12 @@
 
         <!-- Done Tasks -->
         <h1>Done Tasks</h1>
- 
- 
 
         <!-- Others Tasks -->
-        <h2><strong>Other's Tasks</strong></h2>
- 
+        <h2>
+          <strong>Other's Tasks</strong>
+        </h2>
+
         <task-list-cmp
           v-if="userToShow"
           :tasks="doneTasksToShow"
@@ -66,7 +61,7 @@
     <section class="stats-panel">
       <dash-board></dash-board>
       <!-- <podium-board-cmp></podium-board-cmp> -->
-      <photo-gallery/>
+      <photo-gallery class="photo-gallery"/>
     </section>
   </section>
 </template>
@@ -85,8 +80,7 @@ export default {
     taskListCmp,
     podiumBoardCmp,
     dashBoard,
-    photoGallery,
-  
+    photoGallery
   },
   data() {
     return {
@@ -140,8 +134,7 @@ export default {
     },
     userToShow() {
       return this.$store.getters.currUser;
-    },
-     
+    }
   },
   methods: {
     ownTask(taskId) {
@@ -178,6 +171,10 @@ export default {
   .task-list-page {
     flex-direction: column;
   }
+
+  .photo-gallery {
+    display: none;
+  }
 }
 
 .all-tasks-panel {
@@ -212,7 +209,8 @@ export default {
   }
 
   .stats-panel {
-    padding: 40px 60px 0px 60px;
+    padding: 0px 60px 30px 60px;
+    // order: -1;
   }
 }
 

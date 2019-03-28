@@ -61,6 +61,12 @@ export default {
   transition: 0.6s;
   transition-timing-function: ease-in-out;
 }
+
+@media (max-width: 768px) {
+  .dashboard {
+    border-radius: 15px;
+  }
+}
 .reward-container {
   display: flex;
   flex-direction: column;
