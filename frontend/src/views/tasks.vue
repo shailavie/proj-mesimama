@@ -2,11 +2,9 @@
   <section class="task-list-page">
     <section class="all-tasks-panel">
       <div class="all-tasks-panel-inside">
-        <!-- <pre>{{myTasksToShow}}</pre> -->
-        <!-- <pre>{{othersTasksToShow}}</pre> -->
-        <!-- {{userToShow}} -->
+
         <!-- My Tasks -->
-        <transition name="fade">
+      
           <task-list-cmp
             v-if="userToShow"
             :tasks="myTasksToShow"
@@ -17,10 +15,11 @@
             @task-edit="editTask($event)"
             @task-remove="removeTask($event)"
           ></task-list-cmp>
-        </transition>
+ 
 
-        <!-- Live Tasks -->
-        <transition name="fade">
+ 
+ 
+ 
           <task-list-cmp
             :tasks="unOwnedTasksToShow"
             title="Tasks to go"
@@ -30,10 +29,9 @@
             @task-edit="editTask($event)"
             @task-remove="removeTask($event)"
           ></task-list-cmp>
-        </transition>
-
+ 
         <!-- Others Tasks -->
-        <h2><strong>Other's Tasks</strong></h2>
+        <h1>Other's Tasks</h1>
         <task-list-cmp
           v-if="userToShow"
           :tasks="othersTasksToShow"
@@ -41,6 +39,22 @@
           @task-owned="ownTask($event)"
           @task-passed="passTask($event)"
           @task-done="doneTask($event)"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+
+        <!-- Done Tasks -->
+        <h1>Done Tasks</h1>
+ 
+ 
+
+        <!-- Others Tasks -->
+        <h2><strong>Other's Tasks</strong></h2>
+ 
+        <task-list-cmp
+          v-if="userToShow"
+          :tasks="doneTasksToShow"
+          title="Done tasks"
           @task-edit="editTask($event)"
           @task-remove="removeTask($event)"
         ></task-list-cmp>
@@ -69,7 +83,8 @@ export default {
     taskListCmp,
     podiumBoardCmp,
     dashBoard,
-    photoGallery
+    photoGallery,
+  
   },
   data() {
     return {
@@ -109,6 +124,12 @@ export default {
         user => user._id !== this.userToShow._id
       );
     },
+    doneTasksToShow() {
+      let doneTasks = this.$store.getters.allTasks.filter(
+        task => task.status === "done"
+      );
+      return [{ tasks: doneTasks }];
+    },
     unOwnedTasksToShow() {
       let allUnOwnedTasks = this.$store.getters.allTasks.filter(
         task => task.helperId === null
@@ -117,7 +138,8 @@ export default {
     },
     userToShow() {
       return this.$store.getters.currUser;
-    }
+    },
+     
   },
   methods: {
     ownTask(taskId) {
