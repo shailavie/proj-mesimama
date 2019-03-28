@@ -239,6 +239,12 @@ export default {
     background-position: center;
   }
 
+  @media (max-width: 420px) {
+    .feel-img {
+      background-position: center left;
+    }
+  }
+
   .task-info-container {
     padding: 15px;
     // text-transform: capitalize;
