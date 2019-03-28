@@ -151,7 +151,7 @@ export default {
 
     var shakeEvent = new Shake({ threshold: 15 });
     shakeEvent.start();
-    window.addEventListener("shake", handleShake, false);
+    window.addEventListener("shake", this.handleShake, false);
 
     //stop listening
     function stopShake() {
