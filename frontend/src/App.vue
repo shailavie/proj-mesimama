@@ -1,12 +1,14 @@
 <template>
-  <div id="app">
-    <!-- v-show="canLoad" -->
+  <div id="app" >
     <router-view/>
     <notifications group="foo"/>
     <div class="test"></div>
   </div>
 </template>
 
+<script>
+ 
+</script>
 <style lang="scss" scoped>
 .vue-notification {
   padding: 10px;

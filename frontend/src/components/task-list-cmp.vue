@@ -1,12 +1,6 @@
 <template>
   <section class="task-list-section">
-    <!-- Empty State -->
-    <div class="empty-state-container" v-if="tasks.length === 0">
-      <h2>No Tasks?</h2>
-      <img class="emptyState" src="/img/icons/emptyState.png">
-      <h4>Me and mom have a nickname for people with no tasks..</h4>
-    </div>
-
+  
     <!-- Tasks -->
     <div class="task-list-container">
       <ul v-if="tasks">
@@ -35,6 +29,7 @@
           </div>
 
           <!-- User's tasks -->
+          <empty-tasks-state v-if="currUserSelf && activeTasksCount === 0"></empty-tasks-state>
           <ul class="users-tasks" :class="{fadeUp : !showTasks}">
             <li v-for="currTask in userToRender.tasks" :key="currTask._id">
               <task-preview
@@ -58,12 +53,14 @@
 import taskPreview from "./task-preview-cmp.vue";
 import userService from "../services/user.service.js";
 import userAvatar from "./user-avatar-cmp.vue";
+import emptyTasksState from "../components/empty-tasks-state-cmp.vue";
 
 export default {
   props: ["tasks", "title"],
   components: {
     taskPreview,
-    userAvatar
+    userAvatar,
+    emptyTasksState
   },
   data() {
     return {
@@ -101,12 +98,19 @@ export default {
     },
     toggleTasks() {
       this.showTasks = !this.showTasks;
-    }
+    },
+   
   },
   computed: {
     thisUser() {
       let user = this.$store.getters.currUser;
       return user;
+    },
+    activeTasksCount(){
+      return this.tasks[0].tasks.filter(task => task.status === 'active').length
+    },
+    currUserSelf(){
+      return this.title === 'My tasks'
     }
   }
 };
