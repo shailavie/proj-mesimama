@@ -60,7 +60,7 @@
 
     <section class="stats-panel">
       <dash-board></dash-board>
-      <!-- <podium-board-cmp></podium-board-cmp> -->
+      <podium-board-cmp></podium-board-cmp>
       <photo-gallery class="photo-gallery"/>
     </section>
   </section>
