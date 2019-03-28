@@ -5,8 +5,10 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-const io = require('socket.io')(server);
 const PORT = process.env.PORT || 3003;
+
+const io = require('socket.io')(server);
+ 
 
 
 // Routes
@@ -39,7 +41,6 @@ app.get('/', (req, res) => {
 addTaskRoutes(app)
 addUserRoutes(app)
 
-console.log('THIS IS FOR YOU AMOOOOOOOO',process.env);
 
 //TODO: as soon as user connects, send him into a room with his ID.
 // you always know the Admin id, so when you need, send him the msg.
