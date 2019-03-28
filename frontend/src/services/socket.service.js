@@ -5,7 +5,9 @@ import store from '../stores/store.js'
 import userService from '../services/user.service.js'
 import utilService from '../services/util-service.js'
 
-var socket = ioClient('//localhost:3003');
+
+var socket = (process.env.NODE_ENV !== 'development')? ioClient('') : ioClient('//localhost:3003'); 
+
 
 const msgs = []
 
@@ -30,7 +32,7 @@ function createEmptyMsg(txt = '', nickName) {
 connectSocket()
 
 function connectSocket() {
-
+	console.log('New socket is connected!')
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
 		_toasting(`${user.name} just connected!  `, 'success', 'Dont forget to say hello')

@@ -127,14 +127,25 @@ const store = new Vuex.Store({
         socketService.emit("addedTask", newTask);
       }
     },
-    async uploadImg(context, { file, urlForAxios }) {
-      let url = await imgService.uploadImg(file, urlForAxios)
+    async uploadImg(context, { file }) {
+      let url = await imgService.uploadImg(file)
       console.log(url)
       //UPDATE STATE DIRECTOR
       context.commit({ type: 'updateDirectoreUrls', url })
       //UPDATE DIRECTOR ON DATABASE SERVER
-await context.dispatch({type:'updateDirectorOnServer',user:userStore.state.currDirector})
+      await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
       // context.dispatch({type:'updateCurrDirector'})
+    },
+    async uploadImgs(context,{files}){
+      let urls= await imgService.uploadPictures(files)
+      console.log('AT STORE ',urls)
+      context.commit({ type: 'updateDirectoreUrls', urls })
+      await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
+      
+    },
+    async uploadTaskImg(context,{file}){
+     
+      
     }
   },
   getters: {

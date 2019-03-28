@@ -5,19 +5,22 @@
         <div class="task-details-content">
           <h1>{{task.title}}</h1>
           <!-- <div><small>Points: {{task.points}}</small></div> -->
-          <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
-          <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <div class="task-details-helper" v-if="helper">
             <div class="helper-details">
-              <user-avatar class="user-avatar" :url="helper.avatarUrl"/>
+              <user-avatar class="user-avatar" :url="helper.avatarUrl" :userId="helper._id"/>
               <div class="helper-name">
                 <small>
-                  <strong>{{helper.name}}</strong> is on it.
+                  <strong>{{helper.name}}</strong>'s on it.
                 </small>
               </div>
             </div>
           </div>
+          <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
+          <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <p class="details-content-desc">{{task.desc}}</p>
+          <div class="back-btn" @click="$router.go(-1)">
+            <el-button plain icon="el-icon-arrow-left">Back</el-button>
+          </div>
         </div>
         <div class="text-details-comments">
           <task-comments
@@ -116,9 +119,17 @@ export default {
 @media (max-width: 768px) {
   .task-details-center-box {
     flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
+  .text-details-comments {
+    margin-top: 20px;
   }
 }
 
+.task-details-container {
+  flex-direction: column;
+}
 .task-details-content {
   padding-right: 40px;
   flex-basis: 50%;
@@ -126,6 +137,7 @@ export default {
 
 .details-content-desc {
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 
 .details-tag {
@@ -171,5 +183,8 @@ small strong {
 
 .user-avatar {
   margin-right: 10px;
+}
+
+.back-btn {
 }
 </style>

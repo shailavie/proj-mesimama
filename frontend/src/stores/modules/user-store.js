@@ -13,11 +13,15 @@ const userStore = {
     currDirector: {}
   },
   mutations: {
-    updateDirectorOnServer(state,{director}){
-      state.currDirector=director
+    updateDirectorOnServer(state, { director }) {
+      state.currDirector = director
     },
-     updateDirectoreUrls(state,{url}){
+    updateDirectoreUrls(state, { url }) {
+      //  urls.forEach((url)=>{
+      //   state.currDirector.imgUrls.unshift(url)
+      //  })
       state.currDirector.imgUrls.unshift(url)
+
     },
     loadCurrDirector(state, { directorIdx }) {
       state.currDirector = state.currGroup[directorIdx]
@@ -42,9 +46,9 @@ const userStore = {
 
   },
   actions: {
-   async updateDirectorOnServer(context,{user}){
-    let director= await  userService.updateUser(user)
-    context.commit({type:'updateDirectorOnServer',director})
+    async updateDirectorOnServer(context, { user }) {
+      let director = await userService.updateUser(user)
+      context.commit({ type: 'updateDirectorOnServer', director })
     },
     loadCurrDirector(context) {
       let directorIdx = context.state.currGroup.findIndex((user) => {
@@ -54,10 +58,11 @@ const userStore = {
     },
     async loadGroup(context) {
       let users = await userService.getUsers()
-     await context.commit({ type: 'loadGroup', users })
+      await context.commit({ type: 'loadGroup', users })
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
+      console.log('In store, the returned user from the server is:', currUser)
       context.commit({ type: 'setCurrUser', currUser })
     },
     async updateUser(context, { user }) {

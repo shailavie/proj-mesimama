@@ -3,16 +3,39 @@
     <div class="task-details-container">
       <div class="task-details-center-box">
         <!-- Task Edit/Add form -->
-        <el-form @submit.native.prevent="saveTask" :model="taskToEdit" label-width="120px" class="edit-task-form">
+        <div class="task-title-container">
+          <h1>Add Task</h1>
+        </div>
+        <el-form
+          @submit.native.prevent="saveTask"
+          :model="taskToEdit"
+          label-width="120px"
+          label-position="left"
+          class="edit-task-form"
+        >
           <!-- Title -->
           <el-form-item label="Title">
-            <el-input type="text" class="form-input" :maxlength="25" v-model="taskToEdit.title" clearable></el-input>
-            <speech-to-text class="speech-to-text-btn" :text.sync="taskToEdit.title" @speechend="speechEnd"></speech-to-text>
+            <el-input
+              type="text"
+              class="form-input"
+              :maxlength="25"
+              v-model="taskToEdit.title"
+              clearable
+            ></el-input>
+            <speech-to-text
+              class="speech-to-text-btn"
+              :text.sync="taskToEdit.title"
+              @speechend="speechEnd"
+            ></speech-to-text>
           </el-form-item>
           <!-- Desription -->
           <el-form-item label="Description">
-            <el-input  type="textarea" rows="3" class="form-input" v-model="taskToEdit.desc"></el-input>
-            <speech-to-text class="speech-to-text-btn" :text.sync="taskToEdit.desc" @speechend="speechEnd"></speech-to-text>
+            <el-input type="textarea" rows="3" class="form-input" v-model="taskToEdit.desc"></el-input>
+            <speech-to-text
+              class="speech-to-text-btn"
+              :text.sync="taskToEdit.desc"
+              @speechend="speechEnd"
+            ></speech-to-text>
           </el-form-item>
           <!-- Points -->
           <el-form-item label="Task Points">
@@ -32,15 +55,31 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-form-item>
+
+          <div class="row upload-file">
+            <div class="col-md-12">
+              <input
+                type="file"
+                class="form-control"
+                v-on:change="uploadTaskImg($event.target.files)"
+                accept="image/*"
+              >
+            </div>
+          </div>
+          <div v-if="taskToEdit.imgUrl">
+            <img :src="taskToEdit.imgUrl" alt>
+          </div>
+
           <!-- Assign to -->
           <el-form-item label="Assign task to">
             <el-select v-model="taskToEdit.helperId" placeholder="Optional">
-              <el-option label="Everyone" :value="null"></el-option>
+              <el-option label="None" :value="null"></el-option>
               <el-option label="Me" :value="directorId"></el-option>
               <el-option v-for="user in group" :key="user._id" :label="user.name" :value="user._id"></el-option>
             </el-select>
           </el-form-item>
           <!-- Main CTA -->
+
           <el-form-item>
             <el-button type="success" @click.native.prevent="saveTask">Save Task</el-button>
             <el-button
@@ -54,7 +93,7 @@
       </div>
     </div>
     <!-- <textarea v-model="text" label="The text" cols="30" rows="10"></textarea>
-    <speech-to-text :text.sync="text" @speechend="speechEnd"></speech-to-text> -->
+    <speech-to-text :text.sync="text" @speechend="speechEnd"></speech-to-text>-->
   </section>
 </template>
 
@@ -63,8 +102,11 @@
 import taskListCmp from "../components/task-list-cmp.vue";
 import taskService from "../services/task-service.js";
 import utilService from "../services/util-service.js";
+
+import imgService from "../services/img-service.js";
+
 import speechToText from "../components/speech-to-text-cmp.vue";
-import shakeService from '../services/shake-service.js'
+import shakeService from "../services/shake-service.js";
 
 export default {
   name: "taskEdit",
@@ -107,23 +149,36 @@ export default {
     );
     this.group.splice(directorIdx, 1); // removing the director
 
-    var shakeEvent = new Shake({threshold: 15});
+    var shakeEvent = new Shake({ threshold: 15 });
     shakeEvent.start();
-    window.addEventListener('shake', function(){
-        if (confirm("Start over?")){
-          this.taskToEdit = taskService.getEmptyTask();
-        }
-    }, false);
+    window.addEventListener("shake", this.handleShake, false);
 
     //stop listening
-    function stopShake(){
-        shakeEvent.stop();
+    function stopShake() {
+      shakeEvent.stop();
     }
 
     //check if shake is supported or not.
-    if(!("ondevicemotion" in window)){alert("Not Supported");}
+    if (!("ondevicemotion" in window)) {
+      alert("Not Supported");
+    }
+  },
+  destyroyed() {
+    window.removeEventListener("shake", this.handleShake, true);
   },
   methods: {
+    async uploadTaskImg(file) {
+      // this.$store.dispatch({type:'uploadTaskImg',file})
+      let url = await imgService.uploadImg(file);
+      this.taskToEdit.imgUrl = url;
+    },
+    handleShake() {
+      console.log("shake shake shake");
+      if (confirm("Start over?")) {
+        this.taskToEdit.title = "";
+        this.taskToEdit.desc = "Shai you are genius";
+      }
+    },
     speechEnd({ sentences, text }) {
       console.log("text", text);
       console.log("sentences", sentences);
@@ -160,6 +215,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@media (max-width: 768px) {
+  .task-edit-page {
+    margin-top: -30px;
+  }
+}
+
 .task-details {
   max-width: 400px;
 }
@@ -176,6 +237,22 @@ export default {
   display: inline-block;
 }
 .edit-task-form {
-  width: 600px;
+  padding: 40px;
+}
+
+.task-title-container {
+  padding: 40px 0 0 40px;
+  background: #fff;
+  color: #333;
+  font-size: 50%;
+}
+
+.task-details-center-box {
+  padding: 0;
+  flex-direction: column;
+}
+
+.upload-file {
+  margin: 20px 0;
 }
 </style>

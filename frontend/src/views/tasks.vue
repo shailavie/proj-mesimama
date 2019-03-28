@@ -1,53 +1,67 @@
 <template>
   <section class="task-list-page">
     <section class="all-tasks-panel">
-      <!-- <pre>{{myTasksToShow}}</pre> -->
-      <!-- <pre>{{othersTasksToShow}}</pre> -->
-      <!-- {{userToShow}} -->
-      <!-- My Tasks -->
-      <task-list-cmp
-        v-if="userToShow"
-        :tasks="myTasksToShow"
-        title="My tasks"
-        @task-owned="ownTask($event)"
-        @task-passed="passTask($event)"
-        @task-done="doneTask($event)"
-        @task-edit="editTask($event)"
-        @task-remove="removeTask($event)"
-      ></task-list-cmp>
-      
-      <!-- Live Tasks -->
-      <task-list-cmp
-        :tasks="unOwnedTasksToShow"
-         title="Tasks to go"
-        @task-owned="ownTask($event)"
-        @task-passed="passTask($event)"
-        @task-done="doneTask($event)"
-        @task-edit="editTask($event)"
-        @task-remove="removeTask($event)"
-      ></task-list-cmp>
+      <div class="all-tasks-panel-inside">
+        <!-- My Tasks -->
 
-      <!-- Others Tasks -->
-      <h1>Other's Tasks</h1>
-      <task-list-cmp
-        v-if="userToShow"
-        :tasks="othersTasksToShow"
-        title="Other's tasks"
-        @task-owned="ownTask($event)"
-        @task-passed="passTask($event)"
-        @task-done="doneTask($event)"
-        @task-edit="editTask($event)"
-        @task-remove="removeTask($event)"
-      ></task-list-cmp>
+        <task-list-cmp
+          v-if="userToShow"
+          :tasks="myTasksToShow"
+          title="My Tasks"
+          @task-owned="ownTask($event)"
+          @task-passed="passTask($event)"
+          @task-done="doneTask($event)"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+
+        <task-list-cmp
+          :tasks="unOwnedTasksToShow"
+          title="Tasks to go"
+          @task-owned="ownTask($event)"
+          @task-passed="passTask($event)"
+          @task-done="doneTask($event)"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+
+        <!-- Others Tasks -->
+        <h2 class="others-tasks">
+          <strong>Other's Tasks</strong>
+        </h2>
+        <task-list-cmp
+          v-if="userToShow"
+          :tasks="othersTasksToShow"
+          title="Other's tasks"
+          @task-owned="ownTask($event)"
+          @task-passed="passTask($event)"
+          @task-done="doneTask($event)"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+
+        <!-- Done Tasks -->
+        <h1>Done Tasks</h1>
+
+        <!-- Others Tasks -->
+        <h2>
+          <strong>Other's Tasks</strong>
+        </h2>
+
+        <task-list-cmp
+          v-if="userToShow"
+          :tasks="doneTasksToShow"
+          title="Done tasks"
+          @task-edit="editTask($event)"
+          @task-remove="removeTask($event)"
+        ></task-list-cmp>
+      </div>
     </section>
 
     <section class="stats-panel">
-      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
-
       <dash-board></dash-board>
-      <div style="height:1px;background:rgba(255,255,255,0.1)"></div>
-      <podium-board-cmp></podium-board-cmp>
-      <photo-gallery/>
+      <!-- <podium-board-cmp></podium-board-cmp> -->
+      <photo-gallery class="photo-gallery"/>
     </section>
   </section>
 </template>
@@ -75,12 +89,12 @@ export default {
         width: 0
       },
       user: null,
-      showMyTasks : true, 
-      showUnOwnedTasks : true, 
+      showMyTasks: true,
+      showUnOwnedTasks: true
     };
   },
   created() {
-    console.log('created at tasks page');
+    console.log("created at tasks page");
     this.$store.dispatch({ type: "loadUsersWithTasks" });
     this.$store.dispatch({ type: "loadActiveTasks" });
     window.addEventListener("resize", this.handleResize);
@@ -105,6 +119,12 @@ export default {
       return this.$store.getters.usersWithTasks.filter(
         user => user._id !== this.userToShow._id
       );
+    },
+    doneTasksToShow() {
+      let doneTasks = this.$store.getters.allTasks.filter(
+        task => task.status === "done"
+      );
+      return [{ tasks: doneTasks }];
     },
     unOwnedTasksToShow() {
       let allUnOwnedTasks = this.$store.getters.allTasks.filter(
@@ -151,10 +171,29 @@ export default {
   .task-list-page {
     flex-direction: column;
   }
+
+  .photo-gallery {
+    display: none;
+  }
 }
 
 .all-tasks-panel {
   flex-grow: 1;
+  padding-right: 40px;
+}
+
+.all-tasks-panel-inside {
+  max-width: 800px;
+}
+
+@media (max-width: 768px) {
+  .all-tasks-panel-inside {
+    max-width: 100%;
+  }
+}
+
+.others-tasks {
+  margin-bottom: 10px;
 }
 .stats-panel {
   display: flex;
@@ -164,7 +203,15 @@ export default {
   flex-basis: 25%;
 }
 @media (max-width: 768px) {
-  padding: 40px 60px 0px 60px;
+  .all-tasks-panel {
+    flex-grow: 1;
+    padding-right: 0;
+  }
+
+  .stats-panel {
+    padding: 0px 60px 30px 60px;
+    // order: -1;
+  }
 }
 
 .toggle-tasks {
@@ -187,7 +234,14 @@ export default {
 .task-list-title {
   text-align: center;
 }
- 
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
 
     <!-- <div class="toggle-tasks-container" >

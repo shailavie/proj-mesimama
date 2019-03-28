@@ -13,44 +13,58 @@
     <div class="urgent-badge" v-if="task.isUrgent">Urgent</div>
 
     <!-- Card bg feel img -->
-    <div class="feel-img" :style="getImgByKeyword(task)" alt></div>
-
+    <div class="feel-img" v-if="task.imgUrl" :style="getTaskImg(task)" alt></div>
+    <div class="feel-img" v-else :style="getImgByKeyword(task)" alt></div>
     <!-- Task info -->
-    <div class="task-info-container">
-      <h3 class="title" @click="showTaskDetails(task._id)">{{task.title}}</h3>
-      <p class="description truncate">{{task.desc}}</p>
-      <div class="task-extra-info" @click="showTaskDetails(task._id)">
-        <img class="task-info-item" src="@/assets/icons/hourglass.svg">
-        <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
-        <img class="task-info-item" src="@/assets/icons/blogging.svg">
-        <small>{{task.comments.length}}</small>&nbsp;&nbsp;
-        <img class="task-info-item" src="@/assets/icons/information.svg">
-        <small>more info</small>&nbsp;
+    <div class="task-main-content">
+      <div class="task-info-container">
+        <h3 class="title" @click="showTaskDetails(task._id)">{{task.title}}</h3>
+        <p class="description truncate">{{task.desc}}</p>
+        <div class="task-extra-info" @click="showTaskDetails(task._id)">
+          <div class="task-extra-info-item">
+            <img class="task-info-item" src="@/assets/icons/blogging.svg">
+            <small>{{task.comments.length}}</small>&nbsp;&nbsp;
+          </div>
+          <div class="task-extra-info-item">
+            <img class="task-info-item" src="@/assets/icons/hourglass.svg">
+            <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
+          </div>
+          <!-- <img class="task-info-item" src="@/assets/icons/information.svg">
+          <small>more info</small>&nbsp;-->
+        </div>
       </div>
-    </div>
 
-    <!-- Main actions -->
-    <div class="main-actions-container" v-if="task.status !== 'done'"> 
-      <!-- v-if="user.isDirector || user._id === task.helperId" -->
+      <!-- Main actions -->
       <div
-        v-if="!task.helperId || task.helperId === user._id || user.isDirector"
-        class="task-toggle-btn-container"
-        @click.prevent="clickOnTask(task._id)"
+        class="main-actions-container"
+        v-if="task.status !== done"
+        :class="{'make-transparent':!showMainActions}"
       >
-        <a class="task-action-btn-toggle">
-          {{passOrOwnTask}}
-          <img v-if="task.helperId" class="checkmark" src="@/assets/icons/pass.svg">
-        </a>
-      </div>
+        <!-- v-if="user.isDirector || user._id === task.helperId" -->
+        <div
+          v-if="!task.helperId || task.helperId === user._id || user.isDirector"
+          class="task-toggle-btn-container"
+          @click.prevent="clickOnTask(task._id)"
+        >
+          <a class="task-action-btn-toggle">
+            {{passOrOwnTask}}
+            <!-- <img
+            v-if="task.helperId"
+            class="checkmark"
+            src="@/assets/icons/pass.svg"
+            >-->
+          </a>
+        </div>
 
-      <div class="task-done-btn-container" v-if="task.helperId === user._id || user.isDirector && task.helperId" @click.prevent="markDone(task)">
-        <a class="task-action-btn-done">
-          Done
-          <img class="checkmark" src="@/assets/icons/checked.svg">
-        </a>
+        <div
+          class="task-done-btn-container"
+          v-if="task.helperId === user._id || user.isDirector && task.helperId"
+          @click.prevent="markDone(task)"
+        >
+          <el-button title="Done!" icon="el-icon-check"></el-button>
+        </div>
       </div>
     </div>
-
     <!-- Director actions -->
     <transition name="fade">
       <div class="director-actions" v-if="showTaskActions">
@@ -71,13 +85,13 @@
 </template>
 
 <script>
-
 export default {
   props: ["task"],
   data() {
     return {
       showTaskActions: false,
-      user: null
+      user: null,
+      showMainActions: true
     };
   },
   created() {
@@ -98,7 +112,7 @@ export default {
       this.$emit("task-edit", taskId);
     },
     markDone(task) {
-      console.log('at preview')
+      console.log("at preview");
       this.$emit("task-done", task);
     },
     removeTask(taskId) {
@@ -111,7 +125,15 @@ export default {
       let bgClass = `background: url(${res1}) no-repeat 0 50%`;
       return bgClass;
     },
+    getTaskImg(task) {
+      let bgClass = `background: url(${
+        task.imgUrl
+      }) no-repeat 0 50%; background-size:cover`;
+      return bgClass;
+    },
     toggleActions() {
+      this.showMainActions = !this.showMainActions;
+      console.log(this.showMainActions);
       this.showTaskActions = !this.showTaskActions;
     }
   },
@@ -119,6 +141,9 @@ export default {
     passOrOwnTask() {
       return this.task.helperId ? "Pass" : "I'm on it!";
     },
+    isShowMainActions() {
+      return this.task.status !== "done" && this.showMainActions;
+    }
   }
 };
 </script>
@@ -157,21 +182,46 @@ export default {
 }
 .task-extra-info {
   display: flex;
+  cursor: pointer;
+  filter: invert(0.4);
+}
+
+.task-extra-info:hover {
+  display: flex;
+  cursor: pointer;
+  filter: unset;
 }
 .main-actions-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   text-align: center;
   align-items: center;
-  margin: 20px;
-  width: 170px;
+  flex-grow: 0.5;
+  padding-right: 20px;
+  transition: 0.4s;
 }
+.main-actions-container button {
+  height: 40px;
+}
+
+@media (max-width: 420px) {
+  .main-actions-container {
+    justify-content: flex-end;
+    padding: 25px 20px 25px 0;
+  }
+  a.task-action-btn-toggle {
+    margin-bottom: 10px;
+  }
+  .task-toggle-btn-container {
+    width: auto;
+  }
+}
+
 .task-card {
   display: flex;
   position: relative;
-  width: 650px;
-  height: 120px;
+  max-height: 160px;
   background-color: white;
   margin: 15px 0 15px 0;
   border-radius: 15px;
@@ -179,20 +229,30 @@ export default {
   transition: 1s ease;
 
   .feel-img {
-    width: 120px;
-    height: 120px;
+    flex-basis: 25%;
+    flex-shrink: 0;
     object-fit: cover;
     opacity: 0.8;
     overflow: hidden;
     border-radius: 15px 0 0 15px;
+    background-size: cover;
+    background-position: center;
   }
+
+  @media (max-width: 420px) {
+    .feel-img {
+      background-position: center left;
+    }
+  }
+
   .task-info-container {
     padding: 15px;
-    padding-left: 20px;
     // text-transform: capitalize;
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
+    flex-basis: 50%;
     flex-direction: column;
+    justify-content: space-between;
 
     .task-info-item {
       width: 15px;
@@ -220,13 +280,17 @@ export default {
   .director-actions {
     position: absolute;
     top: 0;
-    right: -100px;
+    right: -110px;
     width: 100px;
     height: 100%;
+    background: #fff;
+    border-radius: 15px;
+    z-index: 5;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     transition: 1s ease;
+    // box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
 
     .el-button {
       width: 80px;
@@ -242,14 +306,26 @@ export default {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .director-actions {
+    right: 50px !important;
+  }
+}
+
+.task-extra-info-item {
+  display: flex;
+  align-items: center;
+}
+
 .description {
-  width: 220px;
   font-size: 14px;
 }
 .truncate {
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 h4 {
@@ -268,8 +344,6 @@ h5 {
 .title {
   cursor: pointer;
 }
-
- 
 
 // Animations
 
@@ -291,7 +365,7 @@ $slide: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
 
 //COLORS
 $grey: #5f5f5f;
-$border: #bdbdbd;
+$border: #dcdfe6;
 $white: #ffffff;
 $green: #39bda7;
 $red: #c76161;
@@ -305,15 +379,12 @@ a {
 
 //CODEPEN BUTTON
 .task-done-btn-container {
-  width: 75px;
   height: 40px;
   z-index: 1;
   text-align: center;
-  margin-left: 10px;
 }
 
 .task-toggle-btn-container {
-  width: 75px;
   height: 40px;
   z-index: 1;
   text-align: center;
@@ -327,54 +398,56 @@ a {
   border-radius: 4px;
   transition: $hover;
   position: relative;
+  cursor: pointer;
+
   overflow: hidden;
 
-  &:before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) scaleY(1) scaleX(1.25);
-    top: 100%;
-    width: 140%;
-    height: 180%;
-    background-color: $black-05;
-    border-radius: 50%;
-    display: block;
-    transition: $slide;
-    z-index: -1;
-  }
+  // // &:before {
+  // //   content: "";
+  // //   position: absolute;
+  // //   left: 50%;
+  // //   transform: translateX(-50%) scaleY(1) scaleX(1.25);
+  // //   top: 100%;
+  // //   width: 140%;
+  // //   height: 180%;
+  // //   background-color: $black-05;
+  // //   border-radius: 50%;
+  // //   display: block;
+  // //   transition: $slide;
+  // //   z-index: -1;
+  // // }
 
-  &:after {
-    content: "";
-    position: absolute;
-    left: 55%;
-    transform: translateX(-50%) scaleY(1) scaleX(1.45);
-    top: 180%;
-    width: 160%;
-    height: 190%;
-    background-color: $green;
-    border-radius: 50%;
-    display: block;
-    transition: $slide;
-    z-index: -1;
-  }
+  // // &:after {
+  // //   content: "";
+  // //   position: absolute;
+  // //   left: 55%;
+  // //   transform: translateX(-50%) scaleY(1) scaleX(1.45);
+  // //   top: 180%;
+  // //   width: 160%;
+  // //   height: 190%;
+  // //   background-color: $green;
+  // //   border-radius: 50%;
+  // //   display: block;
+  // //   transition: $slide;
+  // //   z-index: -1;
+  // // }
 
-  &:hover {
-    color: $white;
-    border: 1px solid $green;
+  // // &:hover {
+  // //   color: $white;
+  // //   border: 1px solid $green;
 
-    &:before {
-      top: -35%;
-      background-color: $green;
-      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-    }
+  // //   &:before {
+  // //     top: -35%;
+  // //     background-color: $green;
+  // //     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  // //   }
 
-    &:after {
-      top: -45%;
-      background-color: $green;
-      transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-    }
-  }
+  // //   &:after {
+  // //     top: -45%;
+  // //     background-color: $green;
+  // //     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  // //   }
+  // }
 }
 
 .task-action-btn-toggle {
@@ -384,8 +457,11 @@ a {
   border-radius: 4px;
   transition: $hover;
   position: relative;
+  margin-right: 5px;
   overflow: hidden;
+  cursor: pointer;
   width: 85px;
+  height: 40px;
 
   &:before {
     content: "";
@@ -433,6 +509,28 @@ a {
       transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
     }
   }
+}
+.task-main-content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media (max-width: 550px) {
+  .task-main-content {
+    flex-direction: column;
+  }
+  .main-actions-container {
+    padding-bottom: 15px;
+  }
+  .task-card {
+    max-height: none;
+  }
+}
+
+.make-transparent {
+  visibility: hidden;
 }
 </style>
 

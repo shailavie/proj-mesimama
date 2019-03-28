@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="canLoad">
+  <div id="app" >
     <router-view/>
     <notifications group="foo"/>
     <div class="test"></div>
@@ -7,25 +7,7 @@
 </template>
 
 <script>
-import Axios from "axios";
-
-var axios = Axios.create({
-  withCredentials: true
-});
-export default {
-  computed: {},
-  data() {
-    return {
-      canLoad: false
-    };
-  },
-  async created() {
-    await this.$store.dispatch({ type: "setCurrUser" }).then(() => {
-      console.log("app created");
-      this.canLoad = true;
-    });
-  }
-};
+ 
 </script>
 <style lang="scss" scoped>
 .vue-notification {

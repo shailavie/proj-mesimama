@@ -1,38 +1,45 @@
 
 <template>
-  <section class="dashboard" :class="{'won-container':isWon}">
-    <div class="reward-container">
-      <div class="reward-icon-container" :class="{'won':isWon}">
-        <span class="pulse" v-if="isWon"></span>
-        <span class="score-count">{{currUserScore}}</span>
+  <transition name="fade">
+    <section class="dashboard" :class="{'won-container':isWon}" v-if="currUserScore">
+      <div class="reward-container">
+        <div class="reward-icon-container" :class="{'won':isWon}">
+          <span class="pulse" v-if="isWon"></span>
+          <span class="score-count">{{currUserScore}}</span>
+        </div>
+        <div class="reward-counter">
+          <div class="points-title">Rewards</div>
+        </div>
       </div>
-      <div class="reward-counter">
-        <div class="points-title">Points</div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </transition>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      isWon: false
+      isWon: false,
+      isFirstCall: true
     };
   },
   methods: {},
   computed: {
     currUserScore() {
-      if (!this.$store.getters.currUser.score) return 0;
+      if (this.$store.getters.currUser === null) return 0;
       return this.$store.getters.currUser.score;
     }
   },
   watch: {
     currUserScore() {
-      this.isWon = true;
-      setTimeout(() => {
-        this.isWon = false;
-      }, 600);
+      if (!this.isFirstCall) {
+        this.isWon = true;
+        setTimeout(() => {
+          this.isWon = false;
+        }, 600);
+      } else {
+        this.isFirstCall = false;
+      }
     }
   }
 };
@@ -53,6 +60,12 @@ export default {
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
   transition: 0.6s;
   transition-timing-function: ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    border-radius: 15px;
+  }
 }
 .reward-container {
   display: flex;
@@ -144,5 +157,13 @@ small {
     -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

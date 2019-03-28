@@ -34,26 +34,26 @@
               <img src="@/assets/icons/chat.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Chat</span>
             </router-link>
-          </span> -->
+          </span>-->
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Tasks</span>
             </router-link>
           </span>
-          <span class="nav-item">
+          <span class="nav-item item-rewards">
             <router-link to="/app/rewards">
               <img src="@/assets/icons/trophy.svg" class="nav-item-icon">
               <span class="nav-item-text-link">Rewards</span>
-
-              <span class="notifications-badge">{{score}}</span>
             </router-link>
           </span>
           <span class="nav-item">
             <router-link to="/app/notifications">
-              <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
+              <div style="position:relative;">
+                <img src="@/assets/icons/notifications.svg" class="nav-item-icon">
+                <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
+              </div>
               <span class="nav-item-text-link">News</span>
-              <span class="notifications-badge" v-if="counter>0">{{counter}}</span>
               <!-- <span class="notifications-badge" v-if="notificationsCount > 0">{{notificationsCount}}</span> -->
             </router-link>
           </span>
@@ -72,11 +72,7 @@
 
 <script>
 import userAvatar from "@/components/user-avatar-cmp.vue";
-import Axios from "axios";
-
-var axios = Axios.create({
-  withCredentials: true
-});
+import userService from "@/services/user.service.js";
 
 export default {
   components: {
@@ -96,11 +92,18 @@ export default {
     addTask() {
       this.$router.push("/app/edit");
     },
-    async setRole() {
-      let test = await axios.post("http://localhost:3003/api/users/setuser", {
-        userId: this.role
-      });
-      this.$store.dispatch({ type: "setCurrUser" });
+
+    setRole() {
+      userService
+        .setUserSession(this.role)
+        .then(res => {
+          console.log("Session is ", res);
+        })
+        .then(() => {
+          this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+            console.log("User switched! :)");
+          });
+        });
     }
   },
   computed: {
@@ -122,7 +125,9 @@ export default {
 
 <style scoped lang="scss">
 .login {
-  margin: 0 20px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 
 @media (max-width: 768px) {
@@ -131,7 +136,12 @@ export default {
   }
 }
 .login-page-el-input {
-  height: 48px;
+  background: #fff;
+  color: #333;
+}
+
+.login-page-el-input .el-input__inner {
+  color: #333;
 }
 .user-msg {
   display: flex;
@@ -140,14 +150,11 @@ export default {
   margin-right: 10px;
 }
 .add-new-task {
-  margin-right: 2.2em;
+  margin-right: 1em;
   color: #666;
 }
 .logo-container {
   display: flex;
-}
-
-.main-nav {
 }
 
 .header-container {
@@ -156,7 +163,25 @@ export default {
   justify-content: space-between;
 
   .nav-item {
-    margin-right: 1.6em;
+    width: 100px;
+    border-radius: 15px;
+    transition: 0.3s;
+  }
+  @media (min-width: 768px) {
+    .nav-item:hover {
+      background: #f4f4f4;
+    }
+  }
+
+  .nav-item.user {
+    width: fit-content;
+    margin-left: 1em;
+  }
+
+  @media (max-width: 768px) {
+    .nav-item.user {
+      margin: 0;
+    }
   }
 
   span.nav-item.user {
@@ -175,6 +200,10 @@ export default {
     }
     .nav-item-text-link {
       display: none;
+    }
+
+    .item-rewards {
+      order: -1;
     }
   }
 }

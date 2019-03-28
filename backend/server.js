@@ -5,15 +5,18 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-const io = require('socket.io')(server);
 const PORT = process.env.PORT || 3003;
+
+const io = require('socket.io')(server);
+ 
+
 
 // Routes
 const addTaskRoutes = require('./routes/task-route')
 const addUserRoutes = require('./routes/user-route')
 
 // Define static resources src
-app.use(express.static('front'));
+app.use(express.static('public'));
 // CORS
 app.use(cors({
     origin: ['http://localhost:8080'],
