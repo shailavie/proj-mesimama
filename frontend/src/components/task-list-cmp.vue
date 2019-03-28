@@ -8,18 +8,22 @@
           <!-- User Info -->
           <div class="user-info flex space-between" v-if="userToRender._id">
             <div class="flex center-ver">
-              <user-avatar :url="userToRender.avatarUrl" :userId="userToRender._id"/>
+              <user-avatar
+                class="user-avatar-in-toggle"
+                :url="userToRender.avatarUrl"
+                :userId="userToRender._id"
+              />
               <h2>{{userToRender._id === thisUser._id? title :userToRender.name}}</h2>
               <h2>{{currTitle(userToRender)}}</h2>
-              <h2>({{userToRender.tasks.length}})</h2>
+              <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
           <div class="user-info flex space-between" v-else>
             <div class="flex center-ver">
               <img class="empty-task-avatar" src="@/assets\icons\babytasks.png" alt>
-              <h2>Tasks To Do</h2>
-              <h2>({{userToRender.tasks.length}})</h2>
+              <h2>Help Needed</h2>
+              <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
@@ -161,25 +165,25 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid rgb(219, 218, 218);
+  border-top: 1px solid rgb(233, 233, 233);
   margin: 1em 0;
   padding: 0;
 }
-.user-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 100px;
-  background-position: center;
-  background-size: cover;
+.user-avatar-in-toggle {
+  margin-right: 10px;
 }
 .user-info {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   h2 {
-    margin-left: 10px;
+    font-size: 1.2rem;
   }
+}
+
+.tasks-count {
+  margin-left: 5px;
 }
 
 ul li {
@@ -228,8 +232,9 @@ ul {
   height: 0;
 }
 .empty-task-avatar {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
 }
 
 .buffer {

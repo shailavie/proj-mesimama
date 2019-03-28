@@ -178,5 +178,8 @@ h1 {
     flex-basis: 200px;
   }
 }
+
+.login-page-el-input .el-input__inner {
+}
 </style>
 
