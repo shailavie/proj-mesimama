@@ -188,4 +188,8 @@ small strong {
 
 .back-btn {
 }
+
+h1 {
+  text-transform: capitalize;
+}
 </style>
