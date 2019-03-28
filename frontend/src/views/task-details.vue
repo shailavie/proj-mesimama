@@ -119,6 +119,11 @@ export default {
 @media (max-width: 768px) {
   .task-details-center-box {
     flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
+  .text-details-comments {
+    margin-top: 20px;
   }
 }
 

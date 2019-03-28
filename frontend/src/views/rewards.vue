@@ -1,13 +1,21 @@
 <template>
   <div v-if="canLoad">
     <section v-if="user && !user.isDirector" class="section">
-      <h1>Hey {{user.name}}, here are your rewards:</h1>
+      <h1>Hey {{user.name}}</h1>
+      <br>
+      Enjoy your rewards!
+      <br>
+      <br>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in pics" :key="idx" class="img-container">
           <img :src="url" class="gallery-item">
         </figure>
       </masonry>
+      <br>
+      <br>
       <h2>{{user.name}}, you have {{user.score}} points, do some tasks and open more rewards!</h2>
+      <br>
+      <br>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
           <img :src="url" class="next-reward gallery-item">
@@ -26,8 +34,8 @@
         </div>
       </div>
 
-      <h1>Hey {{user.name}}, how is your day going?</h1>
-      <h2>These are the rewards for your lovley helpers, feel free to add more, they will appreciate it!</h2>
+      <h1>Hey {{user.name}}</h1>
+      <h2>Enjoy your rewards!</h2>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in urls" :key="idx" class="img-container">
           <img :src="url" class="gallery-item">

@@ -56,7 +56,7 @@
             ></el-date-picker>
           </el-form-item>
 
-          <div class="row">
+          <div class="row upload-file">
             <div class="col-md-12">
               <input
                 type="file"
@@ -173,10 +173,10 @@ export default {
       this.taskToEdit.imgUrl = url;
     },
     handleShake() {
-      console.log('shake shake shake')
+      console.log("shake shake shake");
       if (confirm("Start over?")) {
-        this.taskToEdit.title = ''
-        this.taskToEdit.desc = 'Shai you are genius'
+        this.taskToEdit.title = "";
+        this.taskToEdit.desc = "Shai you are genius";
       }
     },
     speechEnd({ sentences, text }) {
@@ -215,6 +215,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@media (max-width: 768px) {
+  .task-edit-page {
+    margin-top: -30px;
+  }
+}
+
 .task-details {
   max-width: 400px;
 }
@@ -231,7 +237,6 @@ export default {
   display: inline-block;
 }
 .edit-task-form {
-  width: 600px;
   padding: 40px;
 }
 
@@ -245,5 +250,9 @@ export default {
 .task-details-center-box {
   padding: 0;
   flex-direction: column;
+}
+
+.upload-file {
+  margin: 20px 0;
 }
 </style>
