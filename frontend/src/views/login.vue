@@ -27,6 +27,8 @@
         <span>Yonatan</span>
       </div>
     </div>
+    <button class="demo-btn" @click="enterDemo">Enter Demo</button>
+    <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
   </section>
 </template>
 
@@ -64,6 +66,21 @@ export default {
     }
   },
   methods: {
+    askPermission() {
+      if (this.notificationsSupported) {
+        Notification.requestPermission(result => {
+          console.log("result from permission question", result);
+          if (result !== "granted") {
+            alert("You probably do not like notifications?!");
+          } else {
+            console.log(
+              "A notification will be send from the service worker => This only works in production"
+            );
+            this.showNotification();
+          }
+        });
+      }
+    },
     setRole(id) {
       userService
         .setUserSession(id)
@@ -75,13 +92,10 @@ export default {
             this.$router.push("/app/tasks");
           });
         });
-      // console.log('Session is set..')
-      // await this.$store.dispatch({ type: "setCurrUser" });
-      // console.log('Got user in store..')
-      // setTimeout(() => {
-      //   this.$router.push('/app/tasks')
-
-      // }, 3000);
+    },
+    async enterDemo() {
+      await this.askPermission();
+      this.setRole("5c98fa5eb687d600001a8d83");
     }
   }
 };
@@ -128,7 +142,6 @@ h1 {
   color: #fff;
   flex-grow: 1;
 }
-
 .is-member-call {
   color: #999;
 }
@@ -141,18 +154,30 @@ h1 {
   margin-top: 10px;
   width: 100%;
 }
-
 .cta {
   font-weight: 500;
   opacity: 0.9;
 }
-
 .set-role-btn {
   margin-left: 5px;
   background: transparent;
   color: #fff;
 }
-
+.demo-btn {
+  width: 350px;
+  height: 100px;
+  border: 3px solid white;
+  background-color: transparent;
+  border-radius: 20px;
+  font-size: 24px;
+  color: white;
+  margin: 40px;
+  cursor: pointer;
+  transition: 0.1s linear;
+  &:hover {
+    background-color: lightsalmon;
+  }
+}
 @media (max-width: 768px) {
   .login-page-container {
     flex-direction: column;
@@ -171,6 +196,22 @@ h1 {
   display: flex;
   width: 500px;
   justify-content: space-between;
+}
+@media (max-width: 550px) {
+  .choose-user {
+    flex-direction: column;
+  }
+  .user-box {
+    margin-bottom: 30px;
+  }
+  .demo-btn {
+    width: auto;
+    padding: 0 40px;
+  }
+  h1 {
+    text-align: center;
+    margin: 0 auto;
+  }
 }
 
 .login-avatar {

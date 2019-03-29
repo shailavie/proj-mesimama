@@ -16,24 +16,20 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.97bca030.js"
   },
   {
-    "revision": "a48055c45fa4fade36d92af8f790205f",
+    "revision": "ab422b29801400cd21d5c53317d8cb4a",
     "url": "/index.html"
   },
   {
-    "revision": "ba6ef8fcb4561430f993",
-    "url": "/js/app.ba14ab43.js"
+    "revision": "7a3aa84c9f771dc397d3",
+    "url": "/js/app.31070ce6.js"
   },
   {
-    "revision": "156540b1d63e00a1b7834bc798bc1fae",
-    "url": "/img/login-banner.156540b1.jpg"
+    "revision": "37ad33da11e0aefa65d70603c30cb32f",
+    "url": "/img/babytasks.37ad33da.png"
   },
   {
     "revision": "6f0a76321d30f3c8120915e57f7bd77e",
     "url": "/fonts/element-icons.6f0a7632.ttf"
-  },
-  {
-    "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
-    "url": "/img/baby1.250570d3.jpg"
   },
   {
     "revision": "18fd2d4a32acc604097da6dc55a3cb02",
@@ -60,12 +56,16 @@ self.__precacheManifest = [
     "url": "/img/baby6.851342e0.jpg"
   },
   {
+    "revision": "156540b1d63e00a1b7834bc798bc1fae",
+    "url": "/img/login-banner.156540b1.jpg"
+  },
+  {
     "revision": "ad303be1a5927f315b68b91bd008a266",
     "url": "/img/gold.ad303be1.svg"
   },
   {
-    "revision": "d1a0884bfd3fe149f17684bd8afc014e",
-    "url": "/img/users/dad.jpg"
+    "revision": "517c2e9244d189c810325839caafd3ae",
+    "url": "/img/users/grampa.jpeg"
   },
   {
     "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
@@ -76,12 +76,12 @@ self.__precacheManifest = [
     "url": "/img/baby7.ba816909.jpg"
   },
   {
-    "revision": "94b647cc22a3380c09a828727ceb2ccd",
-    "url": "/img/arrow-down.94b647cc.svg"
+    "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
+    "url": "/img/baby1.250570d3.jpg"
   },
   {
-    "revision": "37ad33da11e0aefa65d70603c30cb32f",
-    "url": "/img/babytasks.37ad33da.png"
+    "revision": "94b647cc22a3380c09a828727ceb2ccd",
+    "url": "/img/arrow-down.94b647cc.svg"
   },
   {
     "revision": "ac9ba77c95763ee62f1d86a86399b53a",
@@ -112,8 +112,8 @@ self.__precacheManifest = [
     "url": "/icons/star.svg"
   },
   {
-    "revision": "517c2e9244d189c810325839caafd3ae",
-    "url": "/img/users/grampa.jpeg"
+    "revision": "d1a0884bfd3fe149f17684bd8afc014e",
+    "url": "/img/users/dad.jpg"
   },
   {
     "revision": "2fad952a20fbbcfd1bf2ebb210dccf7a",
@@ -124,7 +124,7 @@ self.__precacheManifest = [
     "url": "/css/chunk-vendors.ef2a2ae9.css"
   },
   {
-    "revision": "ba6ef8fcb4561430f993",
-    "url": "/css/app.f1a315b3.css"
+    "revision": "7a3aa84c9f771dc397d3",
+    "url": "/css/app.ccffaff3.css"
   }
 ];
