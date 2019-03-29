@@ -11,7 +11,7 @@
               <user-avatar
                 class="user-avatar-in-toggle"
                 :url="userToRender.avatarUrl"
-                :userId="userToRender._id"
+                :user="userToRender"
               />
               <h2>{{userToRender._id === thisUser._id? title :userToRender.name}}</h2>
               <h2>{{currTitle(userToRender)}}</h2>

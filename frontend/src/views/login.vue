@@ -27,22 +27,6 @@
         <span>Yonatan</span>
       </div>
     </div>
-    <!-- <div class="qa-box">
-              <div style="margin-bottom:5px">
-                <div class="curr-user-info" v-if="currUser">
-                  <user-avatar :url="currUser.avatarUrl"/>
-                  <div style="margin-bottom: 10px">Logged as: {{currUser.name}}</div>
-                </div>
-              </div>
-              <el-select v-model="role" placeholder="Select role" class="login-page-el-input">
-                <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
-                <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
-                <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
-                <el-option value="5c98fb581c9d4400002a2a3d">Ruti</el-option>
-                <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
-              </el-select>
-              <el-button @click="setRole" class="set-role-btn">Set Role</el-button>
-    </div>-->
   </section>
 </template>
 

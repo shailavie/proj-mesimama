@@ -37,7 +37,7 @@
       <!-- Main actions -->
       <div
         class="main-actions-container"
-        v-if="task.status !== done"
+        v-if="task.status !== 'done'"
         :class="{'make-transparent':!showMainActions}"
       >
         <!-- v-if="user.isDirector || user._id === task.helperId" -->

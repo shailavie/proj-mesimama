@@ -14,11 +14,13 @@
             class="login-page-el-input"
             @change="setRole"
           >
-            <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
-            <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
             <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
             <el-option value="5c98fb581c9d4400002a2a3d">Ruti</el-option>
             <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
+            <el-option value="5c9cabfc1c9d44000089436f">Yuval</el-option>
+            <el-option value="5c9cab421c9d44000089436e">Yossi</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ad">Yair (group2 helper)</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ac">Shira (group2 director)</el-option>
           </el-select>
         </div>
 
@@ -30,12 +32,6 @@
 
         <!-- Navbar -->
         <nav>
-          <!-- <span class="nav-item">
-            <router-link to="/app/chat">
-              <img src="@/assets/icons/chat.svg" class="nav-item-icon">
-              <span class="nav-item-text-link">Chat</span>
-            </router-link>
-          </span>-->
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
@@ -62,7 +58,7 @@
         <div class="current-user" v-if="currUser">
           <span class="nav-item user">
             <!-- <router-link to="/app/user-profile"> -->
-            <user-avatar :url="avatarUrl" :userId="currUser._id"/>
+            <user-avatar :url="avatarUrl" :user="currUser"/>
             <!-- </router-link> -->
           </span>
         </div>
