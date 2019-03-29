@@ -8,7 +8,7 @@ const session = require('express-session')
 const PORT = process.env.PORT || 3003;
 
 const io = require('socket.io')(server);
- 
+
 
 
 // Routes
@@ -58,8 +58,8 @@ io.on('connection', socket => {
         io.emit('taskOwnedBy', user)
     })
     //TASK WAS UPDATED
-    socket.on('updateTask',task=>{
-        socket.broadcast.emit('publishUpdatedTask',task)
+    socket.on('updateTask', task => {
+        socket.broadcast.emit('publishUpdatedTask', task)
     })
     //TASK WAS PASSED
     socket.on('taskPassed', obj => {
@@ -72,7 +72,7 @@ io.on('connection', socket => {
     //TASK WAS ADDED- send to everyone but mom
     socket.on('addedTask', (newTask) => {
         //toast for users about new task
-        socket.broadcast.emit('newTaskPublish',newTask)
+        socket.broadcast.emit('newTaskPublish', newTask)
     })
 
     //TASK WAS ACOMPLISHED

@@ -2,6 +2,7 @@
 import ioClient from 'socket.io-client'
 import Vue from 'vue'
 import store from '../stores/store.js'
+import pushService from './push-notifications-service.js'
 import userService from '../services/user.service.js'
 import utilService from '../services/util-service.js'
 
@@ -10,6 +11,7 @@ var socket = (process.env.NODE_ENV !== 'development')? ioClient('') : ioClient('
 
 
 const msgs = []
+var connectedUser = null;
 
 export default {
 	// user, 
@@ -32,9 +34,12 @@ function createEmptyMsg(txt = '', nickName) {
 connectSocket()
 
 function connectSocket() {
+	
 	console.log('New socket is connected!')
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
+		connectedUser = user
+		console.log('user conncted :', connectedUser);
 		_toasting(`${user.name} just connected!  `, 'success', 'Dont forget to say hello')
 	})
 	//NEW MSG RECIVED
@@ -57,6 +62,7 @@ function connectSocket() {
 	socket.on('publishUpdatedTask',task=>{
 		refreshTasks()
 		refreshUserTasks()
+		pushService.pushNotification()
 	})
 
 	// TASK WAS DELETED . 
@@ -74,6 +80,7 @@ function connectSocket() {
 		await refreshTasks()
 		await refreshUser()
 		_toasting('New task was added!', 'success', 'Better go check it out!')
+		pushService.pushCustomNotification('New task was added! Better go check it out!')
 	}
 
 	//TASK WAS ACOMPLISHED
@@ -85,10 +92,12 @@ function connectSocket() {
 		await refreshGroup()
 		await refreshUserTasks()
 		_toasting('Someone acomplished a task!', 'success', 'Mom will be so happy!')
+		pushService.pushCustomNotification('Someone acomplished a task!')
 	}
 
 	socket.on('publishUrgent', task => {
 		_toasting('Urgent task alert!', 'error', 'See if you can help out')
+		pushService.pushCustomNotification('Urgent task alert! See if you can help out')
 	})
 }
 

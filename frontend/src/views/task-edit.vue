@@ -147,12 +147,14 @@ export default {
       this.taskToEdit = taskService.getEmptyTask();
       this.taskToEdit.dueAt = this.sameHourTommorrow();
     }
+
+      // Generating an "Assign to" list and removing the director 
     this.group = utilService.deepCopy(this.$store.getters.currGroup);
     this.directorId = this.$store.getters.currDirectorId;
     let directorIdx = this.group.findIndex(
       user => user._id === this.directorId
     );
-    this.group.splice(directorIdx, 1); // removing the director
+    this.group.splice(directorIdx, 1); 
 
     var shakeEvent = new Shake({ threshold: 15 });
     shakeEvent.start();

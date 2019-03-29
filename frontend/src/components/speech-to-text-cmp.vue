@@ -2,11 +2,6 @@
  
 <template>
   <section>
-    <!-- <p el-if="error" class="grey--text">{{error}}</p> -->
-    <!-- <p el-else class="mb-0">
-      <span v-for="(sentence,idx) in sentences" :key="idx">{{sentence}}.</span>
-      <span>{{runtimeTranscription}}</span>
-    </p>-->
     <el-button
       class="speech-to-text-btn"
       dark
@@ -61,6 +56,10 @@ export default {
       });
     },
     startSpeechRecognition() {
+      setTimeout(() => {
+        console.log('Stopping recording afte 5s')
+        this.endSpeechRecognition()
+      }, 5000);
       if (!recognition) {
         this.error =
           "Speech Recognition is not available on this browser. Please use Chrome or Firefox";

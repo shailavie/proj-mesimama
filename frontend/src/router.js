@@ -11,6 +11,7 @@ import login from './views/login.vue'
 import taskEdit from './views/task-edit.vue'
 import taskDetails from './views/task-details.vue'
 import rewards from './views/rewards.vue'
+import pushNotification from './components/push-note-cmp.vue'
 
 Vue.use(Router)
 
@@ -75,6 +76,11 @@ export default new Router({
           path: 'gallery',
           name: 'gallery',
           component: photoGallery
+        },
+        {
+          path: 'push',
+          name: 'push',
+          component: pushNotification
         }
 
       ]

@@ -18,10 +18,8 @@ const store = new Vuex.Store({
     taskItems: [],
     filterBy: {},
     currTask: null,
-
   },
   mutations: {
-
     updateTask(state, { updatedTask }) {
       let taskIdx = state.taskItems.findIndex(task => task._id === updatedTask._id)
       state.taskItems.splice(taskIdx, 1, updatedTask)
@@ -138,15 +136,9 @@ const store = new Vuex.Store({
     },
     async uploadImgs(context,{files}){
       let urls= await imgService.uploadPictures(files)
-      console.log('AT STORE ',urls)
       context.commit({ type: 'updateDirectoreUrls', urls })
       await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
-      
     },
-    async uploadTaskImg(context,{file}){
-     
-      
-    }
   },
   getters: {
 
