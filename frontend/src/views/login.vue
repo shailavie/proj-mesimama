@@ -42,6 +42,7 @@ export default {
   },
   data() {
     return {
+      notificationsSupported: false,
       role: "",
       input: {
         password: "",
@@ -50,6 +51,11 @@ export default {
       isMember: true,
       test: null
     };
+  },
+  created(){
+    if ('Notification' in window && 'serviceWorker' in navigator) {
+            this.notificationsSupported = true
+        }
   },
   computed: {
     loginSignupCTA() {
@@ -107,7 +113,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
   color: #fff;
   flex-direction: column;
@@ -124,7 +129,7 @@ h1 {
 .login-page-container {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  // height: 100vh;
   width: 100vw;
 }
 .login-banner-container {
@@ -208,9 +213,9 @@ h1 {
     width: auto;
     padding: 0 40px;
   }
-  h1 {
+  h1,h4 {
     text-align: center;
-    margin: 0 auto;
+    margin: 20px auto;
   }
 }
 
