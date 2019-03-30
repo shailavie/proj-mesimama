@@ -1,7 +1,6 @@
 <template>
   <section class="login">
     <h1>Welcome to the Family.</h1>
-    <h5>v1</h5>
     <section class="flex row">
       <div v-for="user in demoUsers" :key="user._id">
         <div class="user-box ml30" @click.prevent="setRole(user._id)">
@@ -13,7 +12,6 @@
 
     <button class="demo-btn" @click="enterDemo">Enter Demo</button>
     <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
-
   </section>
 </template>
 
@@ -27,6 +25,11 @@ export default {
   },
   data() {
     return {
+      usersId: [
+        "5c98fa5eb687d600001a8d83",
+        "5c98fb581c9d4400002a2a3d",
+        "5c98fad51c9d4400002a2a3c"
+      ],
       notificationsSupported: false,
       role: "",
       input: {
@@ -38,7 +41,10 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("loadGroup");
+    this.$store.dispatch({
+      type: "loadIntroGroup",
+      directorId: "5c98fa5eb687d600001a8d83"
+    });
     if ("Notification" in window && "serviceWorker" in navigator) {
       this.notificationsSupported = true;
     }
@@ -54,12 +60,13 @@ export default {
       return this.isMember ? "Already a member? " : "New to Mesimama? ";
     },
     demoUsers() {
-      return this.$store.getters.currGroup.filter(
-        user =>
-          user.name === "Tamar" ||
-          user.name === "Ruti" ||
-          user.name === "Yonatan"
-      );
+      return this.$store.getters.introGroup;
+      // .filter(
+      //   user =>
+      //     user.name === "Tamar" ||
+      //     user.name === "Ruti" ||
+      //     user.name === "Yonatan"
+      // );
     }
   },
   methods: {

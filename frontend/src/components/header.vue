@@ -2,6 +2,7 @@
   <div class="wrapper" v-if="currUser">
     <div class="header-container">
       <div class="logo-container">
+        <img class="logo" src="@/assets/icons/mesimama.png" alt="">
         <div class="header-logo">Mesimama</div>
       </div>
 
@@ -154,6 +155,12 @@ export default {
 }
 .logo-container {
   display: flex;
+}
+.logo {
+  height: 50px;
+  width: auto;
+  margin-right: -15px;
+  margin-left: -30px;
 }
 
 .header-container {

@@ -10,7 +10,8 @@ const userStore = {
     usersWithTasks: [],
     currUser: null,
     currGroup: [],
-    currDirector: {}
+    currDirector: {},
+    introGroup: []
   },
   mutations: {
     updateDirectorOnServer(state, { director }) {
@@ -40,6 +41,9 @@ const userStore = {
       });
       state.currGroup = users
     },
+    loadIntroGroup(state, { users }) {
+      state.introGroup = users
+    },
     setCurrUser(state, { currUser }) {
       state.currUser = currUser
     },
@@ -53,7 +57,7 @@ const userStore = {
       let urlIdx = director.imgUrls.findIndex(img => img._id === imgId)
       console.log('IDX', urlIdx)
       director.imgUrls.splice(urlIdx, 1)
-      console.log('imgs:',director.imgUrls)
+      console.log('imgs:', director.imgUrls)
       await userService.updateUser(director)
       context.dispatch('loadCurrDirector')
     },
@@ -70,6 +74,10 @@ const userStore = {
     async loadGroup(context) {
       let users = await userService.getUsers()
       await context.commit({ type: 'loadGroup', users })
+    },
+    async loadIntroGroup(context, { directorId }) {
+      let users = await userService.getIntroUsers(directorId)
+      await context.commit({ type: 'loadIntroGroup', users })
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
@@ -104,6 +112,9 @@ const userStore = {
     },
     currGroup(state) {
       return state.currGroup
+    },
+    introGroup(state) {
+      return state.introGroup
     },
     notifications(state) {
       return state.notifications
