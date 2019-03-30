@@ -1,6 +1,7 @@
 <template>
   <section class="login">
     <h1>Welcome to the Family.</h1>
+    <h5>v1</h5>
     <section class="flex row">
       <div v-for="user in demoUsers" :key="user._id">
         <div class="user-box ml30" @click.prevent="setRole(user._id)">
@@ -12,6 +13,7 @@
 
     <button class="demo-btn" @click="enterDemo">Enter Demo</button>
     <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
+
   </section>
 </template>
 
@@ -71,7 +73,7 @@ export default {
             console.log(
               "A notification will be send from the service worker => This only works in production"
             );
-            this.showNotification();
+            // this.showNotification();
           }
         });
       }
