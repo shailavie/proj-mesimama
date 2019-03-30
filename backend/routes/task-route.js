@@ -101,6 +101,19 @@ function addTaskRoutes(app) {
     }
   })
 
+  //Add a comment to Task (open to all registered users)
+  app.put(`${BASE_URL}/:taskId/addComment`, (req, res) => {
+    // const userId = req.session.userId
+    const taskId = req.params.taskId
+    const task = req.body
+    console.log('GOT TO BACKEND! task id:', taskId, 'userID')
+    console.log('GOT task with new comment:', task.comments)
+    taskService.addCommentTo(task)
+      .then(task => {
+        res.json(task)
+      })
+  })
+
   //Own Task
   app.put(`${BASE_URL}/:taskId/own`, (req, res) => {
     const userId = req.session.userId

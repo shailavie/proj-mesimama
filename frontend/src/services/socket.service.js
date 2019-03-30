@@ -64,7 +64,9 @@ function connectSocket() {
 	socket.on('publishUpdatedTask', task => {
 		refreshTasks()
 		refreshUserTasks()
-		pushService.pushNotification()
+		if (task.isUrgent) {
+			pushService.pushNotification('Urgent Task',task)
+		}
 	})
 
 	// TASK WAS DELETED . 

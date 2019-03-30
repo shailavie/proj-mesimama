@@ -16,6 +16,7 @@ export default {
     getTaskById,
     getEmptyComment,
     markDone,
+    addCommentTo
 }
 
 // const BASE_URL = 'http://localhost:3003/api'
@@ -45,6 +46,16 @@ function updateTask(task) {
             .then(res => {
                 let addedTask = res.data
                 resolve(addedTask)
+            })
+    })
+}
+function addCommentTo(task) {
+    console.log('UPADTED TASK IS', task)
+    return new Promise((resolve, reject) => {
+        axios.put(`${BASE_URL}/tasks/${task._id}/addComment`, task)
+            .then(res => {
+                let taskWithNewComment = res.data
+                resolve(taskWithNewComment)
             })
     })
 }
