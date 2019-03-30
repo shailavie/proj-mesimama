@@ -56,7 +56,14 @@ import userAvatar from "./user-avatar-cmp.vue";
 import emptyTasksState from "../components/empty-tasks-state-cmp.vue";
 
 export default {
-  props: ["tasks", "title"],
+  props: {
+    tasks: {
+      type: Array
+    },
+    title : {
+      type: String
+    }
+  },
   components: {
     taskPreview,
     userAvatar,

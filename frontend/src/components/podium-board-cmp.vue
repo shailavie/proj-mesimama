@@ -40,7 +40,6 @@ export default {
   components: {
     userAvatar
   },
-  props: [],
   data() {
     return {};
   },

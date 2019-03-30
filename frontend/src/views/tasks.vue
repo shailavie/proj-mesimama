@@ -60,7 +60,9 @@
       <podium-board-cmp></podium-board-cmp>
       <photo-gallery class="photo-gallery"/>
     </section>
-    <task-done-msg v-if="showTaskDoneMsg" :time="3000" @close-task-done-msg="closeTaskDoneMsg"></task-done-msg>
+
+    <!-- Task Done Popup -->
+    <task-done-msg v-if="showTaskDoneMsg" :time="5000" @close-task-done-msg="closeTaskDoneMsg"></task-done-msg>
   </section>
 </template>
 
