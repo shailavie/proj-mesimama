@@ -19,7 +19,6 @@ function addTaskRoutes(app) {
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@userId:',userId)
     userService.getById(userId).then(user => {
       return user
     })

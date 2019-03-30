@@ -79,6 +79,7 @@ function connectSocket() {
 	async function refreshCallback() {
 		await refreshTasks()
 		await refreshUser()
+		await refreshUserTasks()
 		_toasting('New task was added!', 'success', 'Better go check it out!')
 		pushService.pushCustomNotification('New task was added! Better go check it out!')
 	}

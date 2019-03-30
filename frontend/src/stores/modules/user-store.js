@@ -71,7 +71,7 @@ const userStore = {
     },
     updateUserNotifications(context) {
       context.commit('updateUserNotifications')
-      userService.updateUser(context.currUser)
+      userService.updateUser(context.state.currUser)
     },
     async loadUsersWithTasks(context) {
       let activeTasks = await taskService.query()
@@ -111,6 +111,7 @@ const userStore = {
 
     },
     notificationCounter(state) {
+      console.log('updating notifs counter', state.currUser.notifications[0])
       var unReadNotifications = state.currUser.notifications.filter((notification) => {
         return !notification.isRead
       })

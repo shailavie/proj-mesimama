@@ -125,7 +125,6 @@ export default {
       sentences: null,
       sentences2: null,
       group: [],
-      selectedHelperId: null,
       taskToEdit: null,
       directorId: null,
       pickerOptions: {
@@ -196,7 +195,6 @@ export default {
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
       this.taskToEdit.directorId = this.directorId;
-      this.taskToEdit.helperId - this.selectedHelperId;
       console.log("TASK TO SAVE:", this.taskToEdit);
       this.taskToEdit.points = Number(this.taskToEdit.points);
       this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
