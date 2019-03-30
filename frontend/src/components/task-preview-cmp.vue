@@ -2,12 +2,11 @@
 <template>
   <section class="task-card">
     <!-- Director actions Btn -->
-    <el-button
+    <button
       v-if="user.isDirector"
-      @click.native="toggleActions"
+      @click="toggleActions"
       class="more-actions"
-      icon="el-icon-more"
-    ></el-button>
+    >...</button>
 
     <!-- Floating info -->
     <div class="urgent-badge" v-if="task.isUrgent">Urgent</div>
@@ -15,6 +14,7 @@
     <!-- Card bg feel img -->
     <div class="feel-img" v-if="task.imgUrl" :style="getTaskImg(task)" alt></div>
     <div class="feel-img" v-else :style="getImgByKeyword(task)" alt></div>
+
     <!-- Task info -->
     <div class="task-main-content">
       <div class="task-info-container">
@@ -255,6 +255,7 @@ export default {
   }
   .more-actions {
     position: absolute;
+    background-color: #fff;
     top: 0px;
     right: 15px;
     width: 30px;
@@ -263,7 +264,14 @@ export default {
     // transform: rotate(90deg);
     text-align: center;
     background-color: transparent;
+    font-size: 16px;
+    font-weight: bolder;
+    &:hover {
+      // background-color: white;
+      color: blue;
+    }
   }
+
   .due-container {
     position: absolute;
     bottom: 10px;
