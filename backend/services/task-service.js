@@ -36,10 +36,18 @@ function update(task) {
         .then(db => db.collection(TASKS_COLLECTION).replaceOne({ _id }, task))
 }
 
+function addCommentTo(task) {
+    let _id = new ObjectId(task._id)
+    delete task['_id'];
+    return mongoService.connect()
+        .then(db => db.collection(TASKS_COLLECTION).replaceOne({ _id }, task))
+}
+
 module.exports = {
     query,
     getById,
     add,
     remove,
-    update
+    update,
+    addCommentTo
 }

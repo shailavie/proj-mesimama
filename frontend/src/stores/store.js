@@ -101,6 +101,12 @@ const store = new Vuex.Store({
       var updatedTask = await taskService.markDone(task)
       socketService.emit('finishedTask')
     },
+    async addNewComment(context, task) {
+      if (task._id) {
+        let taskWithNewComment = await taskService.addCommentTo(task)
+        context.commit({ type: 'updateTask', taskWithNewComment })
+      }
+    },
     async saveTask(context, task) {
       if (task._id) {
         let updatedTask = await taskService.updateTask(task)

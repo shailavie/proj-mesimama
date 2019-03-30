@@ -21,12 +21,7 @@ const userStore = {
         url: url,
         _id: utilService.makeId()
       }
-      console.log('img obj', imgObj)
-      //  urls.forEach((url)=>{
-      //   state.currDirector.imgUrls.unshift(url)
-      //  })
       state.currDirector.imgUrls.unshift(imgObj)
-
     },
     loadCurrDirector(state, { directorIdx }) {
       state.currDirector = state.currGroup[directorIdx]

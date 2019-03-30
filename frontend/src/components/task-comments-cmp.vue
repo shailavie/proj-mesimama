@@ -28,7 +28,7 @@ export default {
   name: "taskCommentsCmp",
   props: {
     comments :{
-      type : Object
+      type : Array
     },
     newComment : {
       type: Object

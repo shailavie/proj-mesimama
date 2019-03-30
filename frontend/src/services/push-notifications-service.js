@@ -6,7 +6,7 @@ export default {
 }
 
 
-function pushNotification() {
+function pushNotification(title,task) {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js').then(function(reg) {
           console.log('Service Worker Registered!', reg);
@@ -34,8 +34,8 @@ function pushNotification() {
     console.log('PUSH NOTIFICATION!')
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready // returns a Promise, the active SW registration
-            .then(swreg => swreg.showNotification('Hi Shai', {
-                body: 'A new task was born',
+            .then(swreg => swreg.showNotification(title, {
+                body: 'A new task was born'+task.title,
                 icon: '/assets/icons/baby_64.png',
                 image: '/assets/icons/baby_64.png',
                 vibrate: [300, 200, 300],
