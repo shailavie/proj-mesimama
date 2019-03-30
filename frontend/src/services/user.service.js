@@ -10,7 +10,8 @@ export default {
     setUserSession,
     getUserById,
     getUsers,
-    updateGroupNotifications
+    updateGroupNotifications,
+    getIntroUsers
 }
 
 
@@ -71,6 +72,16 @@ function getUsers() {
             })
     })
 }
+function getIntroUsers(directorId) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${BASE_URL}/users/loadIntroGroup/${directorId}`)
+            .then(res => {
+                let users = res.data
+                resolve(users)
+            })
+    })
+}
+
 
 //update user notifications 
 function updateGroupNotifications(group, notification) {

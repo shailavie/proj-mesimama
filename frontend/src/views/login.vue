@@ -35,6 +35,11 @@ export default {
   },
   data() {
     return {
+      usersId: [
+        "5c98fa5eb687d600001a8d83",
+        "5c98fb581c9d4400002a2a3d",
+        "5c98fad51c9d4400002a2a3c"
+      ],
       notificationsSupported: false,
       role: "",
       input: {
@@ -46,7 +51,10 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("loadGroup");
+    this.$store.dispatch({
+      type: "loadIntroGroup",
+      directorId: "5c98fa5eb687d600001a8d83"
+    });
     if ("Notification" in window && "serviceWorker" in navigator) {
       this.notificationsSupported = true;
     }
@@ -62,12 +70,13 @@ export default {
       return this.isMember ? "Already a member? " : "New to Mesimama? ";
     },
     demoUsers() {
-      return this.$store.getters.currGroup.filter(
-        user =>
-          user.name === "Tamar" ||
-          user.name === "Ruti" ||
-          user.name === "Yonatan"
-      );
+      return this.$store.getters.introGroup;
+      // .filter(
+      //   user =>
+      //     user.name === "Tamar" ||
+      //     user.name === "Ruti" ||
+      //     user.name === "Yonatan"
+      // );
     }
   },
   methods: {
