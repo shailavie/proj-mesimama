@@ -3,7 +3,7 @@
     <section class="all-tasks-panel">
       <div class="all-tasks-panel-inside">
         <!-- My Tasks -->
-
+        <button @click="doneTask">Done qa</button>
         <task-list-cmp
           v-if="userToShow"
           :tasks="myTasksToShow"
@@ -60,6 +60,9 @@
       <podium-board-cmp></podium-board-cmp>
       <photo-gallery class="photo-gallery"/>
     </section>
+
+    <!-- Task Done Popup -->
+    <task-done-msg v-if="showTaskDoneMsg" :time="5000" @close-task-done-msg="closeTaskDoneMsg"></task-done-msg>
   </section>
 </template>
 
@@ -69,6 +72,7 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
 import photoGallery from "../components/photo-gallery-cmp.vue";
+import taskDoneMsg from "../components/task-done-cmp.vue";
 import socketService from "../services/socket.service.js";
 
 export default {
@@ -77,7 +81,8 @@ export default {
     taskListCmp,
     podiumBoardCmp,
     dashBoard,
-    photoGallery
+    photoGallery,
+    taskDoneMsg
   },
   data() {
     return {
@@ -87,7 +92,8 @@ export default {
       },
       user: null,
       showMyTasks: true,
-      showUnOwnedTasks: true
+      showUnOwnedTasks: true,
+      showTaskDoneMsg: false
     };
   },
   created() {
@@ -134,11 +140,15 @@ export default {
     }
   },
   methods: {
+    closeTaskDoneMsg() {
+      this.showTaskDoneMsg = false;
+    },
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
     },
     doneTask(task) {
       this.$store.dispatch("markDone", task);
+      this.showTaskDoneMsg = true;
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);

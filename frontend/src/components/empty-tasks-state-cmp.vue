@@ -4,7 +4,6 @@
       <h2>No Tasks?</h2>
       <img class="empty-state-img" src="/img/icons/emptyState.png">
       <h4>Me and mom have a nickname for people with no tasks..</h4>
-      <!-- <a href="#unOwnedTasksToShow">Do stuff</a> -->
     </div>
   </section>
 </template>

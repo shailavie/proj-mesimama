@@ -29,8 +29,6 @@
             <img class="task-info-item" src="@/assets/icons/hourglass.svg">
             <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
           </div>
-          <!-- <img class="task-info-item" src="@/assets/icons/information.svg">
-          <small>more info</small>&nbsp;-->
         </div>
       </div>
 
@@ -48,11 +46,6 @@
         >
           <a class="task-action-btn-toggle">
             {{passOrOwnTask}}
-            <!-- <img
-            v-if="task.helperId"
-            class="checkmark"
-            src="@/assets/icons/pass.svg"
-            >-->
           </a>
         </div>
 
@@ -106,7 +99,7 @@ export default {
       }
     },
     showTaskDetails(taskId) {
-      this.$router.push(`details/${taskId}`);
+      this.$router.push(`/app/details/${taskId}`);
     },
     editTask(taskId) {
       this.$emit("task-edit", taskId);

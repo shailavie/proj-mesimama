@@ -257,6 +257,7 @@ button.el-button--default:hover {
   color: #fff;
 }
 
+
 // Helpers
 
 .flex {
@@ -275,6 +276,9 @@ button.el-button--default:hover {
 }
 .column {
   flex-direction: column;
+}
+.row {
+  flex-direction: row;
 }
 .space-between {
   justify-content: space-between;

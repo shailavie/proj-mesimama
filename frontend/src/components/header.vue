@@ -77,13 +77,8 @@ export default {
   },
   data() {
     return {
-      // user: null,
       role: ""
     };
-  },
-  created() {
-    // this.user = this.$store.getters.currUser;
-    // console.log('got here with user', this.user)
   },
   methods: {
     addTask() {
