@@ -7,7 +7,7 @@ import userService from '../services/user.service.js'
 import utilService from '../services/util-service.js'
 
 
-var socket = (process.env.NODE_ENV !== 'development')? ioClient('') : ioClient('//localhost:3003'); 
+var socket = (process.env.NODE_ENV !== 'development') ? ioClient('') : ioClient('//localhost:3003');
 
 
 const msgs = []
@@ -34,7 +34,7 @@ function createEmptyMsg(txt = '', nickName) {
 connectSocket()
 
 function connectSocket() {
-	
+
 	console.log('New socket is connected!')
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
@@ -53,13 +53,15 @@ function connectSocket() {
 		_toasting(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
 	})
 	//TASK WAS PASSED
-	socket.on('publishPassedTask', task => {
-		refreshTasks()
-		refreshUserTasks()
+	socket.on('publishPassedTask', async function passRefreshCallback(task) {
+		await refreshTasks()
+		await refreshUser()
+		await refreshUserTasks()
 		_toasting(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
 	})
+
 	//TASK WAS UPDATED
-	socket.on('publishUpdatedTask',task=>{
+	socket.on('publishUpdatedTask', task => {
 		refreshTasks()
 		refreshUserTasks()
 		pushService.pushNotification()

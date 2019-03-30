@@ -105,7 +105,6 @@ export default {
       this.$emit("task-edit", taskId);
     },
     markDone(task) {
-      console.log("at preview");
       this.$emit("task-done", task);
     },
     removeTask(taskId) {
@@ -126,7 +125,6 @@ export default {
     },
     toggleActions() {
       this.showMainActions = !this.showMainActions;
-      console.log(this.showMainActions);
       this.showTaskActions = !this.showTaskActions;
     }
   },

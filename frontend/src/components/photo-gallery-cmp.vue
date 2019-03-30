@@ -1,11 +1,18 @@
 <template>
   <section class="gallery">
     <masonry :cols="2" :gutter="5">
+      <figure v-for="img in urls" :key="img._id" class="img-container">
+        <img :src="img.url" class="gallery-item">
+      </figure>
+    </masonry>
+  </section>
+  <!-- <section class="gallery">
+    <masonry :cols="2" :gutter="5">
       <figure v-for="i in 9" :key="i" class="img-container">
         <img :src="imgSrc(i)" class="gallery-item">
       </figure>
     </masonry>
-  </section>
+  </section> -->
 </template>
 
 <script>
@@ -15,7 +22,12 @@ export default {
       return require(`@/assets/img/baby${i}.jpg`);
     }
   },
-  computed: {}
+  computed: {
+        urls() {
+      let urlObjArray = this.$store.getters.urls;
+      return urlObjArray;
+    },
+  }
 };
 </script>
 

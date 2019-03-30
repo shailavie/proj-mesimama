@@ -1,5 +1,7 @@
 import taskService from '../../services/task-service.js'
 import userService from '../../services/user.service.js'
+import utilService from '../../services/util-service.js';
+import imgService from '../../services/img-service.js';
 
 
 
@@ -15,10 +17,15 @@ const userStore = {
       state.currDirector = director
     },
     updateDirectoreUrls(state, { url }) {
+      let imgObj = {
+        url: url,
+        _id: utilService.makeId()
+      }
+      console.log('img obj', imgObj)
       //  urls.forEach((url)=>{
       //   state.currDirector.imgUrls.unshift(url)
       //  })
-      state.currDirector.imgUrls.unshift(url)
+      state.currDirector.imgUrls.unshift(imgObj)
 
     },
     loadCurrDirector(state, { directorIdx }) {
@@ -44,6 +51,17 @@ const userStore = {
 
   },
   actions: {
+    async deleteImg(context, { url }) {
+      console.log('URL', url)
+      let imgId = url._id
+      let director = context.state.currDirector
+      let urlIdx = director.imgUrls.findIndex(img => img._id === imgId)
+      console.log('IDX', urlIdx)
+      director.imgUrls.splice(urlIdx, 1)
+      console.log('imgs:',director.imgUrls)
+      await userService.updateUser(director)
+      context.dispatch('loadCurrDirector')
+    },
     async updateDirectorOnServer(context, { user }) {
       let director = await userService.updateUser(user)
       context.commit({ type: 'updateDirectorOnServer', director })
@@ -109,7 +127,6 @@ const userStore = {
 
     },
     notificationCounter(state) {
-      console.log('updating notifs counter', state.currUser.notifications[0])
       var unReadNotifications = state.currUser.notifications.filter((notification) => {
         return !notification.isRead
       })

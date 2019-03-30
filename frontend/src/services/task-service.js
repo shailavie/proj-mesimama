@@ -84,7 +84,6 @@ function ownTask(taskId) {
     })
 }
 function passTask(taskId) {
-    console.log('PASSING IT!')
     return new Promise((resolve, reject) => {
         axios.put(`${BASE_URL}/tasks/${taskId}/pass`)
             .then((res) => {

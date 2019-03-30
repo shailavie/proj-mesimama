@@ -4,7 +4,7 @@
       <div class="logo-container">
         <div class="header-logo">Mesimama</div>
       </div>
-     
+
       <div class="main-nav">
         <!-- qa -->
         <div class="login">
@@ -106,7 +106,14 @@ export default {
       return this.currUser.avatarUrl;
     },
     counter() {
-      return this.$store.getters.notificationCounter;
+      console.log('update counter at header')
+      let user = this.$store.getters.currUser;
+      let unReadNotifications = user.notifications.filter(
+        notification => {
+          return !notification.isRead;
+        }
+      );
+      return unReadNotifications.length;
     },
     score() {
       return this.$store.getters.currUser.score;

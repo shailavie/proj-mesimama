@@ -20,12 +20,8 @@ function uploadImg(imgUrl) {
   formData.append('file', imgUrl[0]);
   formData.append('upload_preset', uploadPreset);
   return new Promise((resolve, reject) => {
-    console.log('AT SERVICE WITH FILE: ', formData)
-    console.log('url for axios: ', urlForAxios)
     axios.post(urlForAxios, formData).then(res => {
-      console.log('FROM AXIOS ', res)
       let url = res.data.secure_url
-      console.log('AT IMG SERVICE ', url)
       resolve(url)
     });
   })
@@ -53,13 +49,11 @@ function uploadPictures(files) {
       formData.append('upload_preset', uploadPreset);
       axios.post(urlForAxios, formData)
         .then(res => {
-          console.log(res.data.secure_url)
           resolve(res.data.secure_url);
         }, err => {
           reject(err)
         });
     })
-    console.log(prm._v)
     prms.push(prm._v)
   });
   // Promise.all(prms).then((values)=>{
