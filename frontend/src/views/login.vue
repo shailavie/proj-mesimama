@@ -1,19 +1,27 @@
 <template>
-  <section class="login">
-    <h1>Welcome to the Family.</h1>
-    <h5>v1</h5>
-    <section class="flex row">
-      <div v-for="user in demoUsers" :key="user._id">
-        <div class="user-box ml30" @click.prevent="setRole(user._id)">
-          <user-avatar :url="user.avatarUrl" :user="user" :profileImg="true" :clickable="false"/>
-          <h4 class="mbt30">{{user.name}}</h4>
-        </div>
+  <section class="login-container">
+    <div class="wrapper">
+      <div class="login">
+        <h1>Welcome to the Family.</h1>
+        <!-- <h5>v1</h5> -->
+        <section class="users-container">
+          <div v-for="user in demoUsers" :key="user._id" class="user-avatar-container">
+            <div class @click.prevent="setRole(user._id)">
+              <user-avatar
+                :url="user.avatarUrl"
+                :user="user"
+                :profileImg="true"
+                :clickable="false"
+              />
+              <h4 class="mbt30">{{user.name}}</h4>
+            </div>
+          </div>
+        </section>
+
+        <button class="demo-btn" @click="enterDemo">Enter Demo</button>
+        <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
       </div>
-    </section>
-
-    <button class="demo-btn" @click="enterDemo">Enter Demo</button>
-    <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
-
+    </div>
   </section>
 </template>
 
@@ -100,14 +108,18 @@ export default {
 
 
 <style lang="scss" scoped>
+.login-container {
+  background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
+}
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
   color: #fff;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 40px 0;
+  text-align: center;
 }
 a {
   cursor: pointer;
@@ -121,7 +133,6 @@ h1 {
 .login-page-container {
   display: flex;
   flex-direction: row;
-  height: 100vh;
   width: 100vw;
 }
 .login-banner-container {
@@ -139,53 +150,21 @@ h1 {
   color: #fff;
   flex-grow: 1;
 }
-.is-member-call {
-  color: #999;
-}
-.login-form {
-  margin-top: 10px;
-  max-width: 300px;
-}
 
-.sign-up-btn {
-  margin-top: 10px;
-  width: 100%;
-}
-.cta {
-  font-weight: 500;
-  opacity: 0.9;
-}
-.set-role-btn {
-  margin-left: 5px;
-  background: transparent;
-  color: #fff;
-}
 .demo-btn {
   width: 350px;
   height: 100px;
-  border: 3px solid white;
+  border: 2px solid white;
   background-color: transparent;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 24px;
   color: white;
   margin: 40px;
   cursor: pointer;
   transition: 0.1s linear;
   &:hover {
-    background-color: lightsalmon;
+    background: rgba(255, 255, 255, 0.1);
   }
-}
-@media (max-width: 768px) {
-  .login-page-container {
-    flex-direction: column;
-  }
-  .login-banner-container {
-    order: -1;
-    flex-basis: 200px;
-  }
-}
-
-.login-page-el-input .el-input__inner {
 }
 
 .choose-user {
@@ -221,11 +200,21 @@ h1 {
   margin-bottom: 10px;
 }
 
-.user-box {
+.users-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 60%;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 700px) {
+  .users-container {
+    flex-direction: column;
+    max-width: fit-content;
+  }
+}
+
+.user-avatar-container {
+  text-align: center;
 }
 </style>
 
