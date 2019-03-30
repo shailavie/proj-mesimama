@@ -1,32 +1,15 @@
 <template>
   <section class="login">
     <h1>Welcome to the Family.</h1>
-    <div class="choose-user">
-      <div class="user-box">
-        <span
-          style="background-image:url('https://scontent.ftlv6-1.fna.fbcdn.net/v/t1.0-9/40515553_10216085148102132_1645739650016346112_o.jpg?_nc_cat=105&_nc_ht=scontent.ftlv6-1.fna&oh=a03924aa5cf182d0ead07372a25e4ca6&oe=5D121E1B');"
-          @click.prevent="setRole('5c98fa5eb687d600001a8d83')"
-          class="login-avatar"
-        ></span>
-        <span>Tamar</span>
+    <section class="flex row">
+      <div v-for="user in demoUsers" :key="user._id">
+        <div class="user-box ml30" @click.prevent="setRole(user._id)">
+          <user-avatar :url="user.avatarUrl" :user="user" :profileImg="true" :clickable="false"/>
+          <h4 class="mbt30">{{user.name}}</h4>
+        </div>
       </div>
-      <div class="user-box">
-        <span
-          style="background-image:url('https://scontent.ftlv6-1.fna.fbcdn.net/v/t1.0-9/14333644_10154601159832375_66942999029735933_n.jpg?_nc_cat=109&_nc_ht=scontent.ftlv6-1.fna&oh=6fd6dde4ef4b2b68c9a03bc16cc1df34&oe=5D16060D');"
-          @click.prevent="setRole('5c98fb581c9d4400002a2a3d')"
-          class="login-avatar"
-        ></span>
-        <span>Ruti</span>
-      </div>
-      <div class="user-box">
-        <span
-          style="background-image:url('https://scontent.ftlv6-1.fna.fbcdn.net/v/t31.0-8/16797654_10211254147530137_4861005975568511724_o.jpg?_nc_cat=106&_nc_ht=scontent.ftlv6-1.fna&oh=9411dd7bd166dfa7a244f436c785983d&oe=5D127B09');"
-          @click.prevent="setRole('5c98fad51c9d4400002a2a3c')"
-          class="login-avatar"
-        ></span>
-        <span>Yonatan</span>
-      </div>
-    </div>
+    </section>
+
     <button class="demo-btn" @click="enterDemo">Enter Demo</button>
     <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
   </section>
@@ -52,10 +35,11 @@ export default {
       test: null
     };
   },
-  created(){
-    if ('Notification' in window && 'serviceWorker' in navigator) {
-            this.notificationsSupported = true
-        }
+  created() {
+    this.$store.dispatch("loadGroup");
+    if ("Notification" in window && "serviceWorker" in navigator) {
+      this.notificationsSupported = true;
+    }
   },
   computed: {
     loginSignupCTA() {
@@ -67,8 +51,13 @@ export default {
     loginSignupMsg() {
       return this.isMember ? "Already a member? " : "New to Mesimama? ";
     },
-    currUser() {
-      return this.$store.getters.currUser;
+    demoUsers() {
+      return this.$store.getters.currGroup.filter(
+        user =>
+          user.name === "Tamar" ||
+          user.name === "Ruti" ||
+          user.name === "Yonatan"
+      );
     }
   },
   methods: {
@@ -116,6 +105,7 @@ export default {
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
   color: #fff;
   flex-direction: column;
+  height: 100vh;
 }
 a {
   cursor: pointer;
@@ -129,7 +119,7 @@ h1 {
 .login-page-container {
   display: flex;
   flex-direction: row;
-  // height: 100vh;
+  height: 100vh;
   width: 100vw;
 }
 .login-banner-container {
@@ -213,7 +203,8 @@ h1 {
     width: auto;
     padding: 0 40px;
   }
-  h1,h4 {
+  h1,
+  h4 {
     text-align: center;
     margin: 20px auto;
   }
