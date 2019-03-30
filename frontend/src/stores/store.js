@@ -110,14 +110,16 @@ const store = new Vuex.Store({
         socketService.emit('updateTask', task)
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
-        let group = await context.getters.currGroup
+        //refresh group at state
+       await context.dispatch({type:'loadGroup'})
+        let group =  context.getters.currGroup
         let newTask = await taskService.addTask(task)
         var notification = {
           name: `task title: ${task.title} was added, see if you can help!`,
           isRead: false,
           createdAt: newTask.createdAt
         }
-        userService.updateGroupNotifications(group, notification)
+       await userService.updateGroupNotifications(group, notification)
         await context.dispatch({ type: 'loadGroup' })
         //adding new task to local array
         context.commit({ type: 'addTask', newTask })

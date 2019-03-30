@@ -22,6 +22,7 @@ function getCurrUser() {
     return new Promise((resolve, reject) => {
         axios.get(`${BASE_URL}/users/current`)
             .then(res => {
+                console.log('got curr user: ', res.data.notifications)
                 let user = res.data
                 resolve(user)
             })
@@ -35,6 +36,8 @@ function updateUser(user) {
         axios.put(`${BASE_URL}/users`, user)
             .then(res => {
                 let updatedUser = res.data
+                if (updatedUser.name==='Yonatan') console.log(updatedUser.notifications)
+                console.log('updated user, now returning')
                 resolve(updatedUser)
             })
     })
@@ -76,6 +79,7 @@ function updateGroupNotifications(group, notification) {
     group.forEach((user) => {
         if (!user.isDirector) {
             let notifs = user.notifications
+            if (user.name==='Yonatan')console.log(user.notifications)
             if (notifs.length > 9) {
                 notifs.pop()
                 notifs.unshift(notification)
