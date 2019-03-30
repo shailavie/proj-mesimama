@@ -22,7 +22,6 @@ function getCurrUser() {
     return new Promise((resolve, reject) => {
         axios.get(`${BASE_URL}/users/current`)
             .then(res => {
-                console.log('got curr user: ', res.data.notifications)
                 let user = res.data
                 resolve(user)
             })
@@ -33,11 +32,10 @@ function getCurrUser() {
 //Update user
 function updateUser(user) {
     return new Promise((resolve, reject) => {
+        console.log('got to update user')
         axios.put(`${BASE_URL}/users`, user)
             .then(res => {
                 let updatedUser = res.data
-                if (updatedUser.name==='Yonatan') console.log(updatedUser.notifications)
-                console.log('updated user, now returning')
                 resolve(updatedUser)
             })
     })
@@ -76,20 +74,26 @@ function getUsers() {
 
 //update user notifications 
 function updateGroupNotifications(group, notification) {
+    var promises = []
     group.forEach((user) => {
         if (!user.isDirector) {
             let notifs = user.notifications
-            if (user.name==='Yonatan')console.log(user.notifications)
+            if (user.name === 'Yonatan') console.log(user.notifications)
             if (notifs.length > 9) {
                 notifs.pop()
                 notifs.unshift(notification)
             } else notifs.unshift(notification)
             user.notifications = notifs
-            updateUser(user)
-                .then((res) => {
-                    console.log(res.data)
-                })
+            promises.push(
+                updateUser(user)
+                    .then((res) => {
+                    })
+            )
         }
+    })
+    return Promise.all(promises)
+    .then((res) => {
+        return 
     })
 }
 

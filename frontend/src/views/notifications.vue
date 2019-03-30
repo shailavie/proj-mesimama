@@ -11,7 +11,13 @@
         v-for="(notification,idx) in user.notifications"
         :key="idx"
         :class="isRead(notification)"
-      >{{notification.name}} - {{notification.createdAt | moment("from", "now")}}</li>
+      >
+      <div class="notification-card" >
+        {{notification.name}} <br>
+        was  {{notification.status}}<br>
+        ( {{notification.createdAt | moment("from", "now")}}    )
+      <button @click="taskDetails(notification.taskId)" >See Task </button>   
+        </div>  </li>
     </ul>
   </section>
 </template>
@@ -29,6 +35,10 @@ export default {
   created() {
   },
   methods: {
+    taskDetails(taskId){
+      console.log(taskId)
+      this.$router.push(`/app/details/${taskId}`)
+    },
     isRead(notification) {
       return notification.isRead ? "read" : "unRead";
     }
@@ -49,7 +59,20 @@ export default {
   font-weight: bold;
 }
 li {
-  list-style: circle;
+  list-style: none;
+}
+li:nth-child(even){
+  background-color: #CCC;
+}
+li:nth-child(odd){
+  background-color: #FFF;
+}
+.notification-card{
+  font-size: 24px;
+  padding: 15px;
+}
+button{
+  cursor: pointer;
 }
 </style>
 

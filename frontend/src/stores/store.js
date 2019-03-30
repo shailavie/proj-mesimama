@@ -83,14 +83,18 @@ const store = new Vuex.Store({
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
       var notification = {
-        name: `${task.title} was passed, see if you can help out`,
+        name: `${task.title}`,
+        status: 'passed',
         isRead: false,
-        createdAt: task.createdAt
+        createdAt: Date.now(),
+        taskId: id
       }
       var obj = {
         task,
         notification
       }
+      let group = context.getters.currGroup
+      await userService.updateGroupNotifications(group, notification)
       socketService.emit('taskPassed', obj)
     },
     async markDone(context, task) {
@@ -110,16 +114,26 @@ const store = new Vuex.Store({
         socketService.emit('updateTask', task)
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
-        //refresh group at state
-       await context.dispatch({type:'loadGroup'})
-        let group =  context.getters.currGroup
+
+        //  await context.dispatch({type:'loadGroup'})
+
+        //get group
+        let group = context.getters.currGroup
+        //add task on database
         let newTask = await taskService.addTask(task)
+        //make new 'news'
         var notification = {
-          name: `task title: ${task.title} was added, see if you can help!`,
+          name: `${task.title} `,
+          status: 'added',
           isRead: false,
-          createdAt: newTask.createdAt
+          createdAt: newTask.createdAt,
+          taskId: newTask._id
         }
-       await userService.updateGroupNotifications(group, notification)
+        //update all group users with the new 'news'
+        console.log(notification)
+        await userService.updateGroupNotifications(group, notification)
+        //refresh group at state after news update
+        console.log('after updating the users, we are loading the group from the database')
         await context.dispatch({ type: 'loadGroup' })
         //adding new task to local array
         context.commit({ type: 'addTask', newTask })
@@ -136,8 +150,8 @@ const store = new Vuex.Store({
       await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
       // context.dispatch({type:'updateCurrDirector'})
     },
-    async uploadImgs(context,{files}){
-      let urls= await imgService.uploadPictures(files)
+    async uploadImgs(context, { files }) {
+      let urls = await imgService.uploadPictures(files)
       context.commit({ type: 'updateDirectoreUrls', urls })
       await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
     },

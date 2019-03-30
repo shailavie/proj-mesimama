@@ -7,7 +7,7 @@
       <br>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in pics" :key="idx" class="img-container">
-          <img :src="url" class="gallery-item">
+          <img :src="url.url" class="gallery-item">
         </figure>
       </masonry>
       <br>
@@ -40,7 +40,8 @@
 
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in urls" :key="idx" class="img-container">
-          <img :src="url" class="gallery-item">
+          <img :src="url.url" class="gallery-item">
+          <button @click="deleteImg(url)">X</button>
         </figure>
       </masonry>
     </section>
@@ -59,6 +60,10 @@ export default {
   methods: {
     upload(file) {
       this.$store.dispatch({ type: "uploadImg", file });
+    },
+    deleteImg(url){
+      console.log(url)
+      this.$store.dispatch({type:'deleteImg',url})
     }
   },
   async created() {
