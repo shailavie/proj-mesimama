@@ -3,7 +3,6 @@
     <section class="all-tasks-panel">
       <div class="all-tasks-panel-inside">
         <!-- My Tasks -->
-        <button @click="doneTask">Done qa</button>
         <task-list-cmp
           v-if="userToShow"
           :tasks="myTasksToShow"

@@ -1,7 +1,6 @@
 <template>
-  <section v-if="taskToEdit" class="task-edit-page">
-    <div class="task-details-container">
-      <div class="task-details-center-box">
+  <section v-if="taskToEdit" class="task-edit-page flex">
+    <div class="task-edit-container flex column center-hor">
         <!-- Task Edit/Add form -->
         <div class="task-title-container">
           <h1>Add Task</h1>
@@ -16,34 +15,40 @@
         >
           <!-- Title -->
           <el-form-item label="Title">
-            <el-input
-              type="text"
-              class="form-input"
-              :maxlength="25"
-              v-model="taskToEdit.title"
-              placeholder="Enter task title.."
-              clearable
-            ></el-input>
-            <speech-to-text
-              class="speech-to-text-btn"
-              :text.sync="taskToEdit.title"
-              @speechend="speechEnd"
-            ></speech-to-text>
+            <div class="flex form-input">
+              <el-input
+                type="text"
+                :maxlength="25"
+                v-model="taskToEdit.title"
+                placeholder="Enter task title.."
+                clearable
+              ></el-input>
+              <speech-to-text
+                class="speech-to-text-btn"
+                :text.sync="taskToEdit.title"
+                @speechend="speechEnd"
+              ></speech-to-text>
+            </div>
           </el-form-item>
+
           <!-- Desription -->
           <el-form-item label="Description">
-            <el-input
-              type="textarea"
-              rows="3"
-              class="form-input"
-              v-model="taskToEdit.desc"
-              placeholder="Enter some more info.."
-            ></el-input>
-            <speech-to-text
-              class="speech-to-text-btn"
-              :text.sync="taskToEdit.desc"
-              @speechend="speechEnd"
-            ></speech-to-text>
+            <div class="flex form-input">
+              <el-input
+                type="textarea"
+                rows="3"
+                class="form-input"
+                v-model="taskToEdit.desc"
+                placeholder="Enter some more info.."
+              ></el-input>
+              <div>
+                <speech-to-text
+                  class="speech-to-text-btn"
+                  :text.sync="taskToEdit.desc"
+                  @speechend="speechEnd"
+                ></speech-to-text>
+              </div>
+            </div>
           </el-form-item>
           <!-- Points -->
           <el-form-item label="Task Points">
@@ -64,18 +69,19 @@
             ></el-date-picker>
           </el-form-item>
 
-          <div class="row upload-file">
-            <div class="col-md-12">
-              <input
-                type="file"
-                class="form-control"
-                v-on:change="uploadTaskImg($event.target.files)"
-                accept="image/*"
-              >
-            </div>
-          </div>
+          <label class="upload-file flex column center-all">
+            <h2>+</h2>
+            <h5>Choose an image</h5>
+            <input
+              type="file"
+              class="form-control"
+              v-on:change="uploadTaskImg($event.target.files)"
+              accept="image/*"
+            >
+          </label>
+
           <div v-if="taskToEdit.imgUrl">
-            <img :src="taskToEdit.imgUrl" alt>
+            <img class="uploaded-task-img" :src="taskToEdit.imgUrl" alt>
           </div>
 
           <!-- Assign to -->
@@ -89,17 +95,22 @@
           <!-- Main CTA -->
 
           <el-form-item>
-            <el-button type="success" @click.native.prevent="saveTask">Save Task</el-button>
             <el-button
               v-if="taskToEdit._id"
               class="remove-btn"
-              type="secondary"
+              type="danger"
               @click.native.prevent="removeTask"
-            >Delete Task</el-button>
+              circle
+              icon="el-icon-delete"
+            ></el-button>
+            <el-button
+              class="save-task-btn"
+              type="success"
+              @click.native.prevent="saveTask"
+            >Save Task</el-button>
           </el-form-item>
         </el-form>
       </div>
-    </div>
   </section>
 </template>
 
@@ -147,13 +158,13 @@ export default {
       this.taskToEdit.dueAt = this.sameHourTommorrow();
     }
 
-      // Generating an "Assign to" list and removing the director 
+    // Generating an "Assign to" list and removing the director
     this.group = utilService.deepCopy(this.$store.getters.currGroup);
     this.directorId = this.$store.getters.currDirectorId;
     let directorIdx = this.group.findIndex(
       user => user._id === this.directorId
     );
-    this.group.splice(directorIdx, 1); 
+    this.group.splice(directorIdx, 1);
 
     var shakeEvent = new Shake({ threshold: 15 });
     shakeEvent.start();
@@ -179,8 +190,8 @@ export default {
       this.taskToEdit.imgUrl = url;
     },
     handleShake() {
-      this.taskToEdit.title = ''
-      this.taskToEdit.desc = ''
+      this.taskToEdit.title = "";
+      this.taskToEdit.desc = "";
     },
     speechEnd({ sentences, text }) {
       console.log("text", text);
@@ -216,9 +227,52 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.task-edit-container {
+  background-color: #fff;
+  width: 100vw;
+  margin: 0;
+}
+.form-control {
+  position: absolute;
+  opacity: 0;
+}
+.upload-file {
+  width: 220px;
+  height: 220px;
+  border: 2px dashed lightblue;
+  font-size: 20px;
+  color: lightblue;
+  cursor: pointer;
+}
+@media (max-width: 500px) {
+  .remove-btn {
+    margin: 0 auto;
+    margin-bottom: 120px;
+  }
+  .save-task-btn {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    bottom: 0;
+    left: 0;
+    font-size: 20px;
+  }
+}
+.el-form-item {
+  font-weight: bolder;
+}
+.uploaded-task-img {
+  width: 300px;
+  // height: auto;
+}
 @media (max-width: 768px) {
   .task-edit-page {
-    margin-top: -30px;
+    margin-top: -40px;
+    background-color: white;
+  }
+  .form-input {
+    width: 200px;
+    margin-right: 10px;
   }
 }
 
@@ -236,9 +290,11 @@ export default {
 }
 .speech-to-text-btn {
   display: inline-block;
+  margin-left: 10px;
 }
 .edit-task-form {
   padding: 40px;
+  background-color: #fff;
 }
 
 .task-title-container {
@@ -248,7 +304,7 @@ export default {
   font-size: 50%;
 }
 
-.task-details-center-box {
+.task-edit-center-box {
   padding: 0;
   flex-direction: column;
 }

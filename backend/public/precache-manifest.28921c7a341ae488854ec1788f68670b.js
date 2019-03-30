@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
-    "url": "/img/baby2.9b47d9b4.jpg"
+    "revision": "63264af46e6cf9a255d5efbda002bfdb",
+    "url": "/img/baby3.63264af4.jpg"
   },
   {
     "revision": "ac437d8fd50c2b8d41bdf5e9d3e09264",
@@ -16,20 +16,24 @@ self.__precacheManifest = [
     "url": "/js/chunk-vendors.97bca030.js"
   },
   {
-    "revision": "c9f8d7d33b67f6cdd36ce85c4f0b76fa",
+    "revision": "82cbeecda8b4c748a185a7431d1ec921",
     "url": "/index.html"
   },
   {
-    "revision": "52119316e621c7dce09d",
-    "url": "/js/app.c23c4a76.js"
+    "revision": "5e1c1e8efd024fa38ae4",
+    "url": "/js/app.8e4964dc.js"
   },
   {
-    "revision": "37ad33da11e0aefa65d70603c30cb32f",
-    "url": "/img/babytasks.37ad33da.png"
+    "revision": "94b647cc22a3380c09a828727ceb2ccd",
+    "url": "/img/arrow-down.94b647cc.svg"
   },
   {
     "revision": "6f0a76321d30f3c8120915e57f7bd77e",
     "url": "/fonts/element-icons.6f0a7632.ttf"
+  },
+  {
+    "revision": "156540b1d63e00a1b7834bc798bc1fae",
+    "url": "/img/login-banner.156540b1.jpg"
   },
   {
     "revision": "18fd2d4a32acc604097da6dc55a3cb02",
@@ -40,8 +44,8 @@ self.__precacheManifest = [
     "url": "/img/baby4.b19b2e45.jpg"
   },
   {
-    "revision": "f1eb40660164b8b6dafcb4bfa4a3844f",
-    "url": "/img/reward-box.f1eb4066.png"
+    "revision": "2c7dc9d1551067f044a7023024a72848",
+    "url": "/img/task-done1.2c7dc9d1.png"
   },
   {
     "revision": "8743fdb5fcaaa2513b63bbe468e4a654",
@@ -60,28 +64,28 @@ self.__precacheManifest = [
     "url": "/img/gold.ad303be1.svg"
   },
   {
-    "revision": "63264af46e6cf9a255d5efbda002bfdb",
-    "url": "/img/baby3.63264af4.jpg"
+    "revision": "d1a0884bfd3fe149f17684bd8afc014e",
+    "url": "/img/users/dad.jpg"
   },
   {
-    "revision": "517c2e9244d189c810325839caafd3ae",
-    "url": "/img/users/grampa.jpeg"
+    "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
+    "url": "/img/baby2.9b47d9b4.jpg"
   },
   {
     "revision": "ba816909b9b42eaa85bde659bedd0de4",
     "url": "/img/baby7.ba816909.jpg"
   },
   {
-    "revision": "156540b1d63e00a1b7834bc798bc1fae",
-    "url": "/img/login-banner.156540b1.jpg"
-  },
-  {
     "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
     "url": "/img/baby1.250570d3.jpg"
   },
   {
-    "revision": "94b647cc22a3380c09a828727ceb2ccd",
-    "url": "/img/arrow-down.94b647cc.svg"
+    "revision": "f1eb40660164b8b6dafcb4bfa4a3844f",
+    "url": "/img/reward-box.f1eb4066.png"
+  },
+  {
+    "revision": "37ad33da11e0aefa65d70603c30cb32f",
+    "url": "/img/babytasks.37ad33da.png"
   },
   {
     "revision": "ac9ba77c95763ee62f1d86a86399b53a",
@@ -112,8 +116,8 @@ self.__precacheManifest = [
     "url": "/icons/star.svg"
   },
   {
-    "revision": "d1a0884bfd3fe149f17684bd8afc014e",
-    "url": "/img/users/dad.jpg"
+    "revision": "517c2e9244d189c810325839caafd3ae",
+    "url": "/img/users/grampa.jpeg"
   },
   {
     "revision": "2fad952a20fbbcfd1bf2ebb210dccf7a",
@@ -124,7 +128,7 @@ self.__precacheManifest = [
     "url": "/css/chunk-vendors.ef2a2ae9.css"
   },
   {
-    "revision": "52119316e621c7dce09d",
-    "url": "/css/app.e644ecaa.css"
+    "revision": "5e1c1e8efd024fa38ae4",
+    "url": "/css/app.da779d76.css"
   }
 ];

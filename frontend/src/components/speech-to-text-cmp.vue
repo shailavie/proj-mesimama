@@ -1,14 +1,11 @@
 
- 
+
 <template>
   <section>
     <el-button
       class="speech-to-text-btn"
       dark
       @click.stop.native.prevent="toggle ? endSpeechRecognition() : startSpeechRecognition()"
-      icon
-      :color="!toggle ? 'grey' : (speaking ? 'red' : 'red darken-3')"
-      :class="{'animated infinite pulse': toggle}"
     >
       <el-icon>{{toggle ? 'mic_off' : 'mic'}}</el-icon>
     </el-button>
@@ -54,11 +51,14 @@ export default {
         sentences: this.sentences,
         text: this.sentences.join(". ")
       });
+      setTimeout(() => {
+        this.sentences = "";
+      }, 1000);
     },
     startSpeechRecognition() {
       setTimeout(() => {
-        console.log('Stopping recording afte 5s')
-        this.endSpeechRecognition()
+        console.log("Stopping recording afte 5s");
+        this.endSpeechRecognition();
       }, 5000);
       if (!recognition) {
         this.error =
@@ -127,5 +127,4 @@ export default {
 }
 </style>
 
-    
- 
+
