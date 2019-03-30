@@ -211,7 +211,7 @@ h1 {
 
 .users-container {
   display: flex;
-  width: 60%;
+  width: 90%;
   justify-content: space-evenly;
 }
 

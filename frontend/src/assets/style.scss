@@ -73,7 +73,6 @@ header {
   max-width: 1200px;
   margin: 0 auto;
 }
- 
 
 footer {
   height: 60px;
@@ -178,8 +177,8 @@ main {
   font-weight: bolder;
   height: 18px;
   width: 18px;
-  left: -7px;
-  top: -5px;
+  right: -6px;
+  top: -8px;
   background: red;
   color: #fff;
 }
@@ -220,7 +219,7 @@ main {
 
 .task-details-center-box {
   padding: 40px;
-  flex-basis: 60%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -257,6 +256,9 @@ button.el-button--default:hover {
   color: #fff;
 }
 
+.upload-file {
+  cursor: pointer;
+}
 
 // Helpers
 
@@ -304,8 +306,8 @@ button.el-button--default:hover {
 .center-hor {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%)
+  transform: translateX(-50%);
 }
-.grow{
+.grow {
   flex-grow: 1;
 }

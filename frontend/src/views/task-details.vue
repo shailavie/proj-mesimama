@@ -128,6 +128,8 @@ export default {
   width: 300px;
   margin-bottom: 20px;
 }
+
+
 @media (max-width: 768px) {
   .task-details-center-box {
     flex-direction: column;
