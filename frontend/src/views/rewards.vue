@@ -8,7 +8,7 @@
           <img :src="url.url" class="gallery-item">
         </figure>
       </masonry>
-      <h2>{{user.name}}, you have {{user.score}} points, do some tasks and get more rewards!</h2>
+      <h2>{{user.name}}, you've earned {{user.score}} rewards. Complete more tasks and collect them all!</h2>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
           <img :src="url.url" class="next-reward gallery-item">
