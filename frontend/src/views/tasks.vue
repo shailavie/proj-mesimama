@@ -1,6 +1,7 @@
 <template>
   <section class="task-list-page">
     <section class="all-tasks-panel">
+      <!-- <button @click="doneTask">Done task QA</button> -->
       <div class="all-tasks-panel-inside">
         <!-- My Tasks -->
         <task-list-cmp
@@ -213,13 +214,10 @@ export default {
     flex-grow: 1;
     padding-right: 0;
   }
-
   .stats-panel {
     padding: 0px 60px 30px 60px;
-    // order: -1;
   }
 }
-
 .toggle-tasks {
   margin: 10px auto;
 }

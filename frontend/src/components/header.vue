@@ -1,10 +1,12 @@
 <template >
   <div class="wrapper" v-if="currUser">
     <div class="header-container">
-      <div class="logo-container">
-        <img class="logo" src="@/assets/icons/mesimama.png" alt="">
-        <div class="header-logo">Mesimama</div>
-      </div>
+      <router-link to="/">
+        <div class="logo-container">
+          <img class="logo" src="@/assets/icons/mesimama.png" alt>
+          <div class="header-logo">Mesimama</div>
+        </div>
+      </router-link>
 
       <div class="main-nav">
         <!-- qa -->
@@ -107,13 +109,11 @@ export default {
       return this.currUser.avatarUrl;
     },
     counter() {
-      console.log('update counter at header')
+      console.log("update counter at header");
       let user = this.$store.getters.currUser;
-      let unReadNotifications = user.notifications.filter(
-        notification => {
-          return !notification.isRead;
-        }
-      );
+      let unReadNotifications = user.notifications.filter(notification => {
+        return !notification.isRead;
+      });
       return unReadNotifications.length;
     },
     score() {

@@ -5,7 +5,7 @@
       <h2>There's plenty of time to rest</h2>
       <img src="@/assets/img/task-done1.png" alt>
       <h2>In the grave!</h2>
-      <el-button type="primary">Take more responsiblity</el-button>
+      <el-button plain >Take more responsiblity</el-button>
       <button class="close-btn" @click="$emit('close-task-done-msg')">X</button>
     </div>
   </section>
@@ -52,25 +52,25 @@ export default {
     background-color: rgba(0, 0, 0, 0.753);
   }
   .task-done-inner-container {
-    width: 50%;
+    width: 40%;
+    padding: 30px;
   }
   h1 {
-    font-size: 70px;
+    font-size: 3em;
   }
   h2 {
-    font-size: 36px;
+    font-size: 2em;
   }
 }
 img {
   height: 200px;
-}
+} 
 
 .close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
   font-size: 25px;
-  // z-index: 6;
   background-color: transparent;
   border: none;
   cursor: pointer;
