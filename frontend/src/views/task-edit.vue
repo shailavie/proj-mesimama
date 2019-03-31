@@ -216,8 +216,15 @@ export default {
 <style scoped lang="scss">
 .task-edit-container {
   background-color: #fff;
-  width: 100vw;
   margin: 0;
+  flex-grow: 1;
+  margin: 20px;
+}
+
+@media (max-width: 768px) {
+  .task-edit-container {
+    width: 100%;
+  }
 }
 .form-control {
   position: absolute;
@@ -237,14 +244,10 @@ export default {
     margin-bottom: 180px;
   }
   .save-task-btn {
-    position: absolute;
-    margin-top: 40px;
-    width: 100%;
-    height: 100px;
+    height: 80px;
     bottom: 0;
     left: 0;
     font-size: 20px;
-    margin-bottom: -110px;
   }
 }
 .el-form-item {
@@ -254,25 +257,11 @@ export default {
   width: 300px;
   // height: auto;
 }
-@media (max-width: 768px) {
-  .task-edit-page {
-    margin-top: -40px;
-    background-color: white;
-  }
-  .form-input {
-    width: 200px;
-    margin-right: 10px;
-  }
-}
 
 .task-details {
   max-width: 400px;
 }
-.task-edit-container {
-  flex-grow: 1;
-  margin: 20px;
-  max-width: 500px;
-}
+
 .form-input {
   width: 300px;
   margin-right: 10px;
@@ -298,6 +287,24 @@ export default {
   flex-direction: column;
 }
 
+@media (max-width: 768px) {
+  .task-edit-page {
+    margin-top: -10px;
+    background-color: white;
+  }
+  .form-input {
+    max-width: 200px;
+    margin-right: 10px;
+  }
+
+  .task-title-container {
+    padding: 0;
+  }
+  .edit-task-form {
+    padding: 0px;
+    padding-bottom: 40px;
+  }
+}
 .upload-file {
   margin: 20px 0;
 }

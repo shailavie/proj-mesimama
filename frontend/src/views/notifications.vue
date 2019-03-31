@@ -9,15 +9,21 @@
     <ul>
       <li v-for="(notification,idx) in user.notifications" :key="idx" :class="isRead(notification)">
         <div class="notification-card flex">
-          <div class="task-status-icon-container flex center-all" style="width:100px">
-            <img class="icon" :src="iconUrlToShow(notification)" alt="icon">
+          <div class="notification-content">
+            <div class="task-status-icon-container flex center-all" style="width:100px">
+              <img class="icon" :src="iconUrlToShow(notification)" alt="icon">
+            </div>
+            <div class="flex column grow">
+              <h4>{{notification.name}}</h4>
+              <h5>was {{notification.status}}</h5>
+              <small>{{notification.createdAt | moment("from", "now")}}</small>
+            </div>
           </div>
-          <div class="flex column grow">
-            <h4>{{notification.name}}</h4>
-            <h5>was {{notification.status}}</h5>
-            <small>{{notification.createdAt | moment("from", "now")}}</small>
+          <div class="actions-container flex" v-if="taskIsOwned(notification.taskId)">
+            <el-button @click.native="taskDetails(notification.taskId)">See Task</el-button>
+            <el-button type="primary" @click.native="ownTask(notification.taskId)">I'm on it</el-button>
           </div>
-          <div class="actions-container flex">
+          <div class="actions-container flex" v-else>
             <el-button @click.native="taskDetails(notification.taskId)">See Task</el-button>
             <el-button type="primary" @click.native="ownTask(notification.taskId)">I'm on it</el-button>
           </div>
@@ -63,6 +69,11 @@ export default {
           return require("@/assets/icons/passedTaskColor.svg");
           break;
       }
+    },
+    taskIsOwned(taskId) {
+      let tasks = this.$store.getters.allTasks;
+      let currTask = tasks.filter(task => task._id === taskId);
+      return !currTask.helperId;
     }
   },
   computed: {
@@ -119,6 +130,12 @@ li:nth-child(odd) {
   font-size: 24px;
   padding: 10px;
 }
+
+@media (max-width: 420px) {
+  .notification-card {
+    flex-direction: column;
+  }
+}
 button {
   cursor: pointer;
 }
@@ -126,6 +143,24 @@ small {
   color: #999;
   font-size: 13px;
   font-weight: 400;
+}
+
+.notification-content {
+  padding: 10px 0;
+  flex-basis: 100px;
+}
+
+@media (max-width: 768px) {
+  .notification-card {
+    padding: 20px 20px;
+  }
+  .notification-content {
+    padding: 10px;
+  }
+
+  .actions-container {
+    justify-content: flex-start;
+  }
 }
 </style>
 

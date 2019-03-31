@@ -11,13 +11,13 @@
       <h2>{{user.name}}, you have {{user.score}} points, do some tasks and get more rewards!</h2>
       <masonry :cols="3" :gutter="5">
         <figure v-for="(url,idx) in nextRewards" :key="idx" class="img-container">
-          <img :src="url" class="next-reward gallery-item">
+          <img :src="url.url" class="next-reward gallery-item">
         </figure>
       </masonry>
     </section>
     <section v-else class="section">
       <h1>Hey {{user.name}}</h1>
-      <h2>Enjoy your rewards!</h2>
+      <h2>These are the rewards for your lovley helpers, feel free to add more, they will appreciate it!</h2>
 
       <!-- Director's gallery -->
       <masonry :cols="3" :gutter="15">
@@ -50,7 +50,6 @@ import imgService from "../services/img-service.js";
 export default {
   data() {
     return {
-      cloudinary: {},
       canLoad: false
     };
   },
