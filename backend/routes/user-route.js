@@ -21,20 +21,12 @@ function addUserRoutes(app) {
 
     // Get all team members
     app.get(`${BASE_URL}/loadIntroGroup/:directorId`, (req, res) => {
-        // if (!req.session.userId) {
-        //     res.status(403)
-        //     res.send('No user logged')
-        // } else {
-            let directorId = req.params.directorId
-            console.log('ROUTE GOT INRO ID',directorId)
-            // userService.getById(req.session.userId).then(user => {
-            //     let directorId = (user.isDirector) ? user._id : user.directorId
-                userService.query(directorId)
-                    .then(users => {
-                        res.json(users)
-                    })
-            // })
-        // }
+        let directorId = req.params.directorId
+        console.log('ROUTE GOT INRO ID', directorId)
+        userService.query(directorId)
+            .then(users => {
+                res.json(users)
+            })
     })
 
     // Get current logged user

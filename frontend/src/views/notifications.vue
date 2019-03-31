@@ -4,28 +4,31 @@
 
 <template>
   <section v-if="user">
-    <h1>News</h1>
+    <h1>This just in!</h1>
     <!-- <pre>{{notifications}}</pre> -->
     <ul>
       <li v-for="(notification,idx) in user.notifications" :key="idx" :class="isRead(notification)">
         <div class="notification-card flex">
-          <div class="notification-content">
-            <div class="task-status-icon-container flex center-all" style="width:100px">
-              <img class="icon" :src="iconUrlToShow(notification)" alt="icon">
-            </div>
-            <div class="flex column grow">
-              <h4>{{notification.name}}</h4>
-              <h5>was {{notification.status}}</h5>
-              <small>{{notification.createdAt | moment("from", "now")}}</small>
-            </div>
+          <!-- icon -->
+          <div class="task-status-icon-container flex center-all">
+            <img class="icon" :src="iconUrlToShow(notification)" alt="icon">
           </div>
-          <div class="actions-container flex" v-if="taskIsOwned(notification.taskId)">
-            <el-button @click.native="taskDetails(notification.taskId)">See Task</el-button>
-            <el-button type="primary" @click.native="ownTask(notification.taskId)">I'm on it</el-button>
-          </div>
-          <div class="actions-container flex" v-else>
-            <el-button @click.native="taskDetails(notification.taskId)">See Task</el-button>
-            <el-button type="primary" @click.native="ownTask(notification.taskId)">I'm on it</el-button>
+          <div class="notification-content flex">
+            <!-- title & desc -->
+              <div class="flex column grow">
+                <h4>{{notification.name}}</h4>
+                <h5>was {{notification.status}}</h5>
+                <small>{{notification.createdAt | moment("from", "now")}}</small>
+              </div>
+
+            <div class="actions-container flex">
+              <el-button
+                v-if="!isTaskOwned(notification.taskId)"
+                type="success"
+                @click.native="ownTask(notification.taskId)"
+              >I'm on it</el-button>
+              <el-button @click.native="taskDetails(notification.taskId)" icon="el-icon-info">See task</el-button>
+            </div>
           </div>
         </div>
       </li>
@@ -34,16 +37,20 @@
 </template>
 
 <script>
-import userService from "../services/user.service.js";
 import utilService from "../services/util-service.js";
+import taskService from "../services/task-service.js";
 
 export default {
   data() {
     return {
-      notifications: null
+      notifications: null,
+      tasks: []
     };
   },
-  created() {},
+  async created() {
+    await this.$store.dispatch("loadActiveTasks");
+    this.tasks = await this.$store.getters.allTasks;
+  },
   methods: {
     taskDetails(taskId) {
       console.log(taskId);
@@ -70,10 +77,9 @@ export default {
           break;
       }
     },
-    taskIsOwned(taskId) {
-      let tasks = this.$store.getters.allTasks;
-      let currTask = tasks.filter(task => task._id === taskId);
-      return !currTask.helperId;
+    isTaskOwned(taskId) {
+      let currTask = this.tasks.find(task => task._id === taskId);
+      if (currTask) return currTask.helperId;
     }
   },
   computed: {
@@ -88,12 +94,17 @@ export default {
 </script>
 
 <style scoped  lang="scss">
+
+.notification-text {
+  flex-grow: 1;
+  width: 100%;
+}
 .icon {
   width: 50px;
   height: 50px;
 }
 .task-status-icon-container {
-  width: 80px;
+  width: 100px;
 }
 .actions-container {
   width: 250px;
@@ -148,6 +159,7 @@ small {
 .notification-content {
   padding: 10px 0;
   flex-basis: 100px;
+  flex-grow: 1;
 }
 
 @media (max-width: 768px) {
@@ -156,10 +168,12 @@ small {
   }
   .notification-content {
     padding: 10px;
+    flex-direction: column;
   }
 
   .actions-container {
     justify-content: flex-start;
+    margin-top: 20px;
   }
 }
 </style>

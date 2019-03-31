@@ -26,8 +26,8 @@ function query() {
     return new Promise((resolve, reject) => {
         axios.get(`${BASE_URL}/tasks`)
             .then(res => {
-                let taskItems = res.data
-                resolve(taskItems)
+                let activeTasks = res.data
+                resolve(activeTasks)
             })
     })
 }

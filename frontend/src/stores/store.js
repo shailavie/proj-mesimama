@@ -15,32 +15,32 @@ const store = new Vuex.Store({
     userStore
   },
   state: {
-    taskItems: [],
+    activeTasks: [],
     filterBy: {},
     currTask: null,
   },
   mutations: {
     updateTask(state, { updatedTask }) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === updatedTask._id)
-      state.taskItems.splice(taskIdx, 1, updatedTask)
+      let taskIdx = state.activeTasks.findIndex(task => task._id === updatedTask._id)
+      state.activeTasks.splice(taskIdx, 1, updatedTask)
     },
     removeTask(state, taskId) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      state.taskItems.splice(taskIdx, 1)
+      let taskIdx = state.activeTasks.findIndex(task => task._id === taskId)
+      state.activeTasks.splice(taskIdx, 1)
     },
     addTask(state, newTask) {
-      state.taskItems.unshift(newTask)
+      state.activeTasks.unshift(newTask)
     },
-    setTaskItems(state, { activeTasks }) {
-      state.taskItems = activeTasks
+    setActiveTasks(state, { activeTasks }) {
+      state.activeTasks = activeTasks
     },
     ownTask(state, { taskId }) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      state.taskItems[taskIdx].helperId = userStore.state.currUser._id
+      let taskIdx = state.activeTasks.findIndex(task => task._id === taskId)
+      state.activeTasks[taskIdx].helperId = userStore.state.currUser._id
     },
     passTask(state, { task }) {
-      let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
-      state.taskItems[taskIdx].helperId = null
+      let taskIdx = state.activeTasks.findIndex(t => t._id === task._id)
+      state.activeTasks[taskIdx].helperId = null
     },
   },
   actions: {
@@ -61,12 +61,12 @@ const store = new Vuex.Store({
     },
     async loadActiveTasks(context) {
       let activeTasks = await taskService.query()
-      context.commit({ type: 'setTaskItems', activeTasks })
+      context.commit({ type: 'setActiveTasks', activeTasks })
     },
     async loadTask(context, { taskId }) {
-      let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
+      let taskIdx = context.state.activeTasks.findIndex(task => task._id === taskId)
       if (taskIdx !== -1) {
-        var task = context.state.taskItems[taskIdx]
+        var task = context.state.activeTasks[taskIdx]
         return task
       } else {
         var task = await taskService.getTaskById(taskId)
@@ -120,9 +120,6 @@ const store = new Vuex.Store({
         socketService.emit('updateTask', task)
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
-
-        //  await context.dispatch({type:'loadGroup'})
-
         //get group
         let group = context.getters.currGroup
         //add task on database
@@ -163,12 +160,11 @@ const store = new Vuex.Store({
     },
   },
   getters: {
-
     tasksWithNoHelpers(state) {
-      return state.taskItems.filter(task => task.helperId === null)
+      return state.activeTasks.filter(task => task.helperId === null)
     },
     allTasks(state) {
-      return state.taskItems
+      return state.activeTasks
     },
   }
 })
