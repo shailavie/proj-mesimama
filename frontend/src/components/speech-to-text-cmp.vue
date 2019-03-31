@@ -57,7 +57,6 @@ export default {
     },
     startSpeechRecognition() {
       setTimeout(() => {
-        console.log("Stopping recording afte 5s");
         this.endSpeechRecognition();
       }, 5000);
       if (!recognition) {

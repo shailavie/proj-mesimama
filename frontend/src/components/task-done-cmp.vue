@@ -1,7 +1,7 @@
 <template>
   <section class="task-done-container">
     <div class="task-done-inner-container flex column center-all space-around">
-      <h1>TASK COMPLETED!</h1>
+      <h1>MISSION ACCOMPLISHED!</h1>
       <h2>There's plenty of time to rest</h2>
       <img src="@/assets/img/task-done1.png" alt>
       <h2>In the grave!</h2>

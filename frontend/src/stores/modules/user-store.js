@@ -51,13 +51,10 @@ const userStore = {
   },
   actions: {
     async deleteImg(context, { url }) {
-      console.log('URL', url)
       let imgId = url._id
       let director = context.state.currDirector
       let urlIdx = director.imgUrls.findIndex(img => img._id === imgId)
-      console.log('IDX', urlIdx)
       director.imgUrls.splice(urlIdx, 1)
-      console.log('imgs:', director.imgUrls)
       await userService.updateUser(director)
       context.dispatch('loadCurrDirector')
     },
@@ -81,7 +78,6 @@ const userStore = {
     },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
-      console.log('In store, the returned user from the server is:', currUser)
       context.commit({ type: 'setCurrUser', currUser })
     },
     async updateUser(context, { user }) {

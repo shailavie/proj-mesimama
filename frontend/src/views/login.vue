@@ -1,9 +1,14 @@
 <template>
   <section class="login-container">
+    <div class="header-container">
+      <div class="logo-container flex center-ver">
+        <img class="logo" src="@/assets/icons/mesimama.png" alt>
+        <div class="header-title">Mesimama</div>
+      </div>
+    </div>
     <div class="wrapper">
       <div class="login">
-        <h1>Welcome to the Family.</h1>
-        <!-- <h5>v1</h5> -->
+        <h1>Welcome to the Family</h1>
         <section class="users-container">
           <div v-for="user in demoUsers" :key="user._id" class="user-avatar-container">
             <div class @click.prevent="setRole(user._id)">
@@ -18,7 +23,7 @@
           </div>
         </section>
 
-        <button class="demo-btn" @click="enterDemo">Enter Demo</button>
+        <button class="demo-btn" @click="enterDemo">Try it out</button>
         <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
       </div>
     </div>
@@ -31,7 +36,7 @@ import userService from "../services/user.service.js";
 
 export default {
   components: {
-    userAvatar
+    userAvatar,
   },
   data() {
     return {
@@ -71,12 +76,13 @@ export default {
     },
     demoUsers() {
       return this.$store.getters.introGroup;
-      // .filter(
-      //   user =>
-      //     user.name === "Tamar" ||
-      //     user.name === "Ruti" ||
-      //     user.name === "Yonatan"
-      // );
+      //   let group = group.filter(
+      //     user =>
+      //       user.name === "Tamar" ||
+      //       user.name === "Ruti" ||
+      //       user.name === "Yonatan"
+      //   );
+      // return group
     }
   },
   methods: {
@@ -117,6 +123,25 @@ export default {
 
 
 <style lang="scss" scoped>
+.header-title {
+  color: white;
+}
+.header-container {
+  padding: 30px;
+}
+.logo-container {
+  display: flex;
+}
+.logo {
+  height: 50px;
+  width: auto;
+  margin-right: -15px;
+  margin-left: -30px;
+}
+.intro-logo {
+  height: 100px;
+  margin-bottom: 20px;
+}
 .login-container {
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
 }
@@ -135,9 +160,9 @@ a {
 }
 
 h1 {
-  font-size: 250%;
+  font-size: 300%;
   font-weight: 500;
-  margin-bottom: 40px;
+  margin-bottom: 80px;
 }
 .login-page-container {
   display: flex;
