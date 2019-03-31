@@ -56,9 +56,9 @@
     </section>
 
     <section class="stats-panel">
-      <dash-board></dash-board>
-      <podium-board-cmp></podium-board-cmp>
-      <photo-gallery class="photo-gallery"/>
+      <dash-board @click.native="sendToRewards"/>
+      <podium-board-cmp />
+      <photo-gallery @click.native="sendToRewards" class="photo-gallery"/>
     </section>
 
     <!-- Task Done Popup -->
@@ -140,6 +140,9 @@ export default {
     }
   },
   methods: {
+    sendToRewards(){
+      this.$router.push('rewards')
+    },
     closeTaskDoneMsg() {
       this.showTaskDoneMsg = false;
     },

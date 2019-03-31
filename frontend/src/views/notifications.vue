@@ -17,7 +17,11 @@
             <h5>was {{notification.status}}</h5>
             <small>{{notification.createdAt | moment("from", "now")}}</small>
           </div>
-          <div class="actions-container flex">
+          <div class="actions-container flex" v-if="taskIsOwned(notification.taskId)">
+            <el-button @click.native="taskDetails(notification.taskId)">See Task</el-button>
+            <el-button type="primary" @click.native="ownTask(notification.taskId)">I'm on it</el-button>
+          </div>
+          <div class="actions-container flex" v-else>
             <el-button @click.native="taskDetails(notification.taskId)">See Task</el-button>
             <el-button type="primary" @click.native="ownTask(notification.taskId)">I'm on it</el-button>
           </div>
@@ -63,6 +67,11 @@ export default {
           return require("@/assets/icons/passedTaskColor.svg");
           break;
       }
+    },
+    taskIsOwned(taskId) {
+      let tasks = this.$store.getters.allTasks;
+      let currTask = tasks.filter(task => task._id === taskId);
+      return !currTask.helperId;
     }
   },
   computed: {
