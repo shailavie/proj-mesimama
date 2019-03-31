@@ -24,7 +24,7 @@
           <img class="task-details-img" :src="task.imgUrl">
           <div class="back-btn" @click="$router.go(-1)">
             <el-button plain icon="el-icon-arrow-left">Back</el-button>
-            <el-button @click.native="ownTask(task._id)">I'm on it</el-button>
+            <el-button type="success" @click.native="ownTask(task._id)">I'm on it</el-button>
           </div>
         </div>
         <div class="text-details-comments">

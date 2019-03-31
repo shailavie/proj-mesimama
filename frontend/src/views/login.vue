@@ -147,7 +147,7 @@ export default {
 }
 .login {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: #fff;
   flex-direction: column;
@@ -236,6 +236,7 @@ h1 {
 
 .users-container {
   display: flex;
+  flex-wrap: wrap;
   width: 90%;
   justify-content: space-evenly;
 }
