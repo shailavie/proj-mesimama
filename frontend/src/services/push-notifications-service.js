@@ -22,7 +22,7 @@ function pushNotification(title,task) {
               console.log('Subscription object: ', sub);
               currUser.pushSub = sub
               let updatedUser =  userService.updateUser(currUser)
-              console.log('$@#$@#$@#$@#$@#$ currUser: ',updatedUser)
+              console.log('currUser: ',updatedUser)
             }
           });
         })

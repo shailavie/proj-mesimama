@@ -181,7 +181,6 @@ export default {
   },
   methods: {
     async uploadTaskImg(file) {
-      // this.$store.dispatch({type:'uploadTaskImg',file})
       let url = await imgService.uploadImg(file);
       this.taskToEdit.imgUrl = url;
     },
@@ -190,19 +189,11 @@ export default {
       this.taskToEdit.desc = "";
     },
     speechEnd({ sentences, text }) {
-      console.log("text", text);
-      console.log("sentences", sentences);
       this.sentences = sentences;
-    },
-    speechEnd2({ sentences, text }) {
-      console.log("text", text);
-      console.log("sentences", sentences);
-      this.sentences2 = sentences;
     },
     saveTask() {
       if (!this.taskToEdit._id) this.taskToEdit.createdAt = Date.now();
       this.taskToEdit.directorId = this.directorId;
-      console.log("TASK TO SAVE:", this.taskToEdit);
       this.taskToEdit.points = Number(this.taskToEdit.points);
       this.$store.dispatch("saveTask", this.taskToEdit).then(savedTask => {
         this.$store.dispatch({ type: "loadUsersWithTasks" }).then(() => {
@@ -250,11 +241,9 @@ export default {
 @media (max-width: 500px) {
   .remove-btn {
     margin: 0 auto;
-    margin-bottom: 120px;
+    margin-bottom: 180px;
   }
   .save-task-btn {
-    // position: absolute;
-    // width: 100%;
     height: 80px;
     bottom: 0;
     left: 0;

@@ -1,5 +1,5 @@
 <template >
-  <div class="wrapper" v-if="currUser">
+  <div class="wrapper" >
     <div class="header-container">
       <router-link to="/">
         <div class="logo-container">
@@ -10,7 +10,7 @@
 
       <div class="main-nav">
         <!-- qa -->
-        <div class="login">
+        <div class="login" v-if="currUser">
           <el-select
             v-model="role"
             placeholder="Select role"
@@ -29,12 +29,12 @@
 
         <el-button
           class="add-new-task"
-          v-if="currUser.isDirector"
+          v-if="currUser && currUser.isDirector"
           @click.native="addTask"
         >+ New Task</el-button>
 
         <!-- Navbar -->
-        <nav>
+        <nav v-if="currUser">
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
@@ -75,6 +75,11 @@ import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "@/services/user.service.js";
 
 export default {
+  props : {
+    fontColor: {
+      type: String
+    }
+  },
   components: {
     userAvatar
   },
@@ -109,7 +114,6 @@ export default {
       return this.currUser.avatarUrl;
     },
     counter() {
-      console.log("update counter at header");
       let user = this.$store.getters.currUser;
       let unReadNotifications = user.notifications.filter(notification => {
         return !notification.isRead;
