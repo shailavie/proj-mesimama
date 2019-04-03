@@ -1,6 +1,5 @@
 <template>
   <section class="task-list-section">
-  
     <!-- Tasks -->
     <div class="task-list-container">
       <ul v-if="tasks">
@@ -17,7 +16,12 @@
               <h2>{{currTitle(userToRender)}}</h2>
               <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
-            <div class="toggle-tasks" v-show="userToRender.tasks.length" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
+            <div
+              class="toggle-tasks"
+              v-show="userToRender.tasks.length"
+              @click="toggleTasks"
+              :class="{tilt : !showTasks}"
+            ></div>
           </div>
           <div class="user-info flex space-between" v-else>
             <div class="flex center-ver">
@@ -29,7 +33,7 @@
           </div>
 
           <!-- User's tasks -->
-          <empty-tasks-state v-if="currUserSelf && activeTasksCount === 0"></empty-tasks-state>
+          <empty-tasks-state v-if="userToRender._id && currUserId === userToRender._id && userToRender.tasks.length === 0"></empty-tasks-state>
           <ul class="users-tasks" :class="{fadeUp : !showTasks}">
             <li v-for="currTask in userToRender.tasks" :key="currTask._id">
               <task-preview
@@ -60,7 +64,7 @@ export default {
     tasks: {
       type: Array
     },
-    title : {
+    title: {
       type: String
     }
   },
@@ -77,7 +81,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch("loadGroup");
-    console.log("created at task-list");
     this.$store.dispatch({ type: "loadCurrDirector" });
   },
   methods: {
@@ -105,19 +108,19 @@ export default {
     },
     toggleTasks() {
       this.showTasks = !this.showTasks;
-    },
-   
+    }
   },
   computed: {
     thisUser() {
       let user = this.$store.getters.currUser;
       return user;
     },
-    activeTasksCount(){
-      return this.tasks[0].tasks.filter(task => task.status === 'active').length
+    activeTasksCount() {
+      return this.tasks[0].tasks.filter(task => task.status === "active")
+        .length;
     },
-    currUserSelf(){
-      return this.title === 'My tasks'
+    currUserId() {
+      return this.$store.getters.currUser._id
     }
   }
 };
@@ -210,8 +213,6 @@ ul {
   cursor: pointer;
   transition: 0.4s ease;
   background: no-repeat center/40% url($chevron);
-  //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
-  // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
   filter: invert(0.7);
 }
 .title {

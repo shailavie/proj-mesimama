@@ -56,11 +56,4 @@ function uploadPictures(files) {
     })
     prms.push(prm._v)
   });
-  // Promise.all(prms).then((values)=>{
-  //   console.log(' OK ',values)
-  // })
-  // if (uplodedUrls.length === files.length) {
-  //   console.log(uplodedUrls);
-  //   return uplodedUrls
-  // }
 }

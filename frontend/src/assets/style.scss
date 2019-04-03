@@ -31,6 +31,12 @@ body {
   background: #fafafa;
 }
 
+@media (max-width: 768px) {
+  body {
+    background: #fff;
+  }
+}
+
 button:focus {
   outline: none;
 }
