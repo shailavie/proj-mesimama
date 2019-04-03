@@ -6,27 +6,37 @@
         <div class="header-title">Mesimama</div>
       </div>
     </div>
-    <div class="wrapper">
-      <div class="login">
-        <h1>Welcome to the Family</h1>
-        <section class="users-container">
-          <div v-for="user in demoUsers" :key="user._id" class="user-avatar-container">
-            <div class @click.prevent="setRole(user._id)">
-              <user-avatar
-                :url="user.avatarUrl"
-                :user="user"
-                :profileImg="true"
-                :clickable="false"
-              />
-              <h4 class="mbt30">{{user.name}}</h4>
-            </div>
-          </div>
-        </section>
-
-        <button class="demo-btn" @click="enterDemo">Try it out</button>
-        <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
-      </div>
-    </div>
+    {{dynamicValidateForm}}
+    <el-form
+      style="width:500px; backgroundColor:white;"
+      :model="dynamicValidateForm"
+      ref="dynamicValidateForm"
+      label-width="120px"
+      class="demo-dynamic"
+      @submit.prevent="printCredentials()"
+    >
+      <el-form-item
+        prop="email"
+        label="Email"
+        :rules="[
+      { required: true, message: 'Enter your email address', trigger: 'blur' },
+      { type: 'email', message: 'Please enter a correct email address', trigger: ['blur'] }
+    ]"
+      >
+        <el-input v-model="dynamicValidateForm.email"></el-input>
+      </el-form-item>
+      <el-form-item
+        prop="password"
+        label="Password"
+        :rules="[
+      { required: true, message: 'Enter a password', trigger: 'blur' },
+      { type: 'email', message: 'Please enter a password', trigger: ['blur'] }
+    ]"
+      >
+        <el-input v-model="dynamicValidateForm.password" type="password"></el-input>
+      </el-form-item>
+      <button type="submit" @click.prevent="printCredentials">Sign-up</button>
+    </el-form>
   </section>
 </template>
 
@@ -36,33 +46,15 @@ import userService from "../services/user.service.js";
 
 export default {
   components: {
-    userAvatar,
+    userAvatar
   },
   data() {
     return {
-      usersId: [
-        "5c98fa5eb687d600001a8d83",
-        "5c98fb581c9d4400002a2a3d",
-        "5c98fad51c9d4400002a2a3c"
-      ],
-      notificationsSupported: false,
-      role: "",
-      input: {
-        password: "",
-        email: ""
-      },
-      isMember: true,
-      test: null
+      dynamicValidateForm: {
+        email: "",
+        password: ""
+      }
     };
-  },
-  created() {
-    this.$store.dispatch({
-      type: "loadIntroGroup",
-      directorId: "5c98fa5eb687d600001a8d83"
-    });
-    if ("Notification" in window && "serviceWorker" in navigator) {
-      this.notificationsSupported = true;
-    }
   },
   computed: {
     loginSignupCTA() {
@@ -79,6 +71,47 @@ export default {
     }
   },
   methods: {
+    login(id) {
+      userService
+        .setUserSession(id)
+        .then(res => {
+          console.log("Session is ", res);
+        })
+        .then(() => {
+          this.$store.dispatch({ type: "setCurrUser" }).then(() => {
+            this.$router.push("/app/tasks");
+          });
+        });
+    },
+    async printCredentials(){
+      console.log('in signup page',this.dynamicValidateForm)
+      let userCred = this.dynamicValidateForm
+      let user = await this.$store.dispatch({type: 'signUp', userCred})
+      console.log('FULL CIRCLE', user)
+      this.login(user._id)
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    created() {
+      this.$store.dispatch({
+        type: "loadIntroGroup",
+        directorId: "5c98fa5eb687d600001a8d83"
+      });
+      if ("Notification" in window && "serviceWorker" in navigator) {
+        this.notificationsSupported = true;
+      }
+    },
     askPermission() {
       if (this.notificationsSupported) {
         Notification.requestPermission(result => {

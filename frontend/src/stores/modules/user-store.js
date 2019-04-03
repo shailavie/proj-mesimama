@@ -50,6 +50,12 @@ const userStore = {
 
   },
   actions: {
+    async signUp(context, {userCred}){
+      console.log('userCred',userCred)
+      let res = await userService.checkCred(userCred)
+      console.log('store got result from the db - wow',res)
+      return Promise.resolve(res)
+    },
     async deleteImg(context, { url }) {
       let imgId = url._id
       let director = context.state.currDirector

@@ -11,13 +11,24 @@ export default {
     getUserById,
     getUsers,
     updateGroupNotifications,
-    getIntroUsers
+    getIntroUsers,
+    checkCred
 }
 
 
 // const BASE_URL = 'http://localhost:3003/api'
 const BASE_URL = (process.env.NODE_ENV !== 'development') ? '/api' : 'http://localhost:3003/api';
 
+function checkCred(userCred){
+    return new Promise((resolve, reject) => {
+        axios.post(`${BASE_URL}/users/checkCred/${userCred.email}`, userCred)
+            .then(res => {
+                let user = res.data
+                console.log('Got an answer from the database!!!!!',user)
+                resolve(user)
+            })
+    })
+}
 
 function getCurrUser() {
     return new Promise((resolve, reject) => {

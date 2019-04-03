@@ -8,6 +8,7 @@ import myAccount from './views/user-profile.vue'
 import dashboard from './components/dashboard.vue'
 import photoGallery from './components/photo-gallery-cmp.vue'
 import login from './views/login.vue'
+import signup from './views/signup.vue'
 import taskEdit from './views/task-edit.vue'
 import taskDetails from './views/task-details.vue'
 import rewards from './views/rewards.vue'
@@ -21,6 +22,11 @@ export default new Router({
       path: '/',
       name: 'login',
       component: login
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: signup
     },
     {
       path: '/app',

@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
-    "url": "/img/baby2.9b47d9b4.jpg"
+    "revision": "63264af46e6cf9a255d5efbda002bfdb",
+    "url": "/img/baby3.63264af4.jpg"
   },
   {
     "revision": "ac437d8fd50c2b8d41bdf5e9d3e09264",
@@ -12,24 +12,32 @@ self.__precacheManifest = [
     "url": "/robots.txt"
   },
   {
-    "revision": "2929b366b702b154c441",
-    "url": "/js/chunk-vendors.c79e1b48.js"
+    "revision": "fecc16b0c391d91a992b",
+    "url": "/js/chunk-vendors.f08ca0e4.js"
   },
   {
-    "revision": "269e0c8941b4c3daae7784257c2ed7a7",
+    "revision": "eefda73254a741d0e9ea7459d6348466",
     "url": "/index.html"
   },
   {
-    "revision": "45a2955f33ece71b8a46",
-    "url": "/js/app.a75fc78f.js"
+    "revision": "a6bb04b4535972b945e5",
+    "url": "/js/app.997e9188.js"
   },
   {
-    "revision": "f1eb40660164b8b6dafcb4bfa4a3844f",
-    "url": "/img/reward-box.f1eb4066.png"
+    "revision": "dab798eacd4dbdf34512c50557040760",
+    "url": "/img/mesimama.dab798ea.png"
   },
   {
     "revision": "6f0a76321d30f3c8120915e57f7bd77e",
     "url": "/fonts/element-icons.6f0a7632.ttf"
+  },
+  {
+    "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
+    "url": "/img/baby1.250570d3.jpg"
+  },
+  {
+    "revision": "156540b1d63e00a1b7834bc798bc1fae",
+    "url": "/img/login-banner.156540b1.jpg"
   },
   {
     "revision": "18fd2d4a32acc604097da6dc55a3cb02",
@@ -48,10 +56,6 @@ self.__precacheManifest = [
     "url": "/img/task-done1.2c7dc9d1.png"
   },
   {
-    "revision": "94b647cc22a3380c09a828727ceb2ccd",
-    "url": "/img/arrow-down.94b647cc.svg"
-  },
-  {
     "revision": "8743fdb5fcaaa2513b63bbe468e4a654",
     "url": "/img/baby5.8743fdb5.jpg"
   },
@@ -68,24 +72,24 @@ self.__precacheManifest = [
     "url": "/img/gold.ad303be1.svg"
   },
   {
-    "revision": "63264af46e6cf9a255d5efbda002bfdb",
-    "url": "/img/baby3.63264af4.jpg"
-  },
-  {
     "revision": "517c2e9244d189c810325839caafd3ae",
     "url": "/img/users/grampa.jpeg"
+  },
+  {
+    "revision": "9b47d9b4009d19bc4f693eacfb0255c8",
+    "url": "/img/baby2.9b47d9b4.jpg"
   },
   {
     "revision": "ba816909b9b42eaa85bde659bedd0de4",
     "url": "/img/baby7.ba816909.jpg"
   },
   {
-    "revision": "dab798eacd4dbdf34512c50557040760",
-    "url": "/img/mesimama.dab798ea.png"
+    "revision": "94b647cc22a3380c09a828727ceb2ccd",
+    "url": "/img/arrow-down.94b647cc.svg"
   },
   {
-    "revision": "250570d3fdf9d2d6c63bc3ccd983a12c",
-    "url": "/img/baby1.250570d3.jpg"
+    "revision": "f1eb40660164b8b6dafcb4bfa4a3844f",
+    "url": "/img/reward-box.f1eb4066.png"
   },
   {
     "revision": "37ad33da11e0aefa65d70603c30cb32f",
@@ -106,10 +110,6 @@ self.__precacheManifest = [
   {
     "revision": "1060f418124f8b943389deca8d4e41ee",
     "url": "/img/tasks.1060f418.svg"
-  },
-  {
-    "revision": "156540b1d63e00a1b7834bc798bc1fae",
-    "url": "/img/login-banner.156540b1.jpg"
   },
   {
     "revision": "46e08602812b87384f1b4ce94b1a0cf9",
@@ -136,11 +136,11 @@ self.__precacheManifest = [
     "url": "/fonts/element-icons.2fad952a.woff"
   },
   {
-    "revision": "2929b366b702b154c441",
+    "revision": "fecc16b0c391d91a992b",
     "url": "/css/chunk-vendors.ef2a2ae9.css"
   },
   {
-    "revision": "45a2955f33ece71b8a46",
-    "url": "/css/app.93e42fd8.css"
+    "revision": "a6bb04b4535972b945e5",
+    "url": "/css/app.c0696e8a.css"
   }
 ];

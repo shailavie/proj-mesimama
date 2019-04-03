@@ -1,5 +1,5 @@
 <template >
-  <div class="wrapper" >
+  <div class="wrapper">
     <div class="header-container">
       <router-link to="/">
         <div class="logo-container">
@@ -75,7 +75,7 @@ import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "@/services/user.service.js";
 
 export default {
-  props : {
+  props: {
     fontColor: {
       type: String
     }
@@ -115,10 +115,14 @@ export default {
     },
     counter() {
       let user = this.$store.getters.currUser;
-      let unReadNotifications = user.notifications.filter(notification => {
-        return !notification.isRead;
-      });
-      return unReadNotifications.length;
+      if (user.notifications) {
+        let unReadNotifications = user.notifications.filter(
+          notification => !notification.isRead
+        );
+        return unReadNotifications.length;
+      } else {
+        return 0;
+      }
     },
     score() {
       return this.$store.getters.currUser.score;

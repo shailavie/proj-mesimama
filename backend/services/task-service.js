@@ -13,7 +13,7 @@ function getById(taskId) {
     let _id = new ObjectId(taskId)
     return mongoService.connect()
         .then(db => db.collection(TASKS_COLLECTION).findOne({ _id }))
-}
+} 
 
 function add(task) {
     return mongoService.connect()
