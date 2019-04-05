@@ -12,46 +12,35 @@ module.exports = {
     checkCred
 }
 
-async function checkCred(userCred){
-    console.log('got credentials from route',userCred)
+async function checkCred(userCred) {
+    console.log('got credentials from route', userCred)
     let db = await mongoService.connect()
-    let user = await db.collection(USERS_COLLECTION).findOne({email : userCred.email})
-    if (user) {
-        console.log('FOUND A USER WITH THE NAME', user)
-        //TO DO - ADD Passwords for all relevant users and check password after finding the user
+    let user = await db.collection(USERS_COLLECTION).findOne({ email: userCred.email })
+    if (user && user.password === userCred.password) {
+        console.log('@@@@ BINGO @@@@ - CREDENTIALS ARE RIGHT!', user)
         return user
+    } else if (user) {
+        console.log("Credentials wrong");
+        res.json({ data: "Login invalid" });
     } else {
         console.log('no such user, lets sign UP!')
-        let newUser = _getEmptyUser(userName)
+        let newUser = _getEmptyUser(userCred)
+        console.log('adding a user with an active first task', newUser)
         let addedUser = await _add(newUser)
-        addedUser.directorId = addedUser._id
-        console.log('got result from mongo', addedUser)
-        return addedUser
+        console.log("new user id", addedUser._id)
+        console.log('typeof', typeof (addedUser._id))
+        // let userId = addedUser._id.split('"')[1]
+        // let userId = addedUser._id.str
+
+        // console.log('moment of TRUTH', userId)
+        addedUser.directorId = addedUser.email // placing a unique identifier bc couldn't retreive the id from objectid
+        let firstTask = _getFirstTask(addedUser.directorId)
+        addedUser.activeTasks.push(firstTask)
+        let newUserWithTask = await update(addedUser)
+        // console.log('got result from mongo', newUserWithTask)
+        return newUserWithTask
     }
 }
-
-// async function login(userName){
-//     let db = await mongoService.connect()
-//     let user = await db.collection('users').findOne({ username: req.body.username}, function(err, user) {
-//         console.log('User found ');
-//         // In case the user not found   
-//         if(err) {
-//           console.log('THIS IS ERROR RESPONSE')
-//           res.json(err)
-//         } 
-//         if (user && user.password === req.body.password){
-//           console.log('User and password is correct')
-//           res.json(user);
-//         } else {
-//           console.log("Credentials wrong");
-//           res.json({data: "Login invalid"});
-//         }              
-//     });
-// }
-
-
-
-
 
 function _add(user) {
     return mongoService.connect()
@@ -90,16 +79,18 @@ function reward(userId, points) {
     })
 }
 
-function _getEmptyUser(userName){
-    let newUser =  {
+function _getEmptyUser({ email, password }) {
+    let userName = email.split('@')[0] || 'Puki';
+    let newUser = {
         name: userName,
         relation: 'Mother',
-        activeTasks:[],
-        doneTasks:[],
-        score:0,
-        email: userName,
+        activeTasks: [],
+        doneTasks: [],
+        score: 0,
+        email: email,
+        password: password,
         isDirector: true,
-        directorId: null,
+        directorId: email,
         avatarUrl: null,
         notification: [],
         imgUrls: [],
@@ -107,3 +98,25 @@ function _getEmptyUser(userName){
     }
     return newUser
 }
+
+function _getFirstTask(directorId) {
+    let firstTask = {
+        createdAt: Date.now(),
+        desc: 'Add a description, and an image',
+        dueAt: Date.now(),
+        directorId: directorId,
+        helperId: null,
+        points: 1,
+        status: 'active',
+        title: 'This is an example task',
+        isUrgent: true,
+        comments: [],
+        imgUrl: null
+    }
+    return firstTask
+}
+
+
+
+
+ 

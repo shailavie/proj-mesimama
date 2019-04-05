@@ -15,8 +15,6 @@ export default {
     checkCred
 }
 
-
-// const BASE_URL = 'http://localhost:3003/api'
 const BASE_URL = (process.env.NODE_ENV !== 'development') ? '/api' : 'http://localhost:3003/api';
 
 function checkCred(userCred){
