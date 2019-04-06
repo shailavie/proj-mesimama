@@ -5,6 +5,7 @@
         <img class="logo" src="@/assets/icons/mesimama.png" alt>
         <div class="header-title">Mesimama</div>
       </div>
+      <router-link to="/signup">Sign up</router-link>
     </div>
     <div class="wrapper">
       <div class="login">
@@ -21,7 +22,7 @@
               <h4 class="mbt30">{{user.name}}</h4>
             </div>
           </div>
-        </section>
+        </section> 
 
         <button class="demo-btn" @click="enterDemo">Try it out</button>
         <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>

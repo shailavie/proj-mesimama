@@ -5,38 +5,56 @@
         <img class="logo" src="@/assets/icons/mesimama.png" alt>
         <div class="header-title">Mesimama</div>
       </div>
+      <router-link to="/">See Demo</router-link>
     </div>
-    {{dynamicValidateForm}}
-    <el-form
-      style="width:500px; backgroundColor:white;"
-      :model="dynamicValidateForm"
-      ref="dynamicValidateForm"
-      label-width="120px"
-      class="demo-dynamic"
-      @submit.prevent="signUp()"
-    >
-      <el-form-item
-        prop="email"
-        label="Email"
-        :rules="[
+    <div class="flex column center-all mb30">
+      <h1>Welcome to Mesimama!</h1>
+      <h4 v-if="isSignUp">
+        Have we met already?
+        <span @click="isSignUp=false">Log in</span>
+      </h4>
+      <h4 v-else>
+        New around here?
+        <span @click="isSignUp=true">Sign up</span>
+      </h4>
+    </div>
+    <div class="signup-form-container">
+      <el-form
+        class="signup-form"
+        :model="dynamicValidateForm"
+        ref="dynamicValidateForm"
+        label-position="top"
+        label-width="120px"
+        @submit.prevent="signUp()"
+      >
+        <el-form-item
+          class="signup-form-item"
+          prop="email"
+          label="Email"
+          :rules="[
       { required: true, message: 'Enter your email address', trigger: 'blur' },
       { type: 'email', message: 'Please enter a correct email address', trigger: ['blur'] }
     ]"
-      >
-        <el-input v-model="dynamicValidateForm.email"></el-input>
-      </el-form-item>
-      <el-form-item
-        prop="password"
-        label="Password"
-        :rules="[
+        >
+          <el-input v-model="dynamicValidateForm.email"></el-input>
+        </el-form-item>
+        <el-form-item
+          prop="password"
+          label="Password"
+          :rules="[
       { required: true, message: 'Enter a password', trigger: 'blur' },
       { type: 'email', message: 'Please enter a password', trigger: ['blur'] }
     ]"
-      >
-        <el-input v-model="dynamicValidateForm.password" type="password"></el-input>
-      </el-form-item>
-      <button type="submit" @click.prevent="signUp">Sign-up</button>
-    </el-form>
+        >
+          <el-input v-model="dynamicValidateForm.password" type="password"></el-input>
+        </el-form-item>
+        <button
+          type="submit"
+          class="signup-login-btn"
+          @click.prevent="signUp"
+        >{{isSignUp? 'Sign up' : 'Log in'}}</button>
+      </el-form>
+    </div>
   </section>
 </template>
 
@@ -50,6 +68,7 @@ export default {
   },
   data() {
     return {
+      isSignUp: true,
       dynamicValidateForm: {
         email: "",
         password: ""
@@ -83,14 +102,10 @@ export default {
           });
         });
     },
-    async signUp(){
-      console.log('in signup page',this.dynamicValidateForm)
-      let userCred = this.dynamicValidateForm
-      let user = await this.$store.dispatch({type: 'signUp', userCred})
-      console.log('FULL CIRCLE!!!!!!!!', user)
-      console.log('user id', user.directorId)
-
-      this.login(user.directorId)
+    async signUp() {
+      let userCred = this.dynamicValidateForm;
+      let user = await this.$store.dispatch({ type: "signUp", userCred });
+      this.login(user.directorId);
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -151,6 +166,34 @@ export default {
 
 
 <style lang="scss" scoped>
+span {
+  text-decoration: underline;
+}
+.signup-login-btn {
+  width: 40%;
+  height: 20%;
+  background-color: #67c23a;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: bolder;
+}
+.signup-form {
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.972);
+  padding: 40px;
+  border-radius: 16px;
+  min-width: 400px;
+  width: 50%;
+}
+.signup-form-container {
+  height: 90vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
 .header-title {
   color: white;
 }
@@ -188,9 +231,13 @@ a {
 }
 
 h1 {
-  font-size: 300%;
+  font-size: 250%;
   font-weight: 500;
-  margin-bottom: 80px;
+  margin: 30px auto;
+  color: white;
+}
+h4 {
+  color: white;
 }
 .login-page-container {
   display: flex;
