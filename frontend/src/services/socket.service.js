@@ -80,29 +80,29 @@ function connectSocket() {
 	//NEW TASK ADDED
 	socket.on('newTaskPublish', refreshCallback)
 
-	async function refreshCallback() {
+	async function refreshCallback(task) {
 		await refreshTasks()
 		await refreshUser()
 		await refreshUserTasks()
-		_toasting('New task was added!', 'success', 'Better go check it out!')
-		pushService.pushCustomNotification('New task was added! Better go check it out!')
+		_toasting(`${task.title}- was added`, 'success', 'Better go check it out!')
+		pushService.pushCustomNotification(`${task.title}- was added, Better go check it out!`)
 	}
 
 	//TASK WAS ACOMPLISHED
 	socket.on('taskAcomplished', acomplishedCallBack)
 
-	async function acomplishedCallBack() {
+	async function acomplishedCallBack(obj) {		
 		await refreshTasks()
 		await refreshUser()
 		await refreshGroup()
 		await refreshUserTasks()
-		_toasting('Someone acomplished a task!', 'success', 'Mom will be so happy!')
-		pushService.pushCustomNotification('Someone acomplished a task!')
+		_toasting(`${obj.task.title} was acomplished by ${obj.user.name}!`, 'success', 'We are so happy!')
+		pushService.pushCustomNotification(`${obj.task.title} was acomplished by ${obj.user.name}!`)
 	}
 
 	socket.on('publishUrgent', task => {
-		_toasting('Urgent task alert!', 'error', 'See if you can help out')
-		pushService.pushCustomNotification('Urgent task alert! See if you can help out')
+		_toasting(`${task.title} is urgent! See if you can help out`, 'error', 'See if you can help out')
+		pushService.pushCustomNotification(`"${task.title}" task is urgent! See if you can help out`)
 	})
 }
 
