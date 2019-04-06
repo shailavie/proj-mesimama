@@ -144,6 +144,7 @@ const store = new Vuex.Store({
         socketService.emit("addedTask", newTask);
       }
     },
+    // FOR USER AVATAR UPLOAD
     async uploadImg(context, { file }) {
       let url = await imgService.uploadImg(file)
       console.log(url)
@@ -153,8 +154,10 @@ const store = new Vuex.Store({
       await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
       // context.dispatch({type:'updateCurrDirector'})
     },
+    // FOR MULTIPLE UPLOADS
     async uploadImgs(context, { files }) {
       let urls = await imgService.uploadPictures(files)
+      console.log(urls)
       context.commit({ type: 'updateDirectoreUrls', urls })
       await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
     },

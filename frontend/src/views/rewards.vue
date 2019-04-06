@@ -26,6 +26,7 @@
           <h2>+</h2>
           <h5>Choose an image</h5>
           <input
+          multiple
             type="file"
             class="form-control"
             v-on:change="upload($event.target.files)"
@@ -54,8 +55,8 @@ export default {
     };
   },
   methods: {
-    upload(file) {
-      this.$store.dispatch({ type: "uploadImg", file });
+    upload(files) {
+      this.$store.dispatch({ type: "uploadImgs", files });
     },
     deleteImg(url) {
       console.log(url);
