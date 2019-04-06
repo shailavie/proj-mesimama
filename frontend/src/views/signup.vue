@@ -1,11 +1,13 @@
 <template>
   <section class="login-container">
-    <div class="header-container">
+    <div class="header-container wrapper">
       <div class="logo-container flex center-ver">
         <img class="logo" src="@/assets/icons/mesimama.png" alt>
         <div class="header-title">Mesimama</div>
       </div>
-      <router-link to="/">See Demo</router-link>
+      <router-link to="/">
+        <span>See Demo</span>
+      </router-link>
     </div>
     <div class="flex column center-all mb30">
       <h1>Welcome to Mesimama!</h1>
@@ -18,7 +20,7 @@
         <span @click="isSignUp=true">Sign up</span>
       </h4>
     </div>
-    <div class="signup-form-container">
+    <div v-if="!inProcess" class="signup-form-container">
       <el-form
         class="signup-form"
         :model="dynamicValidateForm"
@@ -55,19 +57,19 @@
         >{{isSignUp? 'Sign up' : 'Log in'}}</button>
       </el-form>
     </div>
+    <div v-else class="loader">
+      Loading...
+    </div>
   </section>
 </template>
 
 <script>
-import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "../services/user.service.js";
 
 export default {
-  components: {
-    userAvatar
-  },
   data() {
     return {
+      inProcess: false,
       isSignUp: true,
       dynamicValidateForm: {
         email: "",
@@ -75,22 +77,9 @@ export default {
       }
     };
   },
-  computed: {
-    loginSignupCTA() {
-      return !this.isMember ? "Log in" : "SIGN UP";
-    },
-    loginSignupSwitch() {
-      return !this.isMember ? "Sign up" : "Log in";
-    },
-    loginSignupMsg() {
-      return this.isMember ? "Already a member? " : "New to Mesimama? ";
-    },
-    demoUsers() {
-      return this.$store.getters.introGroup;
-    }
-  },
   methods: {
     login(id) {
+      console.log('SIGNUP GOT ID and setting session', id)
       userService
         .setUserSession(id)
         .then(res => {
@@ -98,13 +87,16 @@ export default {
         })
         .then(() => {
           this.$store.dispatch({ type: "setCurrUser" }).then(() => {
-            this.$router.push("/app/tasks");
+            setTimeout(() => {
+              this.$router.push("/app/tasks");
+            }, 2000);
           });
         });
     },
     async signUp() {
       let userCred = this.dynamicValidateForm;
       let user = await this.$store.dispatch({ type: "signUp", userCred });
+      console.log('huston do we have a user?', user)
       this.login(user._id);
     },
     submitForm(formName) {
@@ -121,10 +113,6 @@ export default {
       this.$refs[formName].resetFields();
     },
     created() {
-      this.$store.dispatch({
-        type: "loadIntroGroup",
-        directorId: "5c98fa5eb687d600001a8d83"
-      });
       if ("Notification" in window && "serviceWorker" in navigator) {
         this.notificationsSupported = true;
       }
@@ -143,22 +131,6 @@ export default {
           }
         });
       }
-    },
-    setRole(id) {
-      userService
-        .setUserSession(id)
-        .then(res => {
-          console.log("Session is ", res);
-        })
-        .then(() => {
-          this.$store.dispatch({ type: "setCurrUser" }).then(() => {
-            this.$router.push("/app/tasks");
-          });
-        });
-    },
-    async enterDemo() {
-      await this.askPermission();
-      this.setRole("5c98fa5eb687d600001a8d83");
     }
   }
 };
@@ -168,6 +140,8 @@ export default {
 <style lang="scss" scoped>
 span {
   text-decoration: underline;
+  color: white;
+  cursor: pointer;
 }
 .signup-login-btn {
   width: 40%;
@@ -176,7 +150,7 @@ span {
   border-radius: 8px;
   border: none;
   color: white;
-  margin-bottom: 30px;
+  margin: 20px auto;
   font-size: 16px;
   font-weight: bolder;
   cursor: pointer;
@@ -187,7 +161,7 @@ span {
   padding: 40px;
   border-radius: 16px;
   min-width: 400px;
-  width: 50%;
+  width: 30%;
 }
 .signup-form-container {
   height: 90vh;
@@ -197,6 +171,7 @@ span {
 }
 .header-title {
   color: white;
+  user-select: none;
 }
 .header-container {
   padding: 30px;
@@ -217,19 +192,20 @@ span {
 .login-container {
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
 }
-.login {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 40px 0;
-  text-align: center;
-}
-a {
-  cursor: pointer;
-}
+
+// .login {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   color: #fff;
+//   flex-direction: column;
+//   min-height: 100vh;
+//   padding: 40px 0;
+//   text-align: center;
+// }
+// a {
+//   cursor: pointer;
+// }
 
 h1 {
   font-size: 250%;

@@ -1,9 +1,4 @@
 <template>
-  <!-- <div v-if="users.length >= 2"> -->
-  <!-- <h1>Our Daily Stars</h1>
-    <img :src="users[1].avatarUrl" class="user-avatar-test">
-    <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
-  </div>-->
   <section v-if="users.length >= 2" class="podium-section">
     <div class="podium-board-container">
       <div class="podium-container">

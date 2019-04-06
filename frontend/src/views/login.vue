@@ -1,11 +1,11 @@
 <template>
   <section class="login-container">
-    <div class="header-container">
+    <div class="header-container wrapper">
       <div class="logo-container flex center-ver">
         <img class="logo" src="@/assets/icons/mesimama.png" alt>
         <div class="header-title">Mesimama</div>
       </div>
-      <router-link to="/signup">Sign up</router-link>
+       <router-link to="/signup"><span>Sign up</span></router-link>
     </div>
     <div class="wrapper">
       <div class="login">
@@ -118,6 +118,12 @@ export default {
 
 
 <style lang="scss" scoped>
+ 
+span {
+  text-decoration: underline;
+  color: white;
+  cursor: pointer;
+}
 .header-title {
   color: white;
 }

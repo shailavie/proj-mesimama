@@ -1,7 +1,7 @@
 const mongoService = require('./mongo-service.js')
 const ObjectId = require('mongodb').ObjectId;
 const USERS_COLLECTION = 'users';
-const taskService = require( './task-service');
+const taskService = require('./task-service');
 
 
 module.exports = {
@@ -24,7 +24,7 @@ async function checkCred(userCred) {
         let newUser = _getEmptyUser(userCred)
         let addedUser = await _add(newUser)
         let userId = JSON.parse(JSON.stringify(addedUser._id))
-        addedUser.directorId = userId  
+        addedUser.directorId = userId
         let firstTask = _getFirstTask(addedUser.directorId)
         let newUserWithTask = await _addFirstTask(addedUser, firstTask)
         return newUserWithTask
@@ -54,7 +54,6 @@ function getById(userId) {
 
 function update(user) {
     let _id = new ObjectId(user._id)
-    delete user['_id'];
     return mongoService.connect()
         .then(db => db.collection('users').replaceOne({ _id }, user))
 }
@@ -73,7 +72,7 @@ function _addFirstTask(user, task) {
     return new Promise((resolve, reject) => {
         getById(user._id).then(user => {
             user.activeTasks.push(task)
-            user.directorId = JSON.parse(JSON.stringify(user._id ))
+            user.directorId = JSON.parse(JSON.stringify(user._id))
             taskService.add(task)
             update(user).then(resolve(user))
         })
@@ -81,7 +80,8 @@ function _addFirstTask(user, task) {
 }
 
 function _getEmptyUser({ email, password }) {
-    let userName = email.split('@')[0] || 'Puki';
+    let userName = email.split('@')[0] || 'Guest'
+    userName = userName.charAt(0).toUpperCase() + userName.slice(1)
     let newUser = {
         name: userName,
         relation: 'Mother',
