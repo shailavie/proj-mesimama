@@ -17,12 +17,14 @@ const userStore = {
     updateDirectorOnServer(state, { director }) {
       state.currDirector = director
     },
-    updateDirectoreUrls(state, { url }) {
-      let imgObj = {
-        url: url,
-        _id: utilService.makeId()
-      }
-      state.currDirector.imgUrls.unshift(imgObj)
+    updateDirectoreUrls(state, { urls }) {
+      urls.forEach((url)=>{
+        let imgObj = {
+          url,
+          _id: utilService.makeId()
+        }
+        state.currDirector.imgUrls.unshift(imgObj)
+      })
     },
     loadCurrDirector(state, { directorIdx }) {
       state.currDirector = state.currGroup[directorIdx]

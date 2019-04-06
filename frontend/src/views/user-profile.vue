@@ -2,9 +2,19 @@
   <section class="user-profile" v-if="user">
     <div class="flex center-ver mb30">
       <user-avatar :url="user.avatarUrl" :user="user" :profileImg="true"/>
+      <label class="upload-file flex column center-all">
+        <h2>+</h2>
+        <h5>Change User Picture</h5>
+        <input
+          type="file"
+          class="form-control"
+          v-on:change="uploadTaskImg($event.target.files)"
+          accept="image/*"
+        >
+      </label>
       <h1 class="ml30">{{user.name}}</h1>
     </div>
-    <dash-board ></dash-board>
+    <dash-board></dash-board>
     <h2 class="mbt30">{{user.name}}'s Tasks</h2>
     <ul>
       <!-- User's tasks -->
@@ -28,6 +38,7 @@ import userService from "../services/user.service.js";
 import userAvatar from "../components/user-avatar-cmp.vue";
 import taskPreview from "../components/task-preview-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
+import imgService from "../services/img-service.js"
 
 export default {
   name: "myAccount",
@@ -49,6 +60,12 @@ export default {
     this.$store.dispatch({ type: "loadActiveTasks" });
   },
   methods: {
+    async uploadTaskImg(file) {
+      let url = await imgService.uploadImg(file);
+      this.user.avatarUrl= url
+      await this.$store.dispatch({type:'updateUser',user:this.user})
+
+    },
     doneTask(task) {
       this.$store.dispatch("markDone", task);
     },
@@ -59,9 +76,11 @@ export default {
   computed: {
     myTasksToShow() {
       let myTasks = this.$store.getters.allTasks;
-      return myTasks.filter(task => task.helperId === this.user._id).sort((a, b) => {
-        return a.status > b.status ? 1 : -1;
-      });
+      return myTasks
+        .filter(task => task.helperId === this.user._id)
+        .sort((a, b) => {
+          return a.status > b.status ? 1 : -1;
+        });
     }
   }
 };
@@ -74,6 +93,19 @@ export default {
 h4 {
   text-transform: capitalize;
   margin-bottom: 20px;
+}
+.upload-file {
+  width: 100px;
+  height: 100px;
+  border: 2px dashed lightblue;
+  font-size: 20px;
+  color: lightblue;
+  cursor: pointer;
+  margin: 18px 10px;
+}
+.form-control {
+  position: absolute;
+  opacity: 0;
 }
 </style>
 

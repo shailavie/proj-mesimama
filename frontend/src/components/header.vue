@@ -1,5 +1,7 @@
 <template >
-  <div class="wrapper">
+
+  <div class="wrapper" >
+
     <div class="header-container">
       <router-link to="/">
         <div class="logo-container">
@@ -76,7 +78,9 @@ import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "@/services/user.service.js";
 
 export default {
-  props: {
+
+  props : {
+
     fontColor: {
       type: String
     }

@@ -76,6 +76,7 @@ export default {
     },
     demoUsers() {
       return this.$store.getters.introGroup;
+
     }
   },
   methods: {
