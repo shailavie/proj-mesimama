@@ -65,7 +65,9 @@ function connectSocket() {
 		refreshTasks()
 		refreshUserTasks()
 		if (task.isUrgent) {
-			pushService.pushNotification('Urgent Task',task)
+			// pushService.pushNotification('Urgent Task',task)
+		pushService.pushCustomNotification(`${task.title}- was made urgent, See if you can help!`,task.imgUrl)
+
 		}
 	})
 
@@ -85,7 +87,7 @@ function connectSocket() {
 		await refreshUser()
 		await refreshUserTasks()
 		_toasting(`${task.title}- was added`, 'success', 'Better go check it out!')
-		pushService.pushCustomNotification(`${task.title}- was added, Better go check it out!`)
+		pushService.pushCustomNotification(`${task.title}- was added, Better go check it out!`,task.imgUrl)
 	}
 
 	//TASK WAS ACOMPLISHED
@@ -97,12 +99,12 @@ function connectSocket() {
 		await refreshGroup()
 		await refreshUserTasks()
 		_toasting(`${obj.task.title} was acomplished by ${obj.user.name}!`, 'success', 'We are so happy!')
-		pushService.pushCustomNotification(`${obj.task.title} was acomplished by ${obj.user.name}!`)
+		pushService.pushCustomNotification(`${obj.task.title} was acomplished by ${obj.user.name}!`,obj.task.imgUrl)
 	}
 
 	socket.on('publishUrgent', task => {
 		_toasting(`${task.title} is urgent! See if you can help out`, 'error', 'See if you can help out')
-		pushService.pushCustomNotification(`"${task.title}" task is urgent! See if you can help out`)
+		pushService.pushCustomNotification(`"${task.title}" task is urgent! See if you can help out`,task.imgUrl)
 	})
 }
 

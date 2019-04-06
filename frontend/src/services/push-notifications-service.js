@@ -68,14 +68,14 @@ function _subscribeUser() {
     }
   }
 
-function pushCustomNotification(body) {
+function pushCustomNotification(body,url) {
     console.log('PUSH NOTIFICATION!')
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready // returns a Promise, the active SW registration
             .then(swreg => swreg.showNotification('Hi there!', {
                 body: body,
                 icon: '/img/icons/android-chrome-192x192.png',
-                image: '/img/icons/android-chrome-192x192.png',
+                image: url,
                 vibrate: [300, 200, 300],
                 badge: '/img/icons/android-chrome-192x192.png',
                 actions: [
@@ -85,3 +85,20 @@ function pushCustomNotification(body) {
             }))
     }
 }
+// function pushCustomNotification(body) {
+//     console.log('PUSH NOTIFICATION!')
+//     if ('serviceWorker' in navigator) {
+//         navigator.serviceWorker.ready // returns a Promise, the active SW registration
+//             .then(swreg => swreg.showNotification('Hi there!', {
+//                 body: body,
+//                 icon: '/img/icons/android-chrome-192x192.png',
+//                 image: '/img/icons/android-chrome-192x192.png',
+//                 vibrate: [300, 200, 300],
+//                 badge: '/img/icons/android-chrome-192x192.png',
+//                 actions: [
+//                     { action: 'confirm', title: 'Okay', icon: '/img/icons/android-chrome-192x192.png' },
+//                     { action: 'cancel', title: 'Cancel', icon: '/img/icons/android-chrome-192x192.png' }
+//                 ],
+//             }))
+//     }
+// }
