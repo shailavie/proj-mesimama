@@ -99,7 +99,12 @@ const store = new Vuex.Store({
     },
     async markDone(context, task) {
       var updatedTask = await taskService.markDone(task)
-      socketService.emit('finishedTask')
+      let user= userStore.state.currUser
+      let obj= {
+        task,
+        user
+      }
+      socketService.emit('finishedTask',obj)
     },
     async addNewComment(context, task) {
       if (task._id) {
@@ -144,16 +149,16 @@ const store = new Vuex.Store({
         socketService.emit("addedTask", newTask);
       }
     },
-    // FOR USER AVATAR UPLOAD
-    async uploadImg(context, { file }) {
-      let url = await imgService.uploadImg(file)
-      console.log(url)
-      //UPDATE STATE DIRECTOR
-      context.commit({ type: 'updateDirectoreUrls', url })
-      //UPDATE DIRECTOR ON DATABASE SERVER
-      await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
-      // context.dispatch({type:'updateCurrDirector'})
-    },
+    // // FOR USER AVATAR UPLOAD
+    // async uploadImg(context, { file }) {
+    //   let url = await imgService.uploadImg(file)
+    //   console.log(url)
+    //   //UPDATE STATE DIRECTOR
+    //   context.commit({ type: 'updateDirectoreUrls', url })
+    //   //UPDATE DIRECTOR ON DATABASE SERVER
+    //   await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
+    //   // context.dispatch({type:'updateCurrDirector'})
+    // },
     // FOR MULTIPLE UPLOADS
     async uploadImgs(context, { files }) {
       let urls = await imgService.uploadPictures(files)

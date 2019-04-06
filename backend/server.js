@@ -100,9 +100,9 @@ io.on('connection', socket => {
     })
 
     //TASK WAS ACOMPLISHED
-    socket.on('finishedTask', data => {
+    socket.on('finishedTask', task => {
         //TODO- SEND TO EVERYONE- send user data and task
-        io.emit('taskAcomplished', data)
+        io.emit('taskAcomplished', task)
     })
     socket.on('urgentTask', task => {
         socket.broadcast.emit('publishUrgent', task)
