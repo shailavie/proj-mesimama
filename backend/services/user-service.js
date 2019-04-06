@@ -1,7 +1,7 @@
 const mongoService = require('./mongo-service.js')
 const ObjectId = require('mongodb').ObjectId;
-
 const USERS_COLLECTION = 'users';
+const taskService = require( './task-service');
 
 
 module.exports = {
@@ -13,31 +13,20 @@ module.exports = {
 }
 
 async function checkCred(userCred) {
-    console.log('got credentials from route', userCred)
     let db = await mongoService.connect()
     let user = await db.collection(USERS_COLLECTION).findOne({ email: userCred.email })
     if (user && user.password === userCred.password) {
-        console.log('@@@@ BINGO @@@@ - CREDENTIALS ARE RIGHT!', user)
         return user
     } else if (user) {
         console.log("Credentials wrong");
         res.json({ data: "Login invalid" });
     } else {
-        console.log('no such user, lets sign UP!')
         let newUser = _getEmptyUser(userCred)
-        console.log('adding a user with an active first task', newUser)
         let addedUser = await _add(newUser)
-        console.log("new user id", addedUser._id)
-        console.log('typeof', typeof (addedUser._id))
-        // let userId = addedUser._id.split('"')[1]
-        // let userId = addedUser._id.str
-
-        // console.log('moment of TRUTH', userId)
-        addedUser.directorId = addedUser.email // placing a unique identifier bc couldn't retreive the id from objectid
+        let userId = JSON.parse(JSON.stringify(addedUser._id))
+        addedUser.directorId = userId  
         let firstTask = _getFirstTask(addedUser.directorId)
-        addedUser.activeTasks.push(firstTask)
-        let newUserWithTask = await update(addedUser)
-        // console.log('got result from mongo', newUserWithTask)
+        let newUserWithTask = await _addFirstTask(addedUser, firstTask)
         return newUserWithTask
     }
 }
@@ -70,10 +59,22 @@ function update(user) {
         .then(db => db.collection('users').replaceOne({ _id }, user))
 }
 
+
 function reward(userId, points) {
     return new Promise((resolve, reject) => {
         getById(userId).then(user => {
             user.score += points
+            update(user).then(resolve(user))
+        })
+    })
+}
+
+function _addFirstTask(user, task) {
+    return new Promise((resolve, reject) => {
+        getById(user._id).then(user => {
+            user.activeTasks.push(task)
+            user.directorId = JSON.parse(JSON.stringify(user._id ))
+            taskService.add(task)
             update(user).then(resolve(user))
         })
     })
@@ -86,15 +87,14 @@ function _getEmptyUser({ email, password }) {
         relation: 'Mother',
         activeTasks: [],
         doneTasks: [],
-        score: 0,
+        score: 1,
         email: email,
         password: password,
         isDirector: true,
-        directorId: email,
-        avatarUrl: null,
+        directorId: null,
+        avatarUrl: 'https://imageog.flaticon.com/icons/png/512/36/36481.png?size=1200x630f&pad=10,10,10,10&ext=png&bg=FFFFFFFF',
         notification: [],
         imgUrls: [],
-        password: null
     }
     return newUser
 }
@@ -102,16 +102,16 @@ function _getEmptyUser({ email, password }) {
 function _getFirstTask(directorId) {
     let firstTask = {
         createdAt: Date.now(),
-        desc: 'Add a description, and an image',
+        desc: 'Add family and friends to your circle',
         dueAt: Date.now(),
         directorId: directorId,
-        helperId: null,
+        helperId: directorId,
         points: 1,
         status: 'active',
-        title: 'This is an example task',
-        isUrgent: true,
+        title: 'Let\'s get things done!',
+        isUrgent: false,
         comments: [],
-        imgUrl: null
+        imgUrl: 'https://i.ytimg.com/vi/yd0cTU7rkI4/maxresdefault.jpg',
     }
     return firstTask
 }
@@ -119,4 +119,4 @@ function _getFirstTask(directorId) {
 
 
 
- 
+

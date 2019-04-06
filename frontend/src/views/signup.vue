@@ -13,7 +13,7 @@
       ref="dynamicValidateForm"
       label-width="120px"
       class="demo-dynamic"
-      @submit.prevent="printCredentials()"
+      @submit.prevent="signUp()"
     >
       <el-form-item
         prop="email"
@@ -35,7 +35,7 @@
       >
         <el-input v-model="dynamicValidateForm.password" type="password"></el-input>
       </el-form-item>
-      <button type="submit" @click.prevent="printCredentials">Sign-up</button>
+      <button type="submit" @click.prevent="signUp">Sign-up</button>
     </el-form>
   </section>
 </template>
@@ -83,12 +83,14 @@ export default {
           });
         });
     },
-    async printCredentials(){
+    async signUp(){
       console.log('in signup page',this.dynamicValidateForm)
       let userCred = this.dynamicValidateForm
       let user = await this.$store.dispatch({type: 'signUp', userCred})
-      console.log('FULL CIRCLE', user)
-      this.login(user._id)
+      console.log('FULL CIRCLE!!!!!!!!', user)
+      console.log('user id', user.directorId)
+
+      this.login(user.directorId)
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {

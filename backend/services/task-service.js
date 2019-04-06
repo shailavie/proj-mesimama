@@ -4,7 +4,6 @@ const ObjectId = require('mongodb').ObjectId;
 const TASKS_COLLECTION = 'tasks';
 
 function query(directorId) {
-    let _id = new ObjectId(directorId)
     return mongoService.connect()
         .then(db => db.collection(TASKS_COLLECTION).find({ directorId }).toArray())
 }

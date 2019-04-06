@@ -6,14 +6,11 @@ function addUserRoutes(app) {
     // Check credentials for user name (signup/login)
     app.post(`${BASE_URL}/checkCred/:userName`, (req, res) => {
         let userCred = req.body
-        console.log('user route new msg - got post cred1111:', userCred)
         userService.checkCred(userCred)
             .then(user => {
-                console.log('got a user back from user-service', user)
-                if(user)                 res.json(user)
+                if(user) res.json(user)
             })
     })
-
 
     // Get all team members
     app.get(`${BASE_URL}`, (req, res) => {
@@ -57,12 +54,11 @@ function addUserRoutes(app) {
             })
     })
 
-     // Set current session user
-     app.post(`${BASE_URL}/signup`, (req, res) => {
-         
-        req.session.userId = req.body.userId;
-        res.send(req.session.userId)
-    })
+    //  // Set current session user
+    //  app.post(`${BASE_URL}/signup`, (req, res) => {
+    //     req.session.userId = req.body.userId;
+    //     res.send(req.session.userId)
+    // })
 
     // Set current session user
     app.post(`${BASE_URL}/setuser`, (req, res) => {

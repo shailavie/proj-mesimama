@@ -22,8 +22,9 @@
             <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
             <el-option value="5c9cabfc1c9d44000089436f">Yuval</el-option>
             <el-option value="5c9cab421c9d44000089436e">Yossi</el-option>
-            <el-option value="5c93538ced3d88a4b25d83ad">Yair (group2 helper)</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ad">Uri (group2 helper)</el-option>
             <el-option value="5c93538ced3d88a4b25d83ac">Shira (group2 director)</el-option>
+            <el-option value="5ca897a9fbb453c7b400aac9">Shai</el-option>
           </el-select>
         </div>
 
