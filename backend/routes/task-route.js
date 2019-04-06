@@ -19,6 +19,7 @@ function addTaskRoutes(app) {
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId
+    console.log('FOCUSSSSSS', userId)
     userService.getById(userId).then(user => {
       return user
     })
@@ -26,6 +27,8 @@ function addTaskRoutes(app) {
         // Is user director? if so, query all tasks referring to his ID
         taskService.query((user.isDirector) ? userId : user.directorId)
           .then(tasks => {
+            console.log('FOUCSSSS 1.5', userId)
+            console.log('FOCUSSSSS 2', tasks)
             if (!tasks || tasks.length === 0) {
               res.send('Nothing found!')
             }

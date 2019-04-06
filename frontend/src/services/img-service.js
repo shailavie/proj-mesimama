@@ -51,6 +51,7 @@ function uploadPictures(files) {
       });
     }))
   });
+
   return Promise.all(prms)
   .then((res)=>{
     console.log(res)
@@ -79,3 +80,4 @@ function uploadPictures(files) {
 //     prms.push(prm._v)
 //   });
 // }
+

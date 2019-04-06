@@ -1,5 +1,5 @@
 <template>
-  <section class="task-list-page">
+  <section class="task-list-page" v-if="canLoad">
     <section class="all-tasks-panel">
       <!-- <button @click="doneTask">Done task QA</button> -->
       <div class="all-tasks-panel-inside">
@@ -86,6 +86,7 @@ export default {
   },
   data() {
     return {
+      canLoad: false,
       value: false,
       window: {
         width: 0
@@ -96,10 +97,11 @@ export default {
       showTaskDoneMsg: false
     };
   },
-  created() {
+  async created() {
     console.log("created at tasks page");
-    this.$store.dispatch({ type: "loadUsersWithTasks" });
-    this.$store.dispatch({ type: "loadActiveTasks" });
+    await this.$store.dispatch({ type: "loadUsersWithTasks" });
+    await this.$store.dispatch({ type: "loadActiveTasks" });
+    this.canLoad = true;
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },

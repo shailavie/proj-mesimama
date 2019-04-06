@@ -1,5 +1,7 @@
 <template >
+
   <div class="wrapper" >
+
     <div class="header-container">
       <router-link to="/">
         <div class="logo-container">
@@ -22,8 +24,9 @@
             <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
             <el-option value="5c9cabfc1c9d44000089436f">Yuval</el-option>
             <el-option value="5c9cab421c9d44000089436e">Yossi</el-option>
-            <el-option value="5c93538ced3d88a4b25d83ad">Yair (group2 helper)</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ad">Uri (group2 helper)</el-option>
             <el-option value="5c93538ced3d88a4b25d83ac">Shira (group2 director)</el-option>
+            <el-option value="5ca897a9fbb453c7b400aac9">Shai</el-option>
           </el-select>
         </div>
 
@@ -75,7 +78,9 @@ import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "@/services/user.service.js";
 
 export default {
+
   props : {
+
     fontColor: {
       type: String
     }
@@ -115,10 +120,14 @@ export default {
     },
     counter() {
       let user = this.$store.getters.currUser;
-      let unReadNotifications = user.notifications.filter(notification => {
-        return !notification.isRead;
-      });
-      return unReadNotifications.length;
+      if (user.notifications) {
+        let unReadNotifications = user.notifications.filter(
+          notification => !notification.isRead
+        );
+        return unReadNotifications.length;
+      } else {
+        return 0;
+      }
     },
     score() {
       return this.$store.getters.currUser.score;
