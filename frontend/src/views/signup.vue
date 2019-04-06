@@ -105,7 +105,7 @@ export default {
     async signUp() {
       let userCred = this.dynamicValidateForm;
       let user = await this.$store.dispatch({ type: "signUp", userCred });
-      this.login(user.directorId);
+      this.login(user._id);
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -179,6 +179,7 @@ span {
   margin-bottom: 30px;
   font-size: 16px;
   font-weight: bolder;
+  cursor: pointer;
 }
 .signup-form {
   margin: 0 auto;

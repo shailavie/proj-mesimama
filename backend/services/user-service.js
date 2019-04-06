@@ -92,7 +92,7 @@ function _getEmptyUser({ email, password }) {
         password: password,
         isDirector: true,
         directorId: null,
-        avatarUrl: 'https://imageog.flaticon.com/icons/png/512/36/36481.png?size=1200x630f&pad=10,10,10,10&ext=png&bg=FFFFFFFF',
+        avatarUrl: `https://api.adorable.io/avatars/150/${userName}.png`,
         notification: [],
         imgUrls: [],
     }
