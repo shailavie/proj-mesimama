@@ -4,7 +4,7 @@
 
 <template>
   <section v-if="user">
-    <h1>This just in!</h1>
+    <h1>News!</h1>
     <!-- <pre>{{notifications}}</pre> -->
     <ul>
       <li v-for="(notification,idx) in user.notifications" :key="idx" :class="isRead(notification)">
