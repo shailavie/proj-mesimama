@@ -53,20 +53,21 @@ function connectSocket() {
 		_toasting(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
 	})
 	//TASK WAS PASSED
-	socket.on('publishPassedTask', async function passRefreshCallback(task) {
-		await refreshTasks()
-		await refreshUser()
+	socket.on('publishPassedTask', async (task) => {
 		await refreshUserTasks()
+		await refreshUser()
+		await refreshTasks()
 		_toasting(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
+		pushService.pushCustomNotification(`${task.title}- was passed, See if you can help!`,task.imgUrl)
 	})
 
 	//TASK WAS UPDATED
-	socket.on('publishUpdatedTask', task => {
-		refreshTasks()
-		refreshUserTasks()
+	socket.on('publishUpdatedTask', async (task) => {
+		await refreshTasks()
+		await refreshUser()
+		await refreshUserTasks()
 		if (task.isUrgent) {
-			// pushService.pushNotification('Urgent Task',task)
-		pushService.pushCustomNotification(`${task.title}- was made urgent, See if you can help!`,task.imgUrl)
+		pushService.pushCustomNotification(`${task.title}- was flagged urgent, See if you can help!`,task.imgUrl)
 
 		}
 	})

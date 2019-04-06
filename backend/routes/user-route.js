@@ -12,6 +12,7 @@ function addUserRoutes(app) {
             })
     })
 
+
     // Get all team members
     app.get(`${BASE_URL}`, (req, res) => {
         if (!req.session.userId) {
@@ -31,7 +32,6 @@ function addUserRoutes(app) {
     // Get all team members
     app.get(`${BASE_URL}/loadIntroGroup/:directorId`, (req, res) => {
         let directorId = req.params.directorId
-        console.log('ROUTE GOT INRO ID', directorId)
         userService.query(directorId)
             .then(users => {
                 res.json(users)

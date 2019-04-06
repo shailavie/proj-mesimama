@@ -59,7 +59,7 @@ const userStore = {
       console.log(newAddedUser._id)
       console.log('In store, got director id:',newAddedUser.directorId)
       console.log('returning to signup page with a user')
-      return Promise.resolve(newAddedUser)
+      return newAddedUser
     },
     async deleteImg(context, { url }) {
       let imgId = url._id
