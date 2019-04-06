@@ -1,5 +1,5 @@
 <template>
-  <section class="login-container">
+  <section class="login-container" v-if="canLoad">
     <div class="header-container wrapper">
       <div class="logo-container flex center-ver">
         <img class="logo" src="@/assets/icons/mesimama.png" alt>
@@ -10,7 +10,7 @@
       </router-link>
     </div>
     <div class="flex column center-all mb30">
-      <h1>Welcome to Mesimama!</h1>
+      <h1>{{userMsg}}</h1>
       <h4 v-if="isSignUp">
         Have we met already?
         <span @click="isSignUp=false">Log in</span>
@@ -38,7 +38,7 @@
       { type: 'email', message: 'Please enter a correct email address', trigger: ['blur'] }
     ]"
         >
-          <el-input v-model="dynamicValidateForm.email"></el-input>
+          <el-input v-model="dynamicValidateForm.email" clearable></el-input>
         </el-form-item>
         <el-form-item
           prop="password"
@@ -48,7 +48,7 @@
       { type: 'email', message: 'Please enter a password', trigger: ['blur'] }
     ]"
         >
-          <el-input v-model="dynamicValidateForm.password" type="password"></el-input>
+          <el-input v-model="dynamicValidateForm.password" type="password" clearable></el-input>
         </el-form-item>
         <button
           type="submit"
@@ -57,9 +57,7 @@
         >{{isSignUp? 'Sign up' : 'Log in'}}</button>
       </el-form>
     </div>
-    <div v-else class="loader">
-      Loading...
-    </div>
+    <div v-else class="loader">Loading...</div>
   </section>
 </template>
 
@@ -69,6 +67,8 @@ import userService from "../services/user.service.js";
 export default {
   data() {
     return {
+      user: null,
+      canLoad: false,
       inProcess: false,
       isSignUp: true,
       dynamicValidateForm: {
@@ -77,9 +77,22 @@ export default {
       }
     };
   },
+  async created() {
+    let helperId = this.$route.params.helperId;
+    console.log("signup got id from route", helperId);
+    if (helperId) {
+      this.user = await userService.getUserById(helperId);
+      console.log("got user from helper id:", this.user);
+      this.dynamicValidateForm.email = this.user.email;
+      this.dynamicValidateForm.password = "";
+      this.canLoad = true;
+    } else {
+      this.canLoad = true;
+    }
+  },
   methods: {
     login(id) {
-      console.log('SIGNUP GOT ID and setting session', id)
+      console.log("SIGNUP GOT ID and setting session", id);
       userService
         .setUserSession(id)
         .then(res => {
@@ -96,7 +109,7 @@ export default {
     async signUp() {
       let userCred = this.dynamicValidateForm;
       let user = await this.$store.dispatch({ type: "signUp", userCred });
-      console.log('huston do we have a user?', user)
+      console.log("huston do we have a user?", user);
       this.login(user._id);
     },
     submitForm(formName) {
@@ -131,6 +144,11 @@ export default {
           }
         });
       }
+    }
+  },
+  computed: {
+    userMsg() {
+      return this.user ? `Hey ${this.user.name}!` : "Welcome to Mesimama!";
     }
   }
 };

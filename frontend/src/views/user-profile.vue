@@ -4,7 +4,7 @@
       <user-avatar :url="user.avatarUrl" :user="user" :profileImg="true"/>
       <label class="upload-file flex column center-all">
         <h2>+</h2>
-        <h5>Change User Picture</h5>
+        <h5>Change picture</h5>
         <input
           type="file"
           class="form-control"
@@ -15,6 +15,10 @@
       <h1 class="ml30">{{user.name}}</h1>
     </div>
     <dash-board></dash-board>
+    <div v-if="user.isDirector">
+      <h2 class="mbt30">Invite Family and Friends</h2>
+      <add-users/>
+    </div>
     <h2 class="mbt30">{{user.name}}'s Tasks</h2>
     <ul>
       <!-- User's tasks -->
@@ -38,14 +42,16 @@ import userService from "../services/user.service.js";
 import userAvatar from "../components/user-avatar-cmp.vue";
 import taskPreview from "../components/task-preview-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
-import imgService from "../services/img-service.js"
+import imgService from "../services/img-service.js";
+import addUsers from "./add-users.vue";
 
 export default {
   name: "myAccount",
   components: {
     userAvatar,
     taskPreview,
-    dashBoard
+    dashBoard,
+    addUsers
   },
   data() {
     return {
@@ -62,9 +68,8 @@ export default {
   methods: {
     async uploadTaskImg(file) {
       let url = await imgService.uploadImg(file);
-      this.user.avatarUrl= url
-      await this.$store.dispatch({type:'updateUser',user:this.user})
-
+      this.user.avatarUrl = url;
+      await this.$store.dispatch({ type: "updateUser", user: this.user });
     },
     doneTask(task) {
       this.$store.dispatch("markDone", task);
@@ -95,13 +100,20 @@ h4 {
   margin-bottom: 20px;
 }
 .upload-file {
-  width: 100px;
-  height: 100px;
-  border: 2px dashed lightblue;
+  position: absolute;
+  z-index: 3;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
   font-size: 20px;
-  color: lightblue;
   cursor: pointer;
-  margin: 18px 10px;
+  color: transparent;
+  border: transparent;
+  transition: 0.3s ease;
+  &:hover {
+    color: white;
+    border: 2px dashed lightblue;
+  }
 }
 .form-control {
   position: absolute;

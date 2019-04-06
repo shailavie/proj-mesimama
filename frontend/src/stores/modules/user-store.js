@@ -52,13 +52,19 @@ const userStore = {
 
   },
   actions: {
+    async addHelper(context, {helperToAdd}){
+      console.log('newHelper to add:',helperToAdd)
+      let newAddedHelper = await userService.addHelper(helperToAdd)
+      console.log('newAddedHelper',newAddedHelper)
+      return newAddedHelper
+    },
     async signUp(context, {userCred}){
       console.log('userCred',userCred)
       let newAddedUser = await userService.checkCred(userCred)
-      console.log('store got result from the db - wow',newAddedUser)
-      console.log(newAddedUser._id)
-      console.log('In store, got director id:',newAddedUser.directorId)
-      console.log('returning to signup page with a user')
+      // console.log('store got result from the db - wow',newAddedUser)
+      // console.log(newAddedUser._id)
+      // console.log('In store, got director id:',newAddedUser.directorId)
+      // console.log('returning to signup page with a user')
       return newAddedUser
     },
     async deleteImg(context, { url }) {

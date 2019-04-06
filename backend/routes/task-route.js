@@ -13,7 +13,6 @@ function addTaskRoutes(app) {
       return user
     })
       .then((user) => {
-        console.log('POTATO HERE', user)
         taskService.query((user.isDirector) ? userId : user.directorId)
           .then(tasks => {
             if (!tasks || tasks.length === 0) {
