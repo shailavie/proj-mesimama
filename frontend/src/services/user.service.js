@@ -108,6 +108,7 @@ function getIntroUsers(directorId) {
 
 //update user notifications 
 function updateGroupNotifications(group, notification) {
+    console.log('got group',group)
     var promises = []
     group.forEach((user) => {
         if (!user.isDirector) {

@@ -11,6 +11,7 @@
     </div>
     <div class="flex column center-all mb30">
       <h1>{{userMsg}}</h1>
+      <h4 v-if="helper">{{directorNameToShow}} has invited you to join Mesimama</h4>
       <h4 v-if="isSignUp">
         Have we met already?
         <span @click="isSignUp=false">Log in</span>
@@ -41,6 +42,7 @@
           <el-input v-model="dynamicValidateForm.email" clearable></el-input>
         </el-form-item>
         <el-form-item
+         v-if="!helper"
           prop="password"
           label="Password"
           :rules="[
@@ -67,7 +69,8 @@ import userService from "../services/user.service.js";
 export default {
   data() {
     return {
-      user: null,
+      helper: null,
+      director: null,
       canLoad: false,
       inProcess: false,
       isSignUp: true,
@@ -81,10 +84,12 @@ export default {
     let helperId = this.$route.params.helperId;
     console.log("signup got id from route", helperId);
     if (helperId) {
-      this.user = await userService.getUserById(helperId);
-      console.log("got user from helper id:", this.user);
-      this.dynamicValidateForm.email = this.user.email;
+      this.helper = await userService.getUserById(helperId);
+      this.director = await userService.getUserById(this.helper.directorId);
+      console.log("got user from helper id:", this.helper);
+      this.dynamicValidateForm.email = this.helper.email;
       this.dynamicValidateForm.password = "";
+      this.isSignUp = false;
       this.canLoad = true;
     } else {
       this.canLoad = true;
@@ -107,10 +112,14 @@ export default {
         });
     },
     async signUp() {
-      let userCred = this.dynamicValidateForm;
-      let user = await this.$store.dispatch({ type: "signUp", userCred });
-      console.log("huston do we have a user?", user);
-      this.login(user._id);
+      if (this.helper) {
+        this.login(this.helper._id)
+      } else {
+        let userCred = this.dynamicValidateForm;
+        let user = await this.$store.dispatch({ type: "signUp", userCred });
+        console.log("huston do we have a user?", user);
+        this.login(user._id);
+      }
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -148,7 +157,10 @@ export default {
   },
   computed: {
     userMsg() {
-      return this.user ? `Hey ${this.user.name}!` : "Welcome to Mesimama!";
+      return this.helper ? `Hey ${this.helper.name}!` : "Welcome to Mesimama!";
+    },
+    directorNameToShow(){
+      return this.director.name.replace('.',' ')
     }
   }
 };

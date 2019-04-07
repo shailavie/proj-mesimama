@@ -18,7 +18,7 @@ const userStore = {
       state.currDirector = director
     },
     updateDirectoreUrls(state, { urls }) {
-      urls.forEach((url)=>{
+      urls.forEach((url) => {
         let imgObj = {
           url,
           _id: utilService.makeId()
@@ -52,14 +52,14 @@ const userStore = {
 
   },
   actions: {
-    async addHelper(context, {helperToAdd}){
-      console.log('newHelper to add:',helperToAdd)
+    async addHelper(context, { helperToAdd }) {
+      console.log('newHelper to add:', helperToAdd)
       let newAddedHelper = await userService.addHelper(helperToAdd)
-      console.log('newAddedHelper',newAddedHelper)
+      console.log('newAddedHelper', newAddedHelper)
       return newAddedHelper
     },
-    async signUp(context, {userCred}){
-      console.log('userCred',userCred)
+    async signUp(context, { userCred }) {
+      console.log('userCred', userCred)
       let newAddedUser = await userService.checkCred(userCred)
       // console.log('store got result from the db - wow',newAddedUser)
       // console.log(newAddedUser._id)

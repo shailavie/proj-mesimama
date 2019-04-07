@@ -70,8 +70,9 @@ function getById(userId) {
 
 function update(user) {
     let _id = new ObjectId(user._id)
+    delete user['_id'];
     return mongoService.connect()
-        .then(db => db.collection('users').replaceOne({ _id }, user))
+        .then(db => db.collection(USERS_COLLECTION).replaceOne({ _id }, user))
 }
 
 
@@ -109,7 +110,7 @@ function _getEmptyUser({ email, password }) {
         isDirector: true,
         directorId: null,
         avatarUrl: `https://api.adorable.io/avatars/150/${userName}.png`,
-        notification: [],
+        notifications: [],
         imgUrls: [],
     }
     return newUser

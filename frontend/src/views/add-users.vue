@@ -50,7 +50,7 @@ export default {
     },
     shareLink(helperId) {
       let newUserId = helperId ? helperId : "";
-      let value = `http://www.mesimama.com/signup/${newUserId}`;
+      let value = `${window.location.origin}/#/signup/${newUserId}`
       return value;
     }
   }
