@@ -1,7 +1,7 @@
 <template>
   <section class="user-profile" v-if="user">
-    <div class="flex center-ver mb30">
-      <user-avatar :url="user.avatarUrl" :user="user" :profileImg="true"/>
+    <div class="flex center-ver mb30 user-info-container">
+      <user-avatar class="profile-img" :url="user.avatarUrl" :user="user" :profileImg="true"/>
       <label class="upload-file flex column center-all">
         <h2>+</h2>
         <h5>Change picture</h5>
@@ -110,6 +110,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@media (max-width: 590px) {
+  .user-info-container {
+    flex-direction: column;
+  }
+  .profile-img {
+  margin-bottom: 20px;
+}
+}
+.profile-img {
+  width: 168px;
+  height: 168px;
+}
 .user-in-group {
   font-size: 14px;
   text-align: center;
