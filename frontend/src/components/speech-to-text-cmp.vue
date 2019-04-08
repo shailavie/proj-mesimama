@@ -117,10 +117,10 @@ export default {
 .speech-to-text-btn {
   border-radius: 50%;
   border: none;
-  background: rgb(218, 217, 217) no-repeat center/50%
+  background: rgb(218, 217, 217) no-repeat center/45%
     url("https://static.thenounproject.com/png/2313-200.png");
   &:hover {
-    background: rgb(235, 110, 110) no-repeat center/50%
+    background: rgb(235, 110, 110) no-repeat center/45%
       url("https://static.thenounproject.com/png/2313-200.png");
   }
 }

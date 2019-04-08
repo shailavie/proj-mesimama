@@ -140,7 +140,7 @@ export default {
     padding-top: 0px;
   }
   .text-details-comments {
-    margin-top: 20px;
+    margin: 30px 0;
   }
 }
 
