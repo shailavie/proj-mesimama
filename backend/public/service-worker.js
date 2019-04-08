@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.b038b30e6f0503a98346fa99de46acd8.js"
+  "/precache-manifest.27bd1ad632e2c4e1be9794024133d2b5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "mesimama"});

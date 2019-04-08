@@ -244,7 +244,8 @@ export default {
     margin-bottom: 180px;
   }
   .save-task-btn {
-    height: 80px;
+    height: 60px;
+    width: 80%;
     bottom: 0;
     left: 0;
     font-size: 20px;
@@ -293,7 +294,7 @@ export default {
     background-color: white;
   }
   .form-input {
-    max-width: 200px;
+    width: 350px;
     margin-right: 10px;
   }
 
