@@ -14,11 +14,23 @@
       </label>
       <h1 class="ml30">{{user.name}}</h1>
     </div>
-    <dash-board></dash-board>
+    <h2 class="mbt30">My group</h2>
+    <ul class="flex">
+      <!-- User's group -->
+      <li v-for="currUser in myGroupToShow" :key="currUser._id" class="flex column user-in-group">
+        <user-avatar
+          :user="currUser"
+          :url="currUser.avatarUrl"
+        >
+        </user-avatar>
+        {{currUser.name}}
+      </li>
+    </ul>
     <div v-if="user.isDirector">
       <h2 class="mbt30">Invite Family and Friends</h2>
       <add-users/>
     </div>
+    <dash-board/>
     <h2 class="mbt30">{{user.name}}'s Tasks</h2>
     <ul>
       <!-- User's tasks -->
@@ -64,6 +76,8 @@ export default {
     this.user = await userService.getUserById(userId);
     console.log("my account got user!", this.user);
     this.$store.dispatch({ type: "loadActiveTasks" });
+    this.$store.dispatch({ type: "loadGroup" });
+    
   },
   methods: {
     async uploadTaskImg(file) {
@@ -86,12 +100,21 @@ export default {
         .sort((a, b) => {
           return a.status > b.status ? 1 : -1;
         });
+    },
+    myGroupToShow(){
+      let group = this.$store.getters.currGroup
+      return group
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.user-in-group {
+  font-size: 14px;
+  text-align: center;
+  margin-left: 10px;
+}
 .user-profile {
   padding: 30px;
 }

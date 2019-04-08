@@ -26,7 +26,7 @@
             <el-option value="5c9cab421c9d44000089436e">Yossi</el-option>
             <el-option value="5c93538ced3d88a4b25d83ad">Uri (group2 helper)</el-option>
             <el-option value="5c93538ced3d88a4b25d83ac">Shira (group2 director)</el-option>
-            <el-option value="5ca897a9fbb453c7b400aac9">Shai</el-option>
+            <el-option value="5ca935e62424801256551bec">Shai</el-option>
           </el-select>
         </div>
 
