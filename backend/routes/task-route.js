@@ -1,34 +1,22 @@
 const taskService = require('../services/task-service.js')
 const userService = require('../services/user-service.js')
 
-//IMG UPLOAD
-// const cloudinary = require('cloudinary');
-// cloudinary.config({ 
-//   cloud_name: 'sample', 
-//   api_key: '559498588269355', 
-//   api_secret: 'qC9KnAVCWrIpNKFtR3w5QM43Gc8' 
-// });
-// const CLOUDINARY_URL="cloudinary://757281885482997:B2hh29N3yu87rNqW4ssH75mTxt8@dgvsdobz4"
-
 const BASE_URL = '/api/tasks'
 
 function addTaskRoutes(app) {
 
-
-
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@userId:',userId)
     userService.getById(userId).then(user => {
       return user
     })
       .then((user) => {
-        // Is user director? if so, query all tasks referring to his ID
+        console.log('i see user', user)
         taskService.query((user.isDirector) ? userId : user.directorId)
           .then(tasks => {
             if (!tasks || tasks.length === 0) {
-              res.send('Nothing found!')
+              res.send('No task to show!')
             }
             else {
               res.json(tasks)
@@ -100,6 +88,16 @@ function addTaskRoutes(app) {
       taskService.update(task)
         .then(() => res.json(task))
     }
+  })
+
+  //Add a comment to Task (open to all registered users)
+  app.put(`${BASE_URL}/:taskId/addComment`, (req, res) => {
+    // const userId = req.session.userId
+    const task = req.body
+    taskService.addCommentTo(task)
+      .then(task => {
+        res.json(task)
+      })
   })
 
   //Own Task

@@ -1,17 +1,30 @@
 <template>
-  <router-link :to="'/app/user-profile/'+userId">
-    <div class="user-avatar" :style="avatarBackgroundImgStyle"></div>
-  </router-link>
+  <div
+    @click="linkToProfile"
+    class="user-avatar"
+    :class="{'large': profileImg}"
+    :style="avatarBackgroundImgStyle"
+    :title="nameToTitle"
+  ></div>
 </template>
 
 <script>
 export default {
-  props: ["url", "userId"],
+  props: ["url", "user", "profileImg", "clickable"],
+  methods: {
+    linkToProfile() {
+      if (this.clickable === false) return;
+      this.$router.push("/app/user-profile/" + this.user._id);
+    }
+  },
   computed: {
     avatarBackgroundImgStyle() {
       return {
         backgroundImage: `url(${this.url})`
       };
+    },
+    nameToTitle() {
+      return `${this.user.name}'s profile`;
     }
   }
 };
@@ -26,5 +39,11 @@ export default {
   background-position: center;
   cursor: pointer;
   border: 1px solid #ececec;
+}
+.large {
+  width: 168px;
+  height: 168px;
+  border: 3px solid white;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 </style>

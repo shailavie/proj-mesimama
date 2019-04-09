@@ -1,9 +1,9 @@
 <template>
-  <section class="task-list-page">
+  <section class="task-list-page" v-if="canLoad">
     <section class="all-tasks-panel">
+      <!-- <button @click="doneTask">Done task QA</button> -->
       <div class="all-tasks-panel-inside">
         <!-- My Tasks -->
-
         <task-list-cmp
           v-if="userToShow"
           :tasks="myTasksToShow"
@@ -17,7 +17,7 @@
 
         <task-list-cmp
           :tasks="unOwnedTasksToShow"
-          title="Tasks to go"
+          title="Help Needed"
           @task-owned="ownTask($event)"
           @task-passed="passTask($event)"
           @task-done="doneTask($event)"
@@ -40,18 +40,15 @@
           @task-remove="removeTask($event)"
         ></task-list-cmp>
 
-        <!-- Done Tasks -->
-        <h1>Done Tasks</h1>
-
         <!-- Others Tasks -->
         <h2>
-          <strong>Other's Tasks</strong>
+          <strong>Done Tasks</strong>
         </h2>
 
         <task-list-cmp
           v-if="userToShow"
           :tasks="doneTasksToShow"
-          title="Done tasks"
+          title="Kudos to us!"
           @task-edit="editTask($event)"
           @task-remove="removeTask($event)"
         ></task-list-cmp>
@@ -59,10 +56,13 @@
     </section>
 
     <section class="stats-panel">
-      <dash-board></dash-board>
-      <!-- <podium-board-cmp></podium-board-cmp> -->
-      <photo-gallery class="photo-gallery"/>
+      <dash-board @click.native="sendToRewards"/>
+      <podium-board-cmp />
+      <photo-gallery @click.native="sendToRewards" class="photo-gallery"/>
     </section>
+
+    <!-- Task Done Popup -->
+    <task-done-msg v-if="showTaskDoneMsg" :time="5000" @close-task-done-msg="closeTaskDoneMsg"></task-done-msg>
   </section>
 </template>
 
@@ -72,6 +72,7 @@ import taskListCmp from "../components/task-list-cmp.vue";
 import podiumBoardCmp from "../components/podium-board-cmp.vue";
 import dashBoard from "../components/dashboard.vue";
 import photoGallery from "../components/photo-gallery-cmp.vue";
+import taskDoneMsg from "../components/task-done-cmp.vue";
 import socketService from "../services/socket.service.js";
 
 export default {
@@ -80,23 +81,27 @@ export default {
     taskListCmp,
     podiumBoardCmp,
     dashBoard,
-    photoGallery
+    photoGallery,
+    taskDoneMsg
   },
   data() {
     return {
+      canLoad: false,
       value: false,
       window: {
         width: 0
       },
       user: null,
       showMyTasks: true,
-      showUnOwnedTasks: true
+      showUnOwnedTasks: true,
+      showTaskDoneMsg: false
     };
   },
-  created() {
+  async created() {
     console.log("created at tasks page");
-    this.$store.dispatch({ type: "loadUsersWithTasks" });
-    this.$store.dispatch({ type: "loadActiveTasks" });
+    await this.$store.dispatch({ type: "loadUsersWithTasks" });
+    await this.$store.dispatch({ type: "loadActiveTasks" });
+    this.canLoad = true;
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
   },
@@ -137,11 +142,18 @@ export default {
     }
   },
   methods: {
+    sendToRewards(){
+      this.$router.push('rewards')
+    },
+    closeTaskDoneMsg() {
+      this.showTaskDoneMsg = false;
+    },
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
     },
     doneTask(task) {
       this.$store.dispatch("markDone", task);
+      this.showTaskDoneMsg = true;
     },
     passTask(task) {
       this.$store.dispatch("passTask", task);
@@ -207,13 +219,10 @@ export default {
     flex-grow: 1;
     padding-right: 0;
   }
-
   .stats-panel {
     padding: 0px 60px 30px 60px;
-    // order: -1;
   }
 }
-
 .toggle-tasks {
   margin: 10px auto;
 }

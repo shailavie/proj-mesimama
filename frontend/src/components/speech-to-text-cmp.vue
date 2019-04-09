@@ -1,19 +1,11 @@
 
- 
+
 <template>
   <section>
-    <!-- <p el-if="error" class="grey--text">{{error}}</p> -->
-    <!-- <p el-else class="mb-0">
-      <span v-for="(sentence,idx) in sentences" :key="idx">{{sentence}}.</span>
-      <span>{{runtimeTranscription}}</span>
-    </p>-->
     <el-button
       class="speech-to-text-btn"
       dark
       @click.stop.native.prevent="toggle ? endSpeechRecognition() : startSpeechRecognition()"
-      icon
-      :color="!toggle ? 'grey' : (speaking ? 'red' : 'red darken-3')"
-      :class="{'animated infinite pulse': toggle}"
     >
       <el-icon>{{toggle ? 'mic_off' : 'mic'}}</el-icon>
     </el-button>
@@ -59,8 +51,14 @@ export default {
         sentences: this.sentences,
         text: this.sentences.join(". ")
       });
+      setTimeout(() => {
+        this.sentences = "";
+      }, 1000);
     },
     startSpeechRecognition() {
+      setTimeout(() => {
+        this.endSpeechRecognition();
+      }, 5000);
       if (!recognition) {
         this.error =
           "Speech Recognition is not available on this browser. Please use Chrome or Firefox";
@@ -119,14 +117,13 @@ export default {
 .speech-to-text-btn {
   border-radius: 50%;
   border: none;
-  background: rgb(218, 217, 217) no-repeat center/50%
+  background: rgb(218, 217, 217) no-repeat center/45%
     url("https://static.thenounproject.com/png/2313-200.png");
   &:hover {
-    background: rgb(235, 110, 110) no-repeat center/50%
+    background: rgb(235, 110, 110) no-repeat center/45%
       url("https://static.thenounproject.com/png/2313-200.png");
   }
 }
 </style>
 
-    
- 
+

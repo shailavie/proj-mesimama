@@ -31,6 +31,12 @@ body {
   background: #fafafa;
 }
 
+@media (max-width: 768px) {
+  body {
+    background: #fff;
+  }
+}
+
 button:focus {
   outline: none;
 }
@@ -177,8 +183,8 @@ main {
   font-weight: bolder;
   height: 18px;
   width: 18px;
-  left: -7px;
-  top: -5px;
+  right: -6px;
+  top: -8px;
   background: red;
   color: #fff;
 }
@@ -219,7 +225,7 @@ main {
 
 .task-details-center-box {
   padding: 40px;
-  flex-basis: 60%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -252,9 +258,12 @@ button.el-button--primary:focus {
 button.el-button--primary:hover,
 button.el-button--default:hover {
   background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
-  border: 0;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   color: #fff;
+}
+
+.upload-file {
+  cursor: pointer;
 }
 
 // Helpers
@@ -276,6 +285,9 @@ button.el-button--default:hover {
 .column {
   flex-direction: column;
 }
+.row {
+  flex-direction: row;
+}
 .space-between {
   justify-content: space-between;
 }
@@ -288,6 +300,20 @@ button.el-button--default:hover {
 .ml10 {
   margin-left: 10px;
 }
+.ml30 {
+  margin-left: 30px;
+}
 .mb30 {
   margin-bottom: 30px;
+}
+.mbt30 {
+  margin: 30px 0;
+}
+.center-hor {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.grow {
+  flex-grow: 1;
 }

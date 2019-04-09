@@ -1,26 +1,24 @@
 <template>
-  <!-- <div v-if="users.length >= 2"> -->
-  <!-- <h1>Our Daily Stars</h1>
-    <img :src="users[1].avatarUrl" class="user-avatar-test">
-    <div v-for="(user,idx) in users" :key="idx">{{user.name}} : {{user.score}}</div>
-  </div>-->
   <section v-if="users.length >= 2" class="podium-section">
     <div class="podium-board-container">
       <div class="podium-container">
-        <img :src="users[1].avatarUrl" class="user-avatar-test">
+        <user-avatar :url="users[1].avatarUrl" :user="users[1]" class="user-avatar-test"/>
+        <h5>{{users[1].name}}</h5>
         <div class="podium place-2">
           <div class="user-score">{{users[1].score}}</div>
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users[2].avatarUrl" class="user-avatar-test">
+        <user-avatar :url="users[2].avatarUrl" :user="users[2]" class="user-avatar-test"/>
+        <h5>{{users[2].name}}</h5>
         <div class="podium place-1">
           <img class="first-trophy" src="../assets/icons/gold.svg">
           <div class="user-score">{{users[2].score}}</div>
         </div>
       </div>
       <div class="podium-container">
-        <img :src="users[0].avatarUrl" class="user-avatar-test">
+        <user-avatar :url="users[0].avatarUrl" :user="users[0]" class="user-avatar-test"/>
+        <h5>{{users[0].name}}</h5>
         <div class="podium place-3">
           <div class="user-score">{{users[0].score}}</div>
         </div>
@@ -32,12 +30,11 @@
 </template>
 <script>
 import userService from "../services/user.service.js";
-import userAvatarCmp from "../components/user-avatar-cmp.vue";
+import userAvatar from "../components/user-avatar-cmp.vue";
 export default {
   components: {
-    userAvatarCmp
+    userAvatar
   },
-  props: [],
   data() {
     return {};
   },
@@ -67,6 +64,7 @@ export default {
   justify-content: center;
 }
 .podium-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -87,7 +85,12 @@ export default {
 }
 
 .user-score {
-  font-size: 0.6;
+  font-size: 20px;
+  font-weight: bolder;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .podium img {
@@ -129,10 +132,15 @@ h4 {
   font-size: 20px;
   padding-bottom: 5px;
 }
+h5 {
+  margin-bottom: 10px;
+}
 .podium-container .user-avatar-test {
   border-radius: 50%;
+} 
+.user-avatar-test {
+  margin-bottom: 10px;
 }
-
 .podium-title {
   color: #999;
 }

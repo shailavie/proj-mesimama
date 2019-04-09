@@ -1,7 +1,7 @@
 import taskService from '../../services/task-service.js'
 import userService from '../../services/user.service.js'
-import socketService from '../../services/socket.service'
 import utilService from '../../services/util-service.js';
+import imgService from '../../services/img-service.js';
 
 
 
@@ -10,18 +10,21 @@ const userStore = {
     usersWithTasks: [],
     currUser: null,
     currGroup: [],
-    currDirector: {}
+    currDirector: {},
+    introGroup: []
   },
   mutations: {
     updateDirectorOnServer(state, { director }) {
       state.currDirector = director
     },
-    updateDirectoreUrls(state, { url }) {
-      //  urls.forEach((url)=>{
-      //   state.currDirector.imgUrls.unshift(url)
-      //  })
-      state.currDirector.imgUrls.unshift(url)
-
+    updateDirectoreUrls(state, { urls }) {
+      urls.forEach((url) => {
+        let imgObj = {
+          url,
+          _id: utilService.makeId()
+        }
+        state.currDirector.imgUrls.unshift(imgObj)
+      })
     },
     loadCurrDirector(state, { directorIdx }) {
       state.currDirector = state.currGroup[directorIdx]
@@ -40,12 +43,38 @@ const userStore = {
       });
       state.currGroup = users
     },
+    loadIntroGroup(state, { users }) {
+      state.introGroup = users
+    },
     setCurrUser(state, { currUser }) {
       state.currUser = currUser
     },
 
   },
   actions: {
+    async addHelper(context, { helperToAdd }) {
+      console.log('newHelper to add:', helperToAdd)
+      let newAddedHelper = await userService.addHelper(helperToAdd)
+      console.log('newAddedHelper', newAddedHelper)
+      return newAddedHelper
+    },
+    async signUp(context, { userCred }) {
+      console.log('userCred', userCred)
+      let newAddedUser = await userService.checkCred(userCred)
+      // console.log('store got result from the db - wow',newAddedUser)
+      // console.log(newAddedUser._id)
+      // console.log('In store, got director id:',newAddedUser.directorId)
+      // console.log('returning to signup page with a user')
+      return newAddedUser
+    },
+    async deleteImg(context, { url }) {
+      let imgId = url._id
+      let director = context.state.currDirector
+      let urlIdx = director.imgUrls.findIndex(img => img._id === imgId)
+      director.imgUrls.splice(urlIdx, 1)
+      await userService.updateUser(director)
+      context.dispatch('loadCurrDirector')
+    },
     async updateDirectorOnServer(context, { user }) {
       let director = await userService.updateUser(user)
       context.commit({ type: 'updateDirectorOnServer', director })
@@ -60,9 +89,12 @@ const userStore = {
       let users = await userService.getUsers()
       await context.commit({ type: 'loadGroup', users })
     },
+    async loadIntroGroup(context, { directorId }) {
+      let users = await userService.getIntroUsers(directorId)
+      await context.commit({ type: 'loadIntroGroup', users })
+    },
     async setCurrUser(context) {
       let currUser = await userService.getCurrUser()
-      console.log('In store, the returned user from the server is:', currUser)
       context.commit({ type: 'setCurrUser', currUser })
     },
     async updateUser(context, { user }) {
@@ -71,7 +103,7 @@ const userStore = {
     },
     updateUserNotifications(context) {
       context.commit('updateUserNotifications')
-      userService.updateUser(context.currUser)
+      userService.updateUser(context.state.currUser)
     },
     async loadUsersWithTasks(context) {
       let activeTasks = await taskService.query()
@@ -93,6 +125,9 @@ const userStore = {
     },
     currGroup(state) {
       return state.currGroup
+    },
+    introGroup(state) {
+      return state.introGroup
     },
     notifications(state) {
       return state.notifications

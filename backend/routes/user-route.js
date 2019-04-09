@@ -3,6 +3,25 @@ const BASE_URL = '/api/users'
 
 function addUserRoutes(app) {
 
+    // Check credentials for user name (signup/login)
+    app.post(`${BASE_URL}/add/helper`, (req, res) => {
+        let newHelper = req.body
+        userService.addHelper(newHelper)
+            .then(user => {
+                if(user) res.json(user)
+            })
+    }) 
+
+    // Check credentials for user name (signup/login)
+    app.post(`${BASE_URL}/checkCred/:userName`, (req, res) => {
+        let userCred = req.body
+        userService.checkCred(userCred)
+            .then(user => {
+                if(user) res.json(user)
+            })
+    }) 
+
+
     // Get all team members
     app.get(`${BASE_URL}`, (req, res) => {
         if (!req.session.userId) {
@@ -17,6 +36,15 @@ function addUserRoutes(app) {
                     })
             })
         }
+    })
+
+    // Get all team members
+    app.get(`${BASE_URL}/loadIntroGroup/:directorId`, (req, res) => {
+        let directorId = req.params.directorId
+        userService.query(directorId)
+            .then(users => {
+                res.json(users)
+            })
     })
 
     // Get current logged user
@@ -34,6 +62,12 @@ function addUserRoutes(app) {
                 res.json(user)
             })
     })
+
+    //  // Set current session user
+    //  app.post(`${BASE_URL}/signup`, (req, res) => {
+    //     req.session.userId = req.body.userId;
+    //     res.send(req.session.userId)
+    // })
 
     // Set current session user
     app.post(`${BASE_URL}/setuser`, (req, res) => {

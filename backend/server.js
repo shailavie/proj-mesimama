@@ -1,4 +1,6 @@
 var express = require('express');
+// var webpush = require('web-push');
+// const path = require('path')
 var app = express();
 var server = require('http').Server(app)
 const cors = require('cors')
@@ -8,8 +10,6 @@ const session = require('express-session')
 const PORT = process.env.PORT || 3003;
 
 const io = require('socket.io')(server);
- 
-
 
 // Routes
 const addTaskRoutes = require('./routes/task-route')
@@ -38,6 +38,30 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
+
+// const publicVapidKey = 'BDJBjwxk4fqZ5u69tQMdgzPKFZ6sHvFhJKHDP7cZFUvoC4iYgy26JAHAKYFa-AN1Z-jyIsoRseb2KpHOxRzaW0c';
+// const privateVapidKey = 'uT0S1R1ksgyLjDXriWV-t89PxU8ILQfsMc2sbMiN58M';
+
+// webpush.setVapidDetails('mailto:test@test.com', publicVapidKey, privateVapidKey);
+
+// //Subscribe Route
+// app.post('/subscribe', (req, res) => {
+//     //get pushSubscriiption object
+//     const subscription = req.body
+
+//     //send 201 - resource created successfully
+//     res.status(201).json({});
+
+//     //Create payload
+//     const payload = JSON.stringify({ title: 'Push Test'})
+
+//     // Pass object into sendNotification 
+//     webpush.sendNotification(subscription,payload)
+//     .catch(err => console.log(err));
+// });
+
+
+
 addTaskRoutes(app)
 addUserRoutes(app)
 
@@ -58,8 +82,8 @@ io.on('connection', socket => {
         io.emit('taskOwnedBy', user)
     })
     //TASK WAS UPDATED
-    socket.on('updateTask',task=>{
-        socket.broadcast.emit('publishUpdatedTask',task)
+    socket.on('updateTask', task => {
+        socket.broadcast.emit('publishUpdatedTask', task)
     })
     //TASK WAS PASSED
     socket.on('taskPassed', obj => {
@@ -72,13 +96,13 @@ io.on('connection', socket => {
     //TASK WAS ADDED- send to everyone but mom
     socket.on('addedTask', (newTask) => {
         //toast for users about new task
-        socket.broadcast.emit('newTaskPublish',newTask)
+        socket.broadcast.emit('newTaskPublish', newTask)
     })
 
     //TASK WAS ACOMPLISHED
-    socket.on('finishedTask', data => {
+    socket.on('finishedTask', task => {
         //TODO- SEND TO EVERYONE- send user data and task
-        io.emit('taskAcomplished', data)
+        io.emit('taskAcomplished', task)
     })
     socket.on('urgentTask', task => {
         socket.broadcast.emit('publishUrgent', task)

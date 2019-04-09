@@ -15,34 +15,32 @@ const store = new Vuex.Store({
     userStore
   },
   state: {
-    taskItems: [],
+    activeTasks: [],
     filterBy: {},
     currTask: null,
-
   },
   mutations: {
-
     updateTask(state, { updatedTask }) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === updatedTask._id)
-      state.taskItems.splice(taskIdx, 1, updatedTask)
+      let taskIdx = state.activeTasks.findIndex(task => task._id === updatedTask._id)
+      state.activeTasks.splice(taskIdx, 1, updatedTask)
     },
     removeTask(state, taskId) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      state.taskItems.splice(taskIdx, 1)
+      let taskIdx = state.activeTasks.findIndex(task => task._id === taskId)
+      state.activeTasks.splice(taskIdx, 1)
     },
     addTask(state, newTask) {
-      state.taskItems.unshift(newTask)
+      state.activeTasks.unshift(newTask)
     },
-    setTaskItems(state, { activeTasks }) {
-      state.taskItems = activeTasks
+    setActiveTasks(state, { activeTasks }) {
+      state.activeTasks = activeTasks
     },
     ownTask(state, { taskId }) {
-      let taskIdx = state.taskItems.findIndex(task => task._id === taskId)
-      state.taskItems[taskIdx].helperId = userStore.state.currUser._id
+      let taskIdx = state.activeTasks.findIndex(task => task._id === taskId)
+      state.activeTasks[taskIdx].helperId = userStore.state.currUser._id
     },
     passTask(state, { task }) {
-      let taskIdx = state.taskItems.findIndex(t => t._id === task._id)
-      state.taskItems[taskIdx].helperId = null
+      let taskIdx = state.activeTasks.findIndex(t => t._id === task._id)
+      state.activeTasks[taskIdx].helperId = null
     },
   },
   actions: {
@@ -63,12 +61,12 @@ const store = new Vuex.Store({
     },
     async loadActiveTasks(context) {
       let activeTasks = await taskService.query()
-      context.commit({ type: 'setTaskItems', activeTasks })
+      context.commit({ type: 'setActiveTasks', activeTasks })
     },
     async loadTask(context, { taskId }) {
-      let taskIdx = context.state.taskItems.findIndex(task => task._id === taskId)
+      let taskIdx = context.state.activeTasks.findIndex(task => task._id === taskId)
       if (taskIdx !== -1) {
-        var task = context.state.taskItems[taskIdx]
+        var task = context.state.activeTasks[taskIdx]
         return task
       } else {
         var task = await taskService.getTaskById(taskId)
@@ -85,19 +83,34 @@ const store = new Vuex.Store({
       await taskService.passTask(id)
       context.commit({ type: 'passTask', task })
       var notification = {
-        name: `${task.title} was passed, see if you can help out`,
+        name: `${task.title}`,
+        status: 'passed',
         isRead: false,
-        createdAt: task.createdAt
+        createdAt: Date.now(),
+        taskId: id
       }
       var obj = {
         task,
         notification
       }
+      let group = context.getters.currGroup
+      await userService.updateGroupNotifications(group, notification)
       socketService.emit('taskPassed', obj)
     },
     async markDone(context, task) {
       var updatedTask = await taskService.markDone(task)
-      socketService.emit('finishedTask')
+      let user= userStore.state.currUser
+      let obj= {
+        task,
+        user
+      }
+      socketService.emit('finishedTask',obj)
+    },
+    async addNewComment(context, task) {
+      if (task._id) {
+        let taskWithNewComment = await taskService.addCommentTo(task)
+        context.commit({ type: 'updateTask', taskWithNewComment })
+      }
     },
     async saveTask(context, task) {
       if (task._id) {
@@ -112,14 +125,23 @@ const store = new Vuex.Store({
         socketService.emit('updateTask', task)
         if (task.isUrgent) socketService.emit('urgentTask', task)
       } else {
-        let group = await context.getters.currGroup
+        //get group
+        let group = context.getters.currGroup
+        //add task on database
         let newTask = await taskService.addTask(task)
+        //make new 'news'
         var notification = {
-          name: `task title: ${task.title} was added, see if you can help!`,
+          name: `${task.title} `,
+          status: 'added',
           isRead: false,
-          createdAt: newTask.createdAt
+          createdAt: newTask.createdAt,
+          taskId: newTask._id
         }
-        userService.updateGroupNotifications(group, notification)
+        //update all group users with the new 'news'
+        console.log(notification)
+        await userService.updateGroupNotifications(group, notification)
+        //refresh group at state after news update
+        console.log('after updating the users, we are loading the group from the database')
         await context.dispatch({ type: 'loadGroup' })
         //adding new task to local array
         context.commit({ type: 'addTask', newTask })
@@ -127,34 +149,30 @@ const store = new Vuex.Store({
         socketService.emit("addedTask", newTask);
       }
     },
-    async uploadImg(context, { file }) {
-      let url = await imgService.uploadImg(file)
-      console.log(url)
-      //UPDATE STATE DIRECTOR
-      context.commit({ type: 'updateDirectoreUrls', url })
-      //UPDATE DIRECTOR ON DATABASE SERVER
-      await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
-      // context.dispatch({type:'updateCurrDirector'})
-    },
-    async uploadImgs(context,{files}){
-      let urls= await imgService.uploadPictures(files)
-      console.log('AT STORE ',urls)
+    // // FOR USER AVATAR UPLOAD
+    // async uploadImg(context, { file }) {
+    //   let url = await imgService.uploadImg(file)
+    //   console.log(url)
+    //   //UPDATE STATE DIRECTOR
+    //   context.commit({ type: 'updateDirectoreUrls', url })
+    //   //UPDATE DIRECTOR ON DATABASE SERVER
+    //   await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
+    //   // context.dispatch({type:'updateCurrDirector'})
+    // },
+    // FOR MULTIPLE UPLOADS
+    async uploadImgs(context, { files }) {
+      let urls = await imgService.uploadPictures(files)
+      console.log(urls)
       context.commit({ type: 'updateDirectoreUrls', urls })
       await context.dispatch({ type: 'updateDirectorOnServer', user: userStore.state.currDirector })
-      
     },
-    async uploadTaskImg(context,{file}){
-     
-      
-    }
   },
   getters: {
-
     tasksWithNoHelpers(state) {
-      return state.taskItems.filter(task => task.helperId === null)
+      return state.activeTasks.filter(task => task.helperId === null)
     },
     allTasks(state) {
-      return state.taskItems
+      return state.activeTasks
     },
   }
 })

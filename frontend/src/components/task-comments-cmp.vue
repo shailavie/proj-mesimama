@@ -26,7 +26,17 @@ import utilService from "../services/util-service.js";
 
 export default {
   name: "taskCommentsCmp",
-  props: ["comments", "newComment", "user"],
+  props: {
+    comments :{
+      type : Array
+    },
+    newComment : {
+      type: Object
+    },
+    user : {
+      type: Object
+    }
+  },
   components: {
     commentPreview,
     userAvaterCmp

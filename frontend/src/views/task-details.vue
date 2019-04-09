@@ -4,6 +4,8 @@
       <div class="task-details-center-box">
         <div class="task-details-content">
           <h1>{{task.title}}</h1>
+          <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
+          <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
           <!-- <div><small>Points: {{task.points}}</small></div> -->
           <div class="task-details-helper" v-if="helper">
             <div class="helper-details">
@@ -12,14 +14,20 @@
                 <small>
                   <strong>{{helper.name}}</strong>'s on it.
                 </small>
+                <div>
+                  <small>
+                    <strong>When? {{task.dueAt | moment("from", "now") }}</strong>
+                  </small>
+                </div>
               </div>
             </div>
           </div>
-          <div class="details-tag" :class="tagStatusClass">{{task.status}}</div>
-          <div v-if="task.isUrgent" class="details-tag tag-urgent">Urgent</div>
+
           <p class="details-content-desc">{{task.desc}}</p>
+          <img class="task-details-img" :src="task.imgUrl">
           <div class="back-btn" @click="$router.go(-1)">
             <el-button plain icon="el-icon-arrow-left">Back</el-button>
+            <el-button type="success" @click.native="ownTask(task._id)">I'm on it</el-button>
           </div>
         </div>
         <div class="text-details-comments">
@@ -74,6 +82,9 @@ export default {
   methods: {
     ownTask(taskId) {
       this.$store.dispatch("ownTask", taskId);
+      setTimeout(() => {
+        this.$router.push("/app/tasks");
+      }, 1000);
     },
     passTask(taskId) {
       this.$store.dispatch("passTask", taskId);
@@ -86,7 +97,7 @@ export default {
       commentCopy._id = utilService.makeId();
       commentCopy.userId = this.userToDisplay._id;
       this.task.comments.push(commentCopy); //OPTIMISTIC
-      this.$store.dispatch("saveTask", this.task);
+      this.$store.dispatch("addNewComment", this.task);
       this.newComment = taskService.getEmptyComment(this.userToDisplay._id);
     },
     removeTask(taskId) {
@@ -116,14 +127,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.task-details-img {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
   .task-details-center-box {
     flex-direction: column;
     width: 100%;
     padding: 20px;
+    padding-top: 0px;
   }
   .text-details-comments {
-    margin-top: 20px;
+    margin: 30px 0;
   }
 }
 
@@ -186,5 +203,9 @@ small strong {
 }
 
 .back-btn {
+}
+
+h1 {
+  text-transform: capitalize;
 }
 </style>

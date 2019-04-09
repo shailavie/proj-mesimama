@@ -2,12 +2,9 @@
 <template>
   <section class="task-card">
     <!-- Director actions Btn -->
-    <el-button
-      v-if="user.isDirector"
-      @click.native="toggleActions"
-      class="more-actions"
-      icon="el-icon-more"
-    ></el-button>
+    <div class="more-actions" v-if="user.isDirector" @click="toggleActions">
+      <i class="fas fa-ellipsis-h"></i>
+    </div>
 
     <!-- Floating info -->
     <div class="urgent-badge" v-if="task.isUrgent">Urgent</div>
@@ -15,6 +12,7 @@
     <!-- Card bg feel img -->
     <div class="feel-img" v-if="task.imgUrl" :style="getTaskImg(task)" alt></div>
     <div class="feel-img" v-else :style="getImgByKeyword(task)" alt></div>
+
     <!-- Task info -->
     <div class="task-main-content">
       <div class="task-info-container">
@@ -29,31 +27,21 @@
             <img class="task-info-item" src="@/assets/icons/hourglass.svg">
             <small>{{task.dueAt | moment("from", "now") }}</small>&nbsp;&nbsp;
           </div>
-          <!-- <img class="task-info-item" src="@/assets/icons/information.svg">
-          <small>more info</small>&nbsp;-->
         </div>
       </div>
 
       <!-- Main actions -->
       <div
         class="main-actions-container"
-        v-if="task.status !== done"
+        v-if="task.status !== 'done'"
         :class="{'make-transparent':!showMainActions}"
       >
-        <!-- v-if="user.isDirector || user._id === task.helperId" -->
         <div
           v-if="!task.helperId || task.helperId === user._id || user.isDirector"
           class="task-toggle-btn-container"
           @click.prevent="clickOnTask(task._id)"
         >
-          <a class="task-action-btn-toggle">
-            {{passOrOwnTask}}
-            <!-- <img
-            v-if="task.helperId"
-            class="checkmark"
-            src="@/assets/icons/pass.svg"
-            >-->
-          </a>
+          <a class="task-action-btn-toggle">{{passOrOwnTask}}</a>
         </div>
 
         <div
@@ -65,19 +53,27 @@
         </div>
       </div>
     </div>
+
     <!-- Director actions -->
     <transition name="fade">
       <div class="director-actions" v-if="showTaskActions">
-        <el-button title="Edit task" icon="el-icon-edit" @click.native="editTask(task._id)">Edit</el-button>
+        <el-button
+          title="Edit task"
+          icon="el-icon-edit"
+          @click.native="editTask(task._id)"
+          plain
+        >Edit</el-button>
         <el-button
           title="Show task"
           icon="el-icon-view"
           @click.native="showTaskDetails(task._id)"
+          plain
         >Show</el-button>
         <el-button
           title="Delete task"
           icon="el-icon-delete"
           @click.native="removeTask(task._id)"
+          plain
         >Delete</el-button>
       </div>
     </transition>
@@ -106,13 +102,12 @@ export default {
       }
     },
     showTaskDetails(taskId) {
-      this.$router.push(`details/${taskId}`);
+      this.$router.push(`/app/details/${taskId}`);
     },
     editTask(taskId) {
       this.$emit("task-edit", taskId);
     },
     markDone(task) {
-      console.log("at preview");
       this.$emit("task-done", task);
     },
     removeTask(taskId) {
@@ -133,7 +128,6 @@ export default {
     },
     toggleActions() {
       this.showMainActions = !this.showMainActions;
-      console.log(this.showMainActions);
       this.showTaskActions = !this.showTaskActions;
     }
   },
@@ -149,21 +143,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
+
 .checkmark {
   width: 12px;
   height: 12px;
   fill: white;
 }
 
-// .urgent-badge {
-//   position: absolute;
-//   bottom: 0px;
-//   left: 120px;
-//   width: 420px;
-//   height: 2px;
-//   background-color: rgb(224, 83, 83);
-// }
-
+ 
 .urgent-badge {
   position: absolute;
   display: flex;
@@ -262,15 +250,16 @@ export default {
   }
   .more-actions {
     position: absolute;
-    top: 0px;
+    background-color: #fff;
+    top: 10px;
     right: 15px;
-    width: 30px;
-    height: 30px;
-    border: none;
-    // transform: rotate(90deg);
-    text-align: center;
-    background-color: transparent;
+    width: 15px;
+    height: 15px;
+    &:hover {
+      color: rgba(106, 106, 231, 0.829);
+    }
   }
+
   .due-container {
     position: absolute;
     bottom: 10px;
@@ -284,24 +273,27 @@ export default {
     width: 100px;
     height: 100%;
     background: #fff;
-    border-radius: 15px;
-    z-index: 5;
+    border-radius: 8px;
+    z-index: 3;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    transition: 1s ease;
-    // box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    transition: 0.2s ease;
+    padding: 2px;
 
     .el-button {
-      width: 80px;
+      width: 100px;
+      height: auto;
       align-self: right;
       margin: 0;
       background-color: transparent;
-      mix-blend-mode: difference;
       border: none;
-      // color: #fff;
+      display: flex;
+      justify-content: left;
       &:hover {
-        color: rgb(100, 131, 218);
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
       }
     }
   }
@@ -343,6 +335,7 @@ h5 {
 
 .title {
   cursor: pointer;
+  text-transform: capitalize;
 }
 
 // Animations
@@ -399,55 +392,7 @@ a {
   transition: $hover;
   position: relative;
   cursor: pointer;
-
   overflow: hidden;
-
-  // // &:before {
-  // //   content: "";
-  // //   position: absolute;
-  // //   left: 50%;
-  // //   transform: translateX(-50%) scaleY(1) scaleX(1.25);
-  // //   top: 100%;
-  // //   width: 140%;
-  // //   height: 180%;
-  // //   background-color: $black-05;
-  // //   border-radius: 50%;
-  // //   display: block;
-  // //   transition: $slide;
-  // //   z-index: -1;
-  // // }
-
-  // // &:after {
-  // //   content: "";
-  // //   position: absolute;
-  // //   left: 55%;
-  // //   transform: translateX(-50%) scaleY(1) scaleX(1.45);
-  // //   top: 180%;
-  // //   width: 160%;
-  // //   height: 190%;
-  // //   background-color: $green;
-  // //   border-radius: 50%;
-  // //   display: block;
-  // //   transition: $slide;
-  // //   z-index: -1;
-  // // }
-
-  // // &:hover {
-  // //   color: $white;
-  // //   border: 1px solid $green;
-
-  // //   &:before {
-  // //     top: -35%;
-  // //     background-color: $green;
-  // //     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-  // //   }
-
-  // //   &:after {
-  // //     top: -45%;
-  // //     background-color: $green;
-  // //     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-  // //   }
-  // }
 }
 
 .task-action-btn-toggle {

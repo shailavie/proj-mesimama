@@ -1,6 +1,5 @@
 <template>
   <section class="task-list-section">
-  
     <!-- Tasks -->
     <div class="task-list-container">
       <ul v-if="tasks">
@@ -11,25 +10,30 @@
               <user-avatar
                 class="user-avatar-in-toggle"
                 :url="userToRender.avatarUrl"
-                :userId="userToRender._id"
+                :user="userToRender"
               />
               <h2>{{userToRender._id === thisUser._id? title :userToRender.name}}</h2>
               <h2>{{currTitle(userToRender)}}</h2>
               <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
-            <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
+            <div
+              class="toggle-tasks"
+              v-show="userToRender.tasks.length"
+              @click="toggleTasks"
+              :class="{tilt : !showTasks}"
+            ></div>
           </div>
           <div class="user-info flex space-between" v-else>
             <div class="flex center-ver">
-              <img class="empty-task-avatar" src="@/assets\icons\babytasks.png" alt>
-              <h2>Help Needed</h2>
+              <img class="empty-task-avatar" src="@/assets/icons/babytasks.png" alt>
+              <h2>{{title}}</h2>
               <h2 class="tasks-count">({{userToRender.tasks.length}})</h2>
             </div>
             <div class="toggle-tasks" @click="toggleTasks" :class="{tilt : !showTasks}"></div>
           </div>
 
           <!-- User's tasks -->
-          <empty-tasks-state v-if="currUserSelf && activeTasksCount === 0"></empty-tasks-state>
+          <empty-tasks-state v-if="userToRender._id && currUserId === userToRender._id && userToRender.tasks.length === 0"></empty-tasks-state>
           <ul class="users-tasks" :class="{fadeUp : !showTasks}">
             <li v-for="currTask in userToRender.tasks" :key="currTask._id">
               <task-preview
@@ -56,7 +60,14 @@ import userAvatar from "./user-avatar-cmp.vue";
 import emptyTasksState from "../components/empty-tasks-state-cmp.vue";
 
 export default {
-  props: ["tasks", "title"],
+  props: {
+    tasks: {
+      type: Array
+    },
+    title: {
+      type: String
+    }
+  },
   components: {
     taskPreview,
     userAvatar,
@@ -70,7 +81,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch("loadGroup");
-    console.log("created at task-list");
     this.$store.dispatch({ type: "loadCurrDirector" });
   },
   methods: {
@@ -98,19 +108,19 @@ export default {
     },
     toggleTasks() {
       this.showTasks = !this.showTasks;
-    },
-   
+    }
   },
   computed: {
     thisUser() {
       let user = this.$store.getters.currUser;
       return user;
     },
-    activeTasksCount(){
-      return this.tasks[0].tasks.filter(task => task.status === 'active').length
+    activeTasksCount() {
+      return this.tasks[0].tasks.filter(task => task.status === "active")
+        .length;
     },
-    currUserSelf(){
-      return this.title === 'My tasks'
+    currUserId() {
+      return this.$store.getters.currUser._id
     }
   }
 };
@@ -203,8 +213,6 @@ ul {
   cursor: pointer;
   transition: 0.4s ease;
   background: no-repeat center/40% url($chevron);
-  //  filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5);
-  // filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
   filter: invert(0.7);
 }
 .title {

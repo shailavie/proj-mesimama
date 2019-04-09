@@ -1,40 +1,43 @@
 <template >
-  <div class="wrapper" v-if="currUser">
+
+  <div class="wrapper" >
+
     <div class="header-container">
-      <div class="logo-container">
-        <div class="header-logo">Mesimama</div>
-      </div>
+      <router-link to="/">
+        <div class="logo-container">
+          <img class="logo" src="@/assets/icons/mesimama.png" alt>
+          <div class="header-logo">Mesimama</div>
+        </div>
+      </router-link>
+
       <div class="main-nav">
         <!-- qa -->
-        <div class="login">
+        <div class="login" v-if="currUser">
           <el-select
             v-model="role"
             placeholder="Select role"
             class="login-page-el-input"
             @change="setRole"
           >
-            <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
-            <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
             <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
             <el-option value="5c98fb581c9d4400002a2a3d">Ruti</el-option>
             <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
+            <el-option value="5c9cabfc1c9d44000089436f">Yuval</el-option>
+            <el-option value="5c9cab421c9d44000089436e">Yossi</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ad">Uri (group2 helper)</el-option>
+            <el-option value="5c93538ced3d88a4b25d83ac">Shira (group2 director)</el-option>
+            <el-option value="5ca935e62424801256551bec">Shai</el-option>
           </el-select>
         </div>
 
         <el-button
           class="add-new-task"
-          v-if="currUser.isDirector"
+          v-if="currUser && currUser.isDirector"
           @click.native="addTask"
         >+ New Task</el-button>
 
         <!-- Navbar -->
-        <nav>
-          <!-- <span class="nav-item">
-            <router-link to="/app/chat">
-              <img src="@/assets/icons/chat.svg" class="nav-item-icon">
-              <span class="nav-item-text-link">Chat</span>
-            </router-link>
-          </span>-->
+        <nav v-if="currUser">
           <span class="nav-item item-tasks">
             <router-link to="/app/tasks">
               <img src="@/assets/icons/tasks.svg" class="nav-item-icon">
@@ -61,7 +64,7 @@
         <div class="current-user" v-if="currUser">
           <span class="nav-item user">
             <!-- <router-link to="/app/user-profile"> -->
-            <user-avatar :url="avatarUrl" :userId="currUser._id"/>
+            <user-avatar :url="avatarUrl" :user="currUser"/>
             <!-- </router-link> -->
           </span>
         </div>
@@ -75,18 +78,20 @@ import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "@/services/user.service.js";
 
 export default {
+
+  props : {
+
+    fontColor: {
+      type: String
+    }
+  },
   components: {
     userAvatar
   },
   data() {
     return {
-      // user: null,
       role: ""
     };
-  },
-  created() {
-    // this.user = this.$store.getters.currUser;
-    // console.log('got here with user', this.user)
   },
   methods: {
     addTask() {
@@ -114,7 +119,15 @@ export default {
       return this.currUser.avatarUrl;
     },
     counter() {
-      return this.$store.getters.notificationCounter;
+      let user = this.$store.getters.currUser;
+      if (user.notifications) {
+        let unReadNotifications = user.notifications.filter(
+          notification => !notification.isRead
+        );
+        return unReadNotifications.length;
+      } else {
+        return 0;
+      }
     },
     score() {
       return this.$store.getters.currUser.score;
@@ -155,6 +168,12 @@ export default {
 }
 .logo-container {
   display: flex;
+}
+.logo {
+  height: 50px;
+  width: auto;
+  margin-right: -15px;
+  margin-left: -30px;
 }
 
 .header-container {

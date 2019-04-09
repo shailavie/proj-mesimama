@@ -2,14 +2,16 @@
 import ioClient from 'socket.io-client'
 import Vue from 'vue'
 import store from '../stores/store.js'
+import pushService from './push-notifications-service.js'
 import userService from '../services/user.service.js'
 import utilService from '../services/util-service.js'
 
 
-var socket = (process.env.NODE_ENV !== 'development')? ioClient('') : ioClient('//localhost:3003'); 
+var socket = (process.env.NODE_ENV !== 'development') ? ioClient('') : ioClient('//localhost:3003');
 
 
 const msgs = []
+var connectedUser = null;
 
 export default {
 	// user, 
@@ -32,9 +34,12 @@ function createEmptyMsg(txt = '', nickName) {
 connectSocket()
 
 function connectSocket() {
+
 	console.log('New socket is connected!')
 	socket.on('userIsConnected', user => {
 		console.log('user conncted :', user);
+		connectedUser = user
+		console.log('user conncted :', connectedUser);
 		_toasting(`${user.name} just connected!  `, 'success', 'Dont forget to say hello')
 	})
 	//NEW MSG RECIVED
@@ -48,15 +53,23 @@ function connectSocket() {
 		_toasting(`${user.name} took some responsibility `, 'success', 'Woohoo! This is great! thank you so much!! ')
 	})
 	//TASK WAS PASSED
-	socket.on('publishPassedTask', task => {
-		refreshTasks()
-		refreshUserTasks()
+	socket.on('publishPassedTask', async (task) => {
+		await refreshUserTasks()
+		await refreshUser()
+		await refreshTasks()
 		_toasting(`'${task.title}' task was passed!`, 'warn', 'Maybe give a hand?')
+		pushService.pushCustomNotification(`${task.title}- was passed, See if you can help!`,task.imgUrl)
 	})
+
 	//TASK WAS UPDATED
-	socket.on('publishUpdatedTask',task=>{
-		refreshTasks()
-		refreshUserTasks()
+	socket.on('publishUpdatedTask', async (task) => {
+		await refreshTasks()
+		await refreshUser()
+		await refreshUserTasks()
+		if (task.isUrgent) {
+		pushService.pushCustomNotification(`${task.title}- was flagged urgent, See if you can help!`,task.imgUrl)
+
+		}
 	})
 
 	// TASK WAS DELETED . 
@@ -70,25 +83,29 @@ function connectSocket() {
 	//NEW TASK ADDED
 	socket.on('newTaskPublish', refreshCallback)
 
-	async function refreshCallback() {
+	async function refreshCallback(task) {
 		await refreshTasks()
 		await refreshUser()
-		_toasting('New task was added!', 'success', 'Better go check it out!')
+		await refreshUserTasks()
+		_toasting(`${task.title}- was added`, 'success', 'Better go check it out!')
+		pushService.pushCustomNotification(`${task.title}- was added, Better go check it out!`,task.imgUrl)
 	}
 
 	//TASK WAS ACOMPLISHED
 	socket.on('taskAcomplished', acomplishedCallBack)
 
-	async function acomplishedCallBack() {
+	async function acomplishedCallBack(obj) {		
 		await refreshTasks()
 		await refreshUser()
 		await refreshGroup()
 		await refreshUserTasks()
-		_toasting('Someone acomplished a task!', 'success', 'Mom will be so happy!')
+		_toasting(`${obj.task.title} was acomplished by ${obj.user.name}!`, 'success', 'We are so happy!')
+		pushService.pushCustomNotification(`${obj.task.title} was acomplished by ${obj.user.name}!`,obj.task.imgUrl)
 	}
 
 	socket.on('publishUrgent', task => {
-		_toasting('Urgent task alert!', 'error', 'See if you can help out')
+		_toasting(`${task.title} is urgent! See if you can help out`, 'error', 'See if you can help out')
+		pushService.pushCustomNotification(`"${task.title}" task is urgent! See if you can help out`,task.imgUrl)
 	})
 }
 

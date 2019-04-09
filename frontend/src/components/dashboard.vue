@@ -50,7 +50,6 @@ export default {
   background: #fff;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  // border-left: 2px solid darkorange;
   padding: 20px;
   display: flex;
   margin: 10px 0px;

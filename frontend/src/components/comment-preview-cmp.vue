@@ -20,7 +20,9 @@ import userAvaterCmp from "./user-avatar-cmp.vue";
 
 export default {
   name: "commentPreview",
-  props: ["comment"],
+  props: {
+    comment: Object
+  },
   components: {
     userAvaterCmp
   },

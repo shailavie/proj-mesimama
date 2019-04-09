@@ -1,70 +1,52 @@
 <template>
-  <section class="login">
-    <div class="login-page-container">
-      <div class="login-box-container">
-        <div class="login-upper-box">
-          <h1>
-            Assist. Collaborate.
-            <br>Get it done.
-          </h1>
-          <!-- <h2 class="cta">{{loginSignupCTA}}</h2> -->
-          <span class="is-member-call">{{loginSignupMsg}}</span>
-          <a @click="isMember=!isMember">{{loginSignupSwitch}}</a>
-          <!-- <button class="login-btn login-btn--facebook">{{loginSignupCTA}} with Facebook</button> -->
-          <div class="login-form">
-            <el-input
-              placeholder="Enter your email address"
-              type="email"
-              autofocus
-              prefix-icon="el-icon-message"
-              v-model="input.email"
-              class="login-page-el-input"
-            ></el-input>
-            <el-button type="primary" class="sign-up-btn">{{loginSignupCTA}}</el-button>
-          </div>
-        </div>
-        <div class="login-middle-box"></div>
-        <div class="login-bottom-box">
-          <div>
-            <div class="qa-box">
-              <div style="margin-bottom:5px">
-                <div class="curr-user-info" v-if="currUser">
-                  <user-avatar :url="currUser.avatarUrl"/>
-                  <div style="margin-bottom: 10px">Logged as: {{currUser.name}}</div>
-                </div>
-              </div>
-              <el-select v-model="role" placeholder="Select role" class="login-page-el-input">
-                <el-option value="5c93538ced3d88a4b25d83ad">Helper</el-option>
-                <el-option value="5c93538ced3d88a4b25d83ac">Director</el-option>
-                <el-option value="5c98fa5eb687d600001a8d83">Tamar</el-option>
-                <el-option value="5c98fb581c9d4400002a2a3d">Ruti</el-option>
-                <el-option value="5c98fad51c9d4400002a2a3c">Yonatan</el-option>
-              </el-select>
-              <el-button @click="setRole" class="set-role-btn">Set Role</el-button>
+  <section class="login-container">
+    <div class="header-container wrapper">
+      <div class="logo-container flex center-ver">
+        <img class="logo" src="@/assets/icons/mesimama.png" alt>
+        <div class="header-title">Mesimama</div>
+      </div>
+       <router-link to="/signup"><span>Sign up</span></router-link>
+    </div>
+    <div class="wrapper">
+      <div class="login">
+        <h1>Welcome to the Family</h1>
+        <section class="users-container">
+          <div v-for="user in demoUsers" :key="user._id" class="user-avatar-container">
+            <div class @click.prevent="setRole(user._id)">
+              <user-avatar
+                :url="user.avatarUrl"
+                :user="user"
+                :profileImg="true"
+                :clickable="false"
+              />
+              <h4 class="mbt30">{{user.name}}</h4>
             </div>
           </div>
-        </div>
+        </section> 
+
+        <button class="demo-btn" @click="enterDemo">Try it out</button>
+        <h4>Clicking "Try it out" will allow "Mesimama" to send you push notifications</h4>
       </div>
-      <div class="login-banner-container"></div>
     </div>
   </section>
 </template>
 
 <script>
-import Axios from "axios";
 import userAvatar from "@/components/user-avatar-cmp.vue";
 import userService from "../services/user.service.js";
 
-var axios = Axios.create({
-  withCredentials: true
-});
-
 export default {
   components: {
-    userAvatar
+    userAvatar,
   },
   data() {
     return {
+      usersId: [
+        "5c98fa5eb687d600001a8d83",
+        "5c98fb581c9d4400002a2a3d",
+        "5c98fad51c9d4400002a2a3c"
+      ],
+      notificationsSupported: false,
       role: "",
       input: {
         password: "",
@@ -73,6 +55,15 @@ export default {
       isMember: true,
       test: null
     };
+  },
+  created() {
+    this.$store.dispatch({
+      type: "loadIntroGroup",
+      directorId: "5c98fa5eb687d600001a8d83"
+    });
+    if ("Notification" in window && "serviceWorker" in navigator) {
+      this.notificationsSupported = true;
+    }
   },
   computed: {
     loginSignupCTA() {
@@ -84,14 +75,31 @@ export default {
     loginSignupMsg() {
       return this.isMember ? "Already a member? " : "New to Mesimama? ";
     },
-    currUser() {
-      return this.$store.getters.currUser;
+    demoUsers() {
+      return this.$store.getters.introGroup;
+
     }
   },
   methods: {
-    setRole() {
+    askPermission() {
+      if (this.notificationsSupported) {
+        Notification.requestPermission(result => {
+          console.log("result from permission question", result);
+          if (result !== "granted") {
+            alert("You probably do not like notifications?!");
+          } else {
+            console.log(
+              "A notification will be send from the service worker => This only works in production"
+            );
+            // this.showNotification();
+          }
+        });
+      }
+    },
+    async setRole(id) {
+      await this.askPermission();
       userService
-        .setUserSession(this.role)
+        .setUserSession(id)
         .then(res => {
           console.log("Session is ", res);
         })
@@ -100,13 +108,10 @@ export default {
             this.$router.push("/app/tasks");
           });
         });
-      // console.log('Session is set..')
-      // await this.$store.dispatch({ type: "setCurrUser" });
-      // console.log('Got user in store..')
-      // setTimeout(() => {
-      //   this.$router.push('/app/tasks')
-
-      // }, 3000);
+    },
+    async enterDemo() {
+      await this.askPermission();
+      this.setRole("5c98fa5eb687d600001a8d83");
     }
   }
 };
@@ -114,19 +119,56 @@ export default {
 
 
 <style lang="scss" scoped>
+ 
+span {
+  text-decoration: underline;
+  color: white;
+  cursor: pointer;
+}
+.header-title {
+  color: white;
+}
+.header-container {
+  padding: 30px;
+}
+.logo-container {
+  display: flex;
+}
+.logo {
+  height: 50px;
+  width: auto;
+  margin-right: -15px;
+  margin-left: -30px;
+}
+.intro-logo {
+  height: 100px;
+  margin-bottom: 20px;
+}
+.login-container {
+  background: linear-gradient(45deg, #296bbb 1%, #1e88e5 64%, #279ad4 97%);
+}
+.login {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 40px 0;
+  text-align: center;
+}
 a {
   cursor: pointer;
 }
 
 h1 {
-  font-size: 250%;
+  font-size: 300%;
   font-weight: 500;
-  margin-bottom: 40px;
+  margin-bottom: 80px;
 }
 .login-page-container {
   display: flex;
   flex-direction: row;
-  height: 100vh;
   width: 100vw;
 }
 .login-banner-container {
@@ -145,41 +187,71 @@ h1 {
   flex-grow: 1;
 }
 
-.is-member-call {
-  color: #999;
-}
-.login-form {
-  margin-top: 10px;
-  max-width: 300px;
-}
-
-.sign-up-btn {
-  margin-top: 10px;
-  width: 100%;
-}
-
-.cta {
-  font-weight: 500;
-  opacity: 0.9;
+.demo-btn {
+  width: 350px;
+  height: 100px;
+  border: 2px solid white;
+  background-color: transparent;
+  border-radius: 10px;
+  font-size: 24px;
+  color: white;
+  margin: 40px;
+  cursor: pointer;
+  transition: 0.1s linear;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
 
-.set-role-btn {
-  margin-left: 5px;
-  background: transparent;
-  color: #fff;
+.choose-user {
+  margin-top: 60px;
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
 }
-
-@media (max-width: 768px) {
-  .login-page-container {
+@media (max-width: 550px) {
+  .choose-user {
     flex-direction: column;
   }
-  .login-banner-container {
-    order: -1;
-    flex-basis: 200px;
+  .user-box {
+    margin-bottom: 30px;
+  }
+  .demo-btn {
+    width: auto;
+    padding: 0 40px;
+  }
+  h1,
+  h4 {
+    text-align: center;
+    margin: 20px auto;
   }
 }
 
-.login-page-el-input .el-input__inner {
+.login-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-size: cover;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.users-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 700px) {
+  .users-container {
+    flex-direction: column;
+    max-width: fit-content;
+  }
+}
+
+.user-avatar-container {
+  text-align: center;
 }
 </style>
 

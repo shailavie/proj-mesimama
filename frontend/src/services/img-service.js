@@ -20,12 +20,8 @@ function uploadImg(imgUrl) {
   formData.append('file', imgUrl[0]);
   formData.append('upload_preset', uploadPreset);
   return new Promise((resolve, reject) => {
-    console.log('AT SERVICE WITH FILE: ', formData)
-    console.log('url for axios: ', urlForAxios)
     axios.post(urlForAxios, formData).then(res => {
-      console.log('FROM AXIOS ', res)
       let url = res.data.secure_url
-      console.log('AT IMG SERVICE ', url)
       resolve(url)
     });
   })
@@ -36,37 +32,52 @@ function uploadImg(imgUrl) {
 
 
 function uploadPictures(files) {
-  // var apiKey = "757281885482997"
-
   let urls = []
   for (var i = 0; i < files.length; i++) {
     urls.push(files[i])
   }
-  let uplodedUrls = []
-
   let prms = [];
 
   urls.forEach(file => {
-    let prm = new Promise((reject, resolve) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', uploadPreset);
-      axios.post(urlForAxios, formData)
-        .then(res => {
-          console.log(res.data.secure_url)
-          resolve(res.data.secure_url);
-        }, err => {
-          reject(err)
-        });
-    })
-    console.log(prm._v)
-    prms.push(prm._v)
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+    prms.push(new Promise((resolve, reject) => {
+      axios.post(urlForAxios, formData).then(res => {
+        let url = res.data.secure_url
+        resolve(url)
+        // prms.push(url)
+        console.log(prms)
+      });
+    }))
   });
-  // Promise.all(prms).then((values)=>{
-  //   console.log(' OK ',values)
-  // })
-  // if (uplodedUrls.length === files.length) {
-  //   console.log(uplodedUrls);
-  //   return uplodedUrls
-  // }
+
+  return Promise.all(prms)
+  .then((res)=>{
+    console.log(res)
+    return res
+  })
 }
+// function uploadPictures(files) {
+//   let urls = []
+//   for (var i = 0; i < files.length; i++) {
+//     urls.push(files[i])
+//   }
+//   let prms = [];
+
+//   urls.forEach(file => {
+//     let prm = new Promise((reject, resolve) => {
+//       const formData = new FormData();
+//       formData.append('file', file);
+//       formData.append('upload_preset', uploadPreset);
+//       axios.post(urlForAxios, formData)
+//         .then(res => {
+//           resolve(res.data.secure_url);
+//         }, err => {
+//           reject(err)
+//         });
+//     })
+//     prms.push(prm._v)
+//   });
+// }
+
