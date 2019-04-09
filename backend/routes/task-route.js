@@ -8,12 +8,11 @@ function addTaskRoutes(app) {
   // Get all tasks for the user
   app.get(`${BASE_URL}`, (req, res) => {
     const userId = req.session.userId
-    console.log('POTATO HERE', userId)
     userService.getById(userId).then(user => {
       return user
     })
       .then((user) => {
-        console.log('POTATO HERE', user)
+        console.log('i see user', user)
         taskService.query((user.isDirector) ? userId : user.directorId)
           .then(tasks => {
             if (!tasks || tasks.length === 0) {

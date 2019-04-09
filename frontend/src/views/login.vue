@@ -25,7 +25,7 @@
         </section> 
 
         <button class="demo-btn" @click="enterDemo">Try it out</button>
-        <h4>Clicking "Enter Demo" will allow "Mesimama" to send you push notifications</h4>
+        <h4>Clicking "Try it out" will allow "Mesimama" to send you push notifications</h4>
       </div>
     </div>
   </section>
@@ -96,7 +96,8 @@ export default {
         });
       }
     },
-    setRole(id) {
+    async setRole(id) {
+      await this.askPermission();
       userService
         .setUserSession(id)
         .then(res => {

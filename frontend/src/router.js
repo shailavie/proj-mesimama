@@ -12,7 +12,7 @@ import signup from './views/signup.vue'
 import taskEdit from './views/task-edit.vue'
 import taskDetails from './views/task-details.vue'
 import rewards from './views/rewards.vue'
-import pushNotification from './components/push-note-cmp.vue'
+import addUsers from './views/add-users.vue'
 
 Vue.use(Router)
 
@@ -24,7 +24,7 @@ export default new Router({
       component: login
     },
     {
-      path: '/signup',
+      path: '/signup/:helperId?',
       name: 'signup',
       component: signup
     },
@@ -84,9 +84,9 @@ export default new Router({
           component: photoGallery
         },
         {
-          path: 'push',
-          name: 'push',
-          component: pushNotification
+          path: 'add/user',
+          name: 'add-user',
+          component: addUsers
         }
 
       ]

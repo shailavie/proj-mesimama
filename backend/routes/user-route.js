@@ -4,13 +4,22 @@ const BASE_URL = '/api/users'
 function addUserRoutes(app) {
 
     // Check credentials for user name (signup/login)
+    app.post(`${BASE_URL}/add/helper`, (req, res) => {
+        let newHelper = req.body
+        userService.addHelper(newHelper)
+            .then(user => {
+                if(user) res.json(user)
+            })
+    }) 
+
+    // Check credentials for user name (signup/login)
     app.post(`${BASE_URL}/checkCred/:userName`, (req, res) => {
         let userCred = req.body
         userService.checkCred(userCred)
             .then(user => {
                 if(user) res.json(user)
             })
-    })
+    }) 
 
 
     // Get all team members

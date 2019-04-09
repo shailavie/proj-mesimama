@@ -9,10 +9,10 @@ import './registerServiceWorker'
 import '@/assets/style.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueMasonry from 'vue-masonry-css'
-
-
+import Clipboard from 'v-clipboard'
 
 Vue.use(VueMasonry);
+Vue.use(Clipboard);
 Vue.use(Notifications)
 Vue.config.productionTip = false
 

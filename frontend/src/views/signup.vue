@@ -1,5 +1,5 @@
 <template>
-  <section class="login-container">
+  <section class="login-container" v-if="canLoad">
     <div class="header-container wrapper">
       <div class="logo-container flex center-ver">
         <img class="logo" src="@/assets/icons/mesimama.png" alt>
@@ -10,7 +10,8 @@
       </router-link>
     </div>
     <div class="flex column center-all mb30">
-      <h1>Welcome to Mesimama!</h1>
+      <h1>{{userMsg}}</h1>
+      <h4 v-if="helper">{{directorNameToShow}} has invited you to join Mesimama</h4>
       <h4 v-if="isSignUp">
         Have we met already?
         <span @click="isSignUp=false">Log in</span>
@@ -38,9 +39,10 @@
       { type: 'email', message: 'Please enter a correct email address', trigger: ['blur'] }
     ]"
         >
-          <el-input v-model="dynamicValidateForm.email"></el-input>
+          <el-input v-model="dynamicValidateForm.email" clearable></el-input>
         </el-form-item>
         <el-form-item
+         v-if="!helper"
           prop="password"
           label="Password"
           :rules="[
@@ -48,7 +50,7 @@
       { type: 'email', message: 'Please enter a password', trigger: ['blur'] }
     ]"
         >
-          <el-input v-model="dynamicValidateForm.password" type="password"></el-input>
+          <el-input v-model="dynamicValidateForm.password" type="password" clearable></el-input>
         </el-form-item>
         <button
           type="submit"
@@ -57,9 +59,7 @@
         >{{isSignUp? 'Sign up' : 'Log in'}}</button>
       </el-form>
     </div>
-    <div v-else class="loader">
-      Loading...
-    </div>
+    <div v-else class="loader">Loading...</div>
   </section>
 </template>
 
@@ -69,6 +69,9 @@ import userService from "../services/user.service.js";
 export default {
   data() {
     return {
+      helper: null,
+      director: null,
+      canLoad: false,
       inProcess: false,
       isSignUp: true,
       dynamicValidateForm: {
@@ -77,9 +80,24 @@ export default {
       }
     };
   },
+  async created() {
+    let helperId = this.$route.params.helperId;
+    console.log("signup got id from route", helperId);
+    if (helperId) {
+      this.helper = await userService.getUserById(helperId);
+      this.director = await userService.getUserById(this.helper.directorId);
+      console.log("got user from helper id:", this.helper);
+      this.dynamicValidateForm.email = this.helper.email;
+      this.dynamicValidateForm.password = "";
+      this.isSignUp = false;
+      this.canLoad = true;
+    } else {
+      this.canLoad = true;
+    }
+  },
   methods: {
     login(id) {
-      console.log('SIGNUP GOT ID and setting session', id)
+      console.log("SIGNUP GOT ID and setting session", id);
       userService
         .setUserSession(id)
         .then(res => {
@@ -94,10 +112,14 @@ export default {
         });
     },
     async signUp() {
-      let userCred = this.dynamicValidateForm;
-      let user = await this.$store.dispatch({ type: "signUp", userCred });
-      console.log('huston do we have a user?', user)
-      this.login(user._id);
+      if (this.helper) {
+        this.login(this.helper._id)
+      } else {
+        let userCred = this.dynamicValidateForm;
+        let user = await this.$store.dispatch({ type: "signUp", userCred });
+        console.log("huston do we have a user?", user);
+        this.login(user._id);
+      }
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -131,6 +153,14 @@ export default {
           }
         });
       }
+    }
+  },
+  computed: {
+    userMsg() {
+      return this.helper ? `Hey ${this.helper.name}!` : "Welcome to Mesimama!";
+    },
+    directorNameToShow(){
+      return this.director.name.replace('.',' ')
     }
   }
 };

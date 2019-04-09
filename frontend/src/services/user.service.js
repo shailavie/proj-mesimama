@@ -12,17 +12,31 @@ export default {
     getUsers,
     updateGroupNotifications,
     getIntroUsers,
-    checkCred
+    checkCred,
+    addHelper
 }
 
 const BASE_URL = (process.env.NODE_ENV !== 'development') ? '/api' : 'http://localhost:3003/api';
 
-function checkCred(userCred){
+function addHelper(newHelper) {
+    console.log('got new helper', newHelper)
+    return new Promise((resolve, reject) => {
+        axios.post(`${BASE_URL}/users/add/helper`, newHelper)
+            .then(res => {
+                let user = res.data
+                console.log('Got helper from database:', user)
+                resolve(user)
+            })
+            .catch(err => console.log('got issues adding new helper:',err))
+    })
+}
+
+function checkCred(userCred) {
     return new Promise((resolve, reject) => {
         axios.post(`${BASE_URL}/users/checkCred/${userCred.email}`, userCred)
             .then(res => {
                 let user = res.data
-                console.log('Got an answer from the database!!!!!',user)
+                console.log('Got user from database:', user)
                 resolve(user)
             })
     })
@@ -94,6 +108,7 @@ function getIntroUsers(directorId) {
 
 //update user notifications 
 function updateGroupNotifications(group, notification) {
+    console.log('got group',group)
     var promises = []
     group.forEach((user) => {
         if (!user.isDirector) {
@@ -112,8 +127,8 @@ function updateGroupNotifications(group, notification) {
         }
     })
     return Promise.all(promises)
-    .then((res) => {
-        return 
-    })
+        .then((res) => {
+            return
+        })
 }
 

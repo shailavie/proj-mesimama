@@ -9,7 +9,23 @@ module.exports = {
     getById,
     update,
     reward,
-    checkCred
+    checkCred,
+    addHelper
+}
+
+async function addHelper(newHelper){
+    let db = await mongoService.connect()
+    let user = await db.collection(USERS_COLLECTION).findOne({ email: newHelper.email })
+    if (user) {
+        res.json({ data: "User already exists" });
+    } else {
+        let newUser = _getEmptyUser(newHelper)
+        newUser.name = newHelper.name
+        newUser.directorId = newHelper.directorId
+        newUser.isDirector = newHelper.isDirector
+        let addedUser = await _add(newUser)
+        return addedUser
+    }
 }
 
 async function checkCred(userCred) {
@@ -54,8 +70,9 @@ function getById(userId) {
 
 function update(user) {
     let _id = new ObjectId(user._id)
+    delete user['_id'];
     return mongoService.connect()
-        .then(db => db.collection('users').replaceOne({ _id }, user))
+        .then(db => db.collection(USERS_COLLECTION).replaceOne({ _id }, user))
 }
 
 
@@ -84,7 +101,7 @@ function _getEmptyUser({ email, password }) {
     userName = userName.charAt(0).toUpperCase() + userName.slice(1)
     let newUser = {
         name: userName,
-        relation: 'Mother',
+        relation: '',
         activeTasks: [],
         doneTasks: [],
         score: 1,
@@ -93,7 +110,7 @@ function _getEmptyUser({ email, password }) {
         isDirector: true,
         directorId: null,
         avatarUrl: `https://api.adorable.io/avatars/150/${userName}.png`,
-        notification: [],
+        notifications: [],
         imgUrls: [],
     }
     return newUser
